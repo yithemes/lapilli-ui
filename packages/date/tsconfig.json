@@ -1,0 +1,18 @@
+{
+  "extends" : "@yith/tsconfig/react-library.json",
+  "include" : [
+	"src/*"
+  ],
+  "exclude" : [
+	"dist",
+	"build",
+	"build-module",
+	"build-types",
+	"node_modules"
+  ],
+  "compilerOptions" : {
+	"rootDir" : "src",
+	"outDir" : "build-module",
+	"declarationDir" : "build-types"
+  }
+}
