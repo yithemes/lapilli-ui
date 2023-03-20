@@ -1,28 +1,58 @@
 {
-  "name": "yith-monorepo",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "packages/*"
+  "name" : "yith-monorepo",
+  "version" : "0.0.0",
+  "private" : true,
+  "workspaces" : [
+	"apps/*",
+	"packages/*"
   ],
-  "scripts": {
-    "build": "pnpm run build:types && pnpm run build:only",
-    "build:only": "wp-scripts build --progress",
-    "build:types": "turbo run build:types",
-    "watch": "pnpm run watch:types && pnpm run watch:types",
-    "watch:only": "wp-scripts start --progress --watch --mode=development",
-    "watch:types": "turbo run watch:types"
+  "scripts" : {
+	"build" : "pnpm run build:types && pnpm run build:packages && pnpm run build:only",
+	"build:only" : "wp-scripts build --progress",
+	"build:types" : "turbo run build:types",
+	"build:packages" : "node ./bin/packages/build.js",
+	"watch" : "pnpm run watch:types && pnpm run watch:types",
+	"watch:only" : "wp-scripts start --progress --watch --mode=development",
+	"watch:types" : "turbo run watch:types",
+	"clean" : "turbo run clean && rm -rf ./dist"
   },
-  "devDependencies": {
-    "@types/lodash": "^4.14.191",
-    "@types/node": "^18.14.6",
-    "@wordpress/dependency-extraction-webpack-plugin": "^4.11.0",
-    "@wordpress/scripts": "^25.5.1",
-    "prettier": "latest",
-    "turbo": "latest"
+  "devDependencies" : {
+	"@babel/core" : "^7.21.0",
+	"@emotion/babel-plugin" : "^11.10.6",
+	"@storybook/addon-a11y" : "6.5.15",
+	"@storybook/addon-actions" : "6.5.15",
+	"@storybook/addon-docs" : "6.5.15",
+	"@storybook/addon-essentials" : "6.5.15",
+	"@storybook/addon-interactions" : "6.5.15",
+	"@storybook/addon-links" : "6.5.15",
+	"@storybook/builder-webpack5" : "6.5.15",
+	"@storybook/manager-webpack5" : "6.5.15",
+	"@storybook/react" : "6.5.15",
+	"@storybook/testing-library" : "^0.0.13",
+	"@types/lodash" : "^4.14.191",
+	"@types/node" : "^18.14.6",
+	"@wordpress/babel-preset-default" : "^7.12.0",
+	"@wordpress/dependency-extraction-webpack-plugin" : "^4.11.0",
+	"@wordpress/scripts" : "^25.5.1",
+	"babel-plugin-inline-json-import" : "^0.3.2",
+	"fast-glob" : "^3.2.12",
+	"make-dir" : "^3.1.0",
+	"prettier" : "latest",
+	"progress" : "^2.0.3",
+	"rimraf" : "^4.4.0",
+	"storybook-addon-themes" : "6.1.0",
+	"turbo" : "latest",
+	"worker-farm" : "^1.7.0"
   },
-  "engines": {
-    "node": ">=14.0.0"
+  "dependencies" : {
+	"@yith/components" : "workspace:*",
+	"@yith/date" : "workspace:*",
+	"@yith/styles" : "workspace:*",
+	"react" : "^18.2.0",
+	"react-dom" : "^18.2.0"
   },
-  "packageManager": "pnpm@7.16.0"
+  "engines" : {
+	"node" : ">=14.0.0"
+  },
+  "packageManager" : "pnpm@7.16.0"
 }

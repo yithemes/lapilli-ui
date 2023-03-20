@@ -12,7 +12,7 @@ export const modalTitleClasses = generateComponentClasses(
 
 const ModalTitleRoot = styled( Typography, { name: 'ModalTitle', slot: 'Root' } )(
 	() => ( {
-		padding: '28px 32px',
+		padding: '20px 24px',
 		margin: 0
 	} ) );
 

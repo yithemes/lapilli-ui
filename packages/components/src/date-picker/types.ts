@@ -45,6 +45,10 @@ export type StaticDatePickerProps = {
 	 * Set to `true` to allow clearing the field.
 	 */
 	allowClear?: boolean
+	/**
+	 * Set to `true` to disable the field.
+	 */
+	disabled?: boolean
 }
 
 export type DatePickerProps = StaticDatePickerProps & {
@@ -98,9 +102,13 @@ export type PickerDayOwnerState = {
 	 * Is the day outside the current month?
 	 */
 	isOutsideCurrentMonth: boolean
+	/**
+	 * Is the whole datePicker disabled?
+	 */
+	isDatePickerDisabled: boolean
 }
 
-type PickerDaySpecificProps = PickerDayOwnerState & {
+type PickerDaySpecificProps = Omit<PickerDayOwnerState, 'isDatePickerDisabled'> & {
 	/**
 	 * The specific date.
 	 */
@@ -132,8 +140,9 @@ export type PickerDayProps = Omit<PickerDayPropsWithRef, 'ref'>;
 
 export type PickerToggleOwnerState = {
 	isOpen: boolean
-	text: string,
-	placeholder: string,
+	text: string
+	placeholder: string
+	disabled: boolean
 	size: FieldSize
 }
 
@@ -166,6 +175,10 @@ type PickerToggleSpecificProps = {
 	 * If provided, displays the adornment at the start position inside the component.
 	 */
 	startAdornment?: React.ReactNode;
+	/**
+	 * Disabled flag.
+	 */
+	disabled?: boolean
 }
 
 type PickerTogglePropsWithRef = PickerToggleSpecificProps & Omit<React.ComponentProps<'div'>, keyof PickerToggleSpecificProps>;

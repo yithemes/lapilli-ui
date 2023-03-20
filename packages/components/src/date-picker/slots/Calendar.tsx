@@ -11,7 +11,7 @@ import React from "react";
 
 const ARROWS_FONT_SIZE = 12;
 
-const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calendar' } )( ( { theme }: { theme: Theme } ) => (
+const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calendar' } )<{ownerState: { disabled: boolean }}>( ( { theme }: { theme: Theme } ) => (
 	{
 		padding: 12,
 		fontSize: theme.fields.fontSize
@@ -30,11 +30,11 @@ font-size: 1.1em;
 `;
 
 const Calendar = ( { className, autoFocus = false }: { className: string, autoFocus?: boolean } ) => {
-	const { internalDate, setInternalDate, isPrevMonthDisabled, isNextMonthDisabled } = useDatePickerContext();
+	const { disabled, internalDate, setInternalDate, isPrevMonthDisabled, isNextMonthDisabled } = useDatePickerContext();
 	const id = useId();
 	const gridLabelId = `${ id }:grid-label`;
 
-	return <DatePickerCalendarRoot className={ className }>
+	return <DatePickerCalendarRoot className={ className } ownerState={ { disabled } }>
 		<DatePickerCalendarHeader spacing={ 2 } direction='row'>
 			<IconButton
 				onClick={ () => setInternalDate( _ => addMonths( _, -1 ) ) }

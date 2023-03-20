@@ -60,9 +60,8 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>( function CardHea
 
 	if ( title != null && !isTypography( title ) && !disableTypography ) {
 		title = <Typography
-			variant="body"
+			variant="h5"
 			color="text.primary"
-			component="div"
 			{ ...titleTypographyProps }
 		>
 			{ title }
@@ -72,9 +71,8 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>( function CardHea
 	let subtitle = subtitleProp;
 	if ( subtitle != null && !isTypography( subtitle ) && !disableTypography ) {
 		subtitle = <Typography
-			variant="body2"
+			variant="h6"
 			color="text.secondary"
-			component="div"
 			{ ...subtitleTypographyProps }
 		>
 			{ subtitle }

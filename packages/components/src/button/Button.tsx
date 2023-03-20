@@ -24,6 +24,10 @@ type ButtonOwnerState = {
 	 * If `true` the button will be shown shortened.
 	 */
 	short: boolean
+	/**
+	 * If `true` the button will be disabled.
+	 */
+	disabled: boolean
 };
 
 export type ButtonProps = Omit<React.ComponentProps<'button'>, keyof ButtonOwnerState> &
@@ -99,36 +103,48 @@ const ButtonRoot = styled( 'button', { name: 'Button', slot: 'Root' } )<StyledBu
 		background: theme.palette[ ownerState.color ].main,
 		border: `1px solid rgba(255,255,255,0)`,
 		color: theme.palette[ ownerState.color ].contrastText,
-		'&:hover': {
-			background: theme.palette[ ownerState.color ].light,
-		}
+		...( !ownerState.disabled && {
+			'&:hover': {
+				background: theme.palette[ ownerState.color ].light,
+			}
+		} )
 	} ),
 	...( ownerState.variant === 'outlined' && {
 		background: 'rgba(255,255,255,0)',
 		border: `1px solid ${ alpha( theme.palette[ ownerState.color ].main ?? '', 0.7 ) }`,
 		color: theme.palette[ ownerState.color ].main,
-		'&:hover': {
-			background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.04 ),
-			borderColor: theme.palette[ ownerState.color ].main,
-		},
+		...( !ownerState.disabled && {
+			'&:hover': {
+				background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.04 ),
+				borderColor: theme.palette[ ownerState.color ].main,
+			}
+		} )
 	} ),
 	...( ownerState.variant === 'text' && {
 		background: 'rgba(255,255,255,0)',
 		border: `1px solid rgba(255,255,255,0)`,
 		color: theme.palette[ ownerState.color ].main,
-		'&:hover': {
-			background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.04 ),
-		},
+		...( !ownerState.disabled && {
+			'&:hover': {
+				background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.04 ),
+			},
+		} )
 	} ),
 	...( ownerState.variant === 'dashed' && {
 		background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.05 ),
 		border: `1px dashed ${ alpha( theme.palette[ ownerState.color ].main ?? '', 0.7 ) }`,
 		color: alpha( theme.palette[ ownerState.color ].main ?? '', 0.8 ),
-		'&:hover': {
-			color: theme.palette[ ownerState.color ].main,
-			borderColor: theme.palette[ ownerState.color ].main,
-		},
+		...( !ownerState.disabled && {
+			'&:hover': {
+				color: theme.palette[ ownerState.color ].main,
+				borderColor: theme.palette[ ownerState.color ].main,
+			},
+		} )
 	} ),
+	...( ownerState.disabled && {
+		opacity: theme.palette.action.disabledOpacity,
+		cursor: 'not-allowed'
+	} )
 } ) );
 
 const ButtonStartIcon = styled( 'span', { name: 'Button', slot: 'StartIcon' } )( ( { ownerState }: StyledButtonProps ) => ( {
@@ -152,6 +168,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 			size = 'md',
 			fullWidth = false,
 			short = false,
+			disabled = false,
 			startIcon,
 			endIcon,
 			children,
@@ -159,7 +176,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		},
 		ref
 	) {
-		const ownerState: ButtonOwnerState = { variant, color, size, fullWidth, short };
+		const ownerState: ButtonOwnerState = { variant, color, size, fullWidth, short, disabled };
 		const classes = useComponentClasses( ownerState );
 		return (
 			<ButtonRoot
@@ -169,6 +186,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 				{ ...props }
 				onMouseLeave={ ( e: React.MouseEvent ) => e.preventDefault() }
 				className={ classNames( classes.root, className ) }
+				disabled={ disabled }
 			>
 				{ !!startIcon && <ButtonStartIcon ownerState={ ownerState } className={ classes.startIcon }>{ startIcon }</ButtonStartIcon> }
 				{ children }

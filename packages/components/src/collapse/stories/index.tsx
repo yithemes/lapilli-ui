@@ -2,12 +2,7 @@ import React, { useState } from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Collapse from "..";
-import Stack from "../../stack";
-import Switch from "../../switch";
-import FwIcon from "../../fw-icon";
-import Container from "../../container";
-import { Grid } from "../../index";
-import GridItem from "../../grid/grid-item";
+import { Stack, Switch, FwIcon, Container, Grid, GridItem } from "@yith/components";
 
 const meta: ComponentMeta<typeof Collapse> = {
 	title: 'Components/Collapse',
@@ -69,7 +64,7 @@ const CollapsedSizeTemplate: ComponentStory<typeof Collapse> = () => {
 			</Stack>
 
 			<Container maxWidth={ ( 120 * 3 + 16 * 2 ) }>
-				<Grid columns={ 3 } gap={ 2 } style={{gridTemplateRows: 'repeat(6, 120px)'}}>
+				<Grid columns={ 3 } gap={ 2 } style={ { gridTemplateRows: 'repeat(6, 120px)' } }>
 					<GridItem>
 						<Collapse open={ open } orientation="horizontal">
 							<CollapsibleBox styled/>

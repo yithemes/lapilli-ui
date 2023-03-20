@@ -3,6 +3,7 @@ import { formatDateSameTimezone } from "@yith/date";
 import { noop } from "lodash";
 import type { PickerDayOwnerState, PickerDayProps } from "../types";
 import React, { useEffect, useRef } from "react";
+import { useDatePickerContext } from "../context";
 
 const DAY_SIZE = 36;
 const DAY_MARGIN = 2;
@@ -40,7 +41,7 @@ const DayPickerDayRoot = styled( 'div', { name: 'DayPicker', slot: 'Day' } )<{ o
 				cursor: 'default',
 				pointerEvents: 'none'
 			} ),
-			...( !ownerState.isDisabled && ownerState.isSelected && {
+			...( !ownerState.isDatePickerDisabled && !ownerState.isDisabled && ownerState.isSelected && {
 				background: theme.palette.primary.main,
 				color: theme.palette.primary.contrastText,
 				fontWeight: 600,
@@ -48,7 +49,7 @@ const DayPickerDayRoot = styled( 'div', { name: 'DayPicker', slot: 'Day' } )<{ o
 					background: theme.palette.primary.light,
 				},
 			} ),
-			...( ( ownerState.isDisabled || !ownerState.isSelected ) && {
+			...( !ownerState.isDatePickerDisabled && ( ownerState.isDisabled || !ownerState.isSelected ) && {
 				'&:hover': {
 					background: alpha( backgroundColor, theme.palette.action.hoverOpacity ),
 				},
@@ -59,6 +60,9 @@ const DayPickerDayRoot = styled( 'div', { name: 'DayPicker', slot: 'Day' } )<{ o
 					},
 				},
 			} ),
+			...( ownerState.isDatePickerDisabled && {
+				cursor: 'not-allowed'
+			} )
 		}
 	} );
 
@@ -79,7 +83,9 @@ const DayPickerDay = ( props: PickerDayProps ) => {
 		...other
 	} = props;
 
-	const ownerState: PickerDayOwnerState = { isDisabled, isSelected, isOutsideCurrentMonth };
+	const { disabled: isDatePickerDisabled } = useDatePickerContext();
+
+	const ownerState: PickerDayOwnerState = { isDisabled, isSelected, isOutsideCurrentMonth, isDatePickerDisabled };
 
 	useEffect( () => {
 		// Use timeout to prevent issues with screen-readers when moving to next/prev month/year.
@@ -96,17 +102,20 @@ const DayPickerDay = ( props: PickerDayProps ) => {
 		className={ className }
 		ownerState={ ownerState }
 		onClick={ ( e ) => {
+			if ( isDatePickerDisabled ) {
+				return;
+			}
 			!isDisabled && onDaySelect( day );
 			onClick( e, day );
 		} }
-		onKeyDown={ ( e ) => onKeyDown( e, day ) }
-		onFocus={ ( e ) => onFocus( e, day ) }
-		onBlur={ ( e ) => onBlur( e, day ) }
+		onKeyDown={ ( e ) => !isDatePickerDisabled && onKeyDown( e, day ) }
+		onFocus={ ( e ) => !isDatePickerDisabled && onFocus( e, day ) }
+		onBlur={ ( e ) => !isDatePickerDisabled && onBlur( e, day ) }
 		ref={ ref }
 		aria-selected={ isSelected }
 		// @ts-ignore
 		autoFocus={ autoFocus }
-		{ ...( isDisabled && { 'aria-disabled': true } ) }
+		{ ...( ( isDisabled || isDatePickerDisabled ) && { 'aria-disabled': true, disabled: true } ) }
 		{ ...other }
 	>
 		{ formatDateSameTimezone( 'j', day ) }

@@ -1,0 +1,3 @@
+{
+  "extends" : "@yith/tsconfig/react-library.json",
+}

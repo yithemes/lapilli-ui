@@ -14,7 +14,7 @@ const ModalContentRoot = styled( 'div', { name: 'ModalContent', slot: 'Root' } )
 	() => ( {
 		flex: '1 1 auto',
 		overflowY: 'auto',
-		padding: 32,
+		padding: 24,
 		[ `.${ modalTitleClasses.root } + &` ]: {
 			paddingTop: 0
 		}

@@ -1,12 +1,14 @@
 import React, { useMemo, useState } from 'react';
+import { noop } from "lodash";
 
 type SelectDateAction = 'set' | 'finish' | 'clear'
 
 type ProviderProps = {
-	selectedDate: Date | null,
-	setSelectedDate: ( date: Date | null, action?: SelectDateAction ) => void,
-	focusedDate: Date,
-	setFocusedDate: React.Dispatch<React.SetStateAction<Date>>,
+	disabled: boolean
+	selectedDate: Date | null
+	setSelectedDate: ( date: Date | null, action?: SelectDateAction ) => void
+	focusedDate: Date
+	setFocusedDate: React.Dispatch<React.SetStateAction<Date>>
 	isDateDisabled: ( date: Date ) => string | boolean
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
@@ -23,6 +25,7 @@ type ContextValue = Omit<ProviderProps, 'children'> & {
 	isDateDisabled: ( date: Date ) => string | boolean
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
+	disabled: boolean
 }
 
 const DatePickerContext = React.createContext<ContextValue>( {} as ContextValue );
@@ -30,7 +33,7 @@ const DatePickerContext = React.createContext<ContextValue>( {} as ContextValue 
 export const useDatePickerContext = (): ContextValue => React.useContext( DatePickerContext );
 
 export function DatePickerProvider( { children, ...props }: ProviderProps ) {
-	const { focusedDate } = props;
+	const { focusedDate, disabled } = props;
 	const [ internalDate, setInternalDate ] = useState( focusedDate );
 	const theContext: ContextValue = {
 		...props,
@@ -39,7 +42,7 @@ export function DatePickerProvider( { children, ...props }: ProviderProps ) {
 		currentMonth: useMemo( () => internalDate.getMonth(), [ internalDate ] ),
 		currentDay: useMemo( () => internalDate.getDay(), [ internalDate ] ),
 		internalDate,
-		setInternalDate
+		setInternalDate: !disabled ? setInternalDate : noop
 	}
 	return (
 		<DatePickerContext.Provider value={ theContext }>

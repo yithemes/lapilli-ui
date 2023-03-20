@@ -1,0 +1,18 @@
+import {Canvas, Meta, Story} from '@storybook/addon-docs';
+import SimpleForm from './introduction/SimpleForm';
+
+<Meta title="Introduction/Simple Form Example"/>
+
+<Story name="Simple Form Example" parameters={
+	{
+		previewTabs: {
+			'storybook/docs/panel': {
+				hidden: true
+			},
+			canvas: {
+				title: 'Example',
+			}
+		}
+	}}>
+	<SimpleForm/>
+</Story>

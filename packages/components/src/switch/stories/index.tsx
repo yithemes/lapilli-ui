@@ -1,7 +1,7 @@
 import React from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
-import Switch from '../';
+import Switch from '../Switch';
 import type { FieldSize } from "@yith/styles";
 import Container from "../../container";
 import FormControl from "../../form-control";

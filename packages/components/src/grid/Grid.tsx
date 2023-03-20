@@ -15,7 +15,7 @@ const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( 
 	...( breakpointStylize(
 		theme,
 		ownerState.gap,
-		( value ) => {
+		( value: number ) => {
 			return ( {
 				gap: theme.spacing( value ),
 			} )

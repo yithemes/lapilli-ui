@@ -1,9 +1,9 @@
-import emotionStyled, { StyledOptions as EmotionStyledOptions } from '@emotion/styled';
-import { isEmpty } from 'lodash';
+import emotionStyled, {StyledOptions as EmotionStyledOptions} from '@emotion/styled';
+import {isEmpty} from 'lodash';
 
-import { defaultTheme, Theme } from '../theme';
+import {defaultTheme, Theme} from '../theme';
 import type React from 'react';
-import type { CreateStyled, SxProps } from "./types";
+import type {CreateStyled, SxProps} from "./types";
 
 type styledFunctionProps = {
 	theme: Theme
@@ -22,85 +22,85 @@ type StyledCommonProps = {
 
 type Styled = CreateStyled<StyledCommonProps, StyledOptions, Theme>;
 
-function processSx( props: { sx?: SxProps; theme?: Theme } ) {
-	const { sx } = props;
+function processSx(props: { sx?: SxProps; theme?: Theme }) {
+	const {sx} = props;
 
-	if ( !sx ) {
+	if (!sx) {
 		return null;
 	}
 
-	const theme = isEmpty( props.theme ) ? defaultTheme : props.theme;
+	const theme = isEmpty(props.theme) ? defaultTheme : props.theme;
 
-	if ( typeof sx === 'function' ) {
-		return sx( theme );
-	} else if ( typeof sx !== 'object' ) {
+	if (typeof sx === 'function') {
+		return sx(theme);
+	} else if (typeof sx !== 'object') {
 		return sx;
 	}
 
 	return sx;
 }
 
-export function shouldForwardProp( prop: string ) {
-	return ![ 'ownerState', 'theme', 'sx', 'as' ].includes( prop );
+export function shouldForwardProp(prop: string) {
+	return !['ownerState', 'theme', 'sx', 'as'].includes(prop);
 }
 
-const createProcessComponentStyles = ( name?: string, slot?: string ) => {
-	if ( !name || !slot ) {
-		return () => ( {} );
+const createProcessComponentStyles = (name?: string, slot?: string) => {
+	if (!name || !slot) {
+		return () => ({});
 	}
 
-	return ( props: { theme?: Theme } ) => {
-		const theme = isEmpty( props.theme ) ? defaultTheme : props.theme;
-		const styles = name in theme.components && slot in theme.components[ name ] ? theme.components[ name ][ slot ] : {};
+	return (props: { theme?: Theme }) => {
+		const theme = isEmpty(props.theme) ? defaultTheme : props.theme;
+		const styles = name in theme.components && slot in theme.components[name] ? theme.components[name][slot] : {};
 
-		if ( typeof styles === 'function' ) {
-			return styles( { ...props, theme } );
+		if (typeof styles === 'function') {
+			return styles({...props, theme});
 		}
 		return styles;
 	};
 };
 
 // @ts-ignore
-const styled: Styled = ( tag, options = {} ) => {
+const styled: Styled = (tag, options = {}) => {
 	// @ts-ignore
-	const { name, slot, ...styledOptions } = options;
+	const {name, slot, ...styledOptions} = options;
 
-	const displayName = ( process.env.NODE_ENV !== 'production' && name ) ? `${ name }${ slot || '' }` : undefined;
+	const displayName = (process.env.NODE_ENV !== 'production' && name) ? `${name}${slot || ''}` : undefined;
 
-	const defaultResolver = emotionStyled( tag as any, { shouldForwardProp, label: displayName, ...styledOptions } );
+	const defaultResolver = emotionStyled(tag as any, {shouldForwardProp, label: displayName, ...styledOptions});
 
 	// @ts-ignore
-	return ( styleArg, ...expressions ) => {
-		const theExpressions = [ ...expressions, processSx, createProcessComponentStyles( name, slot ) ];
+	return (styleArg, ...expressions) => {
+		const theExpressions = [...expressions, processSx, createProcessComponentStyles(name, slot)];
 		let theStyleArg = styleArg;
 
 		const expressionsWithDefaultTheme = theExpressions
-			? theExpressions.map( stylesArg => {
+			? theExpressions.map(stylesArg => {
 				return typeof stylesArg === 'function'
-					? ( { theme: themeInput, ...other }: styledFunctionProps ) => {
-						return stylesArg( {
-							theme: isEmpty( themeInput ) ? defaultTheme : themeInput,
+					? ({theme: themeInput, ...other}: styledFunctionProps) => {
+						return stylesArg({
+							theme: isEmpty(themeInput) ? defaultTheme : themeInput,
 							...other,
-						} );
+						});
 					}
 					: stylesArg;
-			} )
+			})
 			: [];
 
-		if ( typeof styleArg === 'object' ) {
+		if (typeof styleArg === 'object') {
 			theStyleArg = {
-				raw: [ ...styleArg.raw, '', '' ],
-				...[ ...styleArg, '', '' ],
+				raw: [...styleArg.raw, '', ''],
+				...[...styleArg, '', ''],
 			};
-		} else if ( typeof styleArg === 'function' ) {
-			theStyleArg = ( { theme: themeInput, ...other }: styledFunctionProps ) => {
-				return styleArg( { theme: isEmpty( themeInput ) ? defaultTheme : themeInput, ...other } );
+		} else if (typeof styleArg === 'function') {
+			theStyleArg = ({theme: themeInput, ...other}: styledFunctionProps) => {
+				return styleArg({theme: isEmpty(themeInput) ? defaultTheme : themeInput, ...other});
 			};
 		}
 
-		const Component = defaultResolver( theStyleArg, ...expressionsWithDefaultTheme );
+		const Component = defaultResolver(theStyleArg, ...expressionsWithDefaultTheme);
 
-		if ( displayName ) {
+		if (displayName) {
 			Component.displayName = displayName;
 		}
 

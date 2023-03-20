@@ -23,14 +23,19 @@ const DatePickerToggleRoot = styled( 'div', { name: 'DatePicker', slot: 'Toggle'
 		borderWidth: '1px',
 		borderStyle: 'solid',
 		borderColor: theme.fields.borderColor,
-		'&:focus': {
-			borderColor: theme.fields.focusedBorderColor,
-			boxShadow: theme.fields.focusedBoxShadow,
-		},
-
+		...( !ownerState.disabled && {
+			'&:focus': {
+				borderColor: theme.fields.focusedBorderColor,
+				boxShadow: theme.fields.focusedBoxShadow,
+			}
+		} ),
 		...( ownerState.isOpen && {
 			borderColor: theme.fields.focusedBorderColor,
 			boxShadow: theme.fields.focusedBoxShadow,
+		} ),
+		...( ownerState.disabled && {
+			opacity: theme.palette.action.disabledOpacity,
+			cursor: 'not-allowed'
 		} )
 	}
 ) );
@@ -92,6 +97,8 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 		allowClear,
 		onClear,
 		startAdornment,
+		onClick,
+		disabled = false,
 		...other
 	},
 	ref
@@ -100,7 +107,14 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 		isOpen,
 		text,
 		placeholder,
-		size
+		size,
+		disabled
+	}
+
+	const handleClick = ( event: React.MouseEvent<HTMLDivElement> ) => {
+		if ( !disabled ) {
+			onClick?.( event );
+		}
 	}
 
 	return <DatePickerToggleRoot
@@ -108,8 +122,10 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 		ref={ ref }
 		aria-expanded={ isOpen ? 'true' : 'false' }
 		aria-haspopup="dialog"
+		aria-disabled={ disabled }
 		role="combobox"
 		tabIndex={ 0 }
+		onClick={ handleClick }
 		{ ...other }
 	>
 
@@ -122,7 +138,9 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 				ownerState={ ownerState }
 				onClick={ ( e: React.MouseEvent ) => {
 					e.stopPropagation();
-					onClear();
+					if ( !disabled ) {
+						onClear();
+					}
 				} }
 			>
 				<FwIcon icon="close-alt"/>

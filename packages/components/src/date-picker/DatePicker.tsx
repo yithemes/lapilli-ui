@@ -9,11 +9,14 @@ import Dropdown from "../dropdown";
 import Toggle from "./slots/Toggle";
 import useDatePickerProps from "./utils/useDatePickerProps";
 
-const useComponentClasses = () => {
+const useComponentClasses = ( props: DatePickerProps ) => {
 	return generateComponentClasses(
 		'DatePicker',
 		{
-			root: [ 'root' ],
+			root: [
+				'root',
+				props?.disabled && 'disabled'
+			],
 			calendar: [ 'calendar' ]
 		}
 	)
@@ -35,6 +38,7 @@ const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )
 type SelectDateAction = 'set' | 'finish' | 'clear'
 
 type CalendarWrapperProps = {
+	disabled: boolean
 	autoFocus?: boolean
 	selectedDate: Date | null,
 	setSelectedDate: ( date: Date | null, action?: SelectDateAction ) => void,
@@ -51,6 +55,7 @@ type CalendarWrapperProps = {
 const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 	const {
 		autoFocus = false,
+		disabled,
 		selectedDate,
 		setSelectedDate,
 		focusedDate,
@@ -64,8 +69,12 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 	} = props;
 
 	return <DatePickerProvider
+		disabled={ disabled }
 		selectedDate={ selectedDate }
 		setSelectedDate={ ( newDate, action = 'set' ) => {
+			if ( disabled ) {
+				return;
+			}
 			setSelectedDate( newDate );
 			if ( newDate ) {
 				setFocusedDate( newDate );
@@ -78,6 +87,9 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		} }
 		focusedDate={ focusedDate }
 		setFocusedDate={ ( newDate ) => {
+			if ( disabled ) {
+				return;
+			}
 			setFocusedDate( newDate );
 		} }
 		isDateDisabled={ isDateDisabled }
@@ -103,17 +115,27 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		displayFormat = 'M j, Y',
 		size = 'md',
 		allowClear = false,
-		startAdornment
+		startAdornment,
+		disabled = false
 	} = props;
 	const { datePickerProps, resetSelectedDate } = useDatePickerProps( props );
 	const { selectedDate, setSelectedDate } = datePickerProps;
-	const classes = useComponentClasses();
+	const classes = useComponentClasses( props );
 	const rootRef = useRef<HTMLDivElement>( null );
 	const toggleRef = useRef<HTMLDivElement>( null );
 
+	const handleChange: DatePickerProps['onChange'] = ( date ) => {
+		if ( !disabled ) {
+			onChange?.( date );
+		}
+	}
+
 	const handleClear = useCallback( () => {
+		if ( disabled ) {
+			return;
+		}
 		setSelectedDate( null );
-		onChange?.( null );
+		handleChange?.( null );
 	}, [] );
 
 	useImperativeHandle( ref, () => {
@@ -130,14 +152,15 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 	}, [ rootRef, toggleRef, selectedDate ] );
 
 	return <DatePickerRoot ref={ rootRef } className={ classNames( classes.root, className ) }>
-		<input type='hidden' id={ id } name={ name } value={ !!selectedDate ? formatDateSameTimezone( inputFormat, selectedDate ) : '' }/>
+		<input type='hidden' id={ id } name={ name } value={ !!selectedDate ? formatDateSameTimezone( inputFormat, selectedDate ) : '' } disabled={ disabled }/>
 		{
 			isStatic ?
 				<DatePickerStatic>
 					<CalendarWrapper
+						disabled={ disabled }
 						className={ classes.calendar }
 						{ ...datePickerProps }
-						onChange={ onChange }
+						onChange={ handleChange }
 					/>
 				</DatePickerStatic> :
 				<Dropdown
@@ -162,12 +185,14 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 								allowClear={ allowClear }
 								onClear={ handleClear }
 								startAdornment={ startAdornment }
+								disabled={ disabled }
 							/>
 						}
 					}
 					renderContent={
 						( { onClose } ) => {
 							return <CalendarWrapper
+								disabled={ disabled }
 								className={ classes.calendar }
 								{ ...datePickerProps }
 								onChange={ onChange }

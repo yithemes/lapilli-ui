@@ -36,6 +36,7 @@ const DayPickerWeek = styled( 'div', { name: 'DayPicker', slot: 'Week' } )( () =
 
 const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { className?: string, autoFocus?: boolean, gridLabelId?: string } ) => {
 	const {
+		disabled,
 		internalDate,
 		setInternalDate,
 		focusedDate,
@@ -61,6 +62,9 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 	}, [ internalDate, focusedDate ] );
 
 	const focusDay = useCallback( ( date: Date ) => {
+		if ( disabled ) {
+			return;
+		}
 		if ( [ 'minDate', 'maxDate' ].includes( isDateDisabled( date ) as string ) ) {
 			return;
 		}
@@ -158,7 +162,7 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 				>
 					{ week.map( ( day: Date ) => {
 						const isSelected = Boolean( selectedDate && isSameDay( day, selectedDate ) );
-						const isFocusable = isSameDay( day, focusableDay );
+						const isFocusable = isSameDay( day, focusableDay ) && !disabled;
 						const isDisabled = isDateDisabled( day );
 						const isOutsideCurrentMonth = !isSameMonth( day, internalDate );
 

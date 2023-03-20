@@ -6,7 +6,7 @@ const ModalActionsRoot = styled( 'div', { name: 'ModalActions', slot: 'Root' } )
 		display: 'flex',
 		alignItems: 'center',
 		justifyContent: 'flex-end',
-		padding: 24,
+		padding: 20,
 		flex: '0 0 auto',
 		'& > :not(:first-of-type)': {
 			marginLeft: 8,
