@@ -33,8 +33,8 @@ const StackRoot = styled( 'div', { name: 'Stack', slot: 'Root' } )<StyledStackPr
 		flexDirection: 'column',
 		alignItems,
 		justifyContent,
-		...( breakpointStylize( theme, direction, ( value: Direction ) => ( { flexDirection: value } ) ) ),
-		...( breakpointStylize( theme, spacing, ( value: number | string ) => ( { gap: theme.spacing( value ) } ) ) ),
+		...( breakpointStylize( theme, direction, ( value ) => ( { flexDirection: value } ) ) ),
+		...( breakpointStylize( theme, spacing, ( value ) => ( { gap: theme.spacing( value ) } ) ) ),
 	};
 
 	return css( styles );

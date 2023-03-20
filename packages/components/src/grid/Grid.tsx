@@ -8,14 +8,14 @@ const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( 
 	...( breakpointStylize(
 		theme,
 		ownerState.columns,
-		( value: number ) => ( {
+		( value ) => ( {
 			gridTemplateColumns: `repeat(${ value }, minmax(0, 1fr))`,
 		} )
 	) ),
 	...( breakpointStylize(
 		theme,
 		ownerState.gap,
-		( value: number ) => {
+		( value ) => {
 			return ( {
 				gap: theme.spacing( value ),
 			} )

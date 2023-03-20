@@ -317,14 +317,14 @@ export const createTheme = ( options: ThemeOptions ): Theme => {
 
 export const defaultTheme = createTheme( defaultThemeOptions );
 
-export const breakpointStylize = <T extends any>( theme: Theme, value: ResponsiveStyleValue<T>, stylize: ( value?: T, breakpoint?: Breakpoint ) => any ) => {
+export const breakpointStylize = <T extends any>( theme: Theme, value: ResponsiveStyleValue<T>, stylize: ( value: T, breakpoint?: Breakpoint ) => any ) => {
 	if ( value instanceof Object ) {
 		const themeBreakpoints = theme.breakpoints;
 		const keys = Object.keys( value );
 		return keys.reduce( ( acc: any, breakpoint ) => {
 			if ( Object.keys( themeBreakpoints.values ).indexOf( breakpoint ) !== -1 ) {
 				const mediaKey = themeBreakpoints.up( breakpoint as Breakpoint );
-				acc[ mediaKey ] = stylize( value[ breakpoint ], breakpoint as Breakpoint );
+				acc[ mediaKey ] = stylize( value[ breakpoint ]!, breakpoint as Breakpoint );
 			} else {
 				acc[ breakpoint ] = value[ breakpoint ];
 			}

@@ -30,6 +30,7 @@
 	"rootDir": "./",
 	"paths": {
 	  "@yith/components": ["../components/src"],
+	  "@yith/date": ["../date/src"],
 	  "@yith/styles": ["../styles/src"]
 	},
 	"skipLibCheck": true,

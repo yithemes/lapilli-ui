@@ -2,7 +2,12 @@ import React, { useState } from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Collapse from "..";
-import { Stack, Switch, FwIcon, Container, Grid, GridItem } from "@yith/components";
+import Switch from "../../switch/Switch"; // Imported from the specific file to prevent issues with typescript docgen storybook.
+import Container from "../../container";
+import Stack from "../../stack";
+import FwIcon from "../../fw-icon";
+import Grid from "../../grid";
+import GridItem from "../../grid/grid-item";
 
 const meta: ComponentMeta<typeof Collapse> = {
 	title: 'Components/Collapse',
