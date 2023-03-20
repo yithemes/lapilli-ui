@@ -1,5 +1,5 @@
 import React, { forwardRef, useRef, Ref, useCallback, useImperativeHandle } from "react";
-import { styled, generateComponentClasses, Theme } from "@yith/styles";
+import { styled, generateComponentClasses } from "@yith/styles";
 import { formatDateSameTimezone } from "@yith/date";
 import type { DatePickerProps, DatePickerRef } from "./types";
 import classNames from "classnames";
@@ -26,13 +26,16 @@ const DatePickerRoot = styled( 'div', { name: 'DatePicker', slot: 'Root' } )( ()
 	display: 'inline-flex'
 } ) );
 
-const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )( ( { theme }: { theme: Theme } ) => ( {
+const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )<{ ownerState: { isDatePickerDisabled: boolean } }>( ( { theme, ownerState } ) => ( {
 	borderStyle: 'solid',
 	borderWidth: '1px',
 	borderColor: theme.fields.borderColor,
 	borderRadius: theme.fields.borderRadius,
 	background: theme.fields.background,
-	width: 'fit-content'
+	width: 'fit-content',
+	...( ownerState.isDatePickerDisabled && {
+		opacity: theme.palette.action.disabledOpacity
+	} )
 } ) );
 
 type SelectDateAction = 'set' | 'finish' | 'clear'
@@ -69,7 +72,7 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 	} = props;
 
 	return <DatePickerProvider
-		disabled={ disabled }
+		isDatePickerDisabled={ disabled }
 		selectedDate={ selectedDate }
 		setSelectedDate={ ( newDate, action = 'set' ) => {
 			if ( disabled ) {
@@ -155,7 +158,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		<input type='hidden' id={ id } name={ name } value={ !!selectedDate ? formatDateSameTimezone( inputFormat, selectedDate ) : '' } disabled={ disabled }/>
 		{
 			isStatic ?
-				<DatePickerStatic>
+				<DatePickerStatic ownerState={ { isDatePickerDisabled: disabled } }>
 					<CalendarWrapper
 						disabled={ disabled }
 						className={ classes.calendar }

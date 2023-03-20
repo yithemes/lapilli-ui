@@ -41,13 +41,15 @@ const DayPickerDayRoot = styled( 'div', { name: 'DayPicker', slot: 'Day' } )<{ o
 				cursor: 'default',
 				pointerEvents: 'none'
 			} ),
-			...( !ownerState.isDatePickerDisabled && !ownerState.isDisabled && ownerState.isSelected && {
+			...( !ownerState.isDisabled && ownerState.isSelected && {
 				background: theme.palette.primary.main,
 				color: theme.palette.primary.contrastText,
 				fontWeight: 600,
-				'&:hover, &:focus': {
-					background: theme.palette.primary.light,
-				},
+				...( !ownerState.isDatePickerDisabled && {
+					'&:hover, &:focus': {
+						background: theme.palette.primary.light,
+					},
+				})
 			} ),
 			...( !ownerState.isDatePickerDisabled && ( ownerState.isDisabled || !ownerState.isSelected ) && {
 				'&:hover': {
@@ -83,7 +85,7 @@ const DayPickerDay = ( props: PickerDayProps ) => {
 		...other
 	} = props;
 
-	const { disabled: isDatePickerDisabled } = useDatePickerContext();
+	const { isDatePickerDisabled } = useDatePickerContext();
 
 	const ownerState: PickerDayOwnerState = { isDisabled, isSelected, isOutsideCurrentMonth, isDatePickerDisabled };
 

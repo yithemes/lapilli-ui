@@ -1,5 +1,5 @@
 import { __ } from "@wordpress/i18n";
-import { styled, Theme } from "@yith/styles";
+import { styled } from "@yith/styles";
 import { formatDateSameTimezone, addMonths } from "@yith/date";
 import { useDatePickerContext } from "../context";
 import Stack from "../../stack";
@@ -11,10 +11,10 @@ import React from "react";
 
 const ARROWS_FONT_SIZE = 12;
 
-const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calendar' } )<{ownerState: { disabled: boolean }}>( ( { theme }: { theme: Theme } ) => (
+const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calendar' } )( ( { theme } ) => (
 	{
 		padding: 12,
-		fontSize: theme.fields.fontSize
+		fontSize: theme.fields.fontSize,
 	}
 ) );
 const DatePickerCalendarHeader = styled( Stack, { name: 'DatePicker', slot: 'CalendarHeader' } )( () => (
@@ -30,11 +30,11 @@ font-size: 1.1em;
 `;
 
 const Calendar = ( { className, autoFocus = false }: { className: string, autoFocus?: boolean } ) => {
-	const { disabled, internalDate, setInternalDate, isPrevMonthDisabled, isNextMonthDisabled } = useDatePickerContext();
+	const { internalDate, setInternalDate, isPrevMonthDisabled, isNextMonthDisabled } = useDatePickerContext();
 	const id = useId();
 	const gridLabelId = `${ id }:grid-label`;
 
-	return <DatePickerCalendarRoot className={ className } ownerState={ { disabled } }>
+	return <DatePickerCalendarRoot className={ className }>
 		<DatePickerCalendarHeader spacing={ 2 } direction='row'>
 			<IconButton
 				onClick={ () => setInternalDate( _ => addMonths( _, -1 ) ) }
