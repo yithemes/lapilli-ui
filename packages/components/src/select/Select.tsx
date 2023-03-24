@@ -2,13 +2,13 @@ import React, { forwardRef, Fragment, MutableRefObject, Ref, useCallback, useEff
 import { __ } from '@wordpress/i18n';
 import { noop } from 'lodash';
 import { alpha, FieldSize, styled, Theme } from '@yith/styles';
-import FwIcon from '../fw-icon';
 import Dropdown from '../dropdown';
 import Input from '../input';
 import IconButton from '../icon-button';
 import { useControlledState, useId, ZeroWidthSpace } from '../utils';
 import Spinner from '../spinner';
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 
 interface Option {
 	value: string
@@ -295,14 +295,15 @@ const SelectToggleTagLabel = styled( 'span', { name: 'Select', slot: 'ToggleTagL
 	font-size: 0.9em;
 `;
 
-const SelectToggleTagRemove = styled( FwIcon, { name: 'Select', slot: 'ToggleTagRemove' } )(
+const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'ToggleTagRemove' } )(
 	( { theme }: { theme: Theme } ) => ( {
-		fontSize: '10px',
+		width: '1em',
+		fontSize: '17px',
 		borderRadius: '50%',
-		padding: '3px',
-		marginRight: '6px',
+		padding: '2px',
+		marginRight: '5px',
 		background: theme.palette.action.selected,
-		boxSizing: 'content-box',
+		boxSizing: 'border-box',
 		'&:hover': {
 			background: alpha(
 				theme.palette.action.selected!,
@@ -470,7 +471,6 @@ const Toggle = forwardRef<HTMLDivElement, ToggleArgs>(
 									<SelectToggleTag key={ tagKey }>
 										<SelectToggleTagLabel>{ tagLabel }</SelectToggleTagLabel>
 										<SelectToggleTagRemove
-											icon="close-alt"
 											onClick={ ( e: React.MouseEvent ) => {
 												e.stopPropagation();
 												unselectOption( option );
@@ -747,7 +747,7 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 									value={ searchedTerm }
 									onChange={ ( _, newValue ) => setSearchedTerm( newValue ) }
 									placeholder={ __( 'Search', 'yith-plugin-fw' ) }
-									startAdornment={ <FwIcon icon="magnifier"/> }
+									startAdornment={ <MagnifyingGlassIcon width="1.25em"/> }
 								/>
 							) }
 

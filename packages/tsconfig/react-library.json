@@ -26,15 +26,28 @@
 	"esModuleInterop" : false,
 	"resolveJsonModule" : true,
 	"forceConsistentCasingInFileNames" : true,
-	"types" : ["react", "node", "react-dom"],
-	"rootDir": "./",
-	"paths": {
-	  "@yith/components": ["../components/src"],
-	  "@yith/date": ["../date/src"],
-	  "@yith/styles": ["../styles/src"]
+	"types" : [
+	  "react",
+	  "node",
+	  "react-dom"
+	],
+	"rootDir" : "./",
+	"paths" : {
+	  "@yith/block-editor" : [
+		"../block-editor/src"
+	  ],
+	  "@yith/components" : [
+		"../components/src"
+	  ],
+	  "@yith/date" : [
+		"../date/src"
+	  ],
+	  "@yith/styles" : [
+		"../styles/src"
+	  ]
 	},
-	"skipLibCheck": true,
-	"strictNullChecks": true
+	"skipLibCheck" : true,
+	"strictNullChecks" : true
   },
   "exclude" : [
 	"**/*.android.js",

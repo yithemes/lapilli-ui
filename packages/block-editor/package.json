@@ -1,5 +1,5 @@
 {
-	"name": "@yith/components",
+	"name": "@yith/block-editor",
 	"version": "0.0.0",
 	"main": "build/index.js",
 	"module": "build-module/index.js",
@@ -13,19 +13,15 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.16.0",
-		"@heroicons/react": "2.0.13",
 		"@wordpress/block-editor": "^11.6.0",
 		"@wordpress/block-library": "^8.6.0",
 		"@wordpress/blocks": "^12.6.0",
 		"@wordpress/components": "^23.6.0",
 		"@wordpress/compose": "^6.6.0",
 		"@wordpress/data": "7.3.0",
-		"@wordpress/i18n": "4.17.0",
 		"@wordpress/keyboard-shortcuts": "^4.6.0",
-		"@yith/date": "workspace:*",
 		"@yith/styles": "workspace:*",
 		"classnames": "^2.3.1",
-		"framer-motion": "6.0.0",
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {

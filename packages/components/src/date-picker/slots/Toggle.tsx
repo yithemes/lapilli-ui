@@ -1,9 +1,11 @@
 import { styled } from "@yith/styles";
-import type { PickerToggleOwnerState, PickerToggleProps, PickerToggleStyledProps } from "../types";
 import React, { forwardRef } from "react";
-import FwIcon from "../../fw-icon";
+import { CalendarDaysIcon } from "@heroicons/react/24/outline";
+
+import type { PickerToggleOwnerState, PickerToggleProps, PickerToggleStyledProps } from "../types";
 import { ZeroWidthSpace } from "../../utils";
 import IconButton from "../../icon-button";
+import { XMarkIcon } from "@heroicons/react/20/solid";
 
 const DatePickerToggleRoot = styled( 'div', { name: 'DatePicker', slot: 'Toggle' } )<PickerToggleStyledProps>( ( { ownerState, theme } ) => (
 	{
@@ -63,9 +65,12 @@ const DatePickerToggleLabel = styled( 'div', { name: 'DatePicker', slot: 'Toggle
 const DatePickerToggleClear = styled( IconButton, { name: 'DatePicker', slot: 'ToggleClear' } )<PickerToggleStyledProps>( (
 	{ ownerState }
 ) => ( {
-	fontSize: 11,
-	padding: 6,
-	margin: -3,
+	fontSize: 15,
+	padding: 4,
+	margin: -4,
+	'& > svg': {
+		width: '1em'
+	},
 	...( !ownerState.text && {
 		opacity: 0,
 		visibility: 'hidden'
@@ -79,12 +84,15 @@ const DatePickerToggleIcon = styled( 'div', { name: 'DatePicker', slot: 'ToggleI
 		pointerEvents: 'none',
 		display: 'flex',
 		color: theme.fields.borderColor,
-		fontSize: '1.25em',
+		fontSize: '20px',
 		marginLeft: 6,
 		...( ownerState.isOpen && {
 			opacity: 1,
 			color: theme.fields.focusedBorderColor,
 		} ),
+		'& > svg': {
+			width: '1em',
+		}
 	}
 ) );
 
@@ -143,11 +151,11 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 					}
 				} }
 			>
-				<FwIcon icon="close-alt"/>
+				<XMarkIcon/>
 			</DatePickerToggleClear>
 		}
 		<DatePickerToggleIcon ownerState={ ownerState }>
-			<FwIcon icon='calendar'/>
+			<CalendarDaysIcon/>
 		</DatePickerToggleIcon>
 	</DatePickerToggleRoot>;
 } );
