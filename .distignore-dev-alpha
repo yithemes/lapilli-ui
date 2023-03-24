@@ -3,7 +3,7 @@
 .storybook
 .DS_Store
 .idea
-apps/
+apps
 packages/block-editor
 dist/block-editor
 
