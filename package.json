@@ -15,7 +15,8 @@
 		"watch:only": "wp-scripts start --progress --mode=development",
 		"watch:types": "turbo run watch:types",
 		"watch:packages": "node ./bin/packages/watch.js",
-		"clean": "turbo run clean && rm -rf ./dist"
+		"clean": "turbo run clean && rm -rf ./dist",
+		"build-dev-alpha-zip": "node ./bin/build-zip.js --root-ignore-file .distignore-dev-alpha --folder yith-ui-alpha"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.0",
@@ -35,10 +36,13 @@
 		"@wordpress/babel-preset-default": "^7.12.0",
 		"@wordpress/dependency-extraction-webpack-plugin": "^4.11.0",
 		"@wordpress/scripts": "^25.5.1",
+		"archiver": "^5.3.1",
 		"babel-plugin-inline-json-import": "^0.3.2",
 		"chalk": "4.1.2",
+		"commander": "^10.0.0",
 		"concurrently": "^7.6.0",
 		"fast-glob": "^3.2.12",
+		"fs-extra": "^11.1.1",
 		"lodash": "^4.17.21",
 		"make-dir": "^3.1.0",
 		"node-watch": "^0.7.3",
