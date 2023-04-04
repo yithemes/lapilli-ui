@@ -18,8 +18,10 @@
 		"@wordpress/blocks": "^12.6.0",
 		"@wordpress/components": "^23.6.0",
 		"@wordpress/compose": "^6.6.0",
+		"@wordpress/core-data": "^6.6.0",
 		"@wordpress/data": "7.3.0",
 		"@wordpress/keyboard-shortcuts": "^4.6.0",
+		"@wordpress/media-utils": "^4.20.0",
 		"@yith/styles": "workspace:*",
 		"classnames": "^2.3.1",
 		"lodash": "^4.17.21"
@@ -31,6 +33,7 @@
 		"@types/wordpress__block-library": "^2.6.1",
 		"@types/wordpress__blocks": "^12.0.3",
 		"@types/wordpress__components": "^23.0.1",
+		"@types/wordpress__media-utils": "^4.14.1",
 		"@yith/tsconfig": "workspace:*",
 		"eslint": "^7.32.0",
 		"react": "^18.2.0",

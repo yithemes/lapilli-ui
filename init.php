@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: YITH UI  - feature plugin
+ * Plugin Name: YITH Monorepo - feature plugin
  * Description: Allows to use the YITH UI React packages.
  * Version: 0.3.0
  * Author: Leanza Francesco
@@ -38,8 +38,8 @@ class Feature_Plugin {
 	 * On plugins loaded.
 	 */
 	public function on_plugins_loaded() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 9 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 9 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 20 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 20 );
 	}
 
 	/**
@@ -51,13 +51,13 @@ class Feature_Plugin {
 			'yith-block-editor' => array(
 				'path' => '/dist/block-editor/',
 			),
-			'yith-components' => array(
+			'yith-components'   => array(
 				'path' => '/dist/components/',
 			),
-			'yith-styles'     => array(
+			'yith-styles'       => array(
 				'path' => '/dist/styles/',
 			),
-			'yith-date'       => array(
+			'yith-date'         => array(
 				'path' => '/dist/date/',
 			),
 		);
@@ -71,12 +71,15 @@ class Feature_Plugin {
 			$script = $base_url . $path . 'index.js';
 			$style  = $base_url . $path . 'style.css';
 
-			wp_enqueue_script( $handle, $script, $dependencies, $version, true );
+			wp_register_script( $handle, $script, $dependencies, $version, true );
 		}
 
 		wp_enqueue_style( 'wp-edit-blocks' );
 		wp_enqueue_style( 'wp-format-library' );
+
 		wp_enqueue_editor();
+		wp_enqueue_media();
+
 		/**
 		 * Enqueue any block editor related assets.
 		 *
