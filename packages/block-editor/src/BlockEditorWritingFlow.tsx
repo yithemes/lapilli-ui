@@ -124,7 +124,7 @@ export default function BlockEditorWritingFlow(
 			<BlockToolbarLastItem>
 				<BlockEditorToolbarActionsRoot>
 					<Inserter isAppender/>
-					<Button icon={ drawerRight } label='Settings' onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
+					<Button icon={ drawerRight } onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
 				</BlockEditorToolbarActionsRoot>
 			</BlockToolbarLastItem>
 

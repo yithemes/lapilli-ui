@@ -7,11 +7,12 @@ import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
 // @ts-ignore
-import { styled } from "@yith/styles";
+import { generateComponentClasses, styled } from "@yith/styles";
 
 import type { BlockEditorProps } from "./types";
 import useMediaUpload from "./utils/use-media-upload";
 import BlockEditorWritingFlow from "./BlockEditorWritingFlow";
+import classNames from "classnames";
 
 const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( ( { theme } ) => ( {
 	borderStyle: 'solid',
@@ -68,7 +69,17 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 	}
 } ) );
 
+const useComponentClasses = () => {
+	return generateComponentClasses(
+		'BlockEditor',
+		{
+			root: [ 'root' ],
+		}
+	)
+}
+
 function BlockEditor( {
+						  className,
 						  blocks,
 						  onChange = noop,
 						  placeholder = '',
@@ -95,8 +106,9 @@ function BlockEditor( {
 	}, 200 );
 
 	const mediaUpload = useMediaUpload();
+	const classes = useComponentClasses();
 
-	return <BlockEditorRoot>
+	return <BlockEditorRoot className={ classNames( classes.root, className ) }>
 		<SlotFillProvider>
 			<BlockEditorProvider
 				value={ blocksRef.current }
