@@ -6,18 +6,20 @@ import {
 	BlockInspector,
 	ObserveTyping,
 	WritingFlow,
+	Inserter,
 	// @ts-ignore No types for this exist yet.
 	__unstableBlockToolbarLastItem as BlockToolbarLastItem,
+	// @ts-ignore No types for this exist yet.
+	__unstableEditorStyles as EditorStyles,
 	store as blockEditorStore
 } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from "@wordpress/data";
 import { Button } from '@wordpress/components';
+import { drawerRight } from '@wordpress/icons';
+import { createBlock, BlockInstance } from "@wordpress/blocks";
 
 // @ts-ignore
 import { styled } from "@yith/styles";
-
-import type { BlockInstance } from "@wordpress/blocks";
-import { createBlock } from "@wordpress/blocks";
 
 type BlockEditorWritingFlowProps = {
 	blocks: BlockInstance[];
@@ -25,19 +27,25 @@ type BlockEditorWritingFlowProps = {
 	placeholder?: string;
 };
 
+const BlockEditorWritingFlowRoot = styled( 'div', { name: 'BlockEditorWritingFlow', slot: 'Root' } )( () => ( {} ) );
+
 const BlockEditorWritingFlowWrapper = styled( 'div', { name: 'BlockEditorWritingFlow', slot: 'Wrapper' } )( ( { theme } ) => ( {
 	display: 'flex',
 	'.block-editor-writing-flow': {
 		flex: 1,
-	}, '.block-editor-block-inspector': {
+		borderBottomLeftRadius: theme.fields.borderRadius,
+		borderBottomRightRadius: theme.fields.borderRadius,
+	},
+	'.block-editor-block-inspector': {
 		width: 280,
 		borderLeftStyle: 'solid',
 		borderLeftWidth: '1px',
 		borderLeftColor: theme.fields.borderColor,
+		height: '100%'
 	},
 } ) );
 
-const BlockEditorToolbarActionsRoot = styled( 'div', { name: 'BlockEditorToolbarActions', slot: 'Root' } )( ( { theme } ) => ( {
+const BlockEditorToolbarActionsRoot = styled( 'div', { name: 'BlockEditorToolbarActions', slot: 'Root' } )( () => ( {
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'flex-end',
@@ -61,11 +69,12 @@ export default function BlockEditorWritingFlow(
 	const { insertBlock, selectBlock } = useDispatch( blockEditorStore );
 	const [ isInspectorOpen, setIsInspectorOpen ] = useState( false );
 
-	const { selectedBlockClientIds } = useSelect( ( select ) => {
+	const { selectedBlockClientIds, blockEditorSettings } = useSelect( ( select ) => {
 		// @ts-ignore This selector is available in the block editor data store.
-		const { getSelectedBlockClientIds } = select( blockEditorStore );
+		const { getSelectedBlockClientIds, getSettings } = select( blockEditorStore );
 		return {
 			selectedBlockClientIds: getSelectedBlockClientIds(),
+			blockEditorSettings: getSettings(),
 		};
 	}, [] );
 
@@ -90,26 +99,35 @@ export default function BlockEditorWritingFlow(
 		}
 	}, [ isEmpty ] );
 
-	return <BlockTools>
-		<BlockEditorWritingFlowWrapper>
-			<WritingFlow>
-				<ObserveTyping>
-					<BlockList/>
-				</ObserveTyping>
-			</WritingFlow>
-			{
-				isInspectorOpen &&
-				<form onSubmit={ ( event ) => event.preventDefault() }>
-					<BlockInspector/>
-				</form>
-			}
-		</BlockEditorWritingFlowWrapper>
 
-		<BlockToolbarLastItem>
-			<BlockEditorToolbarActionsRoot>
-				<Button icon='admin-generic' label='Settings' onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
-			</BlockEditorToolbarActionsRoot>
-		</BlockToolbarLastItem>
+	return <BlockEditorWritingFlowRoot>
+		<BlockTools>
+			<EditorStyles styles={ blockEditorSettings?.styles ?? [] }/>
+			<BlockEditorWritingFlowWrapper>
+				<WritingFlow
+					// @ts-ignore className is a valid prop for WritingFlow.
+					className="editor-styles-wrapper"
+				>
+					<ObserveTyping>
+						<BlockList/>
+					</ObserveTyping>
+				</WritingFlow>
 
-	</BlockTools>
+				{
+					isInspectorOpen &&
+					<form onSubmit={ ( event ) => event.preventDefault() }>
+						<BlockInspector/>
+					</form>
+				}
+			</BlockEditorWritingFlowWrapper>
+
+			<BlockToolbarLastItem>
+				<BlockEditorToolbarActionsRoot>
+					<Inserter isAppender/>
+					<Button icon={ drawerRight } label='Settings' onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
+				</BlockEditorToolbarActionsRoot>
+			</BlockToolbarLastItem>
+
+		</BlockTools>
+	</BlockEditorWritingFlowRoot>
 }

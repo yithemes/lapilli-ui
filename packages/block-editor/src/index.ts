@@ -1,1 +1,1 @@
-export { default } from './BlockEditor'
+export { default as BlockEditor } from './BlockEditor'

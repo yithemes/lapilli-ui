@@ -1,11 +1,15 @@
 import { useSelect } from "@wordpress/data";
 import { store as coreStore } from "@wordpress/core-data";
-import { uploadMedia } from "@wordpress/media-utils";
+import { uploadMedia, UploadMediaOptions } from "@wordpress/media-utils";
+
+type UploadMediaParams = Omit<UploadMediaOptions, 'onError'> & {
+	onError: ( message: string ) => void
+};
 
 export default function useMediaUpload() {
 	const { hasUploadPermissions } = useSelect(
 		( select ) => {
-			// @ts-ignore
+			// @ts-ignore This selector is available in the core store.
 			const { canUser } = select( coreStore );
 
 			// @ts-ignore
@@ -13,20 +17,11 @@ export default function useMediaUpload() {
 		}, [] );
 
 	return hasUploadPermissions
-		? ( {
-				onError,
-				...rest
-			}: {
-			onError: ( message: string ) => void;
-		} ) => {
-			uploadMedia(
-				// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-				// @ts-ignore The upload function passes the remaining required props.
-				{
-					onError: ( { message } ) => onError( message ),
-					...rest,
-				}
-			);
+		? ( { onError, ...other }: UploadMediaParams ) => {
+			uploadMedia( {
+				onError: ( { message } ) => onError( message ),
+				...other
+			} );
 		}
 		: undefined;
 }

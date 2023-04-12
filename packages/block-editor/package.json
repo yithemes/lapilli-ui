@@ -20,6 +20,7 @@
 		"@wordpress/compose": "^6.6.0",
 		"@wordpress/core-data": "^6.6.0",
 		"@wordpress/data": "7.3.0",
+		"@wordpress/icons": "^9.21.0",
 		"@wordpress/keyboard-shortcuts": "^4.6.0",
 		"@wordpress/media-utils": "^4.20.0",
 		"@yith/styles": "workspace:*",

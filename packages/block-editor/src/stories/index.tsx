@@ -3,7 +3,7 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import { BlockInstance, parse } from '@wordpress/blocks';
 
-import BlockEditor from "..";
+import { BlockEditor } from "..";
 
 const meta: ComponentMeta<typeof BlockEditor> = {
 	title: 'Components/BlockEditor',

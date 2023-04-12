@@ -10,11 +10,8 @@ import { debounce, noop } from "lodash";
 import { styled } from "@yith/styles";
 
 import type { BlockEditorProps } from "./types";
-import { ALLOWED_BLOCK_TYPES, registerBlocks } from './utils/register-blocks';
 import useMediaUpload from "./utils/use-media-upload";
 import BlockEditorWritingFlow from "./BlockEditorWritingFlow";
-
-registerBlocks();
 
 const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( ( { theme } ) => ( {
 	borderStyle: 'solid',
@@ -32,7 +29,6 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 			top: '32px'
 		},
 		'&.is-fixed': {
-			top: '32px',
 			'.block-editor-block-toolbar .components-toolbar-group': {
 				borderColor: theme.fields.borderColor,
 			}
@@ -64,13 +60,19 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 	},
 	'.is-alternate .components-dropdown-menu__menu .components-menu-group + .components-menu-group': {
 		borderColor: theme.fields.borderColor
+	},
+	'.block-editor-inserter__popover:not(.is-quick)': {
+		'.components-popover__content': {
+			padding: '12px'
+		}
 	}
 } ) );
 
 function BlockEditor( {
 						  blocks,
 						  onChange = noop,
-						  placeholder = ''
+						  placeholder = '',
+						  settings = {},
 					  }: BlockEditorProps ) {
 	const blocksRef = useRef( blocks );
 
@@ -99,12 +101,11 @@ function BlockEditor( {
 			<BlockEditorProvider
 				value={ blocksRef.current }
 				settings={ {
-					allowedBlockTypes: ALLOWED_BLOCK_TYPES,
+					...settings,
 					bodyPlaceholder: placeholder,
 					hasFixedToolbar: true,
-					// @ts-ignore
-					mediaUpload,
-					// renderAppender: false
+					// @ts-ignore mediaUpload is not in the types yet.
+					mediaUpload
 				} }
 				onInput={ debounceChange }
 				onChange={ debounceChange }

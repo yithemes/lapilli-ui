@@ -38,8 +38,8 @@ class Feature_Plugin {
 	 * On plugins loaded.
 	 */
 	public function on_plugins_loaded() {
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 20 );
-		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 20 );
+		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 10 );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 10 );
 	}
 
 	/**
