@@ -4,8 +4,6 @@
 .DS_Store
 .idea
 apps
-packages/block-editor
-dist/block-editor
 
 # Hidden files
 .distignore-dev-alpha

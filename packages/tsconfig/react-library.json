@@ -1,62 +1,62 @@
 {
-  "compilerOptions" : {
-	"target" : "esnext",
-	"lib" : [
-	  "dom",
-	  "esnext"
-	],
-	"baseUrl" : "./",
-	"allowJs" : true,
-	"checkJs" : true,
-	"allowSyntheticDefaultImports" : true,
-	"jsx" : "react",
-	"module" : "commonjs",
-	"declaration" : true,
-	"declarationMap" : true,
-	"emitDeclarationOnly" : true,
-	"isolatedModules" : true,
-	"strict" : true,
-	"composite" : true,
-	"noUnusedLocals" : true,
-	"noUnusedParameters" : true,
-	"noImplicitReturns" : true,
-	"noFallthroughCasesInSwitch" : true,
-	"importsNotUsedAsValues" : "error",
-	"moduleResolution" : "node",
-	"esModuleInterop" : false,
-	"resolveJsonModule" : true,
-	"forceConsistentCasingInFileNames" : true,
-	"types" : [
-	  "react",
-	  "node",
-	  "react-dom"
-	],
-	"rootDir" : "./",
-	"paths" : {
-	  "@yith/block-editor" : [
-		"../block-editor/src"
-	  ],
-	  "@yith/components" : [
-		"../components/src"
-	  ],
-	  "@yith/date" : [
-		"../date/src"
-	  ],
-	  "@yith/styles" : [
-		"../styles/src"
-	  ]
+	"compilerOptions": {
+		"target": "esnext",
+		"lib": [
+			"dom",
+			"esnext"
+		],
+		"baseUrl": "./",
+		"allowJs": true,
+		"checkJs": true,
+		"allowSyntheticDefaultImports": true,
+		"jsx": "react",
+		"module": "commonjs",
+		"declaration": true,
+		"declarationMap": true,
+		"emitDeclarationOnly": true,
+		"isolatedModules": true,
+		"strict": true,
+		"composite": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noImplicitReturns": true,
+		"noFallthroughCasesInSwitch": true,
+		"importsNotUsedAsValues": "error",
+		"moduleResolution": "node",
+		"esModuleInterop": false,
+		"resolveJsonModule": true,
+		"forceConsistentCasingInFileNames": true,
+		"types": [
+			"react",
+			"node",
+			"react-dom"
+		],
+		"rootDir": "./",
+		"paths": {
+			"@yith/block-editor": [
+				"../block-editor/src"
+			],
+			"@yith/components": [
+				"../components/src"
+			],
+			"@yith/date": [
+				"../date/src"
+			],
+			"@yith/styles": [
+				"../styles/src"
+			]
+		},
+		"skipLibCheck": true,
+		"strictNullChecks": true
 	},
-	"skipLibCheck" : true,
-	"strictNullChecks" : true
-  },
-  "exclude" : [
-	"**/*.android.js",
-	"**/*.ios.js",
-	"**/*.native.js",
-	"**/benchmark",
-	"packages/*/build-*/**",
-	"packages/*/build/**",
-	"**/test/**",
-	"packages/**/react-native-*/**"
-  ]
+	"exclude": [
+		"**/*.android.js",
+		"**/*.ios.js",
+		"**/*.native.js",
+		"**/benchmark",
+		"packages/*/build-*/**",
+		"packages/*/build/**",
+		"**/test/**",
+		"packages/**/react-native-*/**"
+	]
 }

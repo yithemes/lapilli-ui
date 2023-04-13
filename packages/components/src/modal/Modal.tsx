@@ -2,11 +2,12 @@ import type { ModalOwnerState, ModalProps, ModalStyled } from "./types";
 import React, { forwardRef } from "react";
 import Portal from "../portal";
 import Backdrop from "../backdrop";
-import { Breakpoint, keyframes, styled } from "@yith/styles";
+import { Breakpoint, generateComponentClasses, keyframes, styled } from "@yith/styles";
 import useSingleModal from "../utils/useSingleModal";
 import IconButton from "../icon-button";
 import Paper from "../paper";
 import { XMarkIcon } from "@heroicons/react/20/solid";
+import classNames from "classnames";
 
 const appearFromBottomAnimation = keyframes`
 from {
@@ -64,6 +65,18 @@ const ModalPaper = styled( Paper, { name: 'Modal', slot: 'Paper' } )<ModalStyled
 	} )
 } ) );
 
+const useComponentClasses = () => {
+	return generateComponentClasses(
+		'Modal',
+		{
+			root: [ 'root' ],
+			backdrop: [ 'backdrop' ],
+			container: [ 'container' ],
+			paper: [ 'paper' ],
+		}
+	)
+}
+
 const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 	{
 		className,
@@ -108,15 +121,17 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 		onClose?.( event, 'closeIconClick' );
 	}
 
+	const classes = useComponentClasses();
+
 	if ( !open ) {
 		return null;
 	}
 
 	return <Portal disablePortal={ disablePortal }>
-		<ModalRoot ref={ ref } role="presentation" onClick={ handleBackdropClick } className={className}>
-			<ModalBackdrop/>
-			<ModalContainer onMouseDown={ handleMouseDown }>
-				<ModalPaper ownerState={ ownerState } elevation={ 24 }>
+		<ModalRoot ref={ ref } role="presentation" onClick={ handleBackdropClick } className={ classNames( classes.root, className ) }>
+			<ModalBackdrop className={ classes.backdrop }/>
+			<ModalContainer onMouseDown={ handleMouseDown } className={ classes.container }>
+				<ModalPaper className={ classes.paper } ownerState={ ownerState } elevation={ 24 }>
 					<ModalClose onClick={ handleCloseIconClick } size="sm" fontSize="lg"><XMarkIcon/></ModalClose>
 					{ children }
 				</ModalPaper>
