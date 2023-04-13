@@ -6,7 +6,6 @@ import { BlockEditorProvider } from '@wordpress/block-editor';
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
-// @ts-ignore
 import { generateComponentClasses, styled } from "@yith/styles";
 
 import type { BlockEditorProps } from "./types";
