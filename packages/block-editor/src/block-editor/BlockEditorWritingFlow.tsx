@@ -20,6 +20,7 @@ import { createBlock, BlockInstance } from "@wordpress/blocks";
 
 // @ts-ignore
 import { styled } from "@yith/styles";
+import useLayoutClasses from "../utils/use-layout-classes";
 
 type BlockEditorWritingFlowProps = {
 	blocks: BlockInstance[];
@@ -99,6 +100,7 @@ export default function BlockEditorWritingFlow(
 		}
 	}, [ isEmpty ] );
 
+	const layoutClasses = useLayoutClasses();
 
 	return <BlockEditorWritingFlowRoot>
 		<BlockTools>
@@ -109,7 +111,7 @@ export default function BlockEditorWritingFlow(
 					className="editor-styles-wrapper"
 				>
 					<ObserveTyping>
-						<BlockList/>
+						<BlockList className={ layoutClasses }/>
 					</ObserveTyping>
 				</WritingFlow>
 

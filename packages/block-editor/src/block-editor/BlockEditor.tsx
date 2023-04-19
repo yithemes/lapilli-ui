@@ -6,10 +6,11 @@ import { BlockEditorProvider } from '@wordpress/block-editor';
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
+// @ts-ignore
 import { generateComponentClasses, styled } from "@yith/styles";
 
 import type { BlockEditorProps } from "./types";
-import useMediaUpload from "./utils/use-media-upload";
+import useMediaUpload from "../utils/use-media-upload";
 import BlockEditorWritingFlow from "./BlockEditorWritingFlow";
 import classNames from "classnames";
 
@@ -25,9 +26,6 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 		borderTopLeftRadius: theme.fields.borderRadius,
 		borderTopRightRadius: theme.fields.borderRadius,
 		borderColor: theme.fields.borderColor,
-		'body.admin-bar &.is-fixed': {
-			top: '32px'
-		},
 		'&.is-fixed': {
 			'.block-editor-block-toolbar .components-toolbar-group': {
 				borderColor: theme.fields.borderColor,
@@ -41,19 +39,6 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 		padding: '12px',
 		boxSizing: 'border-box',
 		minHeight: '120px',
-		'ol, ul': {
-			listStyle: 'revert',
-			padding: 'revert',
-		},
-		'& :where(.wp-block)': {
-			maxWidth: '100%',
-			marginTop: '8px',
-			marginBottom: '8px',
-		},
-		'.block-editor-default-block-appender__content': {
-			marginTop: '8px',
-			marginBottom: '8px',
-		}
 	},
 	'.is-alternate .components-popover__content': {
 		outlineColor: theme.fields.borderColor
@@ -108,29 +93,30 @@ function BlockEditor( {
 	const classes = useComponentClasses();
 
 	return <BlockEditorRoot className={ classNames( classes.root, className ) }>
-		<SlotFillProvider>
-			<BlockEditorProvider
-				value={ blocksRef.current }
-				settings={ {
-					...settings,
-					bodyPlaceholder: placeholder,
-					hasFixedToolbar: true,
-					// @ts-ignore mediaUpload is not in the types yet.
-					mediaUpload
-				} }
-				onInput={ debounceChange }
-				onChange={ debounceChange }
-			>
-				<ShortcutProvider>
+		<ShortcutProvider>
+			<SlotFillProvider>
+				<BlockEditorProvider
+					value={ blocksRef.current }
+					settings={ {
+						...settings,
+						bodyPlaceholder: placeholder,
+						hasFixedToolbar: true,
+						// @ts-ignore mediaUpload is not in the types yet.
+						mediaUpload
+					} }
+					onInput={ debounceChange }
+					onChange={ debounceChange }
+				>
+
 					<BlockEditorWritingFlow
 						blocks={ blocksRef.current }
 						onChange={ onChange }
 						placeholder={ placeholder }
 					/>
-				</ShortcutProvider>
-				<Popover.Slot/>
-			</BlockEditorProvider>
-		</SlotFillProvider>
+					<Popover.Slot/>
+				</BlockEditorProvider>
+			</SlotFillProvider>
+		</ShortcutProvider>
 	</BlockEditorRoot>
 }
 

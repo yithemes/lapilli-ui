@@ -42,19 +42,16 @@ You could use `wp_localize_script` to pass the settings to your React code, as f
 $block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'yith/my-plugin/panel' ) );
 
 $editor_settings = get_block_editor_settings(
-	array_merge(
-		get_legacy_widget_block_editor_settings(),
-		array(
-			'styles'            => get_block_editor_theme_styles(),
-			'allowedBlockTypes' => array(
-				'core/paragraph',
-				'core/heading',
-				'core/list',
-				'core/list-item',
-				'core/quote',
-				'core/image',
-			),
-		)
+	array(
+		'styles'            => get_block_editor_theme_styles(),
+		'allowedBlockTypes' => array(
+			'core/paragraph',
+			'core/heading',
+			'core/list',
+			'core/list-item',
+			'core/quote',
+			'core/image',
+		),
 	),
 	$block_editor_context
 );
