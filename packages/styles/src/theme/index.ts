@@ -202,7 +202,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 		background: '#ffffff',
 		color: '#333333',
 		focusedBorderColor: '#00779b',
-		focusedBoxShadow: '0 0 0 1px #00779b',
+		focusedBoxShadow: 'none',
 		placeholderColor: 'rgba(30, 30, 30, 0.62)'
 	},
 	zIndex: {
