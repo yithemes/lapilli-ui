@@ -16,6 +16,56 @@ wp_enqueue_editor();
 wp_enqueue_media();
 
 do_action( 'enqueue_block_editor_assets' );
+
+// Preload server-registered block schemas.
+wp_add_inline_script(
+	'wp-blocks',
+	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
+);
+
+$block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'yith/my-plugin/panel' ) );
+
+$editor_settings = get_block_editor_settings(
+	array(
+		'styles'            => get_block_editor_theme_styles(),
+		'allowedBlockTypes' => array(
+			'core/paragraph',
+			'core/heading',
+			'core/list',
+			'core/list-item',
+			'core/quote',
+			'core/image',
+		),
+	),
+	$block_editor_context
+);
+
+wp_add_inline_script(
+	'wp-blocks',
+	sprintf( 'wp.blocks.setCategories( %s );', wp_json_encode( $editor_settings['blockCategories'] ?? array() ) ),
+	'after'
+);
+```
+
+You should also enable the loading of the block editor scripts and styles in the admin area, by using the `should_load_block_editor_scripts_and_styles` filter:
+
+```php
+
+add_action( 'should_load_block_editor_scripts_and_styles', array( $this, 'should_load_block_editor_scripts_and_styles' ), 10 );
+
+public function should_load_block_editor_scripts_and_styles( $should_load ) {
+		if ( ! $should_load ) {
+			$screen    = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
+			$screen_id = $screen ? $screen->id : false;
+
+			if ( 'your_page_screen_id' === $screen_id ) {
+				$should_load = true;
+			}
+		}
+
+
+		return $should_load;
+	}
 ```
 
 ### Register blocks

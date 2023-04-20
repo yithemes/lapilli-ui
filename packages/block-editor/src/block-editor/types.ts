@@ -7,6 +7,7 @@ export type BlockEditorOwnProps = {
 	onChange: ( changes: BlockInstance[] ) => void
 	placeholder?: string,
 	settings?: BlockEditorProvider.Props['settings'],
+	disablePortal?: boolean,
 }
 
 export type BlockEditorProps = Omit<React.ComponentProps<'div'>, keyof BlockEditorOwnProps> & BlockEditorOwnProps

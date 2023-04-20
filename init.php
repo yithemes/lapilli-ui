@@ -38,8 +38,23 @@ class Feature_Plugin {
 	 * On plugins loaded.
 	 */
 	public function on_plugins_loaded() {
+		add_action( 'should_load_block_editor_scripts_and_styles', array( $this, 'should_load_block_editor_scripts_and_styles' ), 10 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_scripts' ), 10 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ), 10 );
+	}
+
+	public function should_load_block_editor_scripts_and_styles( $should_load ) {
+		if ( ! $should_load ) {
+			$screen    = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
+			$screen_id = $screen ? $screen->id : false;
+
+			if ( 'toplevel_page_yith_framework' === $screen_id ) {
+				$should_load = true;
+			}
+		}
+
+
+		return $should_load;
 	}
 
 	/**
@@ -74,18 +89,6 @@ class Feature_Plugin {
 			wp_register_script( $handle, $script, $dependencies, $version, true );
 		}
 
-		wp_enqueue_style( 'wp-edit-blocks' );
-		wp_enqueue_style( 'wp-format-library' );
-
-		wp_enqueue_editor();
-		wp_enqueue_media();
-
-		/**
-		 * Enqueue any block editor related assets.
-		 *
-		 * @since 7.1.0
-		 */
-		do_action( 'enqueue_block_editor_assets' );
 	}
 }
 

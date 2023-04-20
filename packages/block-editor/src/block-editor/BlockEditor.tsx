@@ -7,12 +7,13 @@ import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
 // @ts-ignore
-import { generateComponentClasses, styled } from "@yith/styles";
+import { generateComponentClasses, styled, Theme } from "@yith/styles";
 
 import type { BlockEditorProps } from "./types";
 import useMediaUpload from "../utils/use-media-upload";
 import BlockEditorWritingFlow from "./BlockEditorWritingFlow";
 import classNames from "classnames";
+import { createPortal } from "react-dom";
 
 const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( ( { theme } ) => ( {
 	borderStyle: 'solid',
@@ -40,6 +41,10 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 		boxSizing: 'border-box',
 		minHeight: '120px',
 	},
+	...getChildPopoverStyle( theme )
+} ) );
+
+const getChildPopoverStyle = ( theme: Theme ) => ( {
 	'.is-alternate .components-popover__content': {
 		outlineColor: theme.fields.borderColor
 	},
@@ -51,6 +56,15 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 			padding: '12px'
 		}
 	}
+} );
+
+const BlockEditorPopover = styled( 'div', { name: 'BlockEditor', slot: 'Popover' } )( ( { theme } ) => ( {
+	position: 'fixed',
+	zIndex: 9999999,
+	display: 'flex',
+	flexDirection: 'column',
+	height: 'fit-content',
+	...getChildPopoverStyle( theme )
 } ) );
 
 const useComponentClasses = () => {
@@ -68,6 +82,7 @@ function BlockEditor( {
 						  onChange = noop,
 						  placeholder = '',
 						  settings = {},
+						  disablePortal = false,
 					  }: BlockEditorProps ) {
 	const blocksRef = useRef( blocks );
 
@@ -113,7 +128,11 @@ function BlockEditor( {
 						onChange={ onChange }
 						placeholder={ placeholder }
 					/>
-					<Popover.Slot/>
+
+					{
+						!disablePortal ? createPortal( <BlockEditorPopover role="presentation"><Popover.Slot/></BlockEditorPopover>, document.body ) : <Popover.Slot/>
+					}
+
 				</BlockEditorProvider>
 			</SlotFillProvider>
 		</ShortcutProvider>

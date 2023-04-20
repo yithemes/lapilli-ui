@@ -14,7 +14,7 @@ import {
 	store as blockEditorStore
 } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from "@wordpress/data";
-import { Button } from '@wordpress/components';
+import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { drawerRight } from '@wordpress/icons';
 import { createBlock, BlockInstance } from "@wordpress/blocks";
 
@@ -51,10 +51,9 @@ const BlockEditorToolbarActionsRoot = styled( 'div', { name: 'BlockEditorToolbar
 	alignItems: 'center',
 	justifyContent: 'flex-end',
 	flex: 1,
-	'.components-button.has-icon.has-icon': {
-		minWidth: '36px',
-		paddingLeft: '6px',
-		paddingRight: '6px',
+	'.components-toolbar-group': {
+		border: 'none',
+		paddingRight: 0
 	}
 } ) );
 
@@ -125,8 +124,14 @@ export default function BlockEditorWritingFlow(
 
 			<BlockToolbarLastItem>
 				<BlockEditorToolbarActionsRoot>
-					<Inserter isAppender/>
-					<Button icon={ drawerRight } onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
+					<ToolbarGroup>
+						<Inserter
+							isAppender
+							// @ts-ignore toggleProps is a valid prop for Inserter.
+							toggleProps={ { as: ToolbarButton } }
+						/>
+						<ToolbarButton icon={ drawerRight } onClick={ () => setIsInspectorOpen( _ => !_ ) } isPressed={ isInspectorOpen }/>
+					</ToolbarGroup>
 				</BlockEditorToolbarActionsRoot>
 			</BlockToolbarLastItem>
 

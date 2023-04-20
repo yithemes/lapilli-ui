@@ -1,6 +1,6 @@
 import React from 'react';
 import { Disabled } from '@wordpress/components';
-
+import classNames from "classnames";
 import {
 	BlockList,
 	BlockEditorProvider,
@@ -9,9 +9,12 @@ import {
 	// @ts-ignore No types for this exist yet.
 	__unstableEditorStyles as EditorStyles,
 } from '@wordpress/block-editor';
-import type { BlockEditorPreviewProps } from "./types";
+// @ts-ignore No types exists for this yet.
+import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
+
 import { styled } from "@yith/styles";
-import classNames from "classnames";
+
+import type { BlockEditorPreviewProps } from "./types";
 import useLayoutClasses from "../utils/use-layout-classes";
 
 const BlockEditorPreviewRoot = styled( 'div', { name: 'BlockEditorPreview', slot: 'Root' } )( () => ( {
@@ -30,11 +33,13 @@ function BlockEditorPreview( { className, blocks, settings = {}, ...other }: Blo
 	return <BlockEditorPreviewRoot className={ classNames( 'editor-styles-wrapper', className ) } { ...other }>
 		<EditorStyles styles={ settings.styles ?? [] }/>
 		<Disabled>
-			<BlockEditorProvider value={ blocks } settings={ settings }>
-				<BlockTools>
-					<BlockList className={ layoutClasses }/>
-				</BlockTools>
-			</BlockEditorProvider>
+			<ShortcutProvider>
+				<BlockEditorProvider value={ blocks } settings={ settings }>
+					<BlockTools>
+						<BlockList className={ layoutClasses }/>
+					</BlockTools>
+				</BlockEditorProvider>
+			</ShortcutProvider>
 		</Disabled>
 	</BlockEditorPreviewRoot>
 }
