@@ -480,7 +480,6 @@ const Toggle = forwardRef<HTMLDivElement, ToggleArgs>(
 								);
 							} ) }
 							{ !!hiddenTags && <SelectToggleHiddenTagsCount>{ ` +${ hiddenTags }` }</SelectToggleHiddenTagsCount> }
-							<SelectTogglePlaceholder>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>
 						</SelectToggleTags>
 					) : (
 						<SelectTogglePlaceholder>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>
