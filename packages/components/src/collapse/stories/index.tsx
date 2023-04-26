@@ -19,13 +19,13 @@ export default meta;
 const Template: ComponentStory<typeof Collapse> = ( args ) => {
 	const [ open, setOpen ] = useState( false );
 	return <>
-		<Stack direction="column" spacing={ 2 } alignItems="flex-start">
-			<Stack direction="row" spacing={ 1 } alignItems="center">
+		<Stack direction="column" spacing={ 2 } align="start">
+			<Stack direction="row" spacing={ 1 } align="center">
 				<Switch id="show" checked={ open } onChange={ ( _e, _ ) => setOpen( _ ) }/>
 				<label htmlFor="show">Show</label>
 			</Stack>
 
-			<Stack direction="row" spacing={ 1 } alignItems="center">
+			<Stack direction="row" spacing={ 1 } align="center">
 				<Collapse { ...args } open={ open } sx={ { background: '#f1f1f1', borderRadius: '8px' } }>
 					<div style={ { padding: '32px' } }>
 						<FwIcon icon='image' fontSize={ 60 }/>
@@ -45,8 +45,8 @@ const boxStyle = {
 
 const CollapsibleBox = ( { styled = false } ) => {
 	return <Stack
-		alignItems="center"
-		justifyContent="center"
+		align="center"
+		justify="center"
 		sx={
 			{
 				...( styled && boxStyle ),
@@ -62,8 +62,8 @@ const CollapsibleBox = ( { styled = false } ) => {
 const CollapsedSizeTemplate: ComponentStory<typeof Collapse> = () => {
 	const [ open, setOpen ] = useState( false );
 	return <>
-		<Stack direction="column" spacing={ 2 } alignItems="flex-start">
-			<Stack direction="row" spacing={ 1 } alignItems="center">
+		<Stack direction="column" spacing={ 2 } align="start">
+			<Stack direction="row" spacing={ 1 } align="center">
 				<Switch id="show" checked={ open } onChange={ ( _e, _ ) => setOpen( _ ) }/>
 				<label htmlFor="show">Show</label>
 			</Stack>

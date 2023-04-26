@@ -60,8 +60,8 @@ const CONTAINER_STYLE = {
 
 const SizesTemplate: ComponentStory<typeof Button> = ( { ...args } ) => {
 	return <Container style={CONTAINER_STYLE}>
-		<Stack spacing={ 2 } direction="column" alignItems="flex-start">
-			{ SIZES.map( _ => <Stack key={ _.size } direction="row" alignItems="center" spacing={ 2 }>
+		<Stack spacing={ 2 } direction="column" align="start">
+			{ SIZES.map( _ => <Stack key={ _.size } direction="row" align="center" spacing={ 2 }>
 				<div style={ { minWidth: 100 } }>{ _.label }</div>
 				<Button { ...args } size={ _.size }>Button</Button>
 			</Stack> ) }

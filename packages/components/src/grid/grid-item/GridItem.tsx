@@ -1,18 +1,16 @@
-import { breakpointStylize, styled, useBreakpointProps } from '@yith/styles';
+import { styled, useBreakpointProps } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";
 
 const GridItemRoot = styled( 'div', { name: 'GridItem', slot: 'Root' } )<GridItemStyled>( ( { ownerState, theme } ) => ( {
-	...( breakpointStylize(
-		theme,
+	...( theme.breakpoints.stylize(
 		ownerState.colSpan,
 		( value ) => ( value > 1 && {
 			gridColumn: `span ${ value } / span ${ value }`,
 		} )
 	) ),
-	...( breakpointStylize(
-		theme,
+	...( theme.breakpoints.stylize(
 		ownerState.responsiveColSpan,
 		( value ) => ( value > 1 && {
 			gridColumn: `span ${ value } / span ${ value }`,

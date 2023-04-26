@@ -73,7 +73,7 @@ function FooterInfo( { children } ) {
 		marginTop: '16px',
 		marginBottom: '-24px',
 	}
-	return <Stack style={ style } direction="row" justifyContent="center" spacing={ 2 }>
+	return <Stack style={ style } direction="row" justify="center" spacing={ 2 }>
 		{ children }
 	</Stack>
 }
@@ -94,13 +94,13 @@ function SimpleForm() {
 
 	return <Container maxWidth="md" style={ CONTAINER_STYLE }>
 		<Stack spacing={ 2 } direction="column">
-			<Stack direction="row" spacing={ 1.5 } alignItems="center">
+			<Stack direction="row" spacing={ 1.5 } align="center">
 				<h1 style={ { flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', opacity: !!name ? 1 : .5 } }>{ !!name ? name : 'Untitled' }</h1>
 				<IconButton variant="shadowed" color="primary" title="View"><FwIcon icon="eye"/></IconButton>
 				<IconButton variant="shadowed" color="primary" title="Clone"><FwIcon icon="clone"/></IconButton>
 				<IconButton variant="shadowed" color="error" title="Delete"><FwIcon icon="trash"/></IconButton>
 			</Stack>
-			<Stack direction="row" spacing={ 1 } alignItems="center" style={ { height: '30px', fontSize: 13, marginTop: -15 } }>
+			<Stack direction="row" spacing={ 1 } align="center" style={ { height: '30px', fontSize: 13, marginTop: -15 } }>
 				{ isFeatured && <>
 					<FeaturedCrown/>
 					{ !!featuredFrom && <span>from { formatDateSameTimezone( 'M j, Y', featuredFrom ) }</span> }
@@ -136,7 +136,7 @@ function SimpleForm() {
 					<Input id="pages" type="number" isMini min={ 0 } value={ pages } onChange={ ( e, _ ) => setPages( _ ) }/>
 				</FormControl>
 				<FormControl label="File size" htmlFor="size" help="Choose the file size">
-					<Stack direction="row" spacing={ 1 } alignItems="center">
+					<Stack direction="row" spacing={ 1 } align="center">
 						<Input id="size" type="number" isMini min={ 0 } value={ size } onChange={ ( e, _ ) => setSize( _ ) }/>
 						<Select options={ SIZES } width="auto" value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) }/>
 					</Stack>
@@ -146,7 +146,7 @@ function SimpleForm() {
 				</FormControl>
 				{ isFeatured &&
 					<FormControl label="Featured from" htmlFor="featured-from" help="Choose the dates for the featured status.">
-						<Stack direction="row" spacing={ 2 } alignItems="center">
+						<Stack direction="row" spacing={ 2 } align="center">
 							<DatePicker id="featured-from" placeholder="Start date" allowClear maxDate={ featuredTo } value={ featuredFrom } onChange={ _ => {
 								setFeaturedFrom( _ );
 								if ( !!_ && !featuredToRef?.current?.value ) {
@@ -159,7 +159,7 @@ function SimpleForm() {
 					</FormControl>
 				}
 			</Container>
-			<Stack direction="row" spacing={ 2 } alignItems="center">
+			<Stack direction="row" spacing={ 2 } align="center">
 				<Button variant="text" startIcon={ <FwIcon icon="arrow-left-long-alt"/> }>Back</Button>
 				<Button>Save</Button>
 				<Button variant="outlined" onClick={ () => setModalOpened( true ) }>Preview</Button>

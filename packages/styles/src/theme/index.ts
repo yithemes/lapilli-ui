@@ -93,6 +93,7 @@ export interface Theme extends DefaultThemeOptions {
 	color: ( themeColor: ThemeColor ) => string
 	breakpoints: DefaultThemeOptions[ 'breakpoints' ] & {
 		up: ( key: Breakpoint ) => string;
+		stylize: <T extends any>( value: ResponsiveStyleValue<T>, stylize: ( value: T, breakpoint?: Breakpoint ) => any ) => any
 	}
 }
 
@@ -307,6 +308,22 @@ export const createTheme = ( options: ThemeOptions ): Theme => {
 	const breakpoints = {
 		...themeBreakpoints,
 		up: ( key: Breakpoint ) => `@media (min-width:${ themeBreakpoints.values[ key ] }${ themeBreakpoints.unit })`,
+		stylize: <T extends any>( value: ResponsiveStyleValue<T>, stylize: ( value: T, breakpoint?: Breakpoint ) => any ) => {
+			if ( value instanceof Object ) {
+				const keys = Object.keys( value );
+				return keys.reduce( ( acc: any, breakpoint ) => {
+					if ( Object.keys( breakpoints.values ).indexOf( breakpoint ) !== -1 ) {
+						const mediaKey = breakpoints.up( breakpoint as Breakpoint );
+						acc[ mediaKey ] = stylize( value[ breakpoint ]!, breakpoint as Breakpoint );
+					} else {
+						acc[ breakpoint ] = value[ breakpoint ];
+					}
+					return acc;
+				}, {} );
+			}
+
+			return stylize( value );
+		}
 	};
 	const color = ( themeColor: ThemeColor ) => {
 		return getPath( theTheme.palette, themeColor );

@@ -1,19 +1,17 @@
-import { breakpointStylize, styled } from '@yith/styles';
+import { styled } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridOwnerState, GridProps, GridStyled } from "./types";
 
 const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( { ownerState, theme } ) => ( {
 	display: 'grid',
-	...( breakpointStylize(
-		theme,
+	...( theme.breakpoints.stylize(
 		ownerState.columns,
 		( value ) => ( {
 			gridTemplateColumns: `repeat(${ value }, minmax(0, 1fr))`,
 		} )
 	) ),
-	...( breakpointStylize(
-		theme,
+	...( theme.breakpoints.stylize(
 		ownerState.gap,
 		( value ) => {
 			return ( {

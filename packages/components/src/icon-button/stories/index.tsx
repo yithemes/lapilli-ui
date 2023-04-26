@@ -53,9 +53,9 @@ const CONTAINER_STYLE = {
 
 const SizesTemplate: ComponentStory<typeof IconButton> = ( { children, ...args } ) => {
 	return <Container style={ CONTAINER_STYLE }>
-		<Stack spacing={ 2 } direction="row" alignItems="flex-start">
-			{ SIZES.map( _ => <Stack key={ _.size } direction="column" alignItems="center" spacing={ 2 }>
-				<Stack style={ { minHeight: 60 } } alignItems="center" justifyContent="center">
+		<Stack spacing={ 2 } direction="row" align="start">
+			{ SIZES.map( _ => <Stack key={ _.size } direction="column" align="center" spacing={ 2 }>
+				<Stack style={ { minHeight: 60 } } align="center" justify="center">
 					<IconButton { ...args } size={ _.size }>{ children }</IconButton>
 				</Stack>
 				<div style={ { textAlign: 'center' } }>{ _.label }</div>
