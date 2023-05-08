@@ -12,6 +12,12 @@ const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( 
 		} )
 	) ),
 	...( theme.breakpoints.stylize(
+		ownerState.rows,
+		( value ) => ( !!value && {
+			gridTemplateRows: `repeat(${ value }, minmax(0, 1fr))`,
+		} )
+	) ),
+	...( theme.breakpoints.stylize(
 		ownerState.gap,
 		( value ) => {
 			return ( {
@@ -25,12 +31,14 @@ const Grid = forwardRef<HTMLDivElement, GridProps>( function Grid(
 	{
 		children,
 		columns = 1,
+		rows = false,
 		gap = 0,
 		...other
 	}, ref ) {
 
 	const ownerState: GridOwnerState = {
 		columns,
+		rows,
 		gap
 	};
 

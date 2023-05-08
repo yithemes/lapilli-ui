@@ -8,6 +8,11 @@ type GridOwnProps = {
 	columns?: ResponsiveStyleValue<number>
 
 	/**
+	 * The number of rows of the grid. Set false to use auto-layout.
+	 */
+	rows?: ResponsiveStyleValue<number | boolean>
+
+	/**
 	 * The gap between columns and rows
 	 */
 	gap?: ResponsiveStyleValue<number | string>
@@ -16,7 +21,7 @@ type GridOwnProps = {
 type GridPropsWithRef = Omit<React.ComponentProps<'div'>, keyof GridOwnProps> & GridOwnProps
 export type GridProps = Omit<GridPropsWithRef, 'ref'>
 
-export type GridOwnerState = Required<Pick<GridOwnProps, 'columns' | 'gap'>>
+export type GridOwnerState = Required<Pick<GridOwnProps, 'columns' | 'gap' | 'rows'>>
 
 export type GridStyled = {
 	ownerState: GridOwnerState

@@ -156,7 +156,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 		action: {
 			active: 'rgba( 0, 0, 0, 0.5 )', // Color of active action (ex: icon button).
 			hoverOpacity: 0.04, // Opacity of hovered action background.
-			selected: 'rgba( 0, 0, 0, 0.08 )', // Color of selected action (ex: background in tags in select multiple).
+			selected: 'rgba( 48, 80, 124, 0.08 )', // Color of selected action (ex: background in tags in select multiple).
 			selectedOpacity: 0.08, // Opacity of selected action background (ex: option in select field).
 			disabled: 'rgba(0, 0, 0, 0.26)', // Color of disabled action.
 			disabledBackground: 'rgba(0, 0, 0, 0.12)', // Background of disabled action.
