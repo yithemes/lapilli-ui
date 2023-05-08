@@ -1,16 +1,16 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Grid from "..";
 import GridItem from "../grid-item";
 
-const meta: ComponentMeta<typeof Grid> = {
+const meta: Meta<typeof Grid> = {
 	title: 'Components/Grid',
-	component: Grid,
-	subcomponents: { GridItem }
+	component: Grid
 };
 
 export default meta;
+type Story = StoryObj<typeof Grid>
 
 const Item = ( { color, children }: { color?: React.CSSProperties['color'], children: React.ReactNode } ) => {
 	let textColor = 'rgba(0,0,0,0.6)';
@@ -36,8 +36,12 @@ const Item = ( { color, children }: { color?: React.CSSProperties['color'], chil
 	</div>
 }
 
-const Template: ComponentStory<typeof Grid> = ( args ) => {
-	return <Grid { ...args }>
+export const Default: Story = {
+	args: {
+		columns: 3,
+		gap: 1
+	},
+	render: ( args ) => <Grid { ...args }>
 		<GridItem>
 			<Item>One</Item>
 		</GridItem>
@@ -56,20 +60,15 @@ const Template: ComponentStory<typeof Grid> = ( args ) => {
 		<GridItem>
 			<Item>Six</Item>
 		</GridItem>
-	</Grid>;
-};
-
-export const Default: ComponentStory<typeof Grid> = Template.bind(
-	{}
-);
-
-Default.args = {
-	columns: 3,
-	gap: 1
+	</Grid>
 }
 
-const ResponsiveTemplate: ComponentStory<typeof Grid> = ( args ) => {
-	return <Grid { ...args } columns={ 12 }>
+export const Responsive: Story = {
+	args: {
+		columns: 12,
+		gap: 1
+	},
+	render: ( args ) => <Grid { ...args } columns={ 12 }>
 		<GridItem xs={ 12 } sm={ 4 } lg={ 6 }>
 			<Item>xs=12 sm=4 lg=6</Item>
 		</GridItem>
@@ -82,20 +81,16 @@ const ResponsiveTemplate: ComponentStory<typeof Grid> = ( args ) => {
 		<GridItem xs={ 12 } sm={ 8 } lg={ 6 }>
 			<Item>xs=12 sm=8 lg=6</Item>
 		</GridItem>
-	</Grid>;
-};
-
-export const Responsive: ComponentStory<typeof Grid> = ResponsiveTemplate.bind(
-	{}
-);
-
-Responsive.args = {
-	columns: 12,
-	gap: 1
+	</Grid>
 }
 
-const ComplexTemplate: ComponentStory<typeof Grid> = ( args ) => {
-	return <Grid { ...args } columns={ 3 } rows={ 8 } sx={ { maxWidth: 800 } }>
+export const Complex: Story = {
+	args: {
+		columns: 4,
+		rows: 8,
+		gap: 1
+	},
+	render: ( args ) => <Grid { ...args } columns={ 3 } rows={ 8 } sx={ { maxWidth: 800 } }>
 		<GridItem rowSpan={ 2 } colSpan={ 2 } colStart={ 1 } rowStart={ 1 }>
 			<Item color="#86bedf">One</Item>
 		</GridItem>
@@ -124,14 +119,4 @@ const ComplexTemplate: ComponentStory<typeof Grid> = ( args ) => {
 			<Item color="#df86cb">Nine</Item>
 		</GridItem>
 	</Grid>
-};
-
-export const Complex: ComponentStory<typeof Grid> = ComplexTemplate.bind(
-	{}
-);
-
-Complex.args = {
-	columns: 4,
-	rows: 8,
-	gap: 1
 }

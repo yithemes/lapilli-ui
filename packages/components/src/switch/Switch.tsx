@@ -1,63 +1,26 @@
 import { noop } from 'lodash';
 import { forwardRef, useState } from 'react';
 
-import { FieldSize, PaletteClass, styled } from '@yith/styles';
+import { styled } from '@yith/styles';
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 import { useControlledState, ZeroWidthSpace } from "../utils";
 import React from 'react';
+import type { SwitchOwnerState, SwitchProps, SwitchStyled } from "./types";
 
-interface SwitchProps extends Omit<React.ComponentProps<'input'>, 'onChange' | 'type' | 'checked' | 'size'> {
-	/**
-	 * Choose if the field containing the value should be
-	 */
-	type?: 'checkbox' | 'hidden'
-	/**
-	 * The color.
-	 */
-	color?: PaletteClass
-	/**
-	 * Set the checked status of the Switch component. Leave it empty to use a non-controlled component.
-	 */
-	checked?: boolean
-	/**
-	 * Callback fired when the value changes.
-	 */
-	onChange?: ( event: React.ChangeEvent<HTMLInputElement>, value: boolean ) => void
-	/**
-	 * The field size.
-	 */
-	size?: FieldSize;
-}
-
-type SwitchOwnerState = {
-	isChecked: boolean
-	isFocused: boolean
-	color: PaletteClass,
-	size: FieldSize
-};
-
-
-type StyledSwitchProps = { ownerState: SwitchOwnerState };
-
-const SwitchRoot = styled( 'span', { name: 'Switch', slot: 'Root' } )<StyledSwitchProps>`
-	display: inline-block;
-	cursor: pointer;
-	position: relative;
-	transition: all 0.3s;
-	box-sizing: border-box;
-	user-select: none;
-	-moz-user-select: none;
-	-khtml-user-select: none;
-	-webkit-user-select: none;
-	-o-user-select: none;
-
-	${ ( { ownerState, theme } ) => {
-	const { size, color, isChecked, isFocused } = ownerState;
-	const background = !isChecked ? ( 'light' === theme.mode ? theme.palette.grey[ 200 ] : theme.palette.grey[ 600 ] ) : theme.palette[ color ].main;
-	const foreground = !isChecked ? theme.palette.grey[ 500 ] : theme.palette[ color ].main;
+const SwitchRoot = styled( 'span', { name: 'Switch', slot: 'Root' } )<SwitchStyled>( ( { ownerState, theme } ) => {
+	const { size, color, checked, isFocused } = ownerState;
+	const background = !checked ? ( 'light' === theme.mode ? theme.palette.grey[ 200 ] : theme.palette.grey[ 600 ] ) : theme.palette[ color ].main;
+	const foreground = !checked ? theme.palette.grey[ 500 ] : theme.palette[ color ].main;
 	const focusedShadowColor = theme.palette[ color ].main;
+
 	return {
+		display: 'inline-block',
+		cursor: 'pointer',
+		position: 'relative',
+		transition: 'all 0.3s',
+		boxSizing: 'border-box',
+		userSelect: 'none',
 		background: background,
 		color: foreground,
 		width: 44,
@@ -84,13 +47,15 @@ const SwitchRoot = styled( 'span', { name: 'Switch', slot: 'Root' } )<StyledSwit
 			borderRadius: 32,
 			lineHeight: '28px',
 		} ),
-
 		...( isFocused && {
 			boxShadow: `0 0 0px 2px ${ theme.palette.background.default }, 0 0 0px 4px ${ focusedShadowColor }`
+		} ),
+		...( ownerState.disabled && {
+			opacity: theme.palette.action.disabledOpacity,
+			cursor: 'not-allowed'
 		} )
-	};
-} }
-`;
+	}
+} );
 const SwitchField = styled( 'input', { name: 'Switch', slot: 'Field' } )`
 	position: absolute !important;
 	opacity: 0 !important;
@@ -103,7 +68,7 @@ const SwitchField = styled( 'input', { name: 'Switch', slot: 'Field' } )`
 	cursor: inherit !important;
 	z-index: 1 !important;
 `;
-const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )( ( { ownerState }: StyledSwitchProps ) => ( {
+const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )<SwitchStyled>( ( { ownerState } ) => ( {
 	background: '#fff',
 	borderRadius: '50%',
 	position: 'absolute',
@@ -116,25 +81,25 @@ const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )( ( { own
 	width: 20,
 	height: 20,
 	top: 0,
-	left: !ownerState.isChecked ? 0 : 20,
+	left: !ownerState.checked ? 0 : 20,
 	boxShadow: '0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)',
 	...( ownerState.size === 'sm' && {
 		width: 16,
 		height: 16,
-		left: !ownerState.isChecked ? 0 : 16,
+		left: !ownerState.checked ? 0 : 16,
 		fontSize: '8px',
 	} ),
 	...( ownerState.size === 'lg' && {
 		width: 24,
 		height: 24,
-		left: !ownerState.isChecked ? 0 : 24,
+		left: !ownerState.checked ? 0 : 24,
 		fontSize: '12px',
 	} ),
 	...( ownerState.size === 'xl' && {
 		width: 28,
 		height: 28,
 		top: 0,
-		left: !ownerState.isChecked ? 0 : 28,
+		left: !ownerState.checked ? 0 : 28,
 		fontSize: '14px',
 	} ),
 	'& > svg': {
@@ -149,6 +114,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		type = 'checkbox',
 		color = 'primary',
 		checked: checkedProp,
+		disabled = false,
 		onChange = noop,
 		className,
 		name,
@@ -163,6 +129,11 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+		if ( disabled ) {
+			event.preventDefault();
+			return;
+		}
+
 		if ( event.nativeEvent.defaultPrevented ) {
 			return;
 		}
@@ -184,7 +155,8 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 	};
 
 	const ownerState: SwitchOwnerState = {
-		isChecked,
+		checked: isChecked,
+		disabled,
 		isFocused,
 		color,
 		size
@@ -210,6 +182,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 				tabIndex={ 0 }
 				aria-checked={ isChecked }
 				name={ 'checkbox' === type ? name : '' }
+				disabled={ disabled }
 			/>
 			{ 'hidden' === type && <input type="hidden" value={ isChecked ? 'yes' : 'no' } name={ name }/> }
 			<SwitchThumb ownerState={ ownerState }>

@@ -26,6 +26,7 @@
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
+		"@storybook/react": "7.0.9",
 		"@types/react": "^18.0.17",
 		"@types/react-dom": "^18.0.6",
 		"@types/wordpress__components": "^23.0.1",

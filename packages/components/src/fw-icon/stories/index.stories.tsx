@@ -1,10 +1,10 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import FwIcon from '../';
 import Container from "../../container";
 
-const meta: ComponentMeta<typeof FwIcon> = {
+const meta: Meta<typeof FwIcon> = {
 	title: 'Components/FwIcon',
 	component: FwIcon,
 	argTypes: {
@@ -21,13 +21,13 @@ const meta: ComponentMeta<typeof FwIcon> = {
 
 export default meta;
 
-const Template: ComponentStory<typeof FwIcon> = ( { ...args } ) => {
-	return <FwIcon { ...args } />;
-};
+type Story = StoryObj<typeof FwIcon>
 
-export const Default: ComponentStory<typeof FwIcon> = Template.bind( {} );
-Default.args = {
-	icon: 'calendar',
+export const Default: Story = {
+	args: {
+		icon: 'calendar',
+	},
+	render: ( args ) => <FwIcon { ...args } />
 };
 
 const CONTAINER_STYLE = {
@@ -42,8 +42,11 @@ const SIZES = [
 	{ size: 'xl', label: 'Extra large', description: '40px' },
 ]
 
-const SizesTemplate: ComponentStory<typeof FwIcon> = ( { ...args } ) => {
-	return <Container style={ CONTAINER_STYLE }>
+export const Sizes: Story = {
+	args: {
+		icon: 'calendar',
+	},
+	render: ( { ...args } ) => <Container style={ CONTAINER_STYLE }>
 		{ SIZES.map( _ => (
 				<div key={ _.size } style={ { textAlign: "center", padding: "10px 15px", display: 'inline-block' } }>
 					<FwIcon { ...args } fontSize={ _.size }/>
@@ -52,10 +55,5 @@ const SizesTemplate: ComponentStory<typeof FwIcon> = ( { ...args } ) => {
 				</div>
 			)
 		) }
-	</Container>;
-};
-
-export const Sizes: ComponentStory<typeof FwIcon> = SizesTemplate.bind( {} );
-Sizes.args = {
-	icon: 'calendar',
+	</Container>
 };

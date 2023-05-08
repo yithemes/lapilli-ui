@@ -1,12 +1,12 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Switch from '../Switch';
 import type { FieldSize } from "@yith/styles";
 import Container from "../../container";
 import FormControl from "../../form-control";
 
-const meta: ComponentMeta<typeof Switch> = {
+const meta: Meta<typeof Switch> = {
 	title: 'Components/Switch',
 	component: Switch,
 	argTypes: {
@@ -18,39 +18,28 @@ const meta: ComponentMeta<typeof Switch> = {
 
 export default meta;
 
-const Template: ComponentStory<typeof Switch> = ( args ) => {
-	return <Switch { ...args } />;
+type Story = StoryObj<typeof Switch>;
+
+export const Default: Story = {
+	args: {
+		type: 'checkbox',
+		size: 'md'
+	},
+	render: ( args ) => <Switch { ...args } />
 };
 
-const LabelledTemplate: ComponentStory<typeof Switch> = ( args ) => {
-	return <label><Switch { ...args } /> Is enabled?</label>;
+export const Labelled: Story = {
+	args: Default.args,
+	render: ( args ) => <label><Switch { ...args } /> Is enabled?</label>
 };
 
-export const Default: ComponentStory<typeof Switch> = Template.bind( {} );
-
-Default.args = {
-	type: 'checkbox',
-	size: 'md'
-}
-
-export const WithLabel: ComponentStory<typeof Switch> = LabelledTemplate.bind( {} );
-
-WithLabel.args = {
-	type: 'checkbox',
-	size: 'md'
-}
-
-const ControlledTemplate: ComponentStory<typeof Switch> = ( args ) => {
-	const [ checked, setChecked ] = React.useState( false );
-	return <Switch { ...args } checked={ checked } onChange={ ( _, value ) => setChecked( value ) }/>;
+export const Controlled: Story = {
+	args: Default.args,
+	render: ( args ) => {
+		const [ checked, setChecked ] = React.useState( false );
+		return <Switch { ...args } checked={ checked } onChange={ ( _, value ) => setChecked( value ) }/>;
+	}
 };
-
-export const Controlled: ComponentStory<typeof Switch> = ControlledTemplate.bind( {} );
-
-Controlled.args = {
-	type: 'checkbox',
-	size: 'md'
-}
 
 const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'sm', label: 'Small' },
@@ -60,24 +49,19 @@ const SIZES: { size: FieldSize, label: string }[] = [
 ]
 
 const CONTAINER_STYLE = {
-	fontSize  : '14px',
+	fontSize: '14px',
 	lineHeight: 1.5
 }
 
-const SizesTemplate: ComponentStory<typeof Switch> = ( { ...args } ) => {
-	return <Container style={CONTAINER_STYLE}>
+export const Sizes: Story = {
+	args: Default.args,
+	render: ( args ) => <Container style={ CONTAINER_STYLE }>
 		{ SIZES.map( _ => {
-				const fieldId = `input-size-${_.size}`;
-				return <FormControl key={ _.size } label={ _.label } htmlFor={fieldId}>
-					<Switch { ...args } size={ _.size } id={fieldId}/>
+				const fieldId = `input-size-${ _.size }`;
+				return <FormControl key={ _.size } label={ _.label } htmlFor={ fieldId }>
+					<Switch { ...args } size={ _.size } id={ fieldId }/>
 				</FormControl>
 			}
 		) }
-	</Container>;
+	</Container>
 };
-
-export const Sizes: ComponentStory<typeof Switch> = SizesTemplate.bind( {} );
-Sizes.args = {
-	type: 'checkbox',
-	size: 'md'
-}

@@ -1,5 +1,5 @@
 import type React from "react";
-import type { ResponsiveStyleValue } from "@yith/styles";
+import type { ResponsiveStyleValue, SxProps } from "@yith/styles";
 
 type GridOwnProps = {
 	/**
@@ -16,6 +16,11 @@ type GridOwnProps = {
 	 * The gap between columns and rows
 	 */
 	gap?: ResponsiveStyleValue<number | string>
+
+	/**
+	 * The sx prop lets you style elements inline, using values from your theme.
+	 */
+	sx?: SxProps
 }
 
 type GridPropsWithRef = Omit<React.ComponentProps<'div'>, keyof GridOwnProps> & GridOwnProps
