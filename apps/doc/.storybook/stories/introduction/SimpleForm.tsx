@@ -92,7 +92,7 @@ function SimpleForm() {
 	const featuredToRef = useRef<DatePickerRef>( null );
 	const [ modalOpened, setModalOpened ] = useState( false );
 
-	return <Container maxWidth="md" style={ CONTAINER_STYLE }>
+	return <Container maxWidth="md" style={ CONTAINER_STYLE } className="themed-story-wrapper">
 		<Stack spacing={ 2 } direction="column">
 			<Stack direction="row" spacing={ 1.5 } align="center">
 				<h1 style={ { flex: 1, overflow: 'hidden', textOverflow: 'ellipsis', opacity: !!name ? 1 : .5 } }>{ !!name ? name : 'Untitled' }</h1>
