@@ -2,6 +2,7 @@ import React from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Stack from "..";
+import Paper from "../../paper";
 
 const createResponsiveRadioControl = ( ...options: string[] ) => {
 	return {
@@ -25,14 +26,7 @@ const meta: ComponentMeta<typeof Stack> = {
 export default meta;
 
 const Item = ( { children }: { children: React.ReactNode } ) => {
-	return <div style={ {
-		border: '1px solid #cbd5e1',
-		borderRadius: '4px',
-		padding: '8px 16px',
-		textAlign: 'center'
-	} }>
-		{ children }
-	</div>
+	return <Paper sx={ { padding: '16px 24px' } } elevation={ 3 } variant="outlined">{ children }</Paper>
 }
 
 const Template: ComponentStory<typeof Stack> = ( args ) => {

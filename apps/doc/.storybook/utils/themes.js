@@ -1,7 +1,7 @@
 import { defaultThemeOptions } from '@yith/styles';
 
 export const themes = {
-	'Light'  : defaultThemeOptions,
+	'Default'  : defaultThemeOptions,
 	'Purple' : {
 		palette    : {
 			primary  : {

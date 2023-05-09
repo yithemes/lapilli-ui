@@ -3,6 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Grid from "..";
 import GridItem from "../grid-item";
+import Paper from "../../paper";
 
 const meta: Meta<typeof Grid> = {
 	title: 'Components/Grid',
@@ -13,27 +14,25 @@ export default meta;
 type Story = StoryObj<typeof Grid>
 
 const Item = ( { color, children }: { color?: React.CSSProperties['color'], children: React.ReactNode } ) => {
-	let textColor = 'rgba(0,0,0,0.6)';
-	if ( typeof color === 'undefined' ) {
-		color = '#cbd5e1';
-		textColor = '#323b43';
-	}
+	const isColored = typeof color !== 'undefined';
 
-	return <div style={ {
-		border: `1px solid ${ color }`,
-		background: `${ color }33`,
-		borderRadius: '4px',
-		color: textColor,
-		fontWeight: 500,
-		padding: '8px',
-		display: 'flex',
-		height: '100%',
-		alignItems: "center",
-		justifyContent: 'center',
-		boxSizing: "border-box"
-	} }>
-		{ children }
-	</div>
+	return <Paper
+		sx={ {
+			padding: '16px 24px',
+			height: '100%',
+			display: 'flex',
+			alignItems: "center",
+			justifyContent: 'center',
+			boxSizing: 'border-box',
+			...( isColored && {
+				borderColor: color,
+				background: `${ color }11`,
+				boxShadow: `1px 2px 3px 0 ${ color }33`
+			} )
+		} }
+		elevation={ isColored ? 0 : 3 }
+		variant="outlined"
+	>{ children }</Paper>
 }
 
 export const Default: Story = {
@@ -42,24 +41,7 @@ export const Default: Story = {
 		gap: 1
 	},
 	render: ( args ) => <Grid { ...args }>
-		<GridItem>
-			<Item>One</Item>
-		</GridItem>
-		<GridItem>
-			<Item>Two</Item>
-		</GridItem>
-		<GridItem>
-			<Item>Three</Item>
-		</GridItem>
-		<GridItem>
-			<Item>Four</Item>
-		</GridItem>
-		<GridItem>
-			<Item>Five</Item>
-		</GridItem>
-		<GridItem>
-			<Item>Six</Item>
-		</GridItem>
+		{ [ 'One', 'Two', 'Three', 'Four', 'Five', 'Six' ].map( ( item ) => <GridItem key={ item }><Item>{ item }</Item></GridItem> ) }
 	</Grid>
 }
 

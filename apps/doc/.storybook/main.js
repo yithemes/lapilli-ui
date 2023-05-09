@@ -19,8 +19,7 @@ module.exports = {
 				configureJSX: true
 			}
 		},
-		'@storybook/addon-mdx-gfm',
-		"@storybook/addon-styling"
+		'@storybook/addon-mdx-gfm'
 	],
 	framework : {
 		name   : "@storybook/react-webpack5",

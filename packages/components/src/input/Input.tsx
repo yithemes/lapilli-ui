@@ -1,74 +1,8 @@
-import { FieldSize, styled, SxProps } from '@yith/styles';
+import { styled } from '@yith/styles';
 import { noop } from 'lodash';
 import React from 'react';
 import { forwardRef, useState } from 'react';
-
-type InputFieldVariant = 'outlined' | 'ghost';
-
-type TextFieldProps = Omit<React.ComponentProps<'input'>, 'onChange' | 'value' | 'size'> & {
-	/**
-	 * Type of the input element to render.
-	 */
-	type?: 'text' | 'email' | 'password';
-	/**
-	 * The value of the field
-	 */
-	value?: string;
-	/**
-	 * Specified the input style.
-	 */
-	variant?: InputFieldVariant;
-	/**
-	 * Callback fired when the input value changes.
-	 */
-	onChange?: ( event: React.ChangeEvent<HTMLInputElement>, value: string ) => void;
-	/**
-	 * If provided, displays the adornment at the start position inside the input field.
-	 */
-	startAdornment?: React.ReactNode;
-	/**
-	 * If provided, displays the adornment at the end position inside the input field.
-	 */
-	endAdornment?: React.ReactNode;
-	/**
-	 * Set to `true` to show a mini field (useful for small number fields).
-	 */
-	isMini?: never;
-	/**
-	 * Set to `true` to make the input field get the full width.
-	 */
-	fullWidth?: boolean;
-	/**
-	 * The field size.
-	 */
-	size?: FieldSize;
-	/**
-	 * Sx theme props.
-	 */
-	sx?: SxProps;
-};
-
-
-type NumberFieldProps = Omit<TextFieldProps, 'type' | 'isMini' | 'value'> & {
-	type: 'number'
-	isMini?: boolean
-	value?: string | number
-};
-
-type InputOwnPropsWithRef = TextFieldProps | NumberFieldProps;
-type InputOwnProps = Omit<InputOwnPropsWithRef, 'ref'>;
-
-type InputOwnerState = {
-	variant: InputFieldVariant;
-	size: FieldSize;
-	isFocused: boolean;
-	isMini: boolean;
-	fullWidth: boolean;
-	hasStartAdornment: boolean;
-	hasEndAdornment: boolean;
-};
-
-type StyledInputProps = { ownerState: InputOwnerState };
+import type { InputOwnerState, InputProps, InputStyled } from "./types";
 
 const splitPadding = ( padding: React.CSSProperties[ 'padding' ] ) => {
 	const sPadding = padding?.toString().split( ' ' );
@@ -113,7 +47,7 @@ const RESET_STYLES: React.CSSProperties = {
 const InputRoot = styled( 'div', {
 	name: 'Input',
 	slot: 'Root',
-} )<StyledInputProps>( ( { theme, ownerState } ) => {
+} )<InputStyled>( ( { theme, ownerState } ) => {
 	const { isMini, hasStartAdornment, hasEndAdornment, fullWidth } = ownerState;
 	const style: React.CSSProperties = {
 		borderRadius: theme.fields.borderRadius,
@@ -145,7 +79,7 @@ const InputRoot = styled( 'div', {
 const InputField = styled( 'input', {
 	name: 'Input',
 	slot: 'Field',
-} )<StyledInputProps>( ( { theme, ownerState } ) => {
+} )<InputStyled>( ( { theme, ownerState } ) => {
 	const { isMini, hasStartAdornment, hasEndAdornment, fullWidth } = ownerState;
 	const padding = splitPadding( theme.fields.padding[ ownerState.size ] );
 
@@ -167,11 +101,14 @@ const InputField = styled( 'input', {
 		width: ( !isMini ? ( fullWidth ? '100%' : 'auto' ) : minWidth ) + ' !important',
 		'&::placeholder': {
 			color: theme.fields.placeholderColor
-		}
+		},
+		...( ownerState.disabled && {
+			opacity: theme.palette.action.disabledOpacity,
+		} )
 	};
 } );
 
-const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<StyledInputProps>`
+const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<InputStyled>`
 	box-sizing: border-box;
 	border-radius: inherit;
 	inset: 0px;
@@ -181,30 +118,30 @@ const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<Style
 	position: absolute;
 
 	${ ( { theme, ownerState } ) => {
-	const { isFocused, variant } = ownerState;
+		const { isFocused, variant } = ownerState;
 
-	const style: React.CSSProperties = {
-		background: theme.fields.background,
-		borderColor: theme.fields.borderColor,
-		fontSize: theme.fields.fontSize,
-		zIndex: -1
-	};
-
-	const variantStyles = {
-		outlined: {
-			borderStyle: 'solid',
-			borderWidth: '1px',
+		const style: React.CSSProperties = {
+			background: theme.fields.background,
 			borderColor: theme.fields.borderColor,
-			...( isFocused && {
-				borderColor: theme.fields.focusedBorderColor,
-				boxShadow: theme.fields.focusedBoxShadow,
-			} ),
-		},
-		ghost: {},
-	}[ variant ];
+			fontSize: theme.fields.fontSize,
+			zIndex: -1
+		};
 
-	return { ...style, ...variantStyles };
-} }
+		const variantStyles = {
+			outlined: {
+				borderStyle: 'solid',
+				borderWidth: '1px',
+				borderColor: theme.fields.borderColor,
+				...( isFocused && {
+					borderColor: theme.fields.focusedBorderColor,
+					boxShadow: theme.fields.focusedBoxShadow,
+				} ),
+			},
+			ghost: {},
+		}[ variant ];
+
+		return { ...style, ...variantStyles };
+	} }
 `;
 
 type InputAdornmentOwnerState = {
@@ -215,18 +152,18 @@ const InputAdornment = styled( 'div', { name: 'Input', slot: 'Adornment' } )<{ o
 	display: flex;
 	align-items: center;
 	height: 0.01em;
-	white-space: no-wrap;
+	white-space: nowrap;
 	${ ( { theme, ownerState } ) => {
-	const { position } = ownerState;
+		const { position } = ownerState;
 
-	return {
-		[ `margin${ 'start' === position ? 'Right' : 'Left' }` ]: '14px',
-		color: theme.palette.action.active,
-	};
-} }
+		return {
+			[ `margin${ 'start' === position ? 'Right' : 'Left' }` ]: '14px',
+			color: theme.palette.action.active,
+		};
+	} }
 `;
 
-const Input = forwardRef<HTMLInputElement, InputOwnProps>( function Input(
+const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 	{
 		type = 'text',
 		value,
@@ -238,6 +175,7 @@ const Input = forwardRef<HTMLInputElement, InputOwnProps>( function Input(
 		endAdornment,
 		isMini = false,
 		fullWidth = false,
+		disabled = false,
 		size = 'md',
 		...other
 	},
@@ -246,7 +184,7 @@ const Input = forwardRef<HTMLInputElement, InputOwnProps>( function Input(
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
-		if ( event.nativeEvent.defaultPrevented ) {
+		if ( event.nativeEvent.defaultPrevented || disabled ) {
 			return;
 		}
 		const newValue = event.target.value ?? '';
@@ -259,6 +197,7 @@ const Input = forwardRef<HTMLInputElement, InputOwnProps>( function Input(
 		isFocused,
 		isMini,
 		fullWidth,
+		disabled,
 		hasStartAdornment: !!startAdornment,
 		hasEndAdornment: !!endAdornment,
 	};
@@ -281,6 +220,7 @@ const Input = forwardRef<HTMLInputElement, InputOwnProps>( function Input(
 				} }
 				autoComplete="off"
 				ownerState={ ownerState }
+				disabled={ disabled }
 				{ ...other }
 			/>
 			{ !!endAdornment && <InputAdornment ownerState={ { position: 'end' } }>{ endAdornment }</InputAdornment> }
