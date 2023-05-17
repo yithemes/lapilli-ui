@@ -1,23 +1,25 @@
-import type { ModalOwnerState, ModalProps, ModalStyled } from "./types";
 import React, { forwardRef } from "react";
+import classNames from "classnames";
+import { XMarkIcon } from "@heroicons/react/20/solid";
+
+import { Breakpoint, generateComponentClasses, keyframes, styled } from "@yith/styles";
+
+import type { ModalOwnerState, ModalProps, ModalStyled } from "./types";
 import Portal from "../portal";
 import Backdrop from "../backdrop";
-import { Breakpoint, generateComponentClasses, keyframes, styled } from "@yith/styles";
-import useSingleModal from "../utils/useSingleModal";
 import IconButton from "../icon-button";
 import Paper from "../paper";
-import { XMarkIcon } from "@heroicons/react/20/solid";
-import classNames from "classnames";
+import useMainView from "../utils/useMainView";
 
 const appearFromBottomAnimation = keyframes`
-from {
-	opacity: 0;
-	transform: translateY(30%);  
-}
-to {
-	opacity: 1;
-	transform: translateY(0);
-}
+	from {
+		opacity: 0;
+		transform: translateY(30%);
+	}
+	to {
+		opacity: 1;
+		transform: translateY(0);
+	}
 `;
 
 const ModalRoot = styled( 'div', { name: 'Modal', slot: 'Root' } )(
@@ -90,7 +92,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 	ref
 ) {
 
-	useSingleModal(
+	useMainView(
 		open,
 		{
 			onEscapeKeyDown: ( event ) => onClose?.( event, 'escapeKeyDown' )

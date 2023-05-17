@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Ref, useState } from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Modal, { ModalActions, ModalContent, ModalTitle } from "../";
@@ -9,6 +9,7 @@ import Select from "../../select";
 import Stack from "../../stack";
 import DatePicker from "../../date-picker";
 import Input from "../../input";
+import Dropdown from "../../dropdown";
 
 const meta: ComponentMeta<typeof Modal> = {
 	title: 'Components/Modal',
@@ -46,7 +47,7 @@ const Template: ComponentStory<typeof Modal> = ( args ) => {
 			</ModalContent>
 
 			<ModalActions>
-				<Button variant="outlined"  onClick={ () => setOpen( false ) }>Close</Button>
+				<Button variant="outlined" onClick={ () => setOpen( false ) }>Close</Button>
 			</ModalActions>
 		</Modal>
 	</>
@@ -67,7 +68,7 @@ const ConfirmTemplate: ComponentStory<typeof Modal> = ( args ) => {
 			</ModalContent>
 
 			<ModalActions>
-				<Button variant="outlined"  onClick={ () => setOpen( false ) }>Cancel</Button>
+				<Button variant="outlined" onClick={ () => setOpen( false ) }>Cancel</Button>
 				<Button onClick={ () => setOpen( false ) }>Confirm</Button>
 			</ModalActions>
 		</Modal>
@@ -79,7 +80,7 @@ const DeleteTemplate: ComponentStory<typeof Modal> = ( args ) => {
 	const [ open, setOpen ] = useState( false );
 	return <>
 		<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-		<Modal { ...args } open={ open } onClose={ () => setOpen( false ) }  maxWidth="xs">
+		<Modal { ...args } open={ open } onClose={ () => setOpen( false ) } maxWidth="xs">
 			<ModalTitle>Confirm Delete</ModalTitle>
 
 			<ModalContent>
@@ -148,6 +149,35 @@ const WithFieldsTemplate: ComponentStory<typeof Modal> = ( args ) => {
 						<Stack direction="column" spacing={ 1 }>
 							<label>Choose a date</label>
 							<DatePicker/>
+						</Stack>
+						<Stack direction="column" spacing={ 1 }>
+							<label>Dropdown with other fields</label>
+							<Dropdown
+								renderToggle={ ( { isOpen, onToggle, ref: toggleRef } ) => <div onClick={ onToggle } ref={ toggleRef as Ref<HTMLDivElement> }>{ isOpen ? 'Close' : 'Open' }</div> }
+								renderContent={ () => (
+									<Stack direction="column" spacing={ 3 }>
+										<Stack direction="column" spacing={ 1 }>
+											<label>Choose a name</label>
+											<Input fullWidth/>
+										</Stack>
+										<Stack direction="column" spacing={ 1 }>
+											<label>Choose a number</label>
+											<Select options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
+										</Stack>
+										<Stack direction="column" spacing={ 1 }>
+											<label>Choose a date</label>
+											<DatePicker/>
+										</Stack>
+									</Stack>
+								) }
+								popoverProps={ {
+									position: 'bottom left',
+									forceMinWidth: true,
+									role: 'listbox',
+									tabIndex: -1,
+								} }
+								handleEscapeKeyDownOnDocument
+							/>
 						</Stack>
 					</Stack>
 				</Container>

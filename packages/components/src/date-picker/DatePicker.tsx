@@ -1,4 +1,4 @@
-import React, { forwardRef, useRef, Ref, useCallback, useImperativeHandle } from "react";
+import React, { forwardRef, useRef, useCallback, useImperativeHandle } from "react";
 import { styled, generateComponentClasses } from "@yith/styles";
 import { formatDateSameTimezone } from "@yith/date";
 import type { DatePickerProps, DatePickerRef } from "./types";
@@ -169,9 +169,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 				<Dropdown
 					ref={ toggleRef }
 					renderToggle={
-						( { onOpen, onToggle, isOpen, ref: currentToggleRef } ) => {
+						( { onOpen, onToggle, isOpen } ) => {
 							return <Toggle
-								ref={ currentToggleRef as Ref<HTMLDivElement> }
 								onClick={ onToggle }
 								onKeyDown={
 									( event: React.KeyboardEvent ) => {

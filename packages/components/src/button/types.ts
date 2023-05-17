@@ -1,4 +1,4 @@
-import type { FieldSize, PaletteClass } from "@yith/styles";
+import type { FieldSize, PaletteClass, SxProps } from "@yith/styles";
 import type React from "react";
 
 type ButtonOwnProps = {
@@ -34,6 +34,10 @@ type ButtonOwnProps = {
 	 * If provided, it renders an icon element inside the button on the right.
 	 */
 	endIcon?: React.ReactNode
+	/**
+	 * Sx theme props.
+	 */
+	sx?: SxProps
 };
 
 type ButtonPropsWithRef = Omit<React.ComponentProps<'button'>, keyof ButtonOwnProps> & ButtonOwnProps

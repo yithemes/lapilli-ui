@@ -1,38 +1,39 @@
 import { useCallback, useEffect, useRef } from "react";
 
-const modals = new Set();
+const mainViews = new Set();
 let lastIndex = 0;
 
 type SingleModalOptions = {
 	onEscapeKeyDown?: ( event: KeyboardEvent ) => void
 }
 
-export default function useSingleModal( isEnabled = true, options: SingleModalOptions = {} ) {
+export default function useMainView( enabled = true, options: SingleModalOptions = {} ) {
 	const indexRef = useRef( 0 );
 
 	useEffect( () => {
-		if ( isEnabled ) {
+		if ( enabled ) {
 			lastIndex += 1;
 
 			indexRef.current = lastIndex;
-			modals.add( indexRef.current );
+			mainViews.add( indexRef.current );
 
 		} else {
-			modals.delete( indexRef.current );
+			mainViews.delete( indexRef.current );
 		}
+
 		return () => {
-			if ( isEnabled ) {
-				modals.delete( indexRef.current );
+			if ( enabled ) {
+				mainViews.delete( indexRef.current );
 			}
 		};
 
-	}, [ isEnabled ] );
+	}, [ enabled ] );
 
-	const getTopModal = useCallback( () => modals.size > 0 ? [ ...modals ].at( -1 ) : -1, [ isEnabled, modals ] );
-	const isTopModal = useCallback( () => getTopModal() === indexRef.current, [ getTopModal ] );
+	const getMainView = useCallback( () => mainViews.size > 0 ? [ ...mainViews ].at( -1 ) : -1, [ enabled, mainViews ] );
+	const isMainView = useCallback( () => getMainView() === indexRef.current, [ getMainView ] );
 
 	const handleEscapeKeyDown = ( event: KeyboardEvent ) => {
-		if ( isTopModal() && [ 'Esc', 'Escape' ].includes( event.key ) ) {
+		if ( options?.onEscapeKeyDown && isMainView() && [ 'Esc', 'Escape' ].includes( event.key ) ) {
 			options?.onEscapeKeyDown?.( event );
 			event.stopPropagation();
 		}
@@ -44,6 +45,4 @@ export default function useSingleModal( isEnabled = true, options: SingleModalOp
 			document.removeEventListener( 'keydown', handleEscapeKeyDown );
 		}
 	}, [] );
-
-	return { isTopModal };
 }

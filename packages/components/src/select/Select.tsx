@@ -1,4 +1,4 @@
-import React, { forwardRef, Fragment, MutableRefObject, Ref, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, Fragment, MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { noop } from 'lodash';
 import { alpha, FieldSize, styled, Theme } from '@yith/styles';
@@ -353,7 +353,6 @@ const SelectToggleExpand = styled( 'span', { name: 'Select', slot: 'ToggleExpand
 const SelectOptions = styled( 'div', { name: 'Select', slot: 'Options' } )( ( { theme }: { theme: Theme } ) => ( {
 	maxHeight: '200px',
 	overflowY: 'auto',
-	padding: `${ LIST_SPACING } 0`,
 	fontSize: theme.fields.fontSize,
 } ) );
 
@@ -716,10 +715,9 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 				<input key={ _ } type="hidden" name={ name } value={ _ }/>
 			) ) }
 			<Dropdown
-				renderToggle={ ( { isOpen, onToggle, onClose, ref: toggleRef } ) => {
+				renderToggle={ ( { isOpen, onToggle, onClose } ) => {
 					return (
 						<Toggle
-							ref={ toggleRef as Ref<HTMLDivElement> }
 							label={ toggleLabel }
 							placeholder={ placeholder }
 							onToggle={ onToggle }

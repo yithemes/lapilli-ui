@@ -1,31 +1,36 @@
-import { styled, SxProps, Theme } from '@yith/styles';
+import { styled } from '@yith/styles';
 import { noop } from 'lodash';
 import React from 'react';
 import { forwardRef, Ref, useEffect, useRef, useState } from 'react';
 import Popover, { PopoverProps } from '../popover';
 import { useMergedRefs } from "../utils";
+import useMainView from "../utils/useMainView";
 
 type DropdownProps = {
 	/**
 	 * Callback triggered when the dropdown is opened.
 	 */
-	onOpen?: () => void;
+	onOpen?: () => void
 	/**
 	 * Callback triggered when the dropdown is closed.
 	 */
-	onClose?: () => void;
+	onClose?: () => void
 	/**
 	 * Callback triggered to render the toggle element.
 	 */
-	renderToggle: ( args: DropdownCallbackArgs ) => React.ReactNode;
+	renderToggle: ( args: DropdownCallbackArgs ) => React.ReactElement
 	/**
 	 * Callback triggered to render the content.
 	 */
-	renderContent: ( args: DropdownCallbackArgs ) => React.ReactNode;
+	renderContent: ( args: DropdownCallbackArgs ) => React.ReactElement
 	/**
 	 * Props to be passed to the Popover component.
 	 */
-	popoverProps?: PopoverProps & { sx?: SxProps };
+	popoverProps?: PopoverProps
+	/**
+	 * If `true`, hitting the escape key will not close the dropdown.
+	 */
+	disableEscapeKeyDown?: boolean
 };
 
 type DropdownCallbackArgs = {
@@ -36,16 +41,12 @@ type DropdownCallbackArgs = {
 	ref: Ref<HTMLElement>;
 };
 
-const DropdownContent = styled( 'div', { name: 'Dropdown', slot: 'Popover' } )`
-	${ ( { theme }: { theme: Theme } ) => {
-	return {
-		borderRadius: theme.shape.borderRadius,
-		background: theme.palette.background.dropdown,
-		boxShadow: '0 2px 8px 0 rgba(135, 162, 164, .48)',
-		overflow: 'hidden'
-	};
-} }
-`;
+const DropdownContent = styled( 'div', { name: 'Dropdown', slot: 'Content' } )( ( { theme } ) => ( {
+	borderRadius: theme.shape.borderRadius,
+	background: theme.palette.background.dropdown,
+	boxShadow: '0 2px 8px 0 rgba(135, 162, 164, .48)',
+	overflow: 'hidden'
+} ) );
 
 const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	{
@@ -53,7 +54,8 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 		onClose = noop,
 		renderToggle,
 		renderContent,
-		popoverProps
+		popoverProps,
+		disableEscapeKeyDown = false,
 	},
 	forwardedRef
 ) {
@@ -86,18 +88,28 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 
 	const args: DropdownCallbackArgs = { isOpen, onToggle: toggle, onClose: close, onOpen: open, ref: toggleRef };
 
+	const handleKeyDown = ( event: React.KeyboardEvent<HTMLDivElement> | KeyboardEvent ) => {
+		if ( !disableEscapeKeyDown && [ 'Esc', 'Escape' ].includes( event.key ) ) {
+			event.stopPropagation();
+			close();
+		}
+	};
+
+	useMainView( isOpen, { onEscapeKeyDown: handleKeyDown } );
+
 	return (
 		<>
-			{ renderToggle( args ) }
+			{ React.cloneElement( renderToggle( args ), { ref: toggleRef } ) }
 			{ isOpen && (
 				<Popover
 					{ ...popoverProps }
 					forceInView='horizontally'
-					verticalMargin={ 10 }
+					verticalMargin={ 8 }
 					anchorRef={ localToggleRef.current }
-					onClose={ close }
+					onClickOutside={ close }
 					role='dialog'
 					aria-modal={ true }
+					onKeyDown={ handleKeyDown }
 				>
 					<DropdownContent>{ renderContent( args ) }</DropdownContent>
 				</Popover>

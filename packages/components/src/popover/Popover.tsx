@@ -1,7 +1,6 @@
 import { createPortal } from 'react-dom';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { noop } from 'lodash';
-import { styled } from '@yith/styles';
+import { styled, SxProps } from '@yith/styles';
 
 export type PopoverProps = {
 	/**
@@ -17,9 +16,9 @@ export type PopoverProps = {
 	 */
 	verticalMargin?: number;
 	/**
-	 * Callback fired when the component requests to be closed.
+	 * Callback fired when clicking outside the popover.
 	 */
-	onClose?: ( event: MouseEvent | KeyboardEvent, reason: string ) => void;
+	onClickOutside?: ( event: MouseEvent | React.KeyboardEvent<HTMLDivElement> ) => void;
 	/**
 	 * If `true`, the popover will have the minimum width set to the anchor element one.
 	 * You can set a specific min-width value as a number.
@@ -35,6 +34,10 @@ export type PopoverProps = {
 	 * Use `false` to disable forcing.
 	 */
 	forceInView?: 'horizontally' | 'vertically' | boolean;
+	/**
+	 * Sx theme props.
+	 */
+	sx?: SxProps
 } & React.ComponentProps<'div'>;
 
 type XPos = 'left' | 'right';
@@ -60,11 +63,11 @@ type ComputedPosition = {
 	( { top: number; bottom?: never } | { bottom: number; top?: never } );
 
 const PopoverRoot = styled( 'div', { name: 'Popover', slot: 'Root' } )`
-	position: fixed;
-	z-index: 9999999;
-	display: flex;
-	flex-direction: column;
-	height: fit-content;
+    position: fixed;
+    z-index: 9999999;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
 `;
 
 const getAnchorRect = ( anchorRef: HTMLElement ) => {
@@ -214,9 +217,6 @@ function setAttribute( element: HTMLElement, prop: string, value: string ) {
 	}
 }
 
-// Store popovers, to allow closing them one by one through the ESC key, from the last opened to the first one!
-const popovers: HTMLElement[] = [];
-
 function Popover(
 	{
 		anchorRef,
@@ -224,7 +224,7 @@ function Popover(
 		className,
 		children,
 		verticalMargin = 0,
-		onClose = noop,
+		onClickOutside,
 		forceMinWidth = false,
 		disablePortal = false,
 		forceInView = true,
@@ -238,24 +238,6 @@ function Popover(
 	const handleSynthetic = () => {
 		syntheticEventRef.current = true;
 	};
-
-	useEffect( () => {
-		const { current: currentPopover } = containerRef;
-		let currentPopoverIdx = -1;
-		if ( currentPopover ) {
-			const lastPopover = popovers.at( -1 );
-			if ( lastPopover !== currentPopover ) {
-				popovers.push( currentPopover );
-				currentPopoverIdx = popovers.length - 1;
-			}
-		}
-
-		return () => {
-			if ( currentPopoverIdx > -1 ) {
-				popovers.splice( currentPopoverIdx, 1 );
-			}
-		};
-	}, [] );
 
 	useLayoutEffect( () => {
 		if ( !containerRef.current || !anchorRef ) {
@@ -314,15 +296,6 @@ function Popover(
 		};
 	}, [ anchorRef ] );
 
-	const handleKeyDown = ( event: KeyboardEvent ) => {
-		if ( !event.defaultPrevented && [ 'Esc', 'Escape' ].includes( event.key ) ) {
-			const { current: currentPopover } = containerRef;
-			if ( currentPopover && popovers.at( -1 ) === currentPopover ) {
-				onClose( event, 'escapeKeyDown' );
-			}
-		}
-	};
-
 	const handleClickOutside = ( event: MouseEvent ) => {
 		if ( containerRef?.current && event?.target ) {
 			// The container MUST exist.
@@ -333,17 +306,15 @@ function Popover(
 			syntheticEventRef.current = false;
 
 			if ( !isContainerClick && !isAnchorClick && !isInsideReactTree ) {
-				onClose( event, 'outsideClick' );
+				onClickOutside?.( event );
 			}
 		}
 	};
 
 	useEffect( () => {
 		document.addEventListener( 'mousedown', handleClickOutside );
-		document.addEventListener( 'keydown', handleKeyDown );
 		return () => {
 			document.removeEventListener( 'mousedown', handleClickOutside );
-			document.removeEventListener( 'keydown', handleKeyDown );
 			syntheticEventRef.current = false;
 		};
 	} );
