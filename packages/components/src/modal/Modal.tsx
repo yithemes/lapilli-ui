@@ -9,7 +9,7 @@ import Portal from "../portal";
 import Backdrop from "../backdrop";
 import IconButton from "../icon-button";
 import Paper from "../paper";
-import useMainView from "../utils/useMainView";
+import { useMainView } from "../utils";
 
 const appearFromBottomAnimation = keyframes`
 	from {

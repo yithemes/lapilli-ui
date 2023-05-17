@@ -1,73 +1,15 @@
 import { createPortal } from 'react-dom';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { styled, SxProps } from '@yith/styles';
-
-export type PopoverProps = {
-	/**
-	 * An HTML anchor element, used to set the position of the popover.
-	 */
-	anchorRef?: HTMLElement;
-	/**
-	 * The preferred position of the popover.
-	 */
-	position?: Position;
-	/**
-	 * The vertical margin between the anchor element and the popover.
-	 */
-	verticalMargin?: number;
-	/**
-	 * Callback fired when clicking outside the popover.
-	 */
-	onClickOutside?: ( event: MouseEvent | React.KeyboardEvent<HTMLDivElement> ) => void;
-	/**
-	 * If `true`, the popover will have the minimum width set to the anchor element one.
-	 * You can set a specific min-width value as a number.
-	 */
-	forceMinWidth?: boolean | number;
-	/**
-	 * If `true`, the popover won't use the portal.
-	 */
-	disablePortal?: boolean;
-	/**
-	 * If `true`, the popover will be forced to be inside the viewport (by setting max width/height).
-	 * Use `horizontally` or `vertically` to force only the horizontal or vertical dimension.
-	 * Use `false` to disable forcing.
-	 */
-	forceInView?: 'horizontally' | 'vertically' | boolean;
-	/**
-	 * Sx theme props.
-	 */
-	sx?: SxProps
-} & React.ComponentProps<'div'>;
-
-type XPos = 'left' | 'right';
-type YPos = 'top' | 'bottom';
-type Position = `${ YPos } ${ XPos }`;
-
-type ComputePopoverPositionProps = {
-	anchorRect: DOMRect;
-	container: HTMLElement;
-	position: Position;
-	verticalMargin: number;
-	forceMinWidth: boolean | number;
-	forceInView: PopoverProps['forceInView']
-};
-
-type ComputedPosition = {
-	maxWidth?: number;
-	maxHeight?: number;
-	minWidth?: number;
-	xPos: XPos;
-	yPos: YPos;
-} & ( { left: number; right?: never } | { right: number; left?: never } ) &
-	( { top: number; bottom?: never } | { bottom: number; top?: never } );
+import { styled } from '@yith/styles';
+import type { PopoverComputedPosition, PopoverComputePositionProps } from "./types.internal";
+import type { PopoverProps } from "./types";
 
 const PopoverRoot = styled( 'div', { name: 'Popover', slot: 'Root' } )`
-    position: fixed;
-    z-index: 9999999;
-    display: flex;
-    flex-direction: column;
-    height: fit-content;
+	position: fixed;
+	z-index: 9999999;
+	display: flex;
+	flex-direction: column;
+	height: fit-content;
 `;
 
 const getAnchorRect = ( anchorRef: HTMLElement ) => {
@@ -81,9 +23,9 @@ const computePopoverPosition = ( {
 									 verticalMargin = 0,
 									 forceMinWidth,
 									 forceInView = true
-								 }: ComputePopoverPositionProps ) => {
+								 }: PopoverComputePositionProps ) => {
 	let [ yPos, xPos ] = position.split( ' ' );
-	const computed: ComputedPosition = {} as ComputedPosition;
+	const computed: PopoverComputedPosition = {} as PopoverComputedPosition;
 	const containerRect = container.getBoundingClientRect();
 
 	const { clientWidth: viewportWidth, clientHeight: viewportHeight } = document.documentElement;
@@ -221,7 +163,6 @@ function Popover(
 	{
 		anchorRef,
 		position = 'bottom left',
-		className,
 		children,
 		verticalMargin = 0,
 		onClickOutside,
