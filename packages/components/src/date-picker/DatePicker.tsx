@@ -1,8 +1,9 @@
 import React, { forwardRef, useRef, useCallback, useImperativeHandle } from "react";
 import { styled, generateComponentClasses } from "@yith/styles";
 import { formatDateSameTimezone } from "@yith/date";
-import type { DatePickerProps, DatePickerRef } from "./types";
 import classNames from "classnames";
+
+import type { DatePickerProps, DatePickerRef } from "./types";
 import { DatePickerProvider } from "./context";
 import Calendar from "./slots/Calendar";
 import Dropdown from "../dropdown";
@@ -169,13 +170,13 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 				<Dropdown
 					ref={ toggleRef }
 					renderToggle={
-						( { onOpen, onToggle, isOpen } ) => {
+						( { open, toggle, isOpen } ) => {
 							return <Toggle
-								onClick={ onToggle }
+								onClick={ toggle }
 								onKeyDown={
 									( event: React.KeyboardEvent ) => {
 										if ( [ 'Down', 'ArrowDown', 'Enter', ' ' ].includes( event.key ) ) {
-											onOpen();
+											open();
 											event.stopPropagation();
 										}
 									}
@@ -192,19 +193,18 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 						}
 					}
 					renderContent={
-						( { onClose } ) => {
+						( { close } ) => {
 							return <CalendarWrapper
 								disabled={ disabled }
 								className={ classes.calendar }
 								{ ...datePickerProps }
 								onChange={ onChange }
-								onFinishSelect={ () => onClose() }
+								onFinishSelect={ () => close() }
 								autoFocus
 							/>
 						}
 					}
 					onClose={ () => {
-						toggleRef.current && toggleRef.current.focus();
 						resetSelectedDate();
 					} }
 				/>

@@ -1,14 +1,38 @@
-import { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 
+const container = document.body;
 const mainViews = new Set();
 let lastIndex = 0;
 
-type SingleModalOptions = {
+type MainViewOptions = {
 	onEscapeKeyDown?: ( event: KeyboardEvent ) => void
+	disableScrollLock?: boolean
 }
 
-export default function useMainView( enabled = true, options: SingleModalOptions = {} ) {
+type StylesToRestore = React.CSSProperties
+
+function isBodyOverflowing(): boolean {
+	return window.innerWidth > document.documentElement.clientWidth;
+}
+
+export default function useMainView( enabled = true, options: MainViewOptions = {} ) {
 	const indexRef = useRef( 0 );
+	const { disableScrollLock = false } = options;
+
+	useEffect( () => {
+		const stylesToRestore: StylesToRestore = {};
+
+		if ( enabled && !disableScrollLock ) {
+			if ( isBodyOverflowing() ) {
+				stylesToRestore.overflow = container.style.overflow;
+				container.style.overflow = 'hidden';
+			}
+		}
+
+		return () => {
+			Object.assign( container.style, stylesToRestore );
+		};
+	}, [ enabled, disableScrollLock ] );
 
 	useEffect( () => {
 		if ( enabled ) {

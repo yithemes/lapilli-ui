@@ -26,12 +26,24 @@ export type DropdownProps = {
 	 * If `true`, hitting the escape key will not close the dropdown.
 	 */
 	disableEscapeKeyDown?: boolean
+	/**
+	 * If `true`, disable the restore focus behavior after closing the dropdown.
+	 */
+	disableRestoreFocus?: boolean
+	/**
+	 * If `true`, the focus trap will not automatically shift focus to its first focusable element.
+	 */
+	disableAutoFocus?: boolean;
+	/**
+	 * If `true`, the focus trap will not prevent focus from leaving the dropdown content while open.
+	 */
+	disableConstrainedFocus?: boolean;
 };
 
 export type DropdownCallbackArgs = {
 	isOpen: boolean;
-	onToggle: () => void;
-	onClose: () => void;
-	onOpen: () => void;
+	toggle: () => void;
+	close: () => void;
+	open: () => void;
 	ref: React.Ref<HTMLElement>;
 };

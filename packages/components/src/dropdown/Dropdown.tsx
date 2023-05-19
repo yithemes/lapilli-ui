@@ -8,6 +8,7 @@ import Paper from "../paper";
 
 import type { DropdownCallbackArgs, DropdownProps } from "./types";
 import classNames from "classnames";
+import { FocusTrap } from "../focus-trap";
 
 const useComponentClasses = () => {
 	return generateComponentClasses(
@@ -34,6 +35,9 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 		renderContent,
 		popoverProps,
 		disableEscapeKeyDown = false,
+		disableRestoreFocus = false,
+		disableAutoFocus = false,
+		disableConstrainedFocus = false,
 	},
 	forwardedRef
 ) {
@@ -65,7 +69,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	const close = () => setIsOpen( false );
 	const open = () => setIsOpen( true );
 
-	const args: DropdownCallbackArgs = { isOpen, onToggle: toggle, onClose: close, onOpen: open, ref: toggleRef };
+	const args: DropdownCallbackArgs = { isOpen, toggle, close, open, ref: toggleRef };
 
 	const handleKeyDown = ( event: React.KeyboardEvent<HTMLDivElement> | KeyboardEvent ) => {
 		if ( !disableEscapeKeyDown && [ 'Esc', 'Escape' ].includes( event.key ) ) {
@@ -74,7 +78,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 		}
 	};
 
-	useMainView( isOpen, { onEscapeKeyDown: handleKeyDown } );
+	useMainView( isOpen, { onEscapeKeyDown: handleKeyDown, disableScrollLock: true } );
 
 	return (
 		<>
@@ -91,11 +95,15 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 					aria-modal={ true }
 					onKeyDown={ handleKeyDown }
 				>
-					<DropdownContent
-						className={ classes.content }
-						elevation={ 5 }
-						shadowColor='primaryGlow'
-					>{ renderContent( args ) }</DropdownContent>
+					<FocusTrap open disableRestoreFocus={ disableRestoreFocus } disableAutoFocus={ disableAutoFocus } disableConstrainedFocus={ disableConstrainedFocus }>
+						<DropdownContent
+							className={ classes.content }
+							elevation={ 5 }
+							shadowColor='primaryGlow'
+						>
+							{ renderContent( args ) }
+						</DropdownContent>
+					</FocusTrap>
 				</DropdownPopover>
 			) }
 		</>

@@ -205,11 +205,11 @@ const ACTION_SPACING = '6px'; // spacing between actions.
 
 const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<StyledSelectProps>`
 	${ ( { ownerState } ) => {
-	return {
-		width: ownerState.width,
-		display: 'inline-flex'
-	};
-} }
+		return {
+			width: ownerState.width,
+			display: 'inline-flex'
+		};
+	} }
 `;
 const SelectToggle = styled( 'div', { name: 'Select', slot: 'Toggle' } )<StyledToggleProps>`
 	display: flex;
@@ -226,31 +226,31 @@ const SelectToggle = styled( 'div', { name: 'Select', slot: 'Toggle' } )<StyledT
 	}
 
 	${ ( { theme, ownerState } ) => {
-	const { isOpen } = ownerState;
-	const style: any = {
-		borderRadius: theme.fields.borderRadius,
-		padding: theme.fields.padding[ ownerState.size ],
-		fontSize: theme.fields.fontSize,
-		lineHeight: 1.5,
-		background: theme.fields.background,
-		color: theme.fields.color,
-		borderWidth: '1px',
-		borderStyle: 'solid',
-		borderColor: theme.fields.borderColor,
-		'&:focus, &:focus-visible': {
-			borderColor: theme.fields.focusedBorderColor,
-			boxShadow: theme.fields.focusedBoxShadow,
-			outline: 'none'
-		},
-	};
+		const { isOpen } = ownerState;
+		const style: any = {
+			borderRadius: theme.fields.borderRadius,
+			padding: theme.fields.padding[ ownerState.size ],
+			fontSize: theme.fields.fontSize,
+			lineHeight: 1.5,
+			background: theme.fields.background,
+			color: theme.fields.color,
+			borderWidth: '1px',
+			borderStyle: 'solid',
+			borderColor: theme.fields.borderColor,
+			'&:focus, &:focus-visible': {
+				borderColor: theme.fields.focusedBorderColor,
+				boxShadow: theme.fields.focusedBoxShadow,
+				outline: 'none'
+			},
+		};
 
-	if ( isOpen ) {
-		style.borderColor = theme.fields.focusedBorderColor;
-		style.boxShadow = theme.fields.focusedBoxShadow;
-	}
+		if ( isOpen ) {
+			style.borderColor = theme.fields.focusedBorderColor;
+			style.boxShadow = theme.fields.focusedBoxShadow;
+		}
 
-	return style;
-} };
+		return style;
+	} };
 `;
 const SelectToggleLabel = styled( 'span', { name: 'Select', slot: 'ToggleLabel' } )`
 	flex: 1;
@@ -328,6 +328,7 @@ const SelectToggleClear = styled( IconButton, { name: 'Select', slot: 'ToggleCle
 	font-size: 15px;
 	padding: 4px;
 	margin: -4px;
+
 	& > svg {
 		width: 1em;
 	}
@@ -362,6 +363,7 @@ const SelectOption = styled( 'div', { name: 'Select', slot: 'Option' } )<StyledO
 	lineHeight: 1.5,
 	cursor: 'pointer',
 	userSelect: 'none',
+	outline: 'none',
 	...( !ownerState.isDisabled && {
 		'&:hover': {
 			background: alpha( theme.palette.primary.main ?? '', theme.palette.action.hoverOpacity ),
@@ -615,8 +617,8 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 		}
 	};
 
-	const handleChange = ( option: any, args: { onClose: () => void } ) => {
-		const { onClose } = args;
+	const handleChange = ( option: any, args: { close: () => void } ) => {
+		const { close } = args;
 		const optionValue = getOptionValue( option );
 
 		allowSearch && setSearchedTerm( '' );
@@ -638,7 +640,7 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 		}
 
 		if ( closeOnSelect ) {
-			onClose();
+			close();
 		}
 	};
 
@@ -715,25 +717,25 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 				<input key={ _ } type="hidden" name={ name } value={ _ }/>
 			) ) }
 			<Dropdown
-				renderToggle={ ( { isOpen, onToggle, onClose } ) => {
+				renderToggle={ ( { isOpen, toggle, close } ) => {
 					return (
 						<Toggle
 							label={ toggleLabel }
 							placeholder={ placeholder }
-							onToggle={ onToggle }
+							onToggle={ toggle }
 							isEmpty={ isEmpty }
 							allowClear={ allowClear }
 							onClear={ () => {
 								onClear();
 								setValue( multiple ? [] : '' );
-								onClose();
+								close();
 							} }
 							isOpen={ isOpen }
 							selectProps={ toggleSelectProps }
 						/>
 					);
 				} }
-				renderContent={ ( { onClose } ) => {
+				renderContent={ ( { close } ) => {
 					return (
 						<>
 							{ allowSearch && (
@@ -759,7 +761,7 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 													isDisabled: option?.disabled ?? false,
 													isSelected: isOptionSelected( option ),
 													label: getOptionLabel( option ),
-													onSelect: () => handleChange( option, { onClose } ),
+													onSelect: () => handleChange( option, { close } ),
 												} ) }
 											</Fragment>
 										);
@@ -790,6 +792,8 @@ const Select = forwardRef<HTMLDivElement, SelectOwnProps>( function Select(
 					'aria-multiselectable': multiple,
 					'aria-activedescendant': selectIds.focusedOption
 				} }
+				disableConstrainedFocus
+				disableAutoFocus
 			/>
 		</SelectRoot>
 	);

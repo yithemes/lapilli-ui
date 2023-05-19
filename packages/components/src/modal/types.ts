@@ -22,6 +22,18 @@ type ModalOwnProps = {
 	 * Callback fired when the component requests to be closed.
 	 */
 	onClose?: ( event: KeyboardEvent | React.MouseEvent, reason: 'backdropClick' | 'escapeKeyDown' | 'closeIconClick' ) => void
+	/**
+	 * If `true`, the modal will not automatically shift focus to its first focusable element.
+	 */
+	disableAutoFocus?: boolean;
+	/**
+	 * If `true`, the modal will not prevent focus from leaving the modal while open.
+	 */
+	disableConstrainedFocus?: boolean;
+	/**
+	 * If `true`, the modal will not restore focus to previously focused element when it's closed.
+	 */
+	disableRestoreFocus?: boolean;
 }
 
 type ModalPropsWithRef = Omit<React.ComponentProps<'div'>, keyof ModalOwnProps> & ModalOwnProps

@@ -10,6 +10,7 @@ import Backdrop from "../backdrop";
 import IconButton from "../icon-button";
 import Paper from "../paper";
 import { useMainView } from "../utils";
+import { FocusTrap } from "../focus-trap";
 
 const appearFromBottomAnimation = keyframes`
 	from {
@@ -75,6 +76,7 @@ const useComponentClasses = () => {
 			backdrop: [ 'backdrop' ],
 			container: [ 'container' ],
 			paper: [ 'paper' ],
+			close: [ 'close' ],
 		}
 	)
 }
@@ -87,7 +89,10 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 		maxWidth = 'sm',
 		fullWidth = true,
 		onClose,
-		children
+		children,
+		disableRestoreFocus = false,
+		disableAutoFocus = false,
+		disableConstrainedFocus = false,
 	},
 	ref
 ) {
@@ -133,10 +138,12 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 		<ModalRoot ref={ ref } role="presentation" onClick={ handleBackdropClick } className={ classNames( classes.root, className ) }>
 			<ModalBackdrop className={ classes.backdrop }/>
 			<ModalContainer onMouseDown={ handleMouseDown } className={ classes.container }>
-				<ModalPaper className={ classes.paper } ownerState={ ownerState } elevation={ 24 }>
-					<ModalClose onClick={ handleCloseIconClick } size="sm" fontSize="lg"><XMarkIcon/></ModalClose>
-					{ children }
-				</ModalPaper>
+				<FocusTrap open disableRestoreFocus={ disableRestoreFocus } disableAutoFocus={ disableAutoFocus } disableConstrainedFocus={ disableConstrainedFocus }>
+					<ModalPaper className={ classes.paper } ownerState={ ownerState } elevation={ 24 }>
+						{ children }
+						<ModalClose className={ classes.close } onClick={ handleCloseIconClick } size="sm" fontSize="lg"><XMarkIcon/></ModalClose>
+					</ModalPaper>
+				</FocusTrap>
 			</ModalContainer>
 		</ModalRoot>
 	</Portal>
