@@ -86,9 +86,9 @@ function SimpleForm() {
 	const [ isFeatured, setIsFeatured ] = useState( false );
 	const [ featuredFrom, setFeaturedFrom ] = useState<Date | null>( null );
 	const [ featuredTo, setFeaturedTo ] = useState<Date | null>( null );
-	const [ pages, setPages ] = useState<number>(100);
-	const [ size, setSize ] = useState<number>(1);
-	const [ sizeUnit, setSizeUnit ] = useState<string>('MB');
+	const [ pages, setPages ] = useState<number>( 100 );
+	const [ size, setSize ] = useState<number>( 1 );
+	const [ sizeUnit, setSizeUnit ] = useState<string>( 'MB' );
 	const featuredToRef = useRef<DatePickerRef>( null );
 	const [ modalOpened, setModalOpened ] = useState( false );
 
@@ -121,11 +121,11 @@ function SimpleForm() {
 					visibility === 'password-protected' &&
 					<FormControl label="Password" htmlFor="my-pass" help="Choose the password.">
 						<Input id="my-pass" type={ showPassword ? 'text' : 'password' } autoComplete="one-time-code"
-							   endAdornment={
-								   <IconButton onClick={ _ => setShowPassword( _show => !_show ) } size="sm">
-									   <FwIcon icon={ showPassword ? 'eye-closed' : 'eye' }/>
-								   </IconButton>
-							   }
+							endAdornment={
+								<IconButton onClick={ _ => setShowPassword( _show => !_show ) } size="sm">
+									<FwIcon icon={ showPassword ? 'eye-closed' : 'eye' }/>
+								</IconButton>
+							}
 						/>
 					</FormControl>
 				}
@@ -170,7 +170,7 @@ function SimpleForm() {
 						{ LOREM_IPSUM }
 						<FooterInfo>
 							{ typeof pages !== 'undefined' && <div>{ pages } pages</div> }
-							{ typeof size !== 'undefined' && <div>{ `${size} ${sizeUnit}` }</div> }
+							{ typeof size !== 'undefined' && <div>{ `${ size } ${ sizeUnit }` }</div> }
 						</FooterInfo>
 					</ModalContent>
 					<ModalActions>

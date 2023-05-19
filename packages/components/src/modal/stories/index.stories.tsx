@@ -146,16 +146,16 @@ export const WithFields: Story = {
 					<Container maxWidth="sm">
 						<Stack direction="column" spacing={ 3 }>
 							<Stack direction="column" spacing={ 1 } align="start">
-								<label>Choose a name</label>
-								<Input fullWidth/>
+								<label htmlFor="name">Choose a name</label>
+								<Input id="name" fullWidth/>
 							</Stack>
 							<Stack direction="column" spacing={ 1 } align="start">
-								<label>Choose a number</label>
-								<Select options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
+								<label htmlFor="number">Choose a number</label>
+								<Select id="number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
 							</Stack>
 							<Stack direction="column" spacing={ 1 } align="start">
-								<label>Choose a date</label>
-								<DatePicker/>
+								<label htmlFor="date">Choose a date</label>
+								<DatePicker id="date"/>
 							</Stack>
 							<Stack direction="column" spacing={ 1 } align="start">
 								<label>Dropdown with other fields</label>
@@ -164,16 +164,16 @@ export const WithFields: Story = {
 									renderContent={ () => (
 										<Stack direction="column" spacing={ 3 } align="start" sx={ { padding: '24px' } }>
 											<Stack direction="column" spacing={ 1 } align="start">
-												<label>Choose another name</label>
-												<Input fullWidth/>
+												<label htmlFor="other-name">Choose another name</label>
+												<Input id="other-name" fullWidth/>
 											</Stack>
 											<Stack direction="column" spacing={ 1 } align="start">
-												<label>Choose another number</label>
-												<Select options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
+												<label htmlFor="other-number">Choose another number</label>
+												<Select id="other-number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
 											</Stack>
 											<Stack direction="column" spacing={ 1 } align="start">
-												<label>Choose another date</label>
-												<DatePicker/>
+												<label htmlFor="other-date">Choose another date</label>
+												<DatePicker id="other-date"/>
 											</Stack>
 										</Stack>
 									) }

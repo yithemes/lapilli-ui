@@ -11,8 +11,16 @@ type MainViewOptions = {
 
 type StylesToRestore = React.CSSProperties
 
-function isBodyOverflowing(): boolean {
-	return window.innerWidth > document.documentElement.clientWidth;
+function getBodyScrollbarWidth() {
+	return window.innerWidth - document.documentElement.clientWidth;
+}
+
+function hasBodyScrollbar(): boolean {
+	return getBodyScrollbarWidth() > 0;
+}
+
+function getBodyPaddingRight() {
+	return parseInt( window.getComputedStyle( document.body ).paddingRight ?? 0, 10 );
 }
 
 export default function useMainView( enabled = true, options: MainViewOptions = {} ) {
@@ -22,11 +30,12 @@ export default function useMainView( enabled = true, options: MainViewOptions = 
 	useEffect( () => {
 		const stylesToRestore: StylesToRestore = {};
 
-		if ( enabled && !disableScrollLock ) {
-			if ( isBodyOverflowing() ) {
-				stylesToRestore.overflow = container.style.overflow;
-				container.style.overflow = 'hidden';
-			}
+		if ( enabled && !disableScrollLock && hasBodyScrollbar() ) {
+			stylesToRestore.overflow = container.style.overflow;
+			stylesToRestore.paddingRight = container.style.paddingRight;
+
+			container.style.paddingRight = `${ getBodyPaddingRight() + getBodyScrollbarWidth() }px`;
+			container.style.overflow = 'hidden';
 		}
 
 		return () => {
