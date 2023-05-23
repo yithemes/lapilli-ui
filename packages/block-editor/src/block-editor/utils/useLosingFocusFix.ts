@@ -59,8 +59,6 @@ export function useLosingFocusFix() {
 				return;
 			}
 
-			console.log( 'FOCUS' );
-
 			setTimeout( () => {
 				if ( activeElement ) {
 					activeElement.focus();
