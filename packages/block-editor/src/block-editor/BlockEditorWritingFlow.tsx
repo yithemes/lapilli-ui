@@ -21,6 +21,7 @@ import { createBlock, BlockInstance } from "@wordpress/blocks";
 // @ts-ignore
 import { styled } from "@yith/styles";
 import useLayoutClasses from "../utils/use-layout-classes";
+import { useLosingFocusFix } from "./utils/useLosingFocusFix";
 
 type BlockEditorWritingFlowProps = {
 	blocks: BlockInstance[];
@@ -99,9 +100,11 @@ export default function BlockEditorWritingFlow(
 		}
 	}, [ isEmpty ] );
 
+	const rootRef = useLosingFocusFix();
+
 	const layoutClasses = useLayoutClasses();
 
-	return <BlockEditorWritingFlowRoot>
+	return <BlockEditorWritingFlowRoot ref={ rootRef }>
 		<BlockTools>
 			<EditorStyles styles={ blockEditorSettings?.styles ?? [] }/>
 			<BlockEditorWritingFlowWrapper>
