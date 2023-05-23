@@ -1,4 +1,12 @@
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
+
+function isWritingFlow( node: HTMLElement ) {
+	return node.classList.contains( 'block-editor-writing-flow' );
+}
+
+function isContentEditable( node: HTMLElement ) {
+	return node.getAttribute( 'contenteditable' );
+}
 
 /**
  * Fix Gutenberg BlockEditor issue when finishing text selection outside the writing-flow container,
@@ -14,12 +22,16 @@ import { useEffect, useRef } from "react";
 export function useLosingFocusFix() {
 	const rootRef = useRef<HTMLDivElement>( null );
 
+	const isInRoot = useCallback( ( node: HTMLElement ) => {
+		return rootRef.current && rootRef.current.contains( node );
+	}, [] );
+
 	useEffect( () => {
 		let activeElement: HTMLElement | null;
 		const onMouseLeave = ( event: MouseEvent ) => {
 			const target = event.target as HTMLElement;
 
-			if ( !target || !rootRef.current || !rootRef.current.contains( target ) ) {
+			if ( !target || !isInRoot( target ) ) {
 				return;
 			}
 
@@ -27,7 +39,7 @@ export function useLosingFocusFix() {
 				return;
 			}
 
-			if ( !target.getAttribute( 'contenteditable' ) || target.classList.contains( 'block-editor-writing-flow' ) ) {
+			if ( !isContentEditable( target ) || isWritingFlow( target ) ) {
 				return;
 			}
 
@@ -35,11 +47,19 @@ export function useLosingFocusFix() {
 			window.addEventListener( 'mouseup', onMouseUp );
 		}
 
-		const onMouseUp = () => {
+		const onMouseUp = ( event: MouseEvent ) => {
 			window.removeEventListener( 'mouseup', onMouseUp );
 			if ( !activeElement ) {
 				return;
 			}
+
+			const target = event.target as HTMLElement;
+
+			if ( target && isInRoot( target ) && !isWritingFlow( target ) ) {
+				return;
+			}
+
+			console.log( 'FOCUS' );
 
 			setTimeout( () => {
 				if ( activeElement ) {
