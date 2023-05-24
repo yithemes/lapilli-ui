@@ -1,4 +1,4 @@
-import { alpha, styled } from "@yith/styles";
+import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@yith/styles";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import React, { forwardRef, useState } from "react";
 
@@ -7,50 +7,68 @@ import { ZeroWidthSpace } from "../../utils";
 import Spinner from "../../spinner";
 import type { SelectToggleOwnerState, SelectToggleProps, SelectToggleStyled } from "../types";
 import { useSelectContext } from "../context";
+import { selectClasses } from "../classes";
 
 const ACTION_SPACING = '6px'; // spacing between actions.
 
-const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<SelectToggleStyled>`
-	display: flex;
-	align-items: center;
-	box-sizing: border-box;
-	position: relative;
-	cursor: pointer;
-	user-select: none;
-	width: 100%;
-
-	& > :not( style ) + :not( style ) {
-		margin-left: 4px;
-		margin-right: -2px;
-	}
-
-	${ ( { theme, ownerState } ) => {
-		const { isOpen } = ownerState;
-		const style: any = {
-			borderRadius: theme.fields.borderRadius,
-			padding: theme.fields.padding[ ownerState.size ],
-			fontSize: theme.fields.fontSize,
-			lineHeight: 1.5,
-			background: theme.fields.background,
-			color: theme.fields.color,
-			borderWidth: '1px',
-			borderStyle: 'solid',
-			borderColor: theme.fields.borderColor,
-			'&:focus, &:focus-visible': {
-				borderColor: theme.fields.focusedBorderColor,
-				boxShadow: theme.fields.focusedBoxShadow,
-				outline: 'none'
-			},
-		};
-
-		if ( isOpen ) {
-			style.borderColor = theme.fields.focusedBorderColor;
-			style.boxShadow = theme.fields.focusedBoxShadow;
+const useComponentClasses = ( ownerState: SelectToggleOwnerState ) => {
+	const stateClasses = generateComponentClasses(
+		'Select',
+		{
+			toggle: [ ownerState.isOpen && 'expanded', ownerState.isFocused && 'focused' ],
 		}
+	);
 
-		return style;
-	} };
-`;
+	return mergeComponentClasses( selectClasses, stateClasses );
+}
+
+const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<SelectToggleStyled>( ( { theme, ownerState } ) => ( {
+	display: 'flex',
+	alignItems: 'center',
+	boxSizing: 'border-box',
+	position: 'relative',
+	cursor: 'pointer',
+	userSelect: 'none',
+	width: '100%',
+	'& > :not( style ) + :not( style )': {
+		marginLeft: '4px',
+		marginRight: '-2px'
+	},
+	borderRadius: theme.fields.borderRadius,
+	padding: theme.fields.padding[ ownerState.size ],
+	fontSize: theme.fields.fontSize,
+	lineHeight: 1.5,
+	color: theme.fields.color,
+	'&:focus, &:focus-visible': {
+		outline: 'none'
+	},
+	...( ownerState.variant === 'outlined' && {
+		background: theme.fields.background,
+		borderWidth: '1px',
+		borderStyle: 'solid',
+		borderColor: theme.fields.borderColor,
+		'&:focus, &:focus-visible': {
+			borderColor: theme.fields.focusedBorderColor,
+			boxShadow: theme.fields.focusedBoxShadow,
+			outline: 'none'
+		}
+	} ),
+	...( ownerState.variant === 'reveal' && {
+		'&:hover, &:focus, &:focus-visible': {
+			background: alpha( theme.palette.primary.main ?? '', theme.palette.action.hoverOpacity ),
+			outline: 'none'
+		},
+		...( ownerState.isOpen && ( {
+			background: alpha( theme.palette.primary.main ?? '', theme.palette.action.hoverOpacity ),
+			outline: 'none'
+		} ) ),
+	} ),
+	...( ownerState.isOpen && ( {
+		borderColor: theme.fields.focusedBorderColor,
+		boxShadow: theme.fields.focusedBoxShadow
+	} ) ),
+} ) );
+
 const SelectToggleLabel = styled( 'span', { name: 'Select', slot: 'ToggleLabel' } )`
 	flex: 1;
 	min-width: 0;
@@ -112,7 +130,7 @@ const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'Toggle
 	} )
 );
 
-const SelectToggleActions = styled( 'div', { name: 'Select', slot: 'Toggle' } )`
+const SelectToggleActions = styled( 'div', { name: 'Select', slot: 'ToggleActions' } )`
 	display: flex;
 	align-items: center;
 	box-sizing: border-box;
@@ -140,6 +158,12 @@ const SelectToggleExpand = styled( 'span', { name: 'Select', slot: 'ToggleExpand
 		opacity: 0.4,
 		marginLeft: ACTION_SPACING,
 		marginRight: -4,
+		...( ownerState.variant === 'reveal' && {
+			opacity: 0,
+			[ `.${ selectClasses.toggle }:hover &, .${ selectClasses.toggle }:focus &, .${ selectClasses.toggle }:focus-visible &` ]: {
+				opacity: 1,
+			},
+		} ),
 		...( ownerState.isOpen && {
 			opacity: 1,
 			color: theme.fields.focusedBorderColor,
@@ -152,53 +176,65 @@ const SelectToggleExpand = styled( 'span', { name: 'Select', slot: 'ToggleExpand
 
 const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 	(
-		{ label, placeholder, onToggle, isEmpty, allowClear, onClear, isOpen }, ref ) => {
+		{ label, placeholder, onToggle, isEmpty, allowClear, onClear, isOpen, hideToggleIcon, ...other }, ref ) => {
 		const [ isFocused, setIsFocused ] = useState( false );
-		const { size, showTags, limitTags, getOptionValue, getOptionLabel, selectedOptions, deselectOption, isLoading } = useSelectContext();
+		const { size, showTags, limitTags, getOptionValue, getOptionLabel, selectedOptions, deselectOption, isLoading, variant, renderToggleContent } = useSelectContext();
 		const ownerState: SelectToggleOwnerState = {
 			isOpen,
 			isEmpty,
 			isFocused,
-			size
+			size,
+			variant
 		};
 
-		let display = <SelectToggleLabel>{ label }</SelectToggleLabel>;
-		if ( isEmpty ) {
-			display = <SelectTogglePlaceholder>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>;
-		}
-		if ( showTags ) {
-			const tagsToShow = !isFocused && !isOpen && limitTags > 0 ? selectedOptions.slice( 0, limitTags ) : selectedOptions;
-			const hiddenTags = selectedOptions.length - tagsToShow.length;
-			display = (
-				<>
-					{ !!selectedOptions.length ? (
-						<SelectToggleTags>
-							{ tagsToShow.map( ( option ) => {
-								const tagKey = getOptionValue( option );
-								const tagLabel = getOptionLabel( option );
-								return (
-									<SelectToggleTag key={ tagKey }>
-										<SelectToggleTagLabel>{ tagLabel }</SelectToggleTagLabel>
-										<SelectToggleTagRemove
-											onClick={ ( e: React.MouseEvent ) => {
-												e.stopPropagation();
-												deselectOption( option );
-											} }
-										/>
-									</SelectToggleTag>
-								);
-							} ) }
-							{ !!hiddenTags && <SelectToggleHiddenTagsCount>{ ` +${ hiddenTags }` }</SelectToggleHiddenTagsCount> }
-						</SelectToggleTags>
-					) : (
-						<SelectTogglePlaceholder>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>
-					) }
-				</>
-			);
+		const classes = useComponentClasses( ownerState );
+
+		let display;
+
+		if ( renderToggleContent ) {
+			display = renderToggleContent( { isOpen, selectedOptions, deselectOption } );
+		} else {
+			display = <SelectToggleLabel className={ classes.toggleLabel }>{ label }</SelectToggleLabel>;
+			if ( isEmpty ) {
+				display = <SelectTogglePlaceholder className={ classes.togglePlaceholder }>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>;
+			}
+			if ( showTags ) {
+				const tagsToShow = !isFocused && !isOpen && limitTags > 0 ? selectedOptions.slice( 0, limitTags ) : selectedOptions;
+				const hiddenTags = selectedOptions.length - tagsToShow.length;
+				display = (
+					<>
+						{ !!selectedOptions.length ? (
+							<SelectToggleTags className={ classes.toggleTags }>
+								{ tagsToShow.map( ( option ) => {
+									const tagKey = getOptionValue( option );
+									const tagLabel = getOptionLabel( option );
+									return (
+										<SelectToggleTag key={ tagKey } className={ classes.toggleTag }>
+											<SelectToggleTagLabel className={ classes.toggleTagLabel }>{ tagLabel }</SelectToggleTagLabel>
+											<SelectToggleTagRemove
+												className={ classes.toggleTagRemove }
+												onClick={ ( e: React.MouseEvent ) => {
+													e.stopPropagation();
+													deselectOption( option );
+												} }
+											/>
+										</SelectToggleTag>
+									);
+								} ) }
+								{ !!hiddenTags && <SelectToggleHiddenTagsCount className={ classes.toggleHiddenTagsCount }>{ ` +${ hiddenTags }` }</SelectToggleHiddenTagsCount> }
+							</SelectToggleTags>
+						) : (
+							<SelectTogglePlaceholder className={ classes.togglePlaceholder }>{ !!placeholder ? placeholder : <ZeroWidthSpace/> }</SelectTogglePlaceholder>
+						) }
+					</>
+				);
+			}
 		}
 
 		return (
 			<SelectToggleRoot
+				{ ...other }
+				className={ classes.toggle }
 				ref={ ref }
 				onFocus={ () => setIsFocused( true ) }
 				onBlur={ () => setIsFocused( false ) }
@@ -211,15 +247,16 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			>
 				{ !!display ? display : <ZeroWidthSpace/> }
 
-				<SelectToggleActions>
+				<SelectToggleActions className={ classes.toggleActions }>
 					{ isLoading && (
-						<SelectToggleSpinner>
+						<SelectToggleSpinner className={ classes.toggleSpinner }>
 							<Spinner size={ 16 }/>
 						</SelectToggleSpinner>
 					) }
 
 					{ allowClear && !isEmpty && !showTags && (
 						<SelectToggleClear
+							className={ classes.toggleClear }
 							onClick={ ( e: React.MouseEvent ) => {
 								e.stopPropagation();
 								onClear();
@@ -229,9 +266,9 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 						</SelectToggleClear>
 					) }
 
-					<SelectToggleExpand ownerState={ ownerState }>
+					{ !hideToggleIcon && <SelectToggleExpand className={ classes.toggleExpand } ownerState={ ownerState }>
 						<ChevronUpDownIcon/>
-					</SelectToggleExpand>
+					</SelectToggleExpand> }
 				</SelectToggleActions>
 			</SelectToggleRoot>
 		);

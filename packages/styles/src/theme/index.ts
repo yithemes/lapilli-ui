@@ -1,7 +1,7 @@
 import { merge, cloneDeep } from 'lodash';
 import type React from 'react';
 import { useTheme as emotionUseTheme } from "@emotion/react";
-import { createGlows, createShadows } from "../utils/shadows";
+import { createGlows, createShadows } from "../utils";
 
 export type PaletteClass = 'primary' | 'secondary' | 'warning' | 'error' | 'info' | 'success';
 export type FieldSize = 'sm' | 'md' | 'lg' | 'xl';

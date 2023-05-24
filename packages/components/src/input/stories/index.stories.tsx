@@ -8,6 +8,7 @@ import Container from "../../container";
 import Stack from "../../stack";
 import IconButton from "../../icon-button";
 import Button from "../../button";
+import Select from "../../select";
 
 function CalendarIcon() {
 	return (
@@ -180,16 +181,24 @@ export const Adornments: Story = {
 						onClick={ _ => setShowPassword( _show => !_show ) }
 						size="sm"
 						color="primary"
-						sx={ { margin:'0 -8px' } }
+						sx={ { margin: '0 -8px' } }
 					>
 						{ showPassword ? <EyeSlashIcon/> : <EyeIcon/> }
 					</IconButton>
 				}
 			/>
-			<Input { ...args } endAdornment="Kg"/>
+			<Input { ...args } endAdornment={
+				<Select
+					variant="reveal"
+					options={ [ 'kb', 'mb', 'gb' ].map( _ => ( { value: _, label: _.toUpperCase() } ) ) }
+					width="auto"
+					hideToggleIcon
+					sx={ { transform: 'scale(.8)', margin: '0 -14px' } }
+				/>
+			}/>
 			<Input { ...args } startAdornment="€"/>
 			<Input { ...args } endAdornment={
-				<Button size="sm" variant="text" short startIcon={ <Square2StackIcon/> } sx={ { transform: 'scale(.8)', margin:'0 -14px' } }>COPY</Button>
+				<Button size="sm" variant="text" short startIcon={ <Square2StackIcon/> } sx={ { transform: 'scale(.8)', margin: '0 -14px' } }>COPY</Button>
 			}/>
 		</Stack>
 	}

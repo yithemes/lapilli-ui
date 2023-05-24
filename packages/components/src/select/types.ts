@@ -1,26 +1,22 @@
 import type React from "react";
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize, SxProps } from "@yith/styles";
+import type { SelectProviderProps } from "./context";
 
-export type SelectOption = {
+export type SelectOptionParams = {
 	value: string
 	label: string
 	disabled?: boolean
 }
-
-export type SelectRenderOptionArgs = {
-	id: string
-	option: SelectOption
-	isSelected: boolean
-	isDisabled: boolean
-	label: string
-	onSelect: () => void
-};
 
 type SingleSelectOwnProps = {
 	/**
 	 * Whether the select is multiple or not.
 	 */
 	multiple?: false
+	/**
+	 * Specified the select style.
+	 */
+	variant?: 'outlined' | 'ghost' | 'reveal'
 	/**
 	 * The value.
 	 */
@@ -48,7 +44,7 @@ type SingleSelectOwnProps = {
 	/**
 	 * List of options to be shown.
 	 */
-	options: SelectOption[]
+	options: SelectOptionParams[]
 	/**
 	 * The placeholder.
 	 */
@@ -56,19 +52,23 @@ type SingleSelectOwnProps = {
 	/**
 	 * Function to retrieve the option value.
 	 */
-	getOptionValue?: ( option: SelectOption ) => string
+	getOptionValue?: ( option: SelectOptionParams ) => string
 	/**
 	 * Function to retrieve the option label.
 	 */
-	getOptionLabel?: ( option: SelectOption ) => string
+	getOptionLabel?: ( option: SelectOptionParams ) => string
 	/**
 	 * Function to render the option.
 	 */
-	renderOption?: ( args: SelectRenderOptionArgs ) => React.ReactNode
+	renderOption?: ( props: SelectOptionProps, option: SelectOptionParams, state: SelectOptionState ) => React.ReactNode
 	/**
 	 * Function to render the option content.
 	 */
-	renderOptionContent?: ( args: SelectRenderOptionArgs ) => React.ReactNode
+	renderOptionContent?: ( option: SelectOptionParams, state: SelectOptionState ) => React.ReactNode
+	/**
+	 * Function to render the toggle content.
+	 */
+	renderToggleContent?: ( attrs: Pick<SelectProviderProps, 'selectedOptions' | 'deselectOption'> & { isOpen: boolean } ) => React.ReactNode
 	/**
 	 * Function to filter options when searching.
 	 */
@@ -121,6 +121,14 @@ type SingleSelectOwnProps = {
 	 * The field size.
 	 */
 	size?: FieldSize
+	/**
+	 * Set `true` to hide the toggle icon.
+	 */
+	hideToggleIcon?: boolean
+	/**
+	 * Theme sc props.
+	 */
+	sx?: SxProps
 };
 
 type MultipleSelectOwnProps = Omit<SingleSelectOwnProps, 'onChange' | 'value' | 'multiple' | 'showTags' | 'limitTags'> & {
@@ -151,15 +159,14 @@ export type SelectOwnProps = SingleSelectOwnProps | MultipleSelectOwnProps
 type SelectPropsWithRef = Omit<React.ComponentProps<'div'>, keyof SelectOwnProps> & SelectOwnProps
 export type SelectProps = Omit<SelectPropsWithRef, 'ref'>
 
-export type SelectOwnerState = {
-	width: React.CSSProperties[ 'width' ]
-}
+export type SelectOwnerState = Required<Pick<SelectProps, 'width' | 'variant'>>
 
 export type SelectStyled = {
 	ownerState: SelectOwnerState
 }
 
-export type SelectToggleProps = {
+type SelectToggleOwnProps = {
+	hideToggleIcon: boolean
 	isEmpty: boolean
 	allowClear: boolean
 	isOpen: boolean
@@ -169,24 +176,32 @@ export type SelectToggleProps = {
 	onClear: () => void
 }
 
+export type SelectToggleProps = Omit<React.ComponentProps<'div'>, keyof SelectToggleOwnProps> & SelectToggleOwnProps
+
 export type SelectToggleOwnerState = {
 	isOpen: boolean
 	isEmpty: boolean
 	isFocused: boolean
 	size: FieldSize
+	variant: SelectProps['variant']
 }
 
 export type SelectToggleStyled = {
 	ownerState: SelectToggleOwnerState
 }
 
-type SelectOptionOwnProps = {
+export type SelectOptionState = {
 	isSelected: boolean
 	isDisabled: boolean
+	isActiveDescendant: boolean
+	label: string
+	value: string
 }
+
+type SelectOptionOwnProps = Pick<SelectOptionState, 'isSelected' | 'isDisabled' | 'isActiveDescendant'>
 type SelectOptionPropsWithRef = Omit<React.ComponentProps<'div'>, keyof SelectOptionOwnProps> & SelectOptionOwnProps
 export type SelectOptionProps = Omit<SelectOptionPropsWithRef, 'ref'>
-export type SelectOptionOwnerState = Pick<SelectOptionOwnProps, 'isSelected' | 'isDisabled'>
+export type SelectOptionOwnerState = Pick<SelectOptionOwnProps, 'isSelected' | 'isDisabled' | 'isActiveDescendant'>
 export type SelectOptionStyled = {
 	ownerState: SelectOptionOwnerState;
 };

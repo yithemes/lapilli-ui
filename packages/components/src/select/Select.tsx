@@ -1,18 +1,32 @@
 import React, { forwardRef, Fragment, MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { noop } from 'lodash';
-import { styled, Theme } from '@yith/styles';
+import { generateComponentClasses, mergeComponentClasses, styled, Theme } from '@yith/styles';
+import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+
 import Dropdown from '../dropdown';
 import Input from '../input';
 import { useControlledState, useId } from '../utils';
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import type { SelectOwnerState, SelectOwnProps, SelectProps, SelectRenderOptionArgs, SelectStyled } from "./types";
-import SelectOption from "./slots/SelectOption";
+
+import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps } from "./types";
 import { SelectProvider } from "./context";
+import SelectOption from "./slots/SelectOption";
 import SelectToggle from "./slots/SelectToggle";
 import { useSelectDefaultValue } from "./utils/useSelectDefaultValue";
+import { selectClasses } from "./classes";
 
 const LIST_SPACING = '8px'; // spacing (padding, margin) for the list elements.
+
+const useComponentClasses = ( ownerState: SelectOwnerState ) => {
+	const stateClasses = generateComponentClasses(
+		'Select',
+		{
+			root: [ `--${ ownerState.variant }` ],
+		}
+	);
+
+	return mergeComponentClasses( selectClasses, stateClasses );
+}
 
 const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyled>`
 	${ ( { ownerState } ) => {
@@ -22,6 +36,12 @@ const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyle
 		};
 	} }
 `;
+
+const SelectListbox = styled( 'div', { name: 'Select', slot: 'Listbox' } )( () => ( {
+	'&:focus, &:focus-visible': {
+		outline: 'none'
+	}
+} ) );
 
 const SelectOptions = styled( 'div', { name: 'Select', slot: 'Options' } )( ( { theme }: { theme: Theme } ) => ( {
 	maxHeight: '200px',
@@ -33,8 +53,7 @@ const SelectOptionsNoResults = styled( 'div', { name: 'Select', slot: 'OptionsNo
 	( { theme } ) => ( {
 		fontSize: theme.fields.fontSize,
 		padding: theme.fields.padding.md,
-		margin: `${ LIST_SPACING }
-0`,
+		margin: `${ LIST_SPACING } 0`,
 		opacity: 0.7,
 	} )
 );
@@ -42,22 +61,18 @@ const SelectLoadingText = styled( 'div', { name: 'Select', slot: 'LoadingText' }
 	( { theme } ) => ( {
 		fontSize: theme.fields.fontSize,
 		padding: theme.fields.padding.md,
-		margin: `${ LIST_SPACING }
-0`,
+		margin: `${ LIST_SPACING } 0`,
 		opacity: 0.7,
 	} ) );
 
-function defaultRenderOptionContent( args: SelectRenderOptionArgs ) {
-	return args.label;
+function defaultRenderOptionContent( _option: SelectOptionParams, state: SelectOptionState ) {
+	return state.label;
 }
 
-function defaultRenderOption( args: SelectRenderOptionArgs ) {
-	const { id, isSelected, isDisabled, onSelect } = args;
-	const handleSelect = !isDisabled ? onSelect : noop;
-
+function defaultRenderOption( props: SelectOptionProps ) {
 	return (
-		<SelectOption onClick={ handleSelect } isSelected={ isSelected } isDisabled={ isDisabled } id={ id }>
-			{ defaultRenderOptionContent( args ) }
+		<SelectOption { ...props }>
+			{ props.children }
 		</SelectOption>
 	);
 }
@@ -80,17 +95,20 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		noResultsText = __( 'No results', 'yith-plugin-fw' ),
 		onChange = noop,
 		onClear = noop,
-		onClose: onCloseProp = noop,
+		onClose = noop,
 		onSearch = noop,
 		getOptionValue = option => option?.value ?? '',
 		getOptionLabel = option => option?.label ?? '',
 		renderOption = defaultRenderOption,
 		renderOptionContent = defaultRenderOptionContent,
+		renderToggleContent,
 		filterSearch: filterSearchProp,
 		showTags = false,
 		limitTags = 0,
 		width = 200,
 		size = 'md',
+		variant = 'outlined',
+		hideToggleIcon = false,
 		...other
 	},
 	ref
@@ -103,9 +121,10 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	const defaultValue = useSelectDefaultValue( { multiple, allowClear, getOptionValue, options } );
 	const closeOnSelect = typeof closeOnSelectProp === 'undefined' ? ( !multiple ) : closeOnSelectProp;
 	const [ value, setValue ] = useControlledState( valueProp, defaultValue );
-	const arrayValue = ( Array.isArray( value ) ? value : [ value ] ).filter( Boolean );
+	const arrayValue = useMemo( () => ( Array.isArray( value ) ? value : [ value ] ).filter( Boolean ), [ value ] );
 	const [ searchedTerm, setSearchedTerm ] = useState( '' );
 	const searchRef = useRef<HTMLInputElement>();
+	const listboxRef = useRef<HTMLDivElement>( null );
 
 	useEffect( () => {
 		if ( allowSearch ) {
@@ -113,51 +132,57 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		}
 	}, [ searchedTerm ] );
 
-	const deselectOption = ( option: any ) => {
-		const optionValue = getOptionValue( option );
-		if ( multiple ) {
-			const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
-			if ( idx > -1 ) {
-				const newValue = [ ...( value as string[] ) ];
-				newValue.splice( idx, 1 );
-				setValue( newValue );
-				onChange( newValue );
+	const deselectOption = useCallback( ( option: any ) => {
+			const optionValue = getOptionValue( option );
+			if ( multiple ) {
+				const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
+				if ( idx > -1 ) {
+					const newValue = [ ...( value as string[] ) ];
+					newValue.splice( idx, 1 );
+					setValue( newValue );
+					onChange( newValue );
+				}
 			}
-		}
-	};
+		},
+		[ getOptionValue, multiple, value, onChange ]
+	);
 
-	const handleChange = ( option: any, args: { close: () => void } ) => {
-		const { close } = args;
-		const optionValue = getOptionValue( option );
+	const handleChange = useCallback( ( option: any, args: { close: () => void } ) => {
+			const { close } = args;
+			const optionValue = getOptionValue( option );
 
-		allowSearch && setSearchedTerm( '' );
+			allowSearch && setSearchedTerm( '' );
 
-		if ( multiple ) {
-			const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
-			if ( idx > -1 ) {
-				const newValue = [ ...( value as string[] ) ];
-				newValue.splice( idx, 1 );
-				setValue( newValue );
-				onChange( newValue );
+			if ( multiple ) {
+				const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
+				if ( idx > -1 ) {
+					const newValue = [ ...( value as string[] ) ];
+					newValue.splice( idx, 1 );
+					setValue( newValue );
+					onChange( newValue );
+				} else {
+					setValue( [ ...( value as string[] ), optionValue ] );
+					onChange( [ ...( value as string[] ), optionValue ] );
+				}
 			} else {
-				setValue( [ ...( value as string[] ), optionValue ] );
-				onChange( [ ...( value as string[] ), optionValue ] );
+				setValue( optionValue );
+				onChange( optionValue );
 			}
-		} else {
-			setValue( optionValue );
-			onChange( optionValue );
-		}
 
-		if ( closeOnSelect ) {
-			close();
-		}
-	};
+			if ( closeOnSelect ) {
+				close();
+			}
+		},
+		[ getOptionValue, allowSearch, multiple, onChange, value, closeOnSelect ]
+	);
 
-	const isOptionSelected = ( option: any ) =>
-		multiple ? ( value as string[] ).includes( getOptionValue( option ) ) : value === getOptionValue( option );
+	const isOptionSelected = useCallback( ( option: any ) => {
+			return multiple ? ( value as string[] ).includes( getOptionValue( option ) ) : value === getOptionValue( option )
+		},
+		[ multiple, getOptionValue ]
+	);
 
 	const isEmpty = useMemo( () => ( multiple ? !( value as string[] ).length : !value ), [ value, multiple ] );
-
 	const selectedOptions = useMemo( () => options.filter( _ => isOptionSelected( _ ) ), [ options, value, multiple ] );
 	const toggleLabel = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
 
@@ -176,49 +201,83 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 
 	const getOptionId = useCallback( ( index: number ) => `${ id }__option__${ index }`, [ id ] );
 
-	const defaultFocusedOptionIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, value, multiple ] );
-	const [ focusedOptionIndex, setFocusedOptionIndex ] = useState( defaultFocusedOptionIndex );
-
-	const selectIds = {
-		root: id,
-		options: `${ id }__options`,
-		focusedOption: focusedOptionIndex > -1 ? getOptionId( focusedOptionIndex ) : undefined
-	};
+	const defaultActiveDescendantIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, value, multiple ] );
+	const [ activeDescendantIndex, setActiveDescendantIndex ] = useState( defaultActiveDescendantIndex );
 
 	useEffect( () => {
-		setFocusedOptionIndex( filteredOptions.findIndex( _ => isOptionSelected( _ ) ) );
+		setActiveDescendantIndex( filteredOptions.findIndex( _ => isOptionSelected( _ ) ) );
 	}, [ value, filteredOptions, multiple ] );
 
-	const focusOnSearch = () => {
-		if ( searchRef.current ) {
+	const selectIds = useMemo( () => ( {
+		root: id,
+		options: `${ id }__options`,
+		activeDescendant: activeDescendantIndex > -1 ? getOptionId( activeDescendantIndex ) : undefined
+	} ), [ id, activeDescendantIndex, getOptionId ] );
+
+	const handleOpen = () => {
+		if ( allowSearch && searchRef.current ) {
 			searchRef.current.focus();
+		} else if ( listboxRef.current ) {
+			listboxRef.current.focus();
 		}
 	};
 
-	const onOpenHandler = () => {
-		focusOnSearch();
-	};
-
-	const onCloseHandler = () => {
+	const handleClose = () => {
 		allowSearch && setSearchedTerm( '' );
-		onCloseProp();
+		onClose();
 	};
 
-	const ownerState: SelectOwnerState = { width };
+	const handleListboxKeydown = ( event: React.KeyboardEvent<HTMLDivElement>, args: { close: () => void } ) => {
+		switch ( event.key ) {
+			case 'Down':
+			case 'ArrowDown':
+				setActiveDescendantIndex( _ => _ < ( filteredOptions.length - 1 ) && typeof filteredOptions[ _ + 1 ] !== undefined ? _ + 1 : _ )
+				break;
+			case 'Up':
+			case 'ArrowUp':
+				setActiveDescendantIndex( _ => _ !== 0 && typeof filteredOptions[ _ - 1 ] !== undefined ? _ - 1 : _ )
+				break;
+			case 'Enter':
+			case ' ': {
+				const selectedOption = filteredOptions[ activeDescendantIndex ] ?? undefined;
+				if ( selectedOption ) {
+					handleChange( selectedOption, args );
+				}
+			}
+				break;
+		}
+	};
+
+	const handleToggleKeydown = ( event: React.KeyboardEvent<HTMLDivElement>, args: { toggle: () => void } ) => {
+		switch ( event.key ) {
+			case 'Enter':
+			case ' ': {
+				args.toggle();
+			}
+				break;
+		}
+	};
+
+	const ownerState: SelectOwnerState = { width, variant };
+	const classes = useComponentClasses( ownerState );
+
+	const providerProps: Omit<React.ComponentProps<typeof SelectProvider>, 'children'> = {
+		deselectOption,
+		selectedOptions,
+		multiple,
+		showTags,
+		limitTags,
+		getOptionLabel,
+		getOptionValue,
+		isLoading,
+		size,
+		variant,
+		renderToggleContent
+	}
 
 	return (
-		<SelectProvider
-			deselectOption={ deselectOption }
-			selectedOptions={ selectedOptions }
-			multiple={ multiple }
-			showTags={ showTags }
-			limitTags={ limitTags }
-			getOptionLabel={ getOptionLabel }
-			getOptionValue={ getOptionValue }
-			isLoading={ isLoading }
-			size={ size }
-		>
-			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } id={ selectIds.root }>
+		<SelectProvider { ...providerProps }>
+			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } id={ selectIds.root } className={ classes.root }>
 				{ arrayValue.map( _ => (
 					<input key={ _ } type="hidden" name={ name } value={ _ }/>
 				) ) }
@@ -237,6 +296,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 									close();
 								} }
 								isOpen={ isOpen }
+								hideToggleIcon={ hideToggleIcon }
+								onKeyDown={ e => handleToggleKeydown( e, { toggle } ) }
 							/>
 						);
 					} }
@@ -246,56 +307,76 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 								{ allowSearch && (
 									<Input
 										ref={ searchRef as MutableRefObject<HTMLInputElement> }
+										className={ classes.search }
 										type="text"
 										variant="ghost"
 										value={ searchedTerm }
 										onChange={ ( _, newValue ) => setSearchedTerm( newValue ) }
 										placeholder={ __( 'Search', 'yith-plugin-fw' ) }
 										startAdornment={ <MagnifyingGlassIcon width="1.25em"/> }
+										fullWidth
 									/>
 								) }
 
-								{ !isLoading && !!filteredOptions.length &&
-									<SelectOptions id={ selectIds.options }>
-										{ filteredOptions.map( ( option, index ) => {
-											return (
-												<Fragment key={ getOptionValue( option ) }>
-													{ renderOption( {
-														id: getOptionId( index ),
-														option,
-														isDisabled: option?.disabled ?? false,
-														isSelected: isOptionSelected( option ),
-														label: getOptionLabel( option ),
-														onSelect: () => handleChange( option, { close } ),
-													} ) }
-												</Fragment>
-											);
-										} ) }
-									</SelectOptions>
-								}
+								<SelectListbox
+									ref={ listboxRef }
+									role='listbox'
+									tabIndex={ 0 }
+									aria-multiselectable={ multiple }
+									aria-activedescendant={ selectIds.activeDescendant }
+									onKeyDown={ e => handleListboxKeydown( e, { close } ) }
+								>
+									{ !isLoading && !!filteredOptions.length &&
+										<SelectOptions id={ selectIds.options } className={ classes.options }>
+											{ filteredOptions.map( ( option, index ) => {
+												const isDisabled = option?.disabled ?? false;
+												const onSelect = () => handleChange( option, { close } );
+												const optionState: SelectOptionState = {
+													isDisabled: option?.disabled ?? false,
+													isSelected: isOptionSelected( option ),
+													isActiveDescendant: index === activeDescendantIndex,
+													label: getOptionLabel( option ),
+													value: getOptionValue( option )
+												};
 
-								{ !isLoading && !filteredOptions.length &&
-									( allowSearch && searchedTerm ?
-											( !!noResultsText && <SelectOptionsNoResults>{ noResultsText }</SelectOptionsNoResults> ) :
-											( !!noOptionsText && <SelectOptionsNoResults>{ noOptionsText }</SelectOptionsNoResults> )
-									)
-								}
+												const optionProps: SelectOptionProps = {
+													id: getOptionId( index ),
+													isDisabled: optionState.isDisabled,
+													isSelected: optionState.isSelected,
+													isActiveDescendant: optionState.isActiveDescendant,
+													onClick: !isDisabled ? onSelect : noop,
+													children: renderOptionContent( option, optionState )
+												};
 
-								{ isLoading && !!loadingText && !filteredOptions.length && (
-									<SelectLoadingText>{ loadingText }</SelectLoadingText>
-								) }
+												return (
+													<Fragment key={ getOptionValue( option ) }>
+														{ renderOption( optionProps, option, optionState ) }
+													</Fragment>
+												);
+											} ) }
+										</SelectOptions>
+									}
+
+									{ !isLoading && !filteredOptions.length &&
+										( allowSearch && searchedTerm ?
+												( !!noResultsText && <SelectOptionsNoResults>{ noResultsText }</SelectOptionsNoResults> ) :
+												( !!noOptionsText && <SelectOptionsNoResults>{ noOptionsText }</SelectOptionsNoResults> )
+										)
+									}
+
+									{ isLoading && !!loadingText && !filteredOptions.length && (
+										<SelectLoadingText>{ loadingText }</SelectLoadingText>
+									) }
+								</SelectListbox>
 							</>
 						);
 					} }
-					onOpen={ onOpenHandler }
-					onClose={ onCloseHandler }
+					onOpen={ handleOpen }
+					onClose={ handleClose }
 					popoverProps={ {
+						className: classes.popover,
 						position: 'bottom left',
 						forceMinWidth: true,
-						role: 'listbox',
-						tabIndex: -1,
-						'aria-multiselectable': multiple,
-						'aria-activedescendant': selectIds.focusedOption
 					} }
 					disableConstrainedFocus
 					disableAutoFocus

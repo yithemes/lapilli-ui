@@ -1,19 +1,20 @@
 import React from 'react';
-import type { SelectOption, SelectOwnProps } from "./types";
+import type { SelectOptionParams, SelectOwnProps } from "./types";
 
-type ProviderProps = {
-	deselectOption: ( option: SelectOption ) => void
-	selectedOptions: SelectOption[]
+export type SelectProviderProps = {
+	deselectOption: ( option: SelectOptionParams ) => void
+	selectedOptions: SelectOptionParams[]
 	children: React.ReactNode
-} & Required<Pick<SelectOwnProps, 'multiple' | 'getOptionValue' | 'getOptionLabel' | 'isLoading' | 'size' | 'limitTags' | 'showTags'>>
+} & Required<Pick<SelectOwnProps, 'multiple' | 'getOptionValue' | 'getOptionLabel' | 'isLoading' | 'size' | 'limitTags' | 'showTags' | 'variant'>>
+	& Pick<SelectOwnProps, 'renderToggleContent'>
 
-type ContextValue = Omit<ProviderProps, 'children'>
+type ContextValue = Omit<SelectProviderProps, 'children'>
 
 const SelectContext = React.createContext<ContextValue>( {} as ContextValue );
 
 export const useSelectContext = (): ContextValue => React.useContext( SelectContext );
 
-export function SelectProvider( { children, ...props }: ProviderProps ) {
+export function SelectProvider( { children, ...props }: SelectProviderProps ) {
 	const theContext: ContextValue = props;
 	return (
 		<SelectContext.Provider value={ theContext }>
