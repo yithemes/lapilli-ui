@@ -60,7 +60,7 @@ type SingleSelectOwnProps = {
 	/**
 	 * Function to render the option.
 	 */
-	renderOption?: ( props: SelectOptionProps, option: SelectOptionParams, state: SelectOptionState ) => React.ReactNode
+	renderOption?: ( props: SelectOptionProps, option: SelectOptionParams, state: SelectOptionState ) => React.ReactElement
 	/**
 	 * Function to render the option content.
 	 */
@@ -166,13 +166,6 @@ export type SelectStyled = {
 }
 
 type SelectToggleOwnProps = {
-	hideToggleIcon: boolean
-	isEmpty: boolean
-	allowClear: boolean
-	isOpen: boolean
-	label: string
-	placeholder: string
-	onToggle: () => void
 	onClear: () => void
 }
 

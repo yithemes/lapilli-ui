@@ -1,13 +1,14 @@
 import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@yith/styles";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import IconButton from "../../icon-button";
-import { ZeroWidthSpace } from "../../utils";
+import { useMergedRefs, ZeroWidthSpace } from "../../utils";
 import Spinner from "../../spinner";
 import type { SelectToggleOwnerState, SelectToggleProps, SelectToggleStyled } from "../types";
 import { useSelectContext } from "../context";
 import { selectClasses } from "../classes";
+import { useDropdown } from "../../dropdown";
 
 const ACTION_SPACING = '6px'; // spacing between actions.
 
@@ -176,9 +177,34 @@ const SelectToggleExpand = styled( 'span', { name: 'Select', slot: 'ToggleExpand
 
 const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 	(
-		{ label, placeholder, onToggle, isEmpty, allowClear, onClear, isOpen, hideToggleIcon, ...other }, ref ) => {
+		{ onClear, ...other }, ref ) => {
+		const {
+			placeholder,
+			getOptionId,
+			activeDescendantIndex,
+			hideToggleIcon,
+			size,
+			showTags,
+			isEmpty,
+			allowClear,
+			limitTags,
+			getOptionValue,
+			getOptionLabel,
+			selectedOptions,
+			deselectOption,
+			isLoading,
+			variant,
+			renderToggleContent,
+			moveToFirstActiveDescendant,
+			moveToLastActiveDescendant,
+			componentIds
+		} = useSelectContext();
+		const { toggle, open, isOpen } = useDropdown();
+		const label = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
+		const rootRef = useRef<HTMLDivElement>( null );
+		const mergedRef = useMergedRefs( ref, rootRef );
+
 		const [ isFocused, setIsFocused ] = useState( false );
-		const { size, showTags, limitTags, getOptionValue, getOptionLabel, selectedOptions, deselectOption, isLoading, variant, renderToggleContent } = useSelectContext();
 		const ownerState: SelectToggleOwnerState = {
 			isOpen,
 			isEmpty,
@@ -186,6 +212,36 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			size,
 			variant
 		};
+
+		const handleKeydown = ( event: React.KeyboardEvent<HTMLDivElement> ) => {
+			if ( event.target !== rootRef.current ) {
+				return;
+			}
+			switch ( event.key ) {
+				case 'Down':
+				case 'ArrowDown':
+				case 'Up':
+				case 'ArrowUp':
+				case 'Enter':
+				case ' ':
+					open();
+					break;
+				case 'Home':
+					open();
+					moveToFirstActiveDescendant();
+					break;
+				case 'End':
+					open();
+					moveToLastActiveDescendant();
+					break;
+			}
+		};
+
+		const handleClear = ( e: React.MouseEvent ) => {
+			e.stopPropagation();
+			onClear();
+			close();
+		}
 
 		const classes = useComponentClasses( ownerState );
 
@@ -235,15 +291,18 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			<SelectToggleRoot
 				{ ...other }
 				className={ classes.toggle }
-				ref={ ref }
+				ref={ mergedRef }
 				onFocus={ () => setIsFocused( true ) }
 				onBlur={ () => setIsFocused( false ) }
-				onClick={ onToggle }
+				onKeyDown={ handleKeydown }
+				onClick={ toggle }
 				ownerState={ ownerState }
+				aria-controls={ componentIds.listbox }
 				aria-expanded={ isOpen ? 'true' : 'false' }
 				aria-haspopup="listbox"
 				role="combobox"
 				tabIndex={ 0 }
+				aria-activedescendant={ activeDescendantIndex > -1 ? getOptionId( activeDescendantIndex ) : undefined }
 			>
 				{ !!display ? display : <ZeroWidthSpace/> }
 
@@ -257,10 +316,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 					{ allowClear && !isEmpty && !showTags && (
 						<SelectToggleClear
 							className={ classes.toggleClear }
-							onClick={ ( e: React.MouseEvent ) => {
-								e.stopPropagation();
-								onClear();
-							} }
+							onClick={ handleClear }
 						>
 							<XMarkIcon/>
 						</SelectToggleClear>

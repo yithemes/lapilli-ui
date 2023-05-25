@@ -1,12 +1,52 @@
 import React from 'react';
-import type { SelectOptionParams, SelectOwnProps } from "./types";
+import type { SelectOptionParams, SelectProps } from "./types";
 
 export type SelectProviderProps = {
 	deselectOption: ( option: SelectOptionParams ) => void
-	selectedOptions: SelectOptionParams[]
+	handleChange: ( option: SelectOptionParams ) => void
+	selectedOptions: SelectOptionParams[] // TO CHECK if needed
+	searchedTerm: string // TO CHECK if needed
+	setSearchedTerm: React.Dispatch<React.SetStateAction<string>> // TO CHECK if needed
+	filteredOptions: SelectOptionParams[]
+	isOptionSelected: ( option: SelectOptionParams ) => boolean
+	getOptionId: ( index: number ) => string
+	isEmpty: boolean
+	activeDescendantIndex: number
+	setActiveDescendantIndex: React.Dispatch<React.SetStateAction<number>>
+	nextActiveDescendant: () => void
+	prevActiveDescendant: () => void
+	unsetActiveDescendant: () => void
+	moveToFirstActiveDescendant: () => void
+	moveToLastActiveDescendant: () => void
+	componentIds: {
+		listbox: string
+		options: string
+	}
 	children: React.ReactNode
-} & Required<Pick<SelectOwnProps, 'multiple' | 'getOptionValue' | 'getOptionLabel' | 'isLoading' | 'size' | 'limitTags' | 'showTags' | 'variant'>>
-	& Pick<SelectOwnProps, 'renderToggleContent'>
+} & Required<Pick<SelectProps,
+	'id'
+	| 'allowClear'
+	| 'placeholder'
+	| 'hideToggleIcon'
+	| 'multiple'
+	| 'getOptionValue'
+	| 'getOptionLabel'
+	| 'isLoading'
+	| 'size'
+	| 'limitTags'
+	| 'showTags'
+	| 'variant'
+	| 'value'
+	| 'options'
+	| 'allowSearch'
+	| 'renderOptionContent'
+	| 'renderOption'
+	| 'noResultsText'
+	| 'noOptionsText'
+	| 'loadingText'
+	| 'closeOnSelect'>
+>
+	& Pick<SelectProps, 'renderToggleContent'>
 
 type ContextValue = Omit<SelectProviderProps, 'children'>
 
@@ -16,6 +56,7 @@ export const useSelectContext = (): ContextValue => React.useContext( SelectCont
 
 export function SelectProvider( { children, ...props }: SelectProviderProps ) {
 	const theContext: ContextValue = props;
+
 	return (
 		<SelectContext.Provider value={ theContext }>
 			{ children }

@@ -9,6 +9,7 @@ import Paper from "../paper";
 import type { DropdownCallbackArgs, DropdownProps } from "./types";
 import classNames from "classnames";
 import { FocusTrap } from "../focus-trap";
+import { DropdownProvider } from "./context";
 
 const useComponentClasses = () => {
 	return generateComponentClasses(
@@ -70,6 +71,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	const open = () => setIsOpen( true );
 
 	const args: DropdownCallbackArgs = { isOpen, toggle, close, open, ref: toggleRef };
+	const providerProps: Omit<React.ComponentProps<typeof DropdownProvider>, 'children'> = { isOpen, toggle, close, open };
 
 	const handleKeyDown = ( event: React.KeyboardEvent<HTMLDivElement> | KeyboardEvent ) => {
 		if ( !disableEscapeKeyDown && [ 'Esc', 'Escape' ].includes( event.key ) ) {
@@ -81,18 +83,18 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	useMainView( isOpen, { onEscapeKeyDown: handleKeyDown, disableScrollLock: true } );
 
 	return (
-		<>
+		<DropdownProvider { ...providerProps }>
 			{ React.cloneElement( renderToggle( args ), { ref: toggleRef } ) }
 			{ isOpen && (
 				<DropdownPopover
-					{ ...popoverProps }
-					className={ classNames( classes.popover, popoverProps?.className ) }
-					forceInView='horizontally'
-					verticalMargin={ 8 }
-					anchorRef={ localToggleRef.current }
-					onClickOutside={ close }
 					role='dialog'
 					aria-modal={ true }
+					forceInView='horizontally'
+					verticalMargin={ 8 }
+					{ ...popoverProps }
+					className={ classNames( classes.popover, popoverProps?.className ) }
+					anchorRef={ localToggleRef.current }
+					onClickOutside={ close }
 					onKeyDown={ handleKeyDown }
 				>
 					<FocusTrap open disableRestoreFocus={ disableRestoreFocus } disableAutoFocus={ disableAutoFocus } disableConstrainedFocus={ disableConstrainedFocus }>
@@ -106,7 +108,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 					</FocusTrap>
 				</DropdownPopover>
 			) }
-		</>
+		</DropdownProvider>
 	);
 } );
 

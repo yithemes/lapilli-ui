@@ -1,11 +1,9 @@
-import React, { forwardRef, Fragment, MutableRefObject, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { __ } from '@wordpress/i18n';
 import { noop } from 'lodash';
-import { generateComponentClasses, mergeComponentClasses, styled, Theme } from '@yith/styles';
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
 
 import Dropdown from '../dropdown';
-import Input from '../input';
 import { useControlledState, useId } from '../utils';
 
 import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps } from "./types";
@@ -14,8 +12,7 @@ import SelectOption from "./slots/SelectOption";
 import SelectToggle from "./slots/SelectToggle";
 import { useSelectDefaultValue } from "./utils/useSelectDefaultValue";
 import { selectClasses } from "./classes";
-
-const LIST_SPACING = '8px'; // spacing (padding, margin) for the list elements.
+import SelectDropdownContent from "./slots/SelectDropdownContent";
 
 const useComponentClasses = ( ownerState: SelectOwnerState ) => {
 	const stateClasses = generateComponentClasses(
@@ -36,34 +33,6 @@ const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyle
 		};
 	} }
 `;
-
-const SelectListbox = styled( 'div', { name: 'Select', slot: 'Listbox' } )( () => ( {
-	'&:focus, &:focus-visible': {
-		outline: 'none'
-	}
-} ) );
-
-const SelectOptions = styled( 'div', { name: 'Select', slot: 'Options' } )( ( { theme }: { theme: Theme } ) => ( {
-	maxHeight: '200px',
-	overflowY: 'auto',
-	fontSize: theme.fields.fontSize,
-} ) );
-
-const SelectOptionsNoResults = styled( 'div', { name: 'Select', slot: 'OptionsNoResults' } )(
-	( { theme } ) => ( {
-		fontSize: theme.fields.fontSize,
-		padding: theme.fields.padding.md,
-		margin: `${ LIST_SPACING } 0`,
-		opacity: 0.7,
-	} )
-);
-const SelectLoadingText = styled( 'div', { name: 'Select', slot: 'LoadingText' } )(
-	( { theme } ) => ( {
-		fontSize: theme.fields.fontSize,
-		padding: theme.fields.padding.md,
-		margin: `${ LIST_SPACING } 0`,
-		opacity: 0.7,
-	} ) );
 
 function defaultRenderOptionContent( _option: SelectOptionParams, state: SelectOptionState ) {
 	return state.label;
@@ -123,8 +92,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	const [ value, setValue ] = useControlledState( valueProp, defaultValue );
 	const arrayValue = useMemo( () => ( Array.isArray( value ) ? value : [ value ] ).filter( Boolean ), [ value ] );
 	const [ searchedTerm, setSearchedTerm ] = useState( '' );
-	const searchRef = useRef<HTMLInputElement>();
-	const listboxRef = useRef<HTMLDivElement>( null );
+	const toggleRef = useRef<HTMLDivElement>( null );
 
 	useEffect( () => {
 		if ( allowSearch ) {
@@ -132,7 +100,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		}
 	}, [ searchedTerm ] );
 
-	const deselectOption = useCallback( ( option: any ) => {
+	const deselectOption = useCallback( ( option: SelectOptionParams ) => {
 			const optionValue = getOptionValue( option );
 			if ( multiple ) {
 				const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
@@ -147,8 +115,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		[ getOptionValue, multiple, value, onChange ]
 	);
 
-	const handleChange = useCallback( ( option: any, args: { close: () => void } ) => {
-			const { close } = args;
+	const handleChange = useCallback( ( option: SelectOptionParams ) => {
 			const optionValue = getOptionValue( option );
 
 			allowSearch && setSearchedTerm( '' );
@@ -168,23 +135,18 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 				setValue( optionValue );
 				onChange( optionValue );
 			}
-
-			if ( closeOnSelect ) {
-				close();
-			}
 		},
 		[ getOptionValue, allowSearch, multiple, onChange, value, closeOnSelect ]
 	);
 
-	const isOptionSelected = useCallback( ( option: any ) => {
+	const isOptionSelected = useCallback( ( option: SelectOptionParams ) => {
 			return multiple ? ( value as string[] ).includes( getOptionValue( option ) ) : value === getOptionValue( option )
 		},
-		[ multiple, getOptionValue ]
+		[ multiple, getOptionValue, value ]
 	);
 
 	const isEmpty = useMemo( () => ( multiple ? !( value as string[] ).length : !value ), [ value, multiple ] );
 	const selectedOptions = useMemo( () => options.filter( _ => isOptionSelected( _ ) ), [ options, value, multiple ] );
-	const toggleLabel = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
 
 	const filteredOptions = useMemo( () => {
 		let filtered = options;
@@ -201,69 +163,46 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 
 	const getOptionId = useCallback( ( index: number ) => `${ id }__option__${ index }`, [ id ] );
 
-	const defaultActiveDescendantIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, value, multiple ] );
+	const defaultActiveDescendantIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, isOptionSelected ] );
 	const [ activeDescendantIndex, setActiveDescendantIndex ] = useState( defaultActiveDescendantIndex );
+	const minMaxActiveDescendant = useCallback( ( index: number ) => Math.max( 0, Math.min( filteredOptions.length - 1, index ) ), [ filteredOptions ] );
+	const nextActiveDescendant = useCallback( () => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ + 1 ) ), [ filteredOptions ] );
+	const prevActiveDescendant = useCallback( () => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ - 1 ) ), [ filteredOptions ] );
+	const moveToFirstActiveDescendant = useCallback( () => setActiveDescendantIndex( filteredOptions.length ? 0 : -1 ), [ filteredOptions ] );
+	const moveToLastActiveDescendant = useCallback( () => setActiveDescendantIndex( filteredOptions.length - 1 ), [ filteredOptions ] );
+	const unsetActiveDescendant = useCallback( () => setActiveDescendantIndex( -1 ), [] );
 
 	useEffect( () => {
-		setActiveDescendantIndex( filteredOptions.findIndex( _ => isOptionSelected( _ ) ) );
-	}, [ value, filteredOptions, multiple ] );
-
-	const selectIds = useMemo( () => ( {
-		root: id,
-		options: `${ id }__options`,
-		activeDescendant: activeDescendantIndex > -1 ? getOptionId( activeDescendantIndex ) : undefined
-	} ), [ id, activeDescendantIndex, getOptionId ] );
-
-	const handleOpen = () => {
-		if ( allowSearch && searchRef.current ) {
-			searchRef.current.focus();
-		} else if ( listboxRef.current ) {
-			listboxRef.current.focus();
+		if ( activeDescendantIndex !== minMaxActiveDescendant( activeDescendantIndex ) ) {
+			setActiveDescendantIndex( minMaxActiveDescendant( activeDescendantIndex ) );
 		}
-	};
+	}, [ activeDescendantIndex, minMaxActiveDescendant ] );
 
 	const handleClose = () => {
 		allowSearch && setSearchedTerm( '' );
+		setActiveDescendantIndex( filteredOptions.findIndex( _ => isOptionSelected( _ ) ) );
 		onClose();
 	};
 
-	const handleListboxKeydown = ( event: React.KeyboardEvent<HTMLDivElement>, args: { close: () => void } ) => {
-		switch ( event.key ) {
-			case 'Down':
-			case 'ArrowDown':
-				setActiveDescendantIndex( _ => _ < ( filteredOptions.length - 1 ) && typeof filteredOptions[ _ + 1 ] !== undefined ? _ + 1 : _ )
-				break;
-			case 'Up':
-			case 'ArrowUp':
-				setActiveDescendantIndex( _ => _ !== 0 && typeof filteredOptions[ _ - 1 ] !== undefined ? _ - 1 : _ )
-				break;
-			case 'Enter':
-			case ' ': {
-				const selectedOption = filteredOptions[ activeDescendantIndex ] ?? undefined;
-				if ( selectedOption ) {
-					handleChange( selectedOption, args );
-				}
-			}
-				break;
-		}
-	};
-
-	const handleToggleKeydown = ( event: React.KeyboardEvent<HTMLDivElement>, args: { toggle: () => void } ) => {
-		switch ( event.key ) {
-			case 'Enter':
-			case ' ': {
-				args.toggle();
-			}
-				break;
-		}
+	const handleClear = () => {
+		onClear();
+		setValue( multiple ? [] : '' );
 	};
 
 	const ownerState: SelectOwnerState = { width, variant };
 	const classes = useComponentClasses( ownerState );
 
+	const componentIds: React.ComponentProps<typeof SelectProvider>['componentIds'] = {
+		listbox: `${ id }__listbox`,
+		options: `${ id }__options`,
+	}
+
 	const providerProps: Omit<React.ComponentProps<typeof SelectProvider>, 'children'> = {
-		deselectOption,
-		selectedOptions,
+		id,
+		allowClear,
+		allowSearch,
+		placeholder,
+		hideToggleIcon,
 		multiple,
 		showTags,
 		limitTags,
@@ -272,114 +211,50 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		isLoading,
 		size,
 		variant,
-		renderToggleContent
+		renderToggleContent,
+		value,
+		options,
+		renderOption,
+		renderOptionContent,
+		noOptionsText,
+		noResultsText,
+		loadingText,
+		closeOnSelect,
+		getOptionId,
+		searchedTerm,
+		setSearchedTerm,
+		deselectOption,
+		handleChange,
+		selectedOptions,
+		filteredOptions,
+		isOptionSelected,
+		isEmpty,
+		activeDescendantIndex,
+		setActiveDescendantIndex,
+		nextActiveDescendant,
+		prevActiveDescendant,
+		unsetActiveDescendant,
+		moveToFirstActiveDescendant,
+		moveToLastActiveDescendant,
+		componentIds
 	}
 
 	return (
 		<SelectProvider { ...providerProps }>
-			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } id={ selectIds.root } className={ classes.root }>
+			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } id={ id } className={ classes.root }>
 				{ arrayValue.map( _ => (
 					<input key={ _ } type="hidden" name={ name } value={ _ }/>
 				) ) }
 				<Dropdown
-					renderToggle={ ( { isOpen, toggle, close } ) => {
-						return (
-							<SelectToggle
-								label={ toggleLabel }
-								placeholder={ placeholder }
-								onToggle={ toggle }
-								isEmpty={ isEmpty }
-								allowClear={ allowClear }
-								onClear={ () => {
-									onClear();
-									setValue( multiple ? [] : '' );
-									close();
-								} }
-								isOpen={ isOpen }
-								hideToggleIcon={ hideToggleIcon }
-								onKeyDown={ e => handleToggleKeydown( e, { toggle } ) }
-							/>
-						);
-					} }
-					renderContent={ ( { close } ) => {
-						return (
-							<>
-								{ allowSearch && (
-									<Input
-										ref={ searchRef as MutableRefObject<HTMLInputElement> }
-										className={ classes.search }
-										type="text"
-										variant="ghost"
-										value={ searchedTerm }
-										onChange={ ( _, newValue ) => setSearchedTerm( newValue ) }
-										placeholder={ __( 'Search', 'yith-plugin-fw' ) }
-										startAdornment={ <MagnifyingGlassIcon width="1.25em"/> }
-										fullWidth
-									/>
-								) }
-
-								<SelectListbox
-									ref={ listboxRef }
-									role='listbox'
-									tabIndex={ 0 }
-									aria-multiselectable={ multiple }
-									aria-activedescendant={ selectIds.activeDescendant }
-									onKeyDown={ e => handleListboxKeydown( e, { close } ) }
-								>
-									{ !isLoading && !!filteredOptions.length &&
-										<SelectOptions id={ selectIds.options } className={ classes.options }>
-											{ filteredOptions.map( ( option, index ) => {
-												const isDisabled = option?.disabled ?? false;
-												const onSelect = () => handleChange( option, { close } );
-												const optionState: SelectOptionState = {
-													isDisabled: option?.disabled ?? false,
-													isSelected: isOptionSelected( option ),
-													isActiveDescendant: index === activeDescendantIndex,
-													label: getOptionLabel( option ),
-													value: getOptionValue( option )
-												};
-
-												const optionProps: SelectOptionProps = {
-													id: getOptionId( index ),
-													isDisabled: optionState.isDisabled,
-													isSelected: optionState.isSelected,
-													isActiveDescendant: optionState.isActiveDescendant,
-													onClick: !isDisabled ? onSelect : noop,
-													children: renderOptionContent( option, optionState )
-												};
-
-												return (
-													<Fragment key={ getOptionValue( option ) }>
-														{ renderOption( optionProps, option, optionState ) }
-													</Fragment>
-												);
-											} ) }
-										</SelectOptions>
-									}
-
-									{ !isLoading && !filteredOptions.length &&
-										( allowSearch && searchedTerm ?
-												( !!noResultsText && <SelectOptionsNoResults>{ noResultsText }</SelectOptionsNoResults> ) :
-												( !!noOptionsText && <SelectOptionsNoResults>{ noOptionsText }</SelectOptionsNoResults> )
-										)
-									}
-
-									{ isLoading && !!loadingText && !filteredOptions.length && (
-										<SelectLoadingText>{ loadingText }</SelectLoadingText>
-									) }
-								</SelectListbox>
-							</>
-						);
-					} }
-					onOpen={ handleOpen }
+					ref={ toggleRef }
+					renderToggle={ () => <SelectToggle onClear={ handleClear }/> }
+					renderContent={ () => <SelectDropdownContent/> }
 					onClose={ handleClose }
 					popoverProps={ {
 						className: classes.popover,
 						position: 'bottom left',
-						forceMinWidth: true,
+						forceMinWidth: true
 					} }
-					disableConstrainedFocus
-					disableAutoFocus
 				/>
 			</SelectRoot>
 		</SelectProvider>

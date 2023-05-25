@@ -1,5 +1,5 @@
 import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@yith/styles";
-import React, { useEffect, useRef } from "react";
+import React, { forwardRef } from "react";
 import type { SelectOptionOwnerState, SelectOptionProps, SelectOptionStyled } from "../types";
 import { selectClasses } from "../classes";
 
@@ -55,24 +55,16 @@ const SelectOptionRoot = styled( 'div', { name: 'Select', slot: 'Option' } )<Sel
 	} ),
 } ) );
 
-const SelectOption = ( props: SelectOptionProps ) => {
+const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>( ( props, ref ) => {
 	const { children, isSelected, isDisabled, isActiveDescendant, ...other } = props;
-	const optionRef = useRef<HTMLDivElement>( null );
-
-	useEffect( () => {
-		if ( isSelected && !isDisabled && optionRef.current ) {
-			// TODO: do not focus the option! Instead, use 'aria-activedescendant' and scroll the list down to the first selected option.
-			optionRef.current.focus();
-		}
-	}, [] );
 
 	const ownerState: SelectOptionOwnerState = { isSelected, isDisabled, isActiveDescendant };
 	const classes = useComponentClasses( ownerState );
 
 	return (
-		<SelectOptionRoot { ...other } className={ classes.option } ownerState={ ownerState } ref={ optionRef } role="option" tabIndex={ -1 } aria-selected={ isSelected }>
+		<SelectOptionRoot { ...other } className={ classes.option } ownerState={ ownerState } ref={ ref }>
 			{ children }
 		</SelectOptionRoot>
 	);
-};
+} );
 export default SelectOption;
