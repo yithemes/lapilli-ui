@@ -40,11 +40,16 @@ export default function FocusTrap(
 			if ( !disableRestoreFocus && nodeToRestore.current && ( nodeToRestore.current as HTMLElement )?.focus ) {
 				( nodeToRestore.current as HTMLElement ).focus();
 			}
+			nodeToRestore.current = null;
 		}
 
 	}, [ open, mainRef, disableAutoFocus, disableRestoreFocus ] );
 
 	const handleSentinelFocus = useCallback( ( event: React.FocusEvent<HTMLDivElement> ) => {
+		if ( nodeToRestore.current === null ) {
+			nodeToRestore.current = event.relatedTarget;
+		}
+
 		if ( !open || !mainRef.current || disableConstrainedFocus ) {
 			return;
 		}

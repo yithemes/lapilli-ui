@@ -210,7 +210,6 @@ const SelectDropdownContent = () => {
 							onClick: !isDisabled ? onSelect : noop,
 							children: renderOptionContent( option, optionState ),
 							role: "option",
-							tabIndex: -1,
 							"aria-selected": optionState.isSelected,
 							"aria-disabled": optionState.isDisabled ? 'true' : undefined
 						};
