@@ -2,6 +2,7 @@ import React from 'react';
 import type { SelectOptionParams, SelectProps } from "./types";
 
 export type SelectProviderProps = {
+	handleTyping: ( event: React.KeyboardEvent<HTMLDivElement> ) => void
 	deselectOption: ( option: SelectOptionParams ) => void
 	handleChange: ( option: SelectOptionParams ) => void
 	selectedOptions: SelectOptionParams[] // TO CHECK if needed
@@ -44,7 +45,8 @@ export type SelectProviderProps = {
 	| 'noResultsText'
 	| 'noOptionsText'
 	| 'loadingText'
-	| 'closeOnSelect'>
+	| 'closeOnSelect'
+	| 'disabled'>
 >
 	& Pick<SelectProps, 'renderToggleContent'>
 

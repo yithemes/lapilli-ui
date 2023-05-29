@@ -24,17 +24,11 @@ const useComponentClasses = ( ownerState: SelectToggleOwnerState ) => {
 }
 
 const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<SelectToggleStyled>( ( { theme, ownerState } ) => ( {
-	display: 'flex',
-	alignItems: 'center',
 	boxSizing: 'border-box',
 	position: 'relative',
 	cursor: 'pointer',
 	userSelect: 'none',
 	width: '100%',
-	'& > :not( style ) + :not( style )': {
-		marginLeft: '4px',
-		marginRight: '-2px'
-	},
 	borderRadius: theme.fields.borderRadius,
 	padding: theme.fields.padding[ ownerState.size ],
 	fontSize: theme.fields.fontSize,
@@ -48,13 +42,15 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 		borderWidth: '1px',
 		borderStyle: 'solid',
 		borderColor: theme.fields.borderColor,
-		'&:focus, &:focus-visible': {
-			borderColor: theme.fields.focusedBorderColor,
-			boxShadow: theme.fields.focusedBoxShadow,
-			outline: 'none'
-		}
+		...( !ownerState.disabled && {
+			'&:focus, &:focus-visible': {
+				borderColor: theme.fields.focusedBorderColor,
+				boxShadow: theme.fields.focusedBoxShadow,
+				outline: 'none'
+			}
+		} )
 	} ),
-	...( ownerState.variant === 'reveal' && {
+	...( ownerState.variant === 'reveal' && !ownerState.disabled && {
 		'&:hover, &:focus, &:focus-visible': {
 			background: alpha( theme.palette.primary.main ?? '', theme.palette.action.hoverOpacity ),
 			outline: 'none'
@@ -68,6 +64,21 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 		borderColor: theme.fields.focusedBorderColor,
 		boxShadow: theme.fields.focusedBoxShadow
 	} ) ),
+	...( ownerState.disabled && {
+		cursor: 'not-allowed'
+	} )
+} ) );
+
+const SelectToggleWrap = styled( 'div', { name: 'Select', slot: 'ToggleWrap' } )<SelectToggleStyled>( ( { theme, ownerState } ) => ( {
+	display: 'flex',
+	alignItems: 'center',
+	'& > :not( style ) + :not( style )': {
+		marginLeft: '4px',
+		marginRight: '-2px'
+	},
+	...( ownerState.disabled && {
+		opacity: theme.palette.action.disabledOpacity
+	} )
 } ) );
 
 const SelectToggleLabel = styled( 'span', { name: 'Select', slot: 'ToggleLabel' } )`
@@ -197,7 +208,9 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			renderToggleContent,
 			moveToFirstActiveDescendant,
 			moveToLastActiveDescendant,
-			componentIds
+			componentIds,
+			disabled,
+			handleTyping
 		} = useSelectContext();
 		const { toggle, open, isOpen } = useDropdown();
 		const label = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
@@ -209,12 +222,13 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			isOpen,
 			isEmpty,
 			isFocused,
+			disabled,
 			size,
 			variant
 		};
 
 		const handleKeydown = ( event: React.KeyboardEvent<HTMLDivElement> ) => {
-			if ( event.target !== rootRef.current ) {
+			if ( event.target !== rootRef.current || disabled ) {
 				return;
 			}
 			switch ( event.key ) {
@@ -225,15 +239,21 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 				case 'Enter':
 				case ' ':
 					open();
+					event.stopPropagation();
 					break;
 				case 'Home':
 					open();
 					moveToFirstActiveDescendant();
+					event.stopPropagation();
 					break;
 				case 'End':
 					open();
 					moveToLastActiveDescendant();
+					event.stopPropagation();
 					break;
+				default:
+					open();
+					handleTyping( event );
 			}
 		};
 
@@ -295,37 +315,40 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 				onFocus={ () => setIsFocused( true ) }
 				onBlur={ () => setIsFocused( false ) }
 				onKeyDown={ handleKeydown }
-				onClick={ toggle }
+				onClick={ !disabled ? toggle : undefined }
 				ownerState={ ownerState }
 				aria-controls={ componentIds.listbox }
-				aria-expanded={ isOpen ? 'true' : 'false' }
+				aria-expanded={ isOpen }
 				aria-haspopup="listbox"
+				aria-disabled={ disabled }
 				role="combobox"
 				tabIndex={ 0 }
 				aria-activedescendant={ activeDescendantIndex > -1 ? getOptionId( activeDescendantIndex ) : undefined }
 			>
-				{ !!display ? display : <ZeroWidthSpace/> }
+				<SelectToggleWrap ownerState={ ownerState }>
+					{ !!display ? display : <ZeroWidthSpace/> }
 
-				<SelectToggleActions className={ classes.toggleActions }>
-					{ isLoading && (
-						<SelectToggleSpinner className={ classes.toggleSpinner }>
-							<Spinner size={ 16 }/>
-						</SelectToggleSpinner>
-					) }
+					<SelectToggleActions className={ classes.toggleActions }>
+						{ isLoading && (
+							<SelectToggleSpinner className={ classes.toggleSpinner }>
+								<Spinner size={ 16 }/>
+							</SelectToggleSpinner>
+						) }
 
-					{ allowClear && !isEmpty && !showTags && (
-						<SelectToggleClear
-							className={ classes.toggleClear }
-							onClick={ handleClear }
-						>
-							<XMarkIcon/>
-						</SelectToggleClear>
-					) }
+						{ allowClear && !isEmpty && !showTags && (
+							<SelectToggleClear
+								className={ classes.toggleClear }
+								onClick={ handleClear }
+							>
+								<XMarkIcon/>
+							</SelectToggleClear>
+						) }
 
-					{ !hideToggleIcon && <SelectToggleExpand className={ classes.toggleExpand } ownerState={ ownerState }>
-						<ChevronUpDownIcon/>
-					</SelectToggleExpand> }
-				</SelectToggleActions>
+						{ !hideToggleIcon && <SelectToggleExpand className={ classes.toggleExpand } ownerState={ ownerState }>
+							<ChevronUpDownIcon/>
+						</SelectToggleExpand> }
+					</SelectToggleActions>
+				</SelectToggleWrap>
 			</SelectToggleRoot>
 		);
 	}

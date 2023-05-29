@@ -126,6 +126,10 @@ type SingleSelectOwnProps = {
 	 */
 	hideToggleIcon?: boolean
 	/**
+	 * If `true`, the field will be disabled.
+	 */
+	disabled?: boolean;
+	/**
 	 * Theme sc props.
 	 */
 	sx?: SxProps
@@ -175,6 +179,7 @@ export type SelectToggleOwnerState = {
 	isOpen: boolean
 	isEmpty: boolean
 	isFocused: boolean
+	disabled: boolean
 	size: FieldSize
 	variant: SelectProps['variant']
 }

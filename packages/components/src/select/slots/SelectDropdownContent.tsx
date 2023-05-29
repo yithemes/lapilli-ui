@@ -66,7 +66,8 @@ const SelectDropdownContent = () => {
 		noResultsText,
 		loadingText,
 		closeOnSelect,
-		componentIds
+		componentIds,
+		handleTyping
 	} = useSelectContext();
 	const listboxRef = useRef<HTMLDivElement>( null );
 	const optionsRef = useRef<HTMLDivElement>( null );
@@ -112,35 +113,37 @@ const SelectDropdownContent = () => {
 
 	const listboxFocus = () => listboxRef.current?.focus();
 
-	const handleGenericKeys = ( key: string, focusOnListbox: boolean = false ) => {
+	const handleGenericKeys = ( key: string, focusOnListbox: boolean = false ): boolean => {
 		switch ( key ) {
 			case 'Down':
 			case 'ArrowDown':
 				focusOnListbox && listboxFocus();
 				nextActiveDescendant();
 				setAutoScrollEnabled( true );
-				break;
+				return true;
 			case 'Up':
 			case 'ArrowUp':
 				focusOnListbox && listboxFocus();
 				prevActiveDescendant();
 				setAutoScrollEnabled( true );
-				break;
+				return true;
 			case 'Home':
 				focusOnListbox && listboxFocus();
 				moveToFirstActiveDescendant();
 				setAutoScrollEnabled( true );
-				break;
+				return true;
 			case 'End':
 				focusOnListbox && listboxFocus();
 				moveToLastActiveDescendant();
 				setAutoScrollEnabled( true );
-				break;
+				return true;
 		}
+
+		return false;
 	}
 
 	const handleSearchInputKeydown = ( event: React.KeyboardEvent<HTMLDivElement> ) => {
-		handleGenericKeys( event.key, true );
+		handleGenericKeys( event.key, true ) && event.stopPropagation();
 	};
 
 	const handleListboxKeydown = ( event: React.KeyboardEvent<HTMLDivElement> ) => {
@@ -148,7 +151,7 @@ const SelectDropdownContent = () => {
 			return;
 		}
 
-		handleGenericKeys( event.key );
+		handleGenericKeys( event.key ) && event.stopPropagation();
 
 		switch ( event.key ) {
 			case 'Enter':
@@ -157,8 +160,11 @@ const SelectDropdownContent = () => {
 				if ( selectedOption ) {
 					handleChangeCustom( selectedOption );
 				}
+				event.stopPropagation();
 			}
 				break;
+			default:
+				handleTyping( event );
 		}
 	};
 

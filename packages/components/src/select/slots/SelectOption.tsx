@@ -30,14 +30,6 @@ const SelectOptionRoot = styled( 'div', { name: 'Select', slot: 'Option' } )<Sel
 	...( ownerState.isSelected && !ownerState.isDisabled && {
 		background: alpha( theme.palette.primary.main ?? '', theme.palette.action.selectedOpacity ),
 		color: theme.palette.primary.main,
-
-		...( ownerState.isActiveDescendant && {
-			background: alpha(
-				theme.palette.primary.main ?? '',
-				theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity
-			),
-		} ),
-
 		'&:hover': {
 			background: alpha(
 				theme.palette.primary.main ?? '',
@@ -50,8 +42,8 @@ const SelectOptionRoot = styled( 'div', { name: 'Select', slot: 'Option' } )<Sel
 		color: alpha( theme.palette.action.disabled!, 1 ),
 		cursor: 'default',
 	} ),
-	...( ownerState.isActiveDescendant && !ownerState.isSelected && {
-		background: alpha( theme.palette.primary.main ?? '', theme.palette.action.hoverOpacity ),
+	...( ownerState.isActiveDescendant && {
+		background: alpha( theme.palette.primary.main ?? '', theme.palette.action.selectedOpacity + theme.palette.action.hoverOpacity * 2 ),
 	} ),
 } ) );
 

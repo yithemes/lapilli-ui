@@ -78,6 +78,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		size = 'md',
 		variant = 'outlined',
 		hideToggleIcon = false,
+		disabled = false,
 		...other
 	},
 	ref
@@ -101,6 +102,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	}, [ searchedTerm ] );
 
 	const deselectOption = useCallback( ( option: SelectOptionParams ) => {
+			if ( disabled ) {
+				return;
+			}
 			const optionValue = getOptionValue( option );
 			if ( multiple ) {
 				const idx = ( value as string[] ).findIndex( _ => _ === optionValue );
@@ -112,10 +116,13 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 				}
 			}
 		},
-		[ getOptionValue, multiple, value, onChange ]
+		[ getOptionValue, multiple, value, onChange, disabled ]
 	);
 
 	const handleChange = useCallback( ( option: SelectOptionParams ) => {
+			if ( disabled ) {
+				return;
+			}
 			const optionValue = getOptionValue( option );
 
 			allowSearch && setSearchedTerm( '' );
@@ -136,7 +143,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 				onChange( optionValue );
 			}
 		},
-		[ getOptionValue, allowSearch, multiple, onChange, value, closeOnSelect ]
+		[ getOptionValue, allowSearch, multiple, onChange, value, closeOnSelect, disabled ]
 	);
 
 	const isOptionSelected = useCallback( ( option: SelectOptionParams ) => {
@@ -189,6 +196,57 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		setValue( multiple ? [] : '' );
 	};
 
+	const [ typingTerm, setTypingTerm ] = useState( '' );
+	const typingTimeout = useRef<ReturnType<typeof setTimeout>>();
+
+	const handleTyping = useCallback(
+		( event: React.KeyboardEvent<HTMLDivElement> ) => {
+			if ( !allowSearch && !disabled ) {
+				let stopPropagation = false;
+
+				if ( event.key === 'Esc' ) {
+					setTypingTerm( '' );
+					stopPropagation = true;
+				} else if ( event.key.length === 1 && event.key !== ' ' ) {
+					setTypingTerm( _ => _ + event.key );
+					stopPropagation = true;
+				}
+
+				stopPropagation && event.stopPropagation();
+			}
+		}, [ disabled, allowSearch ] );
+
+	useEffect( () => {
+		const reset = () => setTypingTerm( '' );
+		if ( typingTerm ) {
+			typingTimeout.current && clearTimeout( typingTimeout.current );
+			typingTimeout.current = setTimeout( reset, 500 );
+		}
+
+		return () => typingTimeout.current && clearTimeout( typingTimeout.current );
+	}, [ typingTerm ] );
+
+	useEffect( () => {
+		if ( typingTerm ) {
+			const orderedOptions = activeDescendantIndex > 0 ? [
+				...filteredOptions.slice( activeDescendantIndex + 1 ),
+				...filteredOptions.slice( 0, activeDescendantIndex + 1 ),
+			] : [ ...filteredOptions ];
+			const firstMatch = orderedOptions.find( _ => getOptionLabel( _ ).toLowerCase().startsWith( typingTerm.toLowerCase() ) );
+			const letters = typingTerm.split( '' );
+			const allSameLetter = letters.every( ( _ ) => _ === letters[ 0 ] );
+
+			if ( firstMatch ) {
+				setActiveDescendantIndex( filteredOptions.indexOf( firstMatch ) );
+			} else if ( allSameLetter ) {
+				const match = orderedOptions.find( _ => getOptionLabel( _ ).toLowerCase().startsWith( typingTerm[ 0 ].toLowerCase() ) );
+				if ( match ) {
+					setActiveDescendantIndex( filteredOptions.indexOf( match ) );
+				}
+			}
+		}
+	}, [ typingTerm ] )
+
 	const ownerState: SelectOwnerState = { width, variant };
 	const classes = useComponentClasses( ownerState );
 
@@ -220,6 +278,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		noResultsText,
 		loadingText,
 		closeOnSelect,
+		disabled,
 		getOptionId,
 		searchedTerm,
 		setSearchedTerm,
@@ -236,7 +295,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		unsetActiveDescendant,
 		moveToFirstActiveDescendant,
 		moveToLastActiveDescendant,
-		componentIds
+		componentIds,
+		handleTyping
 	}
 
 	return (
