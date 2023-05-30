@@ -72,10 +72,7 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 const SelectToggleWrap = styled( 'div', { name: 'Select', slot: 'ToggleWrap' } )<SelectToggleStyled>( ( { theme, ownerState } ) => ( {
 	display: 'flex',
 	alignItems: 'center',
-	'& > :not( style ) + :not( style )': {
-		marginLeft: '4px',
-		marginRight: '-2px'
-	},
+	gap: '2px',
 	...( ownerState.disabled && {
 		opacity: theme.palette.action.disabledOpacity
 	} )

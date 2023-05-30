@@ -14,8 +14,8 @@ export type SelectProviderProps = {
 	isEmpty: boolean
 	activeDescendantIndex: number
 	setActiveDescendantIndex: React.Dispatch<React.SetStateAction<number>>
-	nextActiveDescendant: () => void
-	prevActiveDescendant: () => void
+	nextActiveDescendant: ( increment?: number ) => void
+	prevActiveDescendant: ( increment?: number ) => void
 	unsetActiveDescendant: () => void
 	moveToFirstActiveDescendant: () => void
 	moveToLastActiveDescendant: () => void

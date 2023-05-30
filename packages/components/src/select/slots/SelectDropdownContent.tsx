@@ -117,14 +117,16 @@ const SelectDropdownContent = () => {
 		switch ( key ) {
 			case 'Down':
 			case 'ArrowDown':
+			case 'PageDown':
 				focusOnListbox && listboxFocus();
-				nextActiveDescendant();
+				nextActiveDescendant( 'PageDown' === key ? 10 : 1 );
 				setAutoScrollEnabled( true );
 				return true;
 			case 'Up':
 			case 'ArrowUp':
+			case 'PageUp':
 				focusOnListbox && listboxFocus();
-				prevActiveDescendant();
+				prevActiveDescendant( 'PageUp' === key ? 10 : 1 );
 				setAutoScrollEnabled( true );
 				return true;
 			case 'Home':
@@ -210,6 +212,7 @@ const SelectDropdownContent = () => {
 
 						const optionProps: SelectOptionProps = {
 							id: getOptionId( index ),
+							className: option.className,
 							isDisabled: optionState.isDisabled,
 							isSelected: optionState.isSelected,
 							isActiveDescendant: optionState.isActiveDescendant,

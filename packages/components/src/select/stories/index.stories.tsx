@@ -99,7 +99,7 @@ export const Sizes: Story = {
 }
 
 const people = [
-	{ value: 'john', label: 'John', role: 'CEO at Google', image: 'images/avatar/john.jpeg' },
+	{ value: 'john', label: 'John', role: 'CEO at Google', image: 'images/avatar/john.jpeg', className: 'john'},
 	{ value: 'hannah', label: 'Hannah', role: 'Product Manager at Newfold Digital', image: 'images/avatar/hannah.jpeg' },
 	{ value: 'kate', label: 'Kate', role: 'Developer at Microsoft', image: 'images/avatar/kate.jpeg' },
 	{ value: 'mark', label: 'Mark', role: 'Product Manager at Apple', image: 'images/avatar/mark.jpeg' },

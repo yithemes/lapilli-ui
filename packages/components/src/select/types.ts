@@ -6,6 +6,7 @@ export type SelectOptionParams = {
 	value: string
 	label: string
 	disabled?: boolean
+	className?: string
 }
 
 type SingleSelectOwnProps = {

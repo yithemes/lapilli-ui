@@ -173,8 +173,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	const defaultActiveDescendantIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, isOptionSelected ] );
 	const [ activeDescendantIndex, setActiveDescendantIndex ] = useState( defaultActiveDescendantIndex );
 	const minMaxActiveDescendant = useCallback( ( index: number ) => Math.max( 0, Math.min( filteredOptions.length - 1, index ) ), [ filteredOptions ] );
-	const nextActiveDescendant = useCallback( () => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ + 1 ) ), [ filteredOptions ] );
-	const prevActiveDescendant = useCallback( () => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ - 1 ) ), [ filteredOptions ] );
+	const nextActiveDescendant = useCallback( ( increment = 1 ) => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ + increment ) ), [ filteredOptions ] );
+	const prevActiveDescendant = useCallback( ( increment = 1 ) => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ - increment ) ), [ filteredOptions ] );
 	const moveToFirstActiveDescendant = useCallback( () => setActiveDescendantIndex( filteredOptions.length ? 0 : -1 ), [ filteredOptions ] );
 	const moveToLastActiveDescendant = useCallback( () => setActiveDescendantIndex( filteredOptions.length - 1 ), [ filteredOptions ] );
 	const unsetActiveDescendant = useCallback( () => setActiveDescendantIndex( -1 ), [] );

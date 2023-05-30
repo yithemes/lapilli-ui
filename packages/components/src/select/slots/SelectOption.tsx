@@ -2,6 +2,7 @@ import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "
 import React, { forwardRef } from "react";
 import type { SelectOptionOwnerState, SelectOptionProps, SelectOptionStyled } from "../types";
 import { selectClasses } from "../classes";
+import classNames from "classnames";
 
 const useComponentClasses = ( ownerState: SelectOptionOwnerState ) => {
 	const stateClasses = generateComponentClasses(
@@ -48,13 +49,13 @@ const SelectOptionRoot = styled( 'div', { name: 'Select', slot: 'Option' } )<Sel
 } ) );
 
 const SelectOption = forwardRef<HTMLDivElement, SelectOptionProps>( ( props, ref ) => {
-	const { children, isSelected, isDisabled, isActiveDescendant, ...other } = props;
+	const { children, className, isSelected, isDisabled, isActiveDescendant, ...other } = props;
 
 	const ownerState: SelectOptionOwnerState = { isSelected, isDisabled, isActiveDescendant };
 	const classes = useComponentClasses( ownerState );
 
 	return (
-		<SelectOptionRoot { ...other } className={ classes.option } ownerState={ ownerState } ref={ ref }>
+		<SelectOptionRoot { ...other } className={ classNames( className, classes.option ) } ownerState={ ownerState } ref={ ref }>
 			{ children }
 		</SelectOptionRoot>
 	);
