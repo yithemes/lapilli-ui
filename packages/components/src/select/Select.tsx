@@ -213,7 +213,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 				}
 
 				stopPropagation && event.stopPropagation();
+				return stopPropagation;
 			}
+			return false;
 		}, [ disabled, allowSearch ] );
 
 	useEffect( () => {

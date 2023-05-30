@@ -2,7 +2,7 @@ import React from 'react';
 import type { SelectOptionParams, SelectProps } from "./types";
 
 export type SelectProviderProps = {
-	handleTyping: ( event: React.KeyboardEvent<HTMLDivElement> ) => void
+	handleTyping: ( event: React.KeyboardEvent<HTMLDivElement> ) => boolean
 	deselectOption: ( option: SelectOptionParams ) => void
 	handleChange: ( option: SelectOptionParams ) => void
 	selectedOptions: SelectOptionParams[] // TO CHECK if needed

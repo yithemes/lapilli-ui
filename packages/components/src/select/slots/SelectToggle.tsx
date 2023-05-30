@@ -3,7 +3,7 @@ import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 
 import IconButton from "../../icon-button";
-import { useMergedRefs, ZeroWidthSpace } from "../../utils";
+import { useMergedRefs, useRelatedLabelFocus, ZeroWidthSpace } from "../../utils";
 import Spinner from "../../spinner";
 import type { SelectToggleOwnerState, SelectToggleProps, SelectToggleStyled } from "../types";
 import { useSelectContext } from "../context";
@@ -190,6 +190,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 	(
 		{ onClear, ...other }, ref ) => {
 		const {
+			id,
 			placeholder,
 			getOptionId,
 			activeDescendantIndex,
@@ -215,7 +216,8 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 		const { toggle, open, isOpen } = useDropdown();
 		const label = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
 		const rootRef = useRef<HTMLDivElement>( null );
-		const mergedRef = useMergedRefs( ref, rootRef );
+		const relatedLabelFocusRef = useRelatedLabelFocus( id );
+		const mergedRef = useMergedRefs( ref, rootRef, relatedLabelFocusRef );
 
 		const [ isFocused, setIsFocused ] = useState( false );
 		const ownerState: SelectToggleOwnerState = {
@@ -252,8 +254,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 					event.stopPropagation();
 					break;
 				default:
-					open();
-					handleTyping( event );
+					handleTyping( event ) && open();
 			}
 		};
 
