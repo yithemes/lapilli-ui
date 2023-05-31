@@ -46,7 +46,9 @@ export type SelectProviderProps = {
 	| 'noOptionsText'
 	| 'loadingText'
 	| 'closeOnSelect'
-	| 'disabled'>
+	| 'disabled'
+	| 'classes'
+>
 >
 	& Pick<SelectProps, 'renderToggleContent'>
 

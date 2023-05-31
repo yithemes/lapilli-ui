@@ -1,6 +1,7 @@
 import type React from "react";
 import type { FieldSize, SxProps } from "@yith/styles";
 import type { SelectProviderProps } from "./context";
+import type { selectClasses } from "./classes";
 
 export type SelectOptionParams = {
 	value: string
@@ -8,6 +9,8 @@ export type SelectOptionParams = {
 	disabled?: boolean
 	className?: string
 }
+
+export type SelectClasses = typeof selectClasses;
 
 type SingleSelectOwnProps = {
 	/**
@@ -18,6 +21,10 @@ type SingleSelectOwnProps = {
 	 * Specified the select style.
 	 */
 	variant?: 'outlined' | 'ghost' | 'reveal'
+	/**
+	 * CSS classes to add custom classes to each slot of the component.
+	 */
+	classes?: Partial<SelectClasses>
 	/**
 	 * The value.
 	 */
@@ -164,7 +171,7 @@ export type SelectOwnProps = SingleSelectOwnProps | MultipleSelectOwnProps
 type SelectPropsWithRef = Omit<React.ComponentProps<'div'>, keyof SelectOwnProps> & SelectOwnProps
 export type SelectProps = Omit<SelectPropsWithRef, 'ref'>
 
-export type SelectOwnerState = Required<Pick<SelectProps, 'width' | 'variant'>>
+export type SelectOwnerState = Required<Pick<SelectProps, 'width' | 'variant' | 'classes'>>
 
 export type SelectStyled = {
 	ownerState: SelectOwnerState

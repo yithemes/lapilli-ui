@@ -13,6 +13,7 @@ import { useDropdown } from "../../dropdown";
 const ACTION_SPACING = '6px'; // spacing between actions.
 
 const useComponentClasses = ( ownerState: SelectToggleOwnerState ) => {
+	const { classes } = useSelectContext();
 	const stateClasses = generateComponentClasses(
 		'Select',
 		{
@@ -20,7 +21,7 @@ const useComponentClasses = ( ownerState: SelectToggleOwnerState ) => {
 		}
 	);
 
-	return mergeComponentClasses( selectClasses, stateClasses );
+	return mergeComponentClasses( classes, stateClasses );
 }
 
 const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<SelectToggleStyled>( ( { theme, ownerState } ) => ( {

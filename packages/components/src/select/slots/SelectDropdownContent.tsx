@@ -7,7 +7,6 @@ import { __ } from "@wordpress/i18n";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import type { SelectOptionParams, SelectOptionProps, SelectOptionState } from "../types";
 import { noop } from "lodash";
-import { selectClasses } from "../classes";
 
 const LIST_SPACING = '8px'; // spacing (padding, margin) for the list elements.
 
@@ -55,6 +54,7 @@ const SelectDropdownContent = () => {
 		moveToFirstActiveDescendant,
 		moveToLastActiveDescendant,
 		multiple,
+		classes,
 		getOptionLabel,
 		getOptionValue,
 		isLoading,
@@ -174,7 +174,7 @@ const SelectDropdownContent = () => {
 		{ allowSearch && (
 			<Input
 				ref={ searchRef }
-				className={ selectClasses.search }
+				className={ classes.search }
 				type="text"
 				variant="ghost"
 				value={ searchedTerm }
@@ -196,7 +196,7 @@ const SelectDropdownContent = () => {
 			onKeyDown={ handleListboxKeydown }
 		>
 			{ !isLoading && !!filteredOptions.length &&
-				<SelectOptions id={ componentIds.options } className={ selectClasses.options } ref={ optionsRef }>
+				<SelectOptions id={ componentIds.options } className={ classes.options } ref={ optionsRef }>
 					{ filteredOptions.map( ( option, index ) => {
 						const isDisabled = option?.disabled ?? false;
 						const onSelect = () => {

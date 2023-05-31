@@ -1,49 +1,10 @@
-import { PaletteClass, styled, SxProps } from '@yith/styles';
-import { noop } from 'lodash';
 import React from 'react';
+import { noop } from 'lodash';
+import { styled } from '@yith/styles';
+
 import Stack from '../stack';
 import { useControlledState } from '../utils';
-
-type RadioGroupOption = {
-	value: string;
-	label: React.ReactNode;
-	description?: React.ReactNode;
-	color?: PaletteClass;
-};
-
-type RadioGroupProps = {
-	/**
-	 * The value of the radio group (if controlled).
-	 */
-	value?: string;
-	/**
-	 * The HTML name for the radio fields.
-	 */
-	name?: string;
-	/**
-	 * Triggered when the value changes (if controlled).
-	 */
-	onChange?: ( event: React.ChangeEvent<HTMLInputElement>, value: string ) => void;
-	/**
-	 * The options to be shown.
-	 */
-	options?: RadioGroupOption[];
-	/**
-	 * The color of the radio options.
-	 */
-	color?: PaletteClass;
-	/**
-	 * Sx props.
-	 */
-	sx?: SxProps;
-};
-
-type RadioGroupOptionOwnerState = {
-	isChecked: boolean;
-	color: PaletteClass;
-};
-
-type StyledRadioGroupOptionProps = { ownerState: RadioGroupOptionOwnerState };
+import type { RadioGroupItemOwnerState, RadioGroupItemStyled, RadioGroupProps } from "./types";
 
 const RadioGroupRoot = styled( Stack, { name: 'RadioGroup', slot: 'Root' } )( ( { theme } ) => ( {
 	fontSize: theme.fields.fontSize,
@@ -55,7 +16,7 @@ const RadioGroupItem = styled( 'label', { name: 'RadioGroup', slot: 'Item' } )`
 	align-items: baseline;
 `;
 
-const RadioGroupRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'RadioShape' } )<StyledRadioGroupOptionProps>(
+const RadioGroupRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'RadioShape' } )<RadioGroupItemStyled>(
 	( { ownerState, theme } ) => ( {
 		display: 'flex',
 		alignItems: 'center',
@@ -82,7 +43,7 @@ const RadioGroupRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'RadioSh
 			content: '""',
 			position: 'absolute',
 			borderRadius: 'inherit',
-			border: `2px solid ${theme.palette[ ownerState.color ].main}`,
+			border: `2px solid ${ theme.palette[ ownerState.color ].main }`,
 			width: 20,
 			height: 20,
 			boxSizing: 'content-box',
@@ -96,7 +57,7 @@ const RadioGroupRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'RadioSh
 	} )
 );
 
-const RadioGroupRadio = styled( 'input', { name: 'RadioGroup', slot: 'Radio' } )<StyledRadioGroupOptionProps>`
+const RadioGroupRadio = styled( 'input', { name: 'RadioGroup', slot: 'Radio' } )<RadioGroupItemStyled>`
 	display: block !important;
 	opacity: 0 !important;
 	position: absolute !important;
@@ -104,23 +65,23 @@ const RadioGroupRadio = styled( 'input', { name: 'RadioGroup', slot: 'Radio' } )
 	width: 20px !important;
 	height: 20px !important;
 
-	&:focus, &:focus-visible { 
+	&:focus, &:focus-visible {
 		& + ${ RadioGroupRadioShape }:before {
-			opacity: 1;	
+			opacity: 1;
 		}
 	}
-	
-	.yith-plugin-ui &[type="radio"]:checked, .yith-plugin-ui &[type="radio"]:not(:checked){
+
+	&[type="radio"]:checked:checked, &[type="radio"]:not(:checked):not(:checked) {
 		display: block !important;
 	}
 `;
 
 const RadioGroupRadioContent = styled( 'div', { name: 'RadioGroup', slot: 'RadioContent' } )`
-cursor: pointer;
+	cursor: pointer;
 `;
 
 const RadioGroupRadioLabel = styled( 'div', { name: 'RadioGroup', slot: 'RadioLabel' } )`
-font-size: inherit;
+	font-size: inherit;
 `;
 const RadioGroupRadioDescription = styled( 'div', { name: 'RadioGroup', slot: 'RadioDescription' } )`
 	font-size: 0.9em;
@@ -129,9 +90,11 @@ const RadioGroupRadioDescription = styled( 'div', { name: 'RadioGroup', slot: 'R
 const RadioGroup = (
 	{
 		options = [],
+		variant = 'radio',
 		value: valueProp,
 		color: groupColor = 'primary',
 		onChange = noop,
+		spacing,
 		name,
 		...other
 	}: RadioGroupProps
@@ -139,11 +102,11 @@ const RadioGroup = (
 	const [ value, setValue ] = useControlledState( valueProp, options[ 0 ].value ?? '' );
 
 	return (
-		<RadioGroupRoot direction="column" spacing={ 1 } { ...other }>
+		<RadioGroupRoot direction='column' spacing={ spacing ?? ( variant !== 'pill' ? 1 : 0 ) } wrap { ...other }>
 			{ options.map( option => {
 				const { value: optionValue, label, description, color } = option;
 				const isChecked = optionValue === value;
-				const ownerState: RadioGroupOptionOwnerState = { isChecked, color: color ?? groupColor };
+				const ownerState: RadioGroupItemOwnerState = { isChecked, color: color ?? groupColor };
 				return (
 					<RadioGroupItem key={ optionValue }>
 						<RadioGroupRadio

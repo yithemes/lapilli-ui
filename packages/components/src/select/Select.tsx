@@ -6,7 +6,7 @@ import { generateComponentClasses, mergeComponentClasses, styled } from '@yith/s
 import Dropdown from '../dropdown';
 import { useControlledState, useId } from '../utils';
 
-import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps } from "./types";
+import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps, SelectClasses } from "./types";
 import { SelectProvider } from "./context";
 import SelectOption from "./slots/SelectOption";
 import SelectToggle from "./slots/SelectToggle";
@@ -14,7 +14,7 @@ import { useSelectDefaultValue } from "./utils/useSelectDefaultValue";
 import { selectClasses } from "./classes";
 import SelectDropdownContent from "./slots/SelectDropdownContent";
 
-const useComponentClasses = ( ownerState: SelectOwnerState ) => {
+const useComponentClasses = ( ownerState: SelectOwnerState ): SelectClasses => {
 	const stateClasses = generateComponentClasses(
 		'Select',
 		{
@@ -22,7 +22,10 @@ const useComponentClasses = ( ownerState: SelectOwnerState ) => {
 		}
 	);
 
-	return mergeComponentClasses( selectClasses, stateClasses );
+	return mergeComponentClasses(
+		mergeComponentClasses( selectClasses, stateClasses ),
+		ownerState.classes
+	);
 }
 
 const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyled>`
@@ -50,6 +53,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	{
 		value: valueProp,
 		id: idProp,
+		classes: classesProp = {},
 		name,
 		multiple = false,
 		options = [],
@@ -249,7 +253,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		}
 	}, [ typingTerm ] )
 
-	const ownerState: SelectOwnerState = { width, variant };
+	const ownerState: SelectOwnerState = { width, variant, classes: classesProp };
 	const classes = useComponentClasses( ownerState );
 
 	const componentIds: React.ComponentProps<typeof SelectProvider>['componentIds'] = {
@@ -281,6 +285,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		loadingText,
 		closeOnSelect,
 		disabled,
+		classes,
 		getOptionId,
 		searchedTerm,
 		setSearchedTerm,

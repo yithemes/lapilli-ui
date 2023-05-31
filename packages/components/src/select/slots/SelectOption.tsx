@@ -1,10 +1,11 @@
 import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@yith/styles";
 import React, { forwardRef } from "react";
 import type { SelectOptionOwnerState, SelectOptionProps, SelectOptionStyled } from "../types";
-import { selectClasses } from "../classes";
 import classNames from "classnames";
+import { useSelectContext } from "../context";
 
 const useComponentClasses = ( ownerState: SelectOptionOwnerState ) => {
+	const { classes } = useSelectContext();
 	const stateClasses = generateComponentClasses(
 		'Select',
 		{
@@ -12,7 +13,7 @@ const useComponentClasses = ( ownerState: SelectOptionOwnerState ) => {
 		}
 	);
 
-	return mergeComponentClasses( selectClasses, stateClasses );
+	return mergeComponentClasses( classes, stateClasses );
 }
 
 const SelectOptionRoot = styled( 'div', { name: 'Select', slot: 'Option' } )<SelectOptionStyled>( ( { theme, ownerState } ) => ( {

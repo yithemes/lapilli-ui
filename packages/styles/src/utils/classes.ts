@@ -52,8 +52,8 @@ export function generateComponentClasses<SlotKey extends string>(
 }
 
 export function mergeComponentClasses<SlotKey1 extends string, SlotKey2 extends string>(
-	classes1: Record<SlotKey1, string>,
-	classes2: Record<SlotKey2, string>
+	classes1: Partial<Record<SlotKey1, string>>,
+	classes2: Partial<Record<SlotKey2, string>>
 ): Record<SlotKey1 | SlotKey2, string> {
 	const output: Record<SlotKey1 | SlotKey2, string> = {} as any;
 
