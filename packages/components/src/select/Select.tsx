@@ -52,6 +52,7 @@ function defaultRenderOption( props: SelectOptionProps ) {
 const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	{
 		value: valueProp,
+		defaultValue: defaultValueProp,
 		id: idProp,
 		classes: classesProp = {},
 		name,
@@ -92,7 +93,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		( ( option, search ) => getOptionLabel( option ).toLowerCase().indexOf( search.toLowerCase() ) >= 0 );
 
 	const id = useId( idProp );
-	const defaultValue = useSelectDefaultValue( { multiple, allowClear, getOptionValue, options } );
+	const defaultValue = useSelectDefaultValue( { multiple, allowClear, getOptionValue, options, defaultValue: defaultValueProp } );
 	const closeOnSelect = typeof closeOnSelectProp === 'undefined' ? ( !multiple ) : closeOnSelectProp;
 	const [ value, setValue ] = useControlledState( valueProp, defaultValue );
 	const arrayValue = useMemo( () => ( Array.isArray( value ) ? value : [ value ] ).filter( Boolean ), [ value ] );

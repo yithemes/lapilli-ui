@@ -30,6 +30,10 @@ type SingleSelectOwnProps = {
 	 */
 	value?: string
 	/**
+	 * The default value.
+	 */
+	defaultValue?: string
+	/**
 	 * The field name.
 	 */
 	name?: string
@@ -143,7 +147,7 @@ type SingleSelectOwnProps = {
 	sx?: SxProps
 };
 
-type MultipleSelectOwnProps = Omit<SingleSelectOwnProps, 'onChange' | 'value' | 'multiple' | 'showTags' | 'limitTags'> & {
+type MultipleSelectOwnProps = Omit<SingleSelectOwnProps, 'onChange' | 'value' | 'defaultValue' | 'multiple' | 'showTags' | 'limitTags'> & {
 	/**
 	 * Whether the select is multiple or not.
 	 */
@@ -152,6 +156,10 @@ type MultipleSelectOwnProps = Omit<SingleSelectOwnProps, 'onChange' | 'value' | 
 	 * The value.
 	 */
 	value?: string[]
+	/**
+	 * The default value.
+	 */
+	defaultValue?: string[]
 	/**
 	 * Callback triggered when the field changes its own value.
 	 */

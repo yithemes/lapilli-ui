@@ -1,8 +1,8 @@
 import type React from "react";
-import type { PaletteClass, SxProps } from "@yith/styles";
+import type { FieldSize, PaletteClass, SxProps } from "@yith/styles";
 import type { StackProps } from "../stack/types";
 
-type RadioGroupOption = {
+type RadioGroupOptionParams = {
 	value: string;
 	label: React.ReactNode;
 	description?: React.ReactNode;
@@ -13,7 +13,7 @@ type RadioGroupOwnProps = {
 	/**
 	 * The value of the radio group (if controlled).
 	 */
-	variant?: 'radio' | 'boxed' | 'pill'
+	variant?: 'radio' | 'boxed' | 'compact'
 	/**
 	 * The value of the radio group (if controlled).
 	 */
@@ -29,31 +29,49 @@ type RadioGroupOwnProps = {
 	/**
 	 * The options to be shown.
 	 */
-	options?: RadioGroupOption[]
+	options?: RadioGroupOptionParams[]
 	/**
 	 * The color of the radio options.
 	 */
 	color?: PaletteClass
+	/**
+	 * The field size.
+	 */
+	size?: FieldSize
 	/**
 	 * Sx props.
 	 */
 	sx?: SxProps
 };
 
-export type RadioGroupItemOwnerState = {
-	isChecked: boolean;
-	color: PaletteClass;
-};
-
 type RadioGroupPropsWithRef = Omit<StackProps<'div'>, keyof RadioGroupOwnProps> & RadioGroupOwnProps
 export type RadioGroupProps = Omit<RadioGroupPropsWithRef, 'ref'>
 
-export type RadioGroupOwnerState = Required<Pick<RadioGroupProps, 'color'>>
+export type RadioGroupOwnerState = {
+	isFocused: boolean;
+} & Required<Pick<RadioGroupProps, 'variant' | 'size' | 'color'>>
 
 export type RadioGroupStyled = {
 	ownerState: RadioGroupOwnerState
 }
 
-export type RadioGroupItemStyled = {
-	ownerState: RadioGroupItemOwnerState
+export type RadioGroupOptionOwnerState = {
+	isChecked: boolean;
+	isFocused: boolean;
+	color: PaletteClass;
+} & Required<Pick<RadioGroupProps, 'variant' | 'size'>>;
+
+export type RadioGroupOptionStyled = {
+	ownerState: RadioGroupOptionOwnerState
 }
+
+export type RadioGroupOptionState = {
+	option: RadioGroupOptionParams
+	isChecked: boolean
+}
+
+type RadioGroupOptionOwnProps = RadioGroupOptionState & {
+	onChange: React.InputHTMLAttributes<HTMLInputElement>["onChange"]
+}
+type RadioGroupOptionPropsWithRef = Omit<React.ComponentProps<'div'>, keyof RadioGroupOptionOwnProps> & RadioGroupOptionOwnProps
+export type RadioGroupOptionProps = Omit<RadioGroupOptionPropsWithRef, 'ref'>

@@ -3,6 +3,14 @@ import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import RadioGroup from '../';
 
+const createResponsiveRadioControl = ( ...options: string[] ) => {
+	return {
+		table: { type: { summary: 'ResponsiveStyleValue<' + options.join( ' | ' ) + '>' }, },
+		control: { type: 'radio' },
+		options: options,
+	}
+}
+
 const OPTIONS = [
 	{ value: 'public', label: 'Public', description: 'Visible to everyone.' },
 	{ value: 'private', label: 'Private', description: 'Only visible to site admins and editors.' },
@@ -19,6 +27,10 @@ const meta: ComponentMeta<typeof RadioGroup> = {
 		name: {
 			table: { disable: true }
 		},
+		direction: createResponsiveRadioControl( 'row', 'column' ),
+		align: createResponsiveRadioControl( 'start', 'end', 'center', 'baseline', 'stretch' ),
+		justify: createResponsiveRadioControl( 'start', 'end', 'center', 'space-between', 'space-around', 'space-evenly' ),
+		wrap: { control: { type: 'boolean' }, }
 	}
 };
 

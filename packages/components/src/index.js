@@ -26,7 +26,7 @@ export { default as Switch }           from './switch';
 export { default as TimeSelector }     from './time-selector';
 export { default as Typography }       from './typography';
 
-export { useAsyncSelect, useAsyncSelectWithSelect, useId } from './utils';
+export { useId } from './utils';
 
 /**
  * Types

@@ -1,12 +1,16 @@
 import type { SelectProps } from "../types";
 import { useMemo } from "react";
 
-type SelectDefaultValueProps = Required<Pick<SelectProps, 'multiple' | 'allowClear' | 'getOptionValue' | 'options'>>
+type SelectDefaultValueProps = Pick<SelectProps, 'defaultValue'> & Required<Pick<SelectProps, 'multiple' | 'allowClear' | 'getOptionValue' | 'options'>>
 
 export const useSelectDefaultValue = ( props: SelectDefaultValueProps ) => {
-	const { multiple, allowClear, getOptionValue, options } = props;
+	const { defaultValue, multiple, allowClear, getOptionValue, options } = props;
 
 	const enabledOptions = useMemo( () => options.filter( option => !( option?.disabled ?? false ) ), [ options ] );
+
+	if ( defaultValue !== undefined ) {
+		return defaultValue;
+	}
 
 	if ( multiple ) {
 		return [];
