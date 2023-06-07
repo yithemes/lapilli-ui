@@ -7,37 +7,35 @@ import { useControlledState } from '../utils';
 import type { RadioGroupOwnerState, RadioGroupProps, RadioGroupStyled } from "./types";
 import { RadioGroupProvider } from "./context";
 import RadioGroupOption from "./slots/RadioGroupOption";
-import RadioGroupOptionDefaultContent from "./slots/RadioGroupOptionDefaultContent";
 
 const RadioGroupRoot = styled( Stack, { name: 'RadioGroup', slot: 'Root' } )<RadioGroupStyled>( ( { theme, ownerState } ) => ( {
 	position: 'relative',
-	display: 'inline-flex',
 	fontSize: theme.fields.fontSize,
 	lineHeight: 1.5,
-	...( ownerState.variant === 'compact' && {
-		background: theme.fields.background,
+	...( ownerState.variant === 'segmented' && {
+		background: 'light' === theme.mode ? theme.palette.grey[ 50 ] : theme.palette.grey[ 900 ],
 		borderWidth: '1px',
 		borderStyle: 'solid',
-		borderColor: theme.fields.borderColor,
+		borderColor: 'light' === theme.mode ? theme.palette.grey[ 50 ] : theme.palette.grey[ 900 ],
 		padding: '3px',
 		borderRadius: theme.fields.borderRadius,
 		...( ownerState.isFocused && {
-			borderColor: theme.fields.focusedBorderColor,
-			boxShadow: theme.fields.focusedBoxShadow
+			boxShadow: '0 0 0 1px ' + theme.palette.primary.main,
 		} )
 	} ),
 } ) );
 
-const RadioGroupOptionHighlight = styled( 'div', { name: 'RadioGroup', slot: 'OptionHighlight' } )<RadioGroupStyled>( ( { theme, ownerState } ) => ( {
+const RadioGroupOptionHighlight = styled( 'div', { name: 'RadioGroup', slot: 'OptionHighlight' } )<RadioGroupStyled>( ( { theme } ) => ( {
 	position: 'absolute',
-	borderRadius: `calc(${ theme.fields.borderRadius } - 3px)`,
-	background: theme.palette[ ownerState.color ].main,
+	borderRadius: `calc(${ theme.fields.borderRadius } - 2px)`,
+	background: theme.fields.background,
 	zIndex: 0,
 	top: 0,
 	left: 0,
 	transitionProperty: 'top, left, width, height',
-	transitionDuration: '0.2s',
-	transitionTimingFunction: 'ease-in-out'
+	transitionDuration: '0.16s',
+	transitionTimingFunction: 'ease-in-out',
+	boxShadow: '0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)',
 } ) );
 
 const RadioGroup = (
@@ -45,64 +43,89 @@ const RadioGroup = (
 		options = [],
 		variant = 'radio',
 		value: valueProp,
-		color = 'primary',
 		onChange = noop,
 		spacing: spacingProp,
 		name,
 		direction = 'column',
 		size = 'md',
+		fullWidth = false,
+		sizing = false,
 		...other
 	}: RadioGroupProps
 ) => {
 	const [ value, setValue ] = useControlledState( valueProp, options[ 0 ].value ?? '' );
+	const variantRendered = useRef( false ); // Useful to disable transition on first rendering (segmented variation) to prevent glitches.
 	const rootRef = useRef<HTMLDivElement>( null );
 	const highlightRef = useRef<HTMLDivElement>( null );
 	const blurTimeout = useRef<ReturnType<typeof setTimeout>>();
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const updateHighlightPosition = useCallback( () => {
-		if ( variant === 'compact' && rootRef.current && highlightRef.current ) {
+		if ( variant === 'segmented' && rootRef.current && highlightRef.current ) {
 			const checkedRadio = rootRef.current.querySelector( 'input[type=radio]:checked' );
 			const checkedOption = checkedRadio?.closest( 'label' );
 
 			if ( checkedOption ) {
-				highlightRef.current.style.top = checkedOption.offsetTop + 'px';
-				highlightRef.current.style.left = checkedOption.offsetLeft + 'px';
-				highlightRef.current.style.width = checkedOption.clientWidth + 'px';
-				highlightRef.current.style.height = checkedOption.clientHeight + 'px';
+				Object.assign(
+					highlightRef.current.style,
+					{
+						top: checkedOption.offsetTop + 'px',
+						left: checkedOption.offsetLeft + 'px',
+						width: checkedOption.clientWidth + 'px',
+						height: checkedOption.clientHeight + 'px'
+					}
+				);
 			} else {
-				highlightRef.current.style.top = '0';
-				highlightRef.current.style.left = '0';
-				highlightRef.current.style.width = '0';
-				highlightRef.current.style.height = '0';
+				Object.assign(
+					highlightRef.current.style,
+					{
+						top: '0',
+						left: '0',
+						width: '0',
+						height: '0'
+					}
+				);
+			}
+
+			if ( !variantRendered.current ) {
+				highlightRef.current.style.transition = 'none';
+			} else {
+				highlightRef.current.style.removeProperty( 'transition' );
 			}
 		}
-	}, [ value, variant ] );
+	}, [ value, variant, options ] );
 
-	const debouncedUpdateHighlighPosition = debounce( updateHighlightPosition, 150 );
+	const debouncedUpdateHighlightPosition = debounce( updateHighlightPosition, 150 );
 
-	useEffect( updateHighlightPosition, [ value, options, spacingProp, direction, size, variant ] );
+	useEffect( updateHighlightPosition, [ value, options, spacingProp, direction, size, variant, fullWidth, other ] );
+
+	useEffect( () => {
+		let resizeObserver: ResizeObserver;
+		window.addEventListener( 'resize', debouncedUpdateHighlightPosition );
+
+		if ( typeof ResizeObserver !== 'undefined' && rootRef.current ) {
+			resizeObserver = new ResizeObserver( debouncedUpdateHighlightPosition );
+			resizeObserver.observe( rootRef.current );
+		}
+
+		return () => {
+			window.removeEventListener( 'resize', debouncedUpdateHighlightPosition );
+			if ( resizeObserver ) {
+				resizeObserver.disconnect();
+			}
+		};
+	}, [] );
 
 	useEffect( () => {
 		blurTimeout.current && clearTimeout( blurTimeout.current );
 	}, [] );
 
 	useEffect( () => {
-		let resizeObserver: ResizeObserver;
-		window.addEventListener( 'resize', debouncedUpdateHighlighPosition );
-
-		if ( typeof ResizeObserver !== 'undefined' && rootRef.current ) {
-			resizeObserver = new ResizeObserver( debouncedUpdateHighlighPosition );
-			resizeObserver.observe( rootRef.current );
-		}
-
+		variantRendered.current = true;
 		return () => {
-			window.removeEventListener( 'resize', debouncedUpdateHighlighPosition );
-			if ( resizeObserver ) {
-				resizeObserver.disconnect();
-			}
-		};
-	}, [] );
+			variantRendered.current = false
+		}
+	}, [ variant ] );
 
 	const handleFocus = () => {
 		setIsFocused( true );
@@ -118,7 +141,7 @@ const RadioGroup = (
 			return spacingProp;
 		}
 
-		if ( variant === 'compact' ) {
+		if ( variant === 'segmented' ) {
 			return 0;
 		}
 
@@ -130,30 +153,30 @@ const RadioGroup = (
 
 	const providerProps: Omit<React.ComponentProps<typeof RadioGroupProvider>, 'children'> = {
 		variant,
-		color,
 		name,
-		size
+		size,
+		sizing
 	};
 
-	const ownerState: RadioGroupOwnerState = { variant, size, color, isFocused };
+	const ownerState: RadioGroupOwnerState = { variant, size, isFocused };
 
 	return (
 		<RadioGroupProvider { ...providerProps }>
 			<RadioGroupRoot
 				direction={ direction }
 				spacing={ spacing }
-				wrap={ variant !== 'compact' }
-				align={ variant === 'compact' ? 'stretch' : undefined }
+				wrap={ variant !== 'segmented' }
+				align={ variant === 'radio' ? 'start' : 'stretch' }
 				{ ...other }
+				inline={ !fullWidth }
 				ownerState={ ownerState }
 				ref={ rootRef }
 			>
 				{ options.map( option => {
-					const { value: optionValue, label, description } = option;
-					const isChecked = optionValue === value;
+					const isChecked = option.value === value;
 					return (
 						<RadioGroupOption
-							key={ optionValue }
+							key={ option.value }
 							isChecked={ isChecked }
 							option={ option }
 							onChange={ ( event: React.ChangeEvent<HTMLInputElement> ) => {
@@ -162,12 +185,10 @@ const RadioGroup = (
 							} }
 							onFocus={ handleFocus }
 							onBlur={ handleBlur }
-						>
-							<RadioGroupOptionDefaultContent label={ label } description={ description }/>
-						</RadioGroupOption>
+						/>
 					);
 				} ) }
-				{ 'compact' === variant && <RadioGroupOptionHighlight ref={ highlightRef } ownerState={ ownerState }/> }
+				{ 'segmented' === variant && <RadioGroupOptionHighlight ref={ highlightRef } ownerState={ ownerState }/> }
 			</RadioGroupRoot>
 		</RadioGroupProvider>
 	);

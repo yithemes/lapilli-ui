@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
 
 import { styled } from '@yith/styles';
-import type { StackAlignment, StackJustify, StackProps, StyledStackProps } from "./types";
+import type { StackAlignment, StackJustify, StackOwnerState, StackProps, StyledStackProps } from "./types";
 
 function mapAlignValue( value: StackAlignment ) {
 	const map: Record<StackAlignment, CSSProperties['alignItems']> = {
@@ -27,7 +27,7 @@ function mapJustifyValue( value: StackJustify ) {
 }
 
 const StackRoot = styled( 'div', { name: 'Stack', slot: 'Root' } )<StyledStackProps>( ( { ownerState, theme } ) => ( {
-	display: 'flex',
+	display: ownerState.inline ? 'inline-flex' : 'flex',
 	flexDirection: 'column',
 	...( theme.breakpoints.stylize( ownerState.align, ( value ) => ( { alignItems: mapAlignValue( value ) } ) ) ),
 	...( theme.breakpoints.stylize( ownerState.justify, ( value ) => ( { justifyContent: mapJustifyValue( value ) } ) ) ),
@@ -45,19 +45,21 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stac
 		spacing = 0,
 		align = 'stretch',
 		justify = 'start',
+		inline = false,
 		children,
 		...others
 	},
 	ref
 ) {
 
-	const ownerState = {
+	const ownerState: StackOwnerState = {
 		direction,
 		isReverse,
 		wrap,
 		spacing,
 		align,
 		justify,
+		inline
 	};
 
 	return (

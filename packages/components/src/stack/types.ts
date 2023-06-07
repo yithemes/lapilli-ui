@@ -30,6 +30,10 @@ export type StackOwnerState = {
 	 * How do you want to justify the items in the stack?
 	 */
 	justify: ResponsiveStyleValue<StackJustify>;
+	/**
+	 * Set to true to use inline-flex display.
+	 */
+	inline: boolean;
 };
 
 type StackOwnProps<C extends React.ElementType> = {

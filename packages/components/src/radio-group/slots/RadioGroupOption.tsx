@@ -11,28 +11,35 @@ const RadioGroupOptionRoot = styled( 'label', { name: 'RadioGroup', slot: 'Optio
 	flexDirection: 'row',
 	alignItems: 'baseline',
 	cursor: 'pointer',
-	...( ownerState.variant !== 'radio' && {
+	...( ownerState.groupContext.variant !== 'radio' && {
 		flexDirection: 'column',
 		justifyContent: 'center',
 		userSelect: 'none',
 	} ),
-	...( ownerState.variant === 'boxed' && {
+	...( ownerState.groupContext.variant === 'boxed' && {
 		background: theme.fields.background,
 		borderWidth: '1px',
 		borderStyle: 'solid',
 		borderColor: theme.fields.borderColor,
 		borderRadius: theme.fields.borderRadius,
-		padding: theme.fields.padding[ ownerState.size ],
+		padding: theme.fields.padding[ ownerState.groupContext.size ],
 		...( ownerState.isChecked && {
-			borderColor: theme.palette[ ownerState.color ].main,
+			borderColor: theme.palette.primary.main,
 		} ),
 		...( ownerState.isFocused && {
-			boxShadow: '0 0 0 3px ' + alpha( theme.palette[ ownerState.color ].main ?? '#ffffff', 0.15 ),
+			boxShadow: '0 0 0 3px ' + alpha( theme.palette.primary.main ?? '#ffffff', 0.15 ),
 		} ),
 	} ),
-	...( ownerState.variant === 'compact' && {
-		padding: theme.fields.padding[ ownerState.size ],
+	...( ownerState.groupContext.variant === 'segmented' && {
+		padding: theme.fields.padding[ ownerState.groupContext.size ],
 		zIndex: 1
+	} ),
+	...( ownerState.groupContext.sizing === 'adaptive' && {
+		flex: 'auto',
+	} ),
+	...( ownerState.groupContext.sizing === 'equal' && {
+		flex: 1,
+		minWidth: 0
 	} )
 } ) );
 
@@ -52,7 +59,7 @@ const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'O
 		content: '""',
 		position: 'absolute',
 		borderRadius: 'inherit',
-		background: theme.palette[ ownerState.color ].contrastText,
+		background: theme.palette.primary.contrastText,
 		width: ownerState.isChecked ? 6 : 0,
 		height: ownerState.isChecked ? 6 : 0,
 		opacity: ownerState.isChecked ? 1 : 0,
@@ -62,7 +69,7 @@ const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'O
 		content: '""',
 		position: 'absolute',
 		borderRadius: 'inherit',
-		border: `2px solid ${ theme.palette[ ownerState.color ].main }`,
+		border: `2px solid ${ theme.palette.primary.main }`,
 		width: 20,
 		height: 20,
 		boxSizing: 'content-box',
@@ -73,11 +80,11 @@ const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'O
 		} )
 	},
 	...( ownerState.isChecked && {
-		background: theme.palette[ ownerState.color ].main,
+		background: theme.palette.primary.main,
 		borderColor: '#0000'
 	} )
 } ) );
-const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 'OptionSelectedIcon' } )<RadioGroupOptionStyled>( ( { ownerState, theme } ) => ( {
+const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 'OptionSelectedIcon' } )<RadioGroupOptionStyled>( ( { theme } ) => ( {
 	position: 'absolute',
 	top: 0,
 	right: 0,
@@ -87,8 +94,8 @@ const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 
 	width: '16px',
 	height: '16px',
 	borderRadius: '50%',
-	background: theme.palette[ ownerState.color ].main,
-	color: theme.palette[ ownerState.color ].contrastText,
+	background: theme.palette.primary.main,
+	color: theme.palette.primary.contrastText,
 	fontSize: '10px',
 	transform: 'translate(4px, -4px)',
 	'& > svg': {
@@ -113,30 +120,49 @@ const RadioGroupOptionContent = styled( 'div', { name: 'RadioGroup', slot: 'Opti
 	lineHeight: 1.5,
 	fontSize: theme.fields.fontSize,
 	color: theme.fields.color,
-	margin: '-3px 0',
 	transition: 'color 0.2s ease-in-out',
-	...( ownerState.variant === 'compact' && {
+	...( ( ownerState.groupContext.variant === 'boxed' || ownerState.groupContext.variant === 'segmented' ) && {
+		...( ownerState.isChecked && {
+			color: theme.palette.primary.main,
+		} ),
+	} ),
+	...( ownerState.groupContext.variant === 'segmented' && {
 		width: '100%',
 		textAlign: 'center',
-		...( ownerState.isChecked && {
-			color: theme.palette[ ownerState.color ].contrastText,
-		} )
+		margin: '-3px 0'
 	} )
 } ) );
+
+const RadioGroupOptionLabel = styled( 'div', { name: 'RadioGroup', slot: 'OptionLabel' } )<RadioGroupOptionStyled>( ( { ownerState } ) => ( {
+	...( ownerState.groupContext.sizing === 'equal' && {
+		overflow: 'hidden',
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+	} )
+} ) )
+const RadioGroupOptionDescription = styled( 'div', { name: 'RadioGroup', slot: 'OptionDescription' } )<RadioGroupOptionStyled>( ( { ownerState } ) => ( {
+	fontSize: '.9em',
+	marginTop: '2px',
+	...( ownerState.groupContext.sizing === 'equal' && {
+		overflow: 'hidden',
+		whiteSpace: 'nowrap',
+		textOverflow: 'ellipsis',
+	} )
+} ) )
 
 const RadioGroupOption = (
 	{
 		option,
 		isChecked,
-		children,
 		onChange,
 		onFocus,
 		onBlur,
 	}: RadioGroupOptionProps
 ) => {
 	const [ isFocused, setIsFocused ] = useState( false );
-	const { color: groupColor, name, variant, size } = useRadioGroupContext();
-	const { value, color } = option;
+	const groupContext = useRadioGroupContext();
+	const { name, variant } = groupContext;
+	const { value, label, description } = option;
 
 	const handleFocus = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( true );
@@ -150,9 +176,7 @@ const RadioGroupOption = (
 	const ownerState: RadioGroupOptionOwnerState = {
 		isChecked,
 		isFocused,
-		color: color ?? groupColor,
-		variant,
-		size
+		groupContext
 	}
 
 	return (
@@ -170,7 +194,8 @@ const RadioGroupOption = (
 			{ 'radio' === variant && <RadioGroupOptionRadioShape ownerState={ ownerState }/> }
 			{ 'boxed' === variant && isChecked && <RadioGroupOptionSelectedIcon ownerState={ ownerState }><CheckIcon/></RadioGroupOptionSelectedIcon> }
 			<RadioGroupOptionContent ownerState={ ownerState }>
-				{ children }
+				<RadioGroupOptionLabel ownerState={ ownerState }>{ label }</RadioGroupOptionLabel>
+				{ !!description && <RadioGroupOptionDescription ownerState={ ownerState }>{ description }</RadioGroupOptionDescription> }
 			</RadioGroupOptionContent>
 		</RadioGroupOptionRoot>
 	);

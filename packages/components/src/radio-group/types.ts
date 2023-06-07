@@ -1,19 +1,19 @@
 import type React from "react";
-import type { FieldSize, PaletteClass, SxProps } from "@yith/styles";
+import type { FieldSize, SxProps } from "@yith/styles";
 import type { StackProps } from "../stack/types";
+import type { RadioGroupContextValue } from "./context";
 
 type RadioGroupOptionParams = {
-	value: string;
-	label: React.ReactNode;
-	description?: React.ReactNode;
-	color?: PaletteClass;
+	value: string
+	label: React.ReactNode
+	description?: React.ReactNode
 };
 
 type RadioGroupOwnProps = {
 	/**
 	 * The value of the radio group (if controlled).
 	 */
-	variant?: 'radio' | 'boxed' | 'compact'
+	variant?: 'radio' | 'boxed' | 'segmented'
 	/**
 	 * The value of the radio group (if controlled).
 	 */
@@ -31,35 +31,39 @@ type RadioGroupOwnProps = {
 	 */
 	options?: RadioGroupOptionParams[]
 	/**
-	 * The color of the radio options.
-	 */
-	color?: PaletteClass
-	/**
 	 * The field size.
 	 */
 	size?: FieldSize
+	/**
+	 * Set to `true` to make the field fits width to its parent's width.
+	 */
+	fullWidth?: boolean;
+	/**
+	 * Set the preferred sizing layout for the items: 'adaptive' will adapt the item sizes to fill the whole size of the container; 'equal' will set the item sizes to be the same.
+	 */
+	sizing?: false | 'adaptive' | 'equal';
 	/**
 	 * Sx props.
 	 */
 	sx?: SxProps
 };
 
-type RadioGroupPropsWithRef = Omit<StackProps<'div'>, keyof RadioGroupOwnProps> & RadioGroupOwnProps
+type RadioGroupPropsWithRef = Omit<StackProps<'div'>, keyof RadioGroupOwnProps | 'inline'> & RadioGroupOwnProps
 export type RadioGroupProps = Omit<RadioGroupPropsWithRef, 'ref'>
 
 export type RadioGroupOwnerState = {
 	isFocused: boolean;
-} & Required<Pick<RadioGroupProps, 'variant' | 'size' | 'color'>>
+} & Required<Pick<RadioGroupProps, 'variant' | 'size'>>
 
 export type RadioGroupStyled = {
 	ownerState: RadioGroupOwnerState
 }
 
 export type RadioGroupOptionOwnerState = {
-	isChecked: boolean;
-	isFocused: boolean;
-	color: PaletteClass;
-} & Required<Pick<RadioGroupProps, 'variant' | 'size'>>;
+	isChecked: boolean
+	isFocused: boolean
+	groupContext: RadioGroupContextValue
+};
 
 export type RadioGroupOptionStyled = {
 	ownerState: RadioGroupOptionOwnerState

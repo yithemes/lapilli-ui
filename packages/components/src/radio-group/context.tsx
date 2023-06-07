@@ -5,19 +5,19 @@ export type RadioGroupProviderProps = {
 	children: React.ReactNode
 } & Required<Pick<RadioGroupProps,
 	'variant'
-	| 'color'
 	| 'size'
+	| 'sizing'
 >> &
 	Pick<RadioGroupProps, 'name'>
 
-type ContextValue = Omit<RadioGroupProviderProps, 'children'>
+export type RadioGroupContextValue = Omit<RadioGroupProviderProps, 'children'>
 
-const RadioGroupContext = React.createContext<ContextValue>( {} as ContextValue );
+const RadioGroupContext = React.createContext<RadioGroupContextValue>( {} as RadioGroupContextValue );
 
-export const useRadioGroupContext = (): ContextValue => React.useContext( RadioGroupContext );
+export const useRadioGroupContext = (): RadioGroupContextValue => React.useContext( RadioGroupContext );
 
 export function RadioGroupProvider( { children, ...props }: RadioGroupProviderProps ) {
-	const theContext: ContextValue = props;
+	const theContext: RadioGroupContextValue = props;
 
 	return (
 		<RadioGroupContext.Provider value={ theContext }>
