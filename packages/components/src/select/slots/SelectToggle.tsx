@@ -190,8 +190,6 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 		const {
 			id,
 			placeholder,
-			getOptionId,
-			activeDescendantIndex,
 			hideToggleIcon,
 			size,
 			showTags,
@@ -322,7 +320,6 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 				aria-disabled={ disabled }
 				role="combobox"
 				tabIndex={ 0 }
-				aria-activedescendant={ activeDescendantIndex > -1 ? getOptionId( activeDescendantIndex ) : undefined }
 			>
 				<SelectToggleWrap ownerState={ ownerState }>
 					{ !!display ? display : <ZeroWidthSpace/> }

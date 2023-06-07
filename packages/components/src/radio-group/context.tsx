@@ -7,6 +7,7 @@ export type RadioGroupProviderProps = {
 	'variant'
 	| 'size'
 	| 'sizing'
+	| 'disabled'
 >> &
 	Pick<RadioGroupProps, 'name'>
 

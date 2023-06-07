@@ -7,6 +7,7 @@ type RadioGroupOptionParams = {
 	value: string
 	label: React.ReactNode
 	description?: React.ReactNode
+	disabled?: boolean
 };
 
 type RadioGroupOwnProps = {
@@ -43,6 +44,10 @@ type RadioGroupOwnProps = {
 	 */
 	sizing?: false | 'adaptive' | 'equal';
 	/**
+	 * If `true`, the whole field will be disabled.
+	 */
+	disabled?: boolean;
+	/**
 	 * Sx props.
 	 */
 	sx?: SxProps
@@ -62,6 +67,7 @@ export type RadioGroupStyled = {
 export type RadioGroupOptionOwnerState = {
 	isChecked: boolean
 	isFocused: boolean
+	isDisabled: boolean
 	groupContext: RadioGroupContextValue
 };
 

@@ -72,7 +72,7 @@ export const Variants: Story = {
 		return <>
 			<Stack spacing={ 4 }>
 				<Stack spacing={ 2 } direction="row" align="center">
-					<Switch checked={ descriptionShown } onChange={ e => setDescriptionShown( e.target.checked ) }/>
+					<Switch id="show-description" checked={ descriptionShown } onChange={ e => setDescriptionShown( e.target.checked ) }/>
 					<label htmlFor="show-description">Show descriptions</label>
 				</Stack>
 
@@ -149,3 +149,24 @@ export const CustomContent: Story = {
 	},
 	render: ( args ) => <RadioGroup { ...args } name='person'/>
 }
+
+
+export const Disabled: Story = {
+	args: {
+		...Default.args,
+		options: OPTIONS.map( _ => ( { value: _.value, label: _.label, disabled: _.value === 'private' } ) )
+	},
+	render: ( args ) => {
+		return <Stack spacing={ 4 }>
+			<div>
+				<Typography variant="h4" gutterBottom>One option disabled</Typography>
+				<RadioGroup { ...args } />
+			</div>
+
+			<div>
+				<Typography variant="h4" gutterBottom>Whole field disabled</Typography>
+				<RadioGroup { ...args } disabled/>
+			</div>
+		</Stack>
+	}
+};

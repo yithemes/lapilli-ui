@@ -3,7 +3,7 @@ import { noop, debounce } from 'lodash';
 import { styled } from '@yith/styles';
 
 import Stack from '../stack';
-import { useControlledState } from '../utils';
+import { useControlledState, useId } from '../utils';
 import type { RadioGroupOwnerState, RadioGroupProps, RadioGroupStyled } from "./types";
 import { RadioGroupProvider } from "./context";
 import RadioGroupOption from "./slots/RadioGroupOption";
@@ -45,15 +45,17 @@ const RadioGroup = (
 		value: valueProp,
 		onChange = noop,
 		spacing: spacingProp,
-		name,
+		name: nameProp,
 		direction = 'column',
 		size = 'md',
 		fullWidth = false,
 		sizing = false,
+		disabled = false,
 		...other
 	}: RadioGroupProps
 ) => {
 	const [ value, setValue ] = useControlledState( valueProp, options[ 0 ].value ?? '' );
+	const name = useId( nameProp );
 	const variantRendered = useRef( false ); // Useful to disable transition on first rendering (segmented variation) to prevent glitches.
 	const rootRef = useRef<HTMLDivElement>( null );
 	const highlightRef = useRef<HTMLDivElement>( null );
@@ -62,7 +64,7 @@ const RadioGroup = (
 
 	const updateHighlightPosition = useCallback( () => {
 		if ( variant === 'segmented' && rootRef.current && highlightRef.current ) {
-			const checkedRadio = rootRef.current.querySelector( 'input[type=radio]:checked' );
+			const checkedRadio = rootRef.current.querySelector( 'input[type=radio]:checked' ) || rootRef.current.querySelector( 'input[type=radio]:not(:disabled)' ) || rootRef.current.querySelector( 'input[type=radio]' );
 			const checkedOption = checkedRadio?.closest( 'label' );
 
 			if ( checkedOption ) {
@@ -155,7 +157,8 @@ const RadioGroup = (
 		variant,
 		name,
 		size,
-		sizing
+		sizing,
+		disabled
 	};
 
 	const ownerState: RadioGroupOwnerState = { variant, size, isFocused };

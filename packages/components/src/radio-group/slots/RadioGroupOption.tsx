@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { alpha, styled } from '@yith/styles';
+import { noop } from "lodash";
 import { CheckIcon } from "@heroicons/react/20/solid";
+import { alpha, styled } from '@yith/styles';
 
 import type { RadioGroupOptionOwnerState, RadioGroupOptionProps, RadioGroupOptionStyled } from "../types";
 import { useRadioGroupContext } from "../context";
@@ -40,6 +41,9 @@ const RadioGroupOptionRoot = styled( 'label', { name: 'RadioGroup', slot: 'Optio
 	...( ownerState.groupContext.sizing === 'equal' && {
 		flex: 1,
 		minWidth: 0
+	} ),
+	...( ownerState.isDisabled && {
+		cursor: 'not-allowed'
 	} )
 } ) );
 
@@ -106,14 +110,19 @@ const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 
 } ) );
 
 const RadioGroupOptionRadio = styled( 'input', { name: 'RadioGroup', slot: 'OptionRadio' } )<RadioGroupOptionStyled>`
-	display: block !important;
-	opacity: 0 !important;
-	position: absolute !important;
-	z-index: -1;
+    display: block !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: -1;
 
-	&[type="radio"]:checked:checked, &[type="radio"]:not(:checked):not(:checked) {
-		display: block !important;
-	}
+    &[type="radio"]:checked:checked, &[type="radio"]:not(:checked):not(:checked) {
+        display: block !important;
+    }
 `;
 
 const RadioGroupOptionContent = styled( 'div', { name: 'RadioGroup', slot: 'OptionContent' } )<RadioGroupOptionStyled>( ( { theme, ownerState } ) => ( {
@@ -130,6 +139,10 @@ const RadioGroupOptionContent = styled( 'div', { name: 'RadioGroup', slot: 'Opti
 		width: '100%',
 		textAlign: 'center',
 		margin: '-3px 0'
+	} ),
+	...( ownerState.isDisabled && {
+		opacity: theme.palette.action.disabledOpacity,
+		cursor: 'not-allowed'
 	} )
 } ) );
 
@@ -161,8 +174,9 @@ const RadioGroupOption = (
 ) => {
 	const [ isFocused, setIsFocused ] = useState( false );
 	const groupContext = useRadioGroupContext();
-	const { name, variant } = groupContext;
-	const { value, label, description } = option;
+	const { name, variant, disabled: groupDisabled } = groupContext;
+	const { value, label, description, disabled } = option;
+	const isDisabled = groupDisabled || ( disabled ?? false );
 
 	const handleFocus = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( true );
@@ -176,6 +190,7 @@ const RadioGroupOption = (
 	const ownerState: RadioGroupOptionOwnerState = {
 		isChecked,
 		isFocused,
+		isDisabled,
 		groupContext
 	}
 
@@ -186,10 +201,11 @@ const RadioGroupOption = (
 				name={ name }
 				checked={ isChecked }
 				value={ value }
-				onChange={ onChange }
+				onChange={ !isDisabled ? onChange : noop }
 				ownerState={ ownerState }
 				onFocus={ handleFocus }
 				onBlur={ handleBlur }
+				disabled={ isDisabled }
 			/>
 			{ 'radio' === variant && <RadioGroupOptionRadioShape ownerState={ ownerState }/> }
 			{ 'boxed' === variant && isChecked && <RadioGroupOptionSelectedIcon ownerState={ ownerState }><CheckIcon/></RadioGroupOptionSelectedIcon> }
