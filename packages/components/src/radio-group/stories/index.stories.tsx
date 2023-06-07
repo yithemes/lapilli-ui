@@ -45,6 +45,7 @@ export default meta;
 export const Default: Story = {
 	args: {
 		variant: 'radio',
+		direction: 'column',
 		size: 'md',
 		fullWidth: false,
 		sizing: false,
