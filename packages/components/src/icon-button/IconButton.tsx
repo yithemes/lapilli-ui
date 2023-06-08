@@ -1,5 +1,7 @@
-import { alpha, FieldSize, PaletteClass, styled, SxProps } from '@yith/styles';
+import { alpha, FieldSize, generateComponentClasses, PaletteClass, styled, SxProps } from '@yith/styles';
 import React, { forwardRef } from 'react';
+import { capitalize } from "lodash";
+import classNames from "classnames";
 
 type IconButtonOwnerState = {
 	/**
@@ -39,6 +41,21 @@ type IconButtonProps = Omit<IconButtonPropsWithRef, 'ref'>;
 type StyledIconButtonProps = {
 	ownerState: IconButtonOwnerState;
 };
+
+const useComponentClasses = ( ownerState: IconButtonOwnerState ) => {
+	return generateComponentClasses(
+		'IconButton',
+		{
+			root: [
+				'root',
+				`--${ ownerState.variant }`,
+				`--color${ capitalize( ownerState.color ) }`,
+				`--size${ capitalize( ownerState.size ) }`,
+				ownerState.adaptiveSizing && '--adaptiveSizing',
+			]
+		}
+	)
+}
 
 const IconButtonRoot = styled( 'button', { name: 'IconButton', slot: 'Root' } )<StyledIconButtonProps>`
 	${ ( { ownerState, theme } ) => {
@@ -133,13 +150,17 @@ const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>( function Icon
 		adaptiveSizing = false,
 		fontSize,
 		padding,
+		className,
 		children,
 		...other
 	},
 	ref ) {
+
 	const ownerState: IconButtonOwnerState = { color, variant, size, fontSize, adaptiveSizing, padding };
+	const classes = useComponentClasses( ownerState );
+
 	return (
-		<IconButtonRoot type={ type } ref={ ref } ownerState={ ownerState } { ...other }>
+		<IconButtonRoot { ...other } type={ type } ref={ ref } ownerState={ ownerState } className={ classNames( className, classes.root ) }>
 			{ children }
 		</IconButtonRoot>
 	);
