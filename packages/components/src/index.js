@@ -18,6 +18,7 @@ export *                               from './grid';
 export { default as Paper }            from './paper';
 export { default as Popover }          from './popover';
 export { default as RadioGroup }       from './radio-group';
+export *                               from './radio-group';
 export { default as Select }           from './select';
 export { default as Skeleton }         from './skeleton';
 export { default as Spinner }          from './spinner';
