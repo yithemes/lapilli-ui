@@ -152,8 +152,6 @@ const SelectToggleSpinner = styled( 'span', { name: 'Select', slot: 'ToggleSpinn
 `;
 
 const SelectToggleClear = styled( IconButton, { name: 'Select', slot: 'ToggleClear' } )`
-	font-size: 15px;
-	padding: 4px;
 	margin: -4px;
 
 	& > svg {
@@ -335,6 +333,9 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 							<SelectToggleClear
 								className={ classes.toggleClear }
 								onClick={ handleClear }
+								adaptiveSizing
+								padding={ 4 }
+								fontSize={ 15 }
 							>
 								<XMarkIcon/>
 							</SelectToggleClear>

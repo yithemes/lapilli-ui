@@ -53,7 +53,7 @@ export const SimpleCard: ComponentStory<typeof Card> = SimpleCardTemplate.bind( 
 const WithMediaTemplate: ComponentStory<typeof Card> = ( args ) => {
 	return <Card { ...args } sx={ { width: 345 } }>
 		<CardMedia src="images/hillton-header.jpeg" sx={ { height: 170, display: 'flex', alignItems: 'flex-start', justifyContent: 'flex-end' } }>
-			<IconButton size="sm" fontSize="25px" sx={ { color: '#fff', margin: '8px' } }>
+			<IconButton fontSize="lg" sx={ { color: '#fff', margin: '4px' } }>
 				<OutlinedHeartIcon width="1em"/>
 			</IconButton>
 		</CardMedia>
@@ -86,17 +86,16 @@ const ComplexInteractionTemplate: ComponentStory<typeof Card> = ( args ) => {
 			title="Albus Dumbledore"
 			subtitle="Hogwarts headmaster"
 			action={
-				<IconButton fontSize="xl">
+				<IconButton size="lg">
 					<EllipsisHorizontalIcon width="1em"/>
 				</IconButton>
 			}
 		/>
 		<CardMedia src="images/albus-silente.jpeg" sx={ { height: 150 } }/>
 		<CardActions disableSpacing>
-			<IconButton fontSize="xl"><HeartIcon width="1em"/></IconButton>
-			<IconButton fontSize="xl"><ShareIcon width="1em"/></IconButton>
+			<IconButton><HeartIcon width="1em"/></IconButton>
+			<IconButton><ShareIcon width="1em"/></IconButton>
 			<IconButton
-				fontSize="xl"
 				onClick={ () => setOpen( _ => !_ ) }
 				sx={ { marginLeft: 'auto' } }
 			>{ open ? <ChevronUpIcon width="1em"/> : <ChevronDownIcon width="1em"/> }</IconButton>

@@ -1,13 +1,14 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import { PencilIcon, EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
+
+import type { FieldSize } from "@yith/styles";
 
 import IconButton from '../';
-import FwIcon from "../../fw-icon";
-import type { FieldSize } from "@yith/styles";
 import Stack from "../../stack";
 import Container from "../../container";
 
-const meta: ComponentMeta<typeof IconButton> = {
+const meta: Meta<typeof IconButton> = {
 	title: 'Components/IconButton',
 	component: IconButton,
 	argTypes: {
@@ -17,9 +18,9 @@ const meta: ComponentMeta<typeof IconButton> = {
 			},
 			options: [ 'eye', 'edit', 'trash' ],
 			mapping: {
-				eye: <FwIcon icon='eye'/>,
-				edit: <FwIcon icon='edit'/>,
-				trash: <FwIcon icon='trash'/>,
+				eye: <EyeIcon width='1em'/>,
+				edit: <PencilIcon width='1em'/>,
+				trash: <TrashIcon width='1em'/>,
 			}
 		},
 	}
@@ -27,17 +28,20 @@ const meta: ComponentMeta<typeof IconButton> = {
 
 export default meta;
 
-const Template: ComponentStory<typeof IconButton> = ( { children, ...args } ) => {
-	return <IconButton { ...args }>{ children }</IconButton>;
-};
-export const Default: ComponentStory<typeof IconButton> = Template.bind( {} );
+type Story = StoryObj<typeof IconButton>
 
-Default.args = {
-	color: 'primary',
-	children: 'edit',
-	variant: 'shadowed',
-	size: 'md'
-}
+export const Default: Story = {
+	args: {
+		color: 'primary',
+		children: 'edit',
+		variant: 'shadowed',
+		size: 'md'
+	},
+	render: ( { children, ...args } ) => {
+		return <IconButton { ...args } aria-label='Click me'>{ children }</IconButton>;
+	}
+};
+
 
 const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'sm', label: 'Small' },
@@ -51,24 +55,18 @@ const CONTAINER_STYLE = {
 	lineHeight: 1.5
 }
 
-const SizesTemplate: ComponentStory<typeof IconButton> = ( { children, ...args } ) => {
-	return <Container style={ CONTAINER_STYLE }>
-		<Stack spacing={ 2 } direction="row" align="start">
-			{ SIZES.map( _ => <Stack key={ _.size } direction="column" align="center" spacing={ 2 }>
-				<Stack style={ { minHeight: 60 } } align="center" justify="center">
-					<IconButton { ...args } size={ _.size }>{ children }</IconButton>
-				</Stack>
-				<div style={ { textAlign: 'center' } }>{ _.label }</div>
-			</Stack> ) }
-		</Stack>
-	</Container>;
+export const Sizes: Story = {
+	args: Default.args,
+	render: ( { children, ...args } ) => {
+		return <Container style={ CONTAINER_STYLE }>
+			<Stack spacing={ 2 } direction="row" align="start">
+				{ SIZES.map( _ => <Stack key={ _.size } direction="column" align="center" spacing={ 2 }>
+					<Stack style={ { minHeight: 60 } } align="center" justify="center">
+						<IconButton { ...args } size={ _.size } aria-label='Click me'>{ children }</IconButton>
+					</Stack>
+					<div style={ { textAlign: 'center' } }>{ _.label }</div>
+				</Stack> ) }
+			</Stack>
+		</Container>;
+	}
 };
-
-export const Sizes: ComponentStory<typeof IconButton> = SizesTemplate.bind( {} );
-
-Sizes.args = {
-	color: 'primary',
-	children: 'edit',
-	variant: 'shadowed',
-	size: 'md'
-}

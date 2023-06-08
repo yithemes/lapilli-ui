@@ -65,8 +65,6 @@ const DatePickerToggleLabel = styled( 'div', { name: 'DatePicker', slot: 'Toggle
 const DatePickerToggleClear = styled( IconButton, { name: 'DatePicker', slot: 'ToggleClear' } )<PickerToggleStyledProps>( (
 	{ ownerState }
 ) => ( {
-	fontSize: 15,
-	padding: 4,
 	margin: -4,
 	'& > svg': {
 		width: '1em'
@@ -150,6 +148,9 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 						onClear();
 					}
 				} }
+				adaptiveSizing
+				padding={ 4 }
+				fontSize={ 15 }
 			>
 				<XMarkIcon/>
 			</DatePickerToggleClear>
