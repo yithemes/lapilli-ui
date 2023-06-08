@@ -125,10 +125,10 @@ export const CustomIcons: Story = {
 
 function CustomItem( { name, image, role }: { name: string, image: string, role: string } ) {
 	return <Stack direction="row" align="center" spacing={ 2 }>
-		<img src={ image } style={ { width: '35px', borderRadius: '4px' } }/>
+		<img src={ image } style={ { width: '35px', borderRadius: '4px' } } alt={ name }/>
 		<Stack direction="column">
 			<Typography sx={ { color: 'inherit' } }>{ name }</Typography>
-			<Typography variant="body2" sx={ { color: 'inherit', opacity: .5 } }>{ role }</Typography>
+			<Typography variant="body2" sx={ { color: 'inherit', opacity: .7 } }>{ role }</Typography>
 		</Stack>
 	</Stack>
 }
