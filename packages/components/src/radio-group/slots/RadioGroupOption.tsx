@@ -1,10 +1,26 @@
 import React, { useState } from 'react';
 import { noop } from "lodash";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { alpha, styled } from '@yith/styles';
+import { alpha, generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
 
-import type { RadioGroupOptionOwnerState, RadioGroupOptionProps, RadioGroupOptionStyled } from "../types";
 import { useRadioGroupContext } from "../context";
+import type { RadioGroupClasses, RadioGroupOptionOwnerState, RadioGroupOptionProps, RadioGroupOptionStyled } from "../types";
+
+const useComponentClasses = ( ownerState: RadioGroupOptionOwnerState ): RadioGroupClasses => {
+	const { classes } = useRadioGroupContext();
+	const stateClasses = generateComponentClasses(
+		'RadioGroup',
+		{
+			option: [
+				ownerState.isChecked && 'checked',
+				ownerState.isDisabled && 'disabled',
+				ownerState.isFocused && 'focused',
+			],
+		}
+	);
+
+	return mergeComponentClasses( classes, stateClasses );
+}
 
 const RadioGroupOptionRoot = styled( 'label', { name: 'RadioGroup', slot: 'Option' } )<RadioGroupOptionStyled>( ( { theme, ownerState } ) => ( {
 	position: 'relative',
@@ -46,7 +62,6 @@ const RadioGroupOptionRoot = styled( 'label', { name: 'RadioGroup', slot: 'Optio
 		cursor: 'not-allowed'
 	} )
 } ) );
-
 const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'OptionRadioShape' } )<RadioGroupOptionStyled>( ( { ownerState, theme } ) => ( {
 	display: 'flex',
 	alignItems: 'center',
@@ -108,23 +123,21 @@ const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 
 		stroke: 'currentColor'
 	}
 } ) );
-
 const RadioGroupOptionRadio = styled( 'input', { name: 'RadioGroup', slot: 'OptionRadio' } )<RadioGroupOptionStyled>`
-    display: block !important;
-    opacity: 0 !important;
-    position: absolute !important;
-    inset-block-start: 0;
-    inset-inline-start: 0;
-    width: 0;
-    height: 0;
-    pointer-events: none;
-    z-index: -1;
+	display: block !important;
+	opacity: 0 !important;
+	position: absolute !important;
+	inset-block-start: 0;
+	inset-inline-start: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+	z-index: -1;
 
-    &[type="radio"]:checked:checked, &[type="radio"]:not(:checked):not(:checked) {
-        display: block !important;
-    }
+	&[type="radio"]:checked:checked, &[type="radio"]:not(:checked):not(:checked) {
+		display: block !important;
+	}
 `;
-
 const RadioGroupOptionContent = styled( 'div', { name: 'RadioGroup', slot: 'OptionContent' } )<RadioGroupOptionStyled>( ( { theme, ownerState } ) => ( {
 	lineHeight: 1.5,
 	fontSize: theme.fields.fontSize,
@@ -145,7 +158,6 @@ const RadioGroupOptionContent = styled( 'div', { name: 'RadioGroup', slot: 'Opti
 		cursor: 'not-allowed'
 	} )
 } ) );
-
 const RadioGroupOptionLabel = styled( 'div', { name: 'RadioGroup', slot: 'OptionLabel' } )<RadioGroupOptionStyled>( ( { ownerState } ) => ( {
 	...( ownerState.groupContext.sizing === 'equal' && {
 		overflow: 'hidden',
@@ -192,11 +204,14 @@ const RadioGroupOption = (
 		isFocused,
 		isDisabled,
 		groupContext
-	}
+	};
+
+	const classes = useComponentClasses( ownerState );
 
 	return (
-		<RadioGroupOptionRoot ownerState={ ownerState }>
+		<RadioGroupOptionRoot ownerState={ ownerState } className={ classes.option }>
 			<RadioGroupOptionRadio
+				className={ classes.optionRadio }
 				type="radio"
 				name={ name }
 				checked={ isChecked }
@@ -207,11 +222,11 @@ const RadioGroupOption = (
 				onBlur={ handleBlur }
 				disabled={ isDisabled }
 			/>
-			{ 'radio' === variant && <RadioGroupOptionRadioShape ownerState={ ownerState }/> }
-			{ 'boxed' === variant && isChecked && <RadioGroupOptionSelectedIcon ownerState={ ownerState }><CheckIcon/></RadioGroupOptionSelectedIcon> }
-			<RadioGroupOptionContent ownerState={ ownerState }>
-				<RadioGroupOptionLabel ownerState={ ownerState }>{ label }</RadioGroupOptionLabel>
-				{ !!description && <RadioGroupOptionDescription ownerState={ ownerState }>{ description }</RadioGroupOptionDescription> }
+			{ 'radio' === variant && <RadioGroupOptionRadioShape ownerState={ ownerState } className={ classes.optionRadioShape }/> }
+			{ 'boxed' === variant && isChecked && <RadioGroupOptionSelectedIcon ownerState={ ownerState } className={ classes.optionSelectedIcon }><CheckIcon/></RadioGroupOptionSelectedIcon> }
+			<RadioGroupOptionContent ownerState={ ownerState } className={ classes.optionContent }>
+				<RadioGroupOptionLabel ownerState={ ownerState } className={ classes.optionLabel }>{ label }</RadioGroupOptionLabel>
+				{ !!description && <RadioGroupOptionDescription ownerState={ ownerState } className={ classes.optionDescription }>{ description }</RadioGroupOptionDescription> }
 			</RadioGroupOptionContent>
 		</RadioGroupOptionRoot>
 	);

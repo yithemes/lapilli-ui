@@ -22,10 +22,7 @@ const useComponentClasses = ( ownerState: SelectOwnerState ): SelectClasses => {
 		}
 	);
 
-	return mergeComponentClasses(
-		mergeComponentClasses( selectClasses, stateClasses ),
-		ownerState.classes
-	);
+	return mergeComponentClasses( selectClasses, stateClasses, ownerState.classes );
 }
 
 const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyled>`

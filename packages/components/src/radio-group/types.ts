@@ -2,6 +2,9 @@ import type React from "react";
 import type { FieldSize, SxProps } from "@yith/styles";
 import type { StackProps } from "../stack/types";
 import type { RadioGroupContextValue } from "./context";
+import type { radioGroupClasses } from "./classes";
+
+export type RadioGroupClasses = typeof radioGroupClasses;
 
 type RadioGroupOptionParams = {
 	value: string
@@ -48,6 +51,10 @@ type RadioGroupOwnProps = {
 	 */
 	disabled?: boolean;
 	/**
+	 * CSS classes to add custom classes to each slot of the component.
+	 */
+	classes?: Partial<RadioGroupClasses>
+	/**
 	 * Sx props.
 	 */
 	sx?: SxProps
@@ -58,7 +65,7 @@ export type RadioGroupProps = Omit<RadioGroupPropsWithRef, 'ref'>
 
 export type RadioGroupOwnerState = {
 	isFocused: boolean;
-} & Required<Pick<RadioGroupProps, 'variant' | 'size'>>
+} & Required<Pick<RadioGroupProps, 'variant' | 'size' | 'sizing' | 'fullWidth' | 'disabled' | 'classes'>>
 
 export type RadioGroupStyled = {
 	ownerState: RadioGroupOwnerState

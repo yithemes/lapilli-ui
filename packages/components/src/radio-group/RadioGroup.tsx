@@ -1,12 +1,33 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { noop, debounce } from 'lodash';
-import { styled } from '@yith/styles';
+import { noop, debounce, capitalize } from 'lodash';
+import { generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
 
 import Stack from '../stack';
 import { useControlledState, useId } from '../utils';
-import type { RadioGroupOwnerState, RadioGroupProps, RadioGroupStyled } from "./types";
+
 import { RadioGroupProvider } from "./context";
 import RadioGroupOption from "./slots/RadioGroupOption";
+import type { RadioGroupClasses, RadioGroupOwnerState, RadioGroupProps, RadioGroupStyled } from "./types";
+import { radioGroupClasses } from "./classes";
+import classNames from "classnames";
+
+const useComponentClasses = ( ownerState: RadioGroupOwnerState ): RadioGroupClasses => {
+	const stateClasses = generateComponentClasses(
+		'RadioGroup',
+		{
+			root: [
+				`--${ ownerState.variant }`,
+				`--size${ capitalize( ownerState.size ) }`,
+				ownerState.sizing && `--sizing${ capitalize( ownerState.sizing ) }`,
+				ownerState.fullWidth && '--fullWidth',
+				ownerState.disabled && 'disabled',
+				ownerState.isFocused && 'focused',
+			],
+		}
+	);
+
+	return mergeComponentClasses( radioGroupClasses, stateClasses, ownerState.classes );
+}
 
 const RadioGroupRoot = styled( Stack, { name: 'RadioGroup', slot: 'Root' } )<RadioGroupStyled>( ( { theme, ownerState } ) => ( {
 	position: 'relative',
@@ -24,7 +45,6 @@ const RadioGroupRoot = styled( Stack, { name: 'RadioGroup', slot: 'Root' } )<Rad
 		} )
 	} ),
 } ) );
-
 const RadioGroupOptionHighlight = styled( 'div', { name: 'RadioGroup', slot: 'OptionHighlight' } )<RadioGroupStyled>( ( { theme } ) => ( {
 	position: 'absolute',
 	borderRadius: `calc(${ theme.fields.borderRadius } - 2px)`,
@@ -51,6 +71,8 @@ const RadioGroup = (
 		fullWidth = false,
 		sizing = false,
 		disabled = false,
+		classes: classesProp = {},
+		className,
 		...other
 	}: RadioGroupProps
 ) => {
@@ -153,15 +175,17 @@ const RadioGroup = (
 		return 1;
 	}, [ spacingProp, variant, direction ] );
 
+	const ownerState: RadioGroupOwnerState = { variant, size, sizing, fullWidth, disabled, isFocused, classes: classesProp };
+	const classes = useComponentClasses( ownerState );
+
 	const providerProps: Omit<React.ComponentProps<typeof RadioGroupProvider>, 'children'> = {
 		variant,
 		name,
 		size,
 		sizing,
-		disabled
+		disabled,
+		classes
 	};
-
-	const ownerState: RadioGroupOwnerState = { variant, size, isFocused };
 
 	return (
 		<RadioGroupProvider { ...providerProps }>
@@ -171,6 +195,7 @@ const RadioGroup = (
 				wrap={ variant !== 'segmented' }
 				align={ variant === 'radio' ? 'start' : 'stretch' }
 				{ ...other }
+				className={ classNames( classes.root, className ) }
 				inline={ !fullWidth }
 				ownerState={ ownerState }
 				ref={ rootRef }
