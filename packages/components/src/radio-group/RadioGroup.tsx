@@ -63,6 +63,7 @@ const RadioGroup = (
 		options = [],
 		variant = 'radio',
 		value: valueProp,
+		defaultValue,
 		onChange = noop,
 		spacing: spacingProp,
 		name: nameProp,
@@ -76,7 +77,7 @@ const RadioGroup = (
 		...other
 	}: RadioGroupProps
 ) => {
-	const [ value, setValue ] = useControlledState( valueProp, options[ 0 ].value ?? '' );
+	const [ value, setValue ] = useControlledState( valueProp, defaultValue ?? options[ 0 ].value ?? '' );
 	const name = useId( nameProp );
 	const variantRendered = useRef( false ); // Useful to disable transition on first rendering (segmented variation) to prevent glitches.
 	const rootRef = useRef<HTMLDivElement>( null );

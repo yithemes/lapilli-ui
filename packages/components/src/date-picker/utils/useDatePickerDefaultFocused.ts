@@ -2,7 +2,7 @@ import type { DatePickerProps } from "../types";
 import { useMemo } from "react";
 import { getDate, isAfter, isBefore, startOfDay } from "@yith/date";
 
-const useDatePickerDefaultValue = ( props: DatePickerProps ) => {
+const useDatePickerDefaultFocused = ( props: DatePickerProps ) => {
 	const {
 		minDate,
 		maxDate
@@ -25,4 +25,4 @@ const useDatePickerDefaultValue = ( props: DatePickerProps ) => {
 	}, [ minDate, maxDate ] );
 }
 
-export default useDatePickerDefaultValue;
+export default useDatePickerDefaultFocused;

@@ -55,6 +55,10 @@ type RadioGroupOwnProps = {
 	 */
 	classes?: Partial<RadioGroupClasses>
 	/**
+	 * The default value. Useful when the component is not controlled.
+	 */
+	defaultValue?: string
+	/**
 	 * Sx props.
 	 */
 	sx?: SxProps

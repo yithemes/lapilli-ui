@@ -18,6 +18,10 @@ export type StaticDatePickerProps = {
 	 */
 	value?: Date | string | null,
 	/**
+	 * The default value. Useful when the component is not controlled.
+	 */
+	defaultValue?: Date | string,
+	/**
 	 * The function called when a new date has been selected.
 	 */
 	onChange?: ( date: Date | null ) => void,

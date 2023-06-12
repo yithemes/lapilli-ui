@@ -147,3 +147,8 @@ export const InsideLabel: Story = {
 		return <label>Choose a date <DatePicker { ...args } /></label>
 	}
 }
+
+export const WithDefaultValue: Story = {
+	args: { ...Default.args, defaultValue: '2023-10-31' },
+	render: Default.render
+}

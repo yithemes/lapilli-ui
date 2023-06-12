@@ -69,6 +69,16 @@ const meta: Meta<typeof Input> = {
 				percentage: '%',
 			}
 		},
+		defaultValue: {
+			control: {
+				type: 'text',
+			},
+			table: {
+				type: { summary: 'string' },
+				defaultValue: { summary: '' }
+			},
+			description: 'The default value. Useful when the component is not controlled.',
+		},
 	},
 };
 
