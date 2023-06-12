@@ -93,6 +93,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 		disableRestoreFocus = false,
 		disableAutoFocus = false,
 		disableConstrainedFocus = false,
+		...other
 	},
 	ref
 ) {
@@ -135,7 +136,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 	}
 
 	return <Portal disablePortal={ disablePortal }>
-		<ModalRoot ref={ ref } role="presentation" onClick={ handleBackdropClick } className={ classNames( classes.root, className ) }>
+		<ModalRoot role="presentation" { ...other } ref={ ref } onClick={ handleBackdropClick } className={ classNames( classes.root, className ) }>
 			<ModalBackdrop className={ classes.backdrop }/>
 			<ModalContainer onMouseDown={ handleMouseDown } className={ classes.container }>
 				<FocusTrap open disableRestoreFocus={ disableRestoreFocus } disableAutoFocus={ disableAutoFocus } disableConstrainedFocus={ disableConstrainedFocus }>

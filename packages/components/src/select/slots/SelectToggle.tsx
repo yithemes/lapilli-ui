@@ -10,8 +10,6 @@ import { useSelectContext } from "../context";
 import { selectClasses } from "../classes";
 import { useDropdown } from "../../dropdown";
 
-const ACTION_SPACING = '6px'; // spacing between actions.
-
 const useComponentClasses = ( ownerState: SelectToggleOwnerState ) => {
 	const { classes } = useSelectContext();
 	const stateClasses = generateComponentClasses(
@@ -141,14 +139,15 @@ const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'Toggle
 );
 
 const SelectToggleActions = styled( 'div', { name: 'Select', slot: 'ToggleActions' } )`
-	display: flex;
-	align-items: center;
-	box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 6px;
+    margin-left: 6px;
 `;
 
 const SelectToggleSpinner = styled( 'span', { name: 'Select', slot: 'ToggleSpinner' } )`
 	display: inline-flex;
-	margin-right: ${ ACTION_SPACING };
 `;
 
 const SelectToggleClear = styled( IconButton, { name: 'Select', slot: 'ToggleClear' } )`
@@ -164,7 +163,6 @@ const SelectToggleExpand = styled( 'span', { name: 'Select', slot: 'ToggleExpand
 		display: 'inline-flex',
 		fontSize: '20px',
 		opacity: 0.4,
-		marginLeft: ACTION_SPACING,
 		marginRight: -4,
 		...( ownerState.variant === 'reveal' && {
 			opacity: 0,
@@ -186,7 +184,6 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 	(
 		{ onClear, ...other }, ref ) => {
 		const {
-			id,
 			placeholder,
 			hideToggleIcon,
 			size,
@@ -210,7 +207,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 		const { toggle, open, isOpen } = useDropdown();
 		const label = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
 		const rootRef = useRef<HTMLDivElement>( null );
-		const relatedLabelFocusRef = useRelatedLabelFocus( id );
+		const relatedLabelFocusRef = useRelatedLabelFocus();
 		const mergedRef = useMergedRefs( ref, rootRef, relatedLabelFocusRef );
 
 		const [ isFocused, setIsFocused ] = useState( false );

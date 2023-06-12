@@ -34,19 +34,22 @@ export const Default: Story = {
 		options: HEROES.sort().map( _ => ( { value: _, label: _ } ) ),
 		placeholder: 'Choose a hero',
 		size: 'md',
-		variant: 'outlined'
+		variant: 'outlined',
+		fullWidth: false,
+		sx: { minWidth: 200 }
 	},
 	render: ( args ) => {
-		return <Select { ...args }>Button</Select>;
+		return <Select { ...args } />;
 	}
 }
 
 export const Multiple: Story = {
 	args: {
+		...Default.args,
 		options: HEROES.sort().map( _ => ( { value: _, label: _ } ) ),
 		multiple: true,
 		placeholder: 'Choose your heroes',
-		width: '100%',
+		fullWidth: true,
 		allowSearch: true,
 		size: 'md'
 	},
@@ -132,10 +135,16 @@ export const CustomContents: Story = {
 	args: {
 		...Default.args,
 		options: people,
-		width: 'auto',
 		defaultValue: people[ 2 ].value
 	},
 	render: ( { ...args } ) => {
 		return <Select { ...args } renderOptionContent={ renderCustomOption } renderToggleContent={ renderCustomToggleContent } multiple={ false }/>
+	}
+}
+
+export const InsideLabel: Story = {
+	args: Default.args,
+	render: ( args ) => {
+		return <label>Choose an hero: <Select { ...args } /></label>;
 	}
 }

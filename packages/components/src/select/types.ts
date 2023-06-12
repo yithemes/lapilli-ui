@@ -118,9 +118,9 @@ type SingleSelectOwnProps = {
 	 */
 	noResultsText?: string
 	/**
-	 * You can set a specific width.
+	 * Set to `true` to make the field fits width to its parent's width.
 	 */
-	width?: React.CSSProperties[ 'width' ]
+	fullWidth?: boolean
 	/**
 	 * Do you want to show tags in the select toggle?
 	 */
@@ -179,7 +179,7 @@ export type SelectOwnProps = SingleSelectOwnProps | MultipleSelectOwnProps
 type SelectPropsWithRef = Omit<React.ComponentProps<'div'>, keyof SelectOwnProps> & SelectOwnProps
 export type SelectProps = Omit<SelectPropsWithRef, 'ref'>
 
-export type SelectOwnerState = Required<Pick<SelectProps, 'width' | 'variant' | 'classes'>>
+export type SelectOwnerState = Required<Pick<SelectProps, 'fullWidth' | 'variant' | 'classes'>>
 
 export type SelectStyled = {
 	ownerState: SelectOwnerState

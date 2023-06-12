@@ -27,14 +27,6 @@ const DatePickerRoot = styled( 'div', { name: 'DatePicker', slot: 'Root' } )( ()
 	display: 'inline-flex'
 } ) );
 
-const DatePickerInput = styled( 'input', { name: 'DatePicker', slot: 'Input' } )( () => ( {
-	opacity: 0,
-	position: 'absolute',
-	zIndex: -1,
-	width: 0,
-	height: 0,
-} ) );
-
 const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )<{ ownerState: { isDatePickerDisabled: boolean } }>( ( { theme, ownerState } ) => ( {
 	borderStyle: 'solid',
 	borderWidth: '1px',
@@ -163,22 +155,12 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		}
 	}, [ rootRef, toggleRef, selectedDate ] );
 
-	const handleInputFocus = useCallback( () => {
-		if ( disabled || !toggleRef.current ) {
-			return;
-		}
-		toggleRef.current.focus();
-	}, [ disabled, toggleRef ] );
-
 	return <DatePickerRoot ref={ rootRef } className={ classNames( classes.root, className ) }>
-		<DatePickerInput
-			type='text'
-			id={ id }
+		<input
+			type='hidden'
 			name={ name }
 			value={ !!selectedDate ? formatDateSameTimezone( inputFormat, selectedDate ) : '' }
 			disabled={ disabled }
-			onFocus={ handleInputFocus }
-			readOnly
 		/>
 		{
 			isStatic ?
@@ -195,6 +177,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 					renderToggle={
 						( { open, toggle, isOpen } ) => {
 							return <Toggle
+								id={ id }
 								onClick={ toggle }
 								onKeyDown={
 									( event: React.KeyboardEvent ) => {

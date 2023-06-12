@@ -91,9 +91,9 @@ const TimeSelector = React.forwardRef<HTMLInputElement, TimeSelectorProps>( func
 	return (
 		<TimeSelectorRoot>
 			<input { ...other } type="hidden" value={ time.value } ref={ ref }/>
-			<Select value={ hours } onChange={ ( _: string ) => setHours( _ ) } options={ HOURS } width={ 75 }/>
+			<Select value={ hours } onChange={ ( _: string ) => setHours( _ ) } options={ HOURS } sx={ { width: 75 } }/>
 			<TimeSelectorSeparator>:</TimeSelectorSeparator>
-			<Select value={ minutes } onChange={ ( _: string ) => setMinutes( _ ) } options={ minutesOptions } width={ 75 }/>
+			<Select value={ minutes } onChange={ ( _: string ) => setMinutes( _ ) } options={ minutesOptions } sx={ { width: 75 } }/>
 		</TimeSelectorRoot>
 	);
 } );

@@ -166,18 +166,16 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		size
 	};
 
-	const IconComponent = isChecked ? CheckIcon : XMarkIcon;
-
 	return (
 		<SwitchRoot
 			className={ className }
 			ownerState={ ownerState }
 		>
 			<SwitchField
+				{ ...other }
 				ref={ ref }
 				type="checkbox"
 				checked={ isChecked }
-				{ ...other }
 				onChange={ handleChange }
 				onFocus={ handleFocus }
 				onBlur={ handleBlur }
@@ -185,12 +183,12 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 				role="switch"
 				tabIndex={ 0 }
 				aria-checked={ isChecked }
-				name={ 'checkbox' === type ? name : '' }
+				name={ 'checkbox' === type ? name : undefined }
 				disabled={ disabled }
 			/>
 			{ 'hidden' === type && <input type="hidden" value={ isChecked ? 'yes' : 'no' } name={ name }/> }
 			<SwitchThumb ownerState={ ownerState }>
-				<IconComponent/>
+				{ isChecked ? <CheckIcon/> : <XMarkIcon/> }
 			</SwitchThumb>
 			<ZeroWidthSpace/>
 		</SwitchRoot>

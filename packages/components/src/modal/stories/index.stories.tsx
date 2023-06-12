@@ -29,10 +29,17 @@ export const Default: Story = {
 		const [ open, setOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) }>
-				<ModalTitle>Modal</ModalTitle>
+			<Modal
+				{ ...args }
+				open={ open }
+				onClose={ () => setOpen( false ) }
+				aria-labelledby='modal__label'
+				aria-describedby='modal__content'
+				role='alertdialog'
+			>
+				<ModalTitle id='modal__label'>Modal</ModalTitle>
 
-				<ModalContent>
+				<ModalContent id='modal__content'>
 					<Typography>
 						Hello, nice to meet you! <br/>
 						I'm a simple modal, to show you what you can achieve ;-) <br/>
@@ -62,10 +69,18 @@ export const Confirm: Story = {
 		const [ open, setOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) } maxWidth="xs" disableAutoFocus>
-				<ModalTitle>Confirm</ModalTitle>
+			<Modal { ...args }
+				open={ open }
+				onClose={ () => setOpen( false ) }
+				maxWidth="xs"
+				disableAutoFocus
+				aria-labelledby='modal__label'
+				aria-describedby='modal__content'
+				role='alertdialog'
+			>
+				<ModalTitle id='modal__label'>Confirmation</ModalTitle>
 
-				<ModalContent>
+				<ModalContent id='modal__content'>
 					<Typography>
 						Do you want to confirm the action?
 					</Typography>
@@ -85,10 +100,19 @@ export const Delete: Story = {
 		const [ open, setOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) } maxWidth="xs" disableAutoFocus>
-				<ModalTitle>Confirm Delete</ModalTitle>
+			<Modal
+				{ ...args }
+				open={ open }
+				onClose={ () => setOpen( false ) }
+				maxWidth="xs"
+				disableAutoFocus
+				aria-labelledby='modal__label'
+				aria-describedby='modal__content'
+				role='alertdialog'
+			>
+				<ModalTitle id='modal__label'>Confirm Delete</ModalTitle>
 
-				<ModalContent>
+				<ModalContent id='modal__content'>
 					<Typography>Are you sure to delete the selected item?</Typography>
 					<Typography>This action cannot be undone.</Typography>
 				</ModalContent>
@@ -107,10 +131,17 @@ export const ScrollableContent: Story = {
 		const [ open, setOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) }>
-				<ModalTitle>Confirm</ModalTitle>
+			<Modal
+				{ ...args }
+				open={ open }
+				onClose={ () => setOpen( false ) }
+				aria-labelledby='modal__label'
+				aria-describedby='modal__content'
+				role='alertdialog'
+			>
+				<ModalTitle id='modal__label'>Confirm</ModalTitle>
 
-				<ModalContent>
+				<ModalContent id='modal__content'>
 					<Container maxWidth="sm">
 						<Typography>
 							{ LOREM_IPSUM }
@@ -139,8 +170,8 @@ export const WithFields: Story = {
 		const [ open, setOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) }>
-				<ModalTitle>Fill the form</ModalTitle>
+			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) } role='dialog' aria-labelledby='modal__label'>
+				<ModalTitle id='modal__label'>Fill the form</ModalTitle>
 
 				<ModalContent>
 					<Container maxWidth="sm">
@@ -151,7 +182,7 @@ export const WithFields: Story = {
 							</Stack>
 							<Stack direction="column" spacing={ 1 } align="start">
 								<label htmlFor="number">Choose a number</label>
-								<Select id="number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
+								<Select id="number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } sx={ { maxWidth: 400 } } fullWidth/>
 							</Stack>
 							<Stack direction="column" spacing={ 1 } align="start">
 								<label htmlFor="date">Choose a date</label>
@@ -162,14 +193,14 @@ export const WithFields: Story = {
 								<Dropdown
 									renderToggle={ ( { isOpen, toggle } ) => <Button onClick={ toggle }>{ isOpen ? 'Close' : 'Open' }</Button> }
 									renderContent={ () => (
-										<Stack direction="column" spacing={ 3 } align="start" sx={ { padding: '24px' } }>
+										<Stack direction="column" spacing={ 3 } align="stretch" sx={ { padding: '24px', width: '100vw', maxWidth: '600px' } }>
 											<Stack direction="column" spacing={ 1 } align="start">
 												<label htmlFor="other-name">Choose another name</label>
 												<Input id="other-name" fullWidth/>
 											</Stack>
 											<Stack direction="column" spacing={ 1 } align="start">
 												<label htmlFor="other-number">Choose another number</label>
-												<Select id="other-number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } width={ 400 }/>
+												<Select id="other-number" options={ [ { value: 'one', label: 'One' }, { value: 'two', label: 'Two' }, { value: 'Three', label: 'Three' } ] } sx={ { maxWidth: 400 } } fullWidth/>
 											</Stack>
 											<Stack direction="column" spacing={ 1 } align="start">
 												<label htmlFor="other-date">Choose another date</label>
@@ -204,22 +235,24 @@ export const Nested: Story = {
 		const [ childOpen, setChildOpen ] = useState( false );
 		return <>
 			<Button onClick={ () => setOpen( true ) }>Open Modal</Button>
-			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) }>
-				<ModalTitle>Parent</ModalTitle>
+			<Modal { ...args } open={ open } onClose={ () => setOpen( false ) } role='dialog' aria-labelledby='modal__label' aria-describedby='modal__description'>
+				<ModalTitle id='modal__label'>Parent</ModalTitle>
 				<ModalContent>
-					<Container maxWidth="sm">
-						<Stack direction="column" spacing={ 3 } align="center">
-							<Typography>Hi, I'm the parent modal</Typography>
-							<Button onClick={ () => setChildOpen( true ) }>Open Child</Button>
-							<Modal { ...args } open={ childOpen } onClose={ () => setChildOpen( false ) } disableAutoFocus>
-								<ModalTitle>Child</ModalTitle>
-								<ModalContent>
-									<Typography>Hi, I'm the child modal</Typography>
-								</ModalContent>
-							</Modal>
-						</Stack>
-					</Container>
+					<Typography id='modal__description'>Hi, I'm the parent modal</Typography>
 				</ModalContent>
+				<ModalActions>
+					<Button onClick={ () => setChildOpen( true ) }>Open Child</Button>
+				</ModalActions>
+			</Modal>
+			<Modal { ...args } open={ childOpen } onClose={ () => setChildOpen( false ) } role='dialog' aria-labelledby='modal-child__label' aria-describedby='modal-child__description'>
+				<ModalTitle id='modal-child__label'>Child</ModalTitle>
+				<ModalContent id='modal-child__description'>
+					<Typography>Hi, I'm the child modal</Typography>
+				</ModalContent>
+
+				<ModalActions>
+					<Button variant="outlined" onClick={ () => setChildOpen( false ) }>Ok, close me!</Button>
+				</ModalActions>
 			</Modal>
 		</>
 	}

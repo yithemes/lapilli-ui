@@ -25,14 +25,12 @@ const useComponentClasses = ( ownerState: SelectOwnerState ): SelectClasses => {
 	return mergeComponentClasses( selectClasses, stateClasses, ownerState.classes );
 }
 
-const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyled>`
-	${ ( { ownerState } ) => {
-		return {
-			width: ownerState.width,
-			display: 'inline-flex'
-		};
-	} }
-`;
+const SelectRoot = styled( 'div', { name: 'Select', slot: 'Root' } )<SelectStyled>( ( { ownerState } ) => ( {
+	display: 'inline-flex',
+	...( ownerState.fullWidth && {
+		width: '100%',
+	} )
+} ) );
 
 function defaultRenderOptionContent( _option: SelectOptionParams, state: SelectOptionState ) {
 	return state.label;
@@ -76,7 +74,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		filterSearch: filterSearchProp,
 		showTags = false,
 		limitTags = 0,
-		width = 200,
+		fullWidth = false,
 		size = 'md',
 		variant = 'outlined',
 		hideToggleIcon = false,
@@ -251,7 +249,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		}
 	}, [ typingTerm ] )
 
-	const ownerState: SelectOwnerState = { width, variant, classes: classesProp };
+	const ownerState: SelectOwnerState = { fullWidth, variant, classes: classesProp };
 	const classes = useComponentClasses( ownerState );
 
 	const componentIds: React.ComponentProps<typeof SelectProvider>['componentIds'] = {
@@ -306,13 +304,13 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 
 	return (
 		<SelectProvider { ...providerProps }>
-			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } id={ id } className={ classes.root }>
+			<SelectRoot ownerState={ ownerState } { ...other } ref={ ref } className={ classes.root }>
 				{ arrayValue.map( _ => (
 					<input key={ _ } type="hidden" name={ name } value={ _ }/>
 				) ) }
 				<Dropdown
 					ref={ toggleRef }
-					renderToggle={ () => <SelectToggle onClear={ handleClear }/> }
+					renderToggle={ () => <SelectToggle id={ id } onClear={ handleClear }/> }
 					renderContent={ () => <SelectDropdownContent/> }
 					onClose={ handleClose }
 					popoverProps={ {

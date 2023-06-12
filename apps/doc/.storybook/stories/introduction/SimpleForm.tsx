@@ -112,7 +112,7 @@ function SimpleForm() {
 					<Input id="name" fullWidth placeholder="Enter the book name" value={ name } onChange={ ( _, theName ) => setName( theName ) }/>
 				</FormControl>
 				<FormControl label="Categories" htmlFor="categories" help="Choose the categories related to your book.">
-					<Select id="categories" options={ CATEGORIES } multiple showTags width={ 400 } limitTags={ 2 } allowClear allowSearch hideSelectedOptions/>
+					<Select id="categories" options={ CATEGORIES } multiple showTags fullWidth limitTags={ 2 } allowClear allowSearch hideSelectedOptions sx={ { maxWidth: 400 } }/>
 				</FormControl>
 				<FormControl label="Visibility" help="Choose the visibility.">
 					<RadioGroup options={ VISIBILITY } value={ visibility } onChange={ ( _, theVisibility ) => setVisibility( theVisibility ) }/>
@@ -138,7 +138,7 @@ function SimpleForm() {
 				<FormControl label="File size" htmlFor="size" help="Choose the file size">
 					<Stack direction="row" spacing={ 1 } align="center">
 						<Input id="size" type="number" isMini min={ 0 } value={ size } onChange={ ( e, _ ) => setSize( _ ) }/>
-						<Select options={ SIZES } width="auto" value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) }/>
+						<Select options={ SIZES } value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) }/>
 					</Stack>
 				</FormControl>
 				<FormControl label="Is featured?" htmlFor="featured" help="Enable if this is a featured book.">

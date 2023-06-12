@@ -3,7 +3,7 @@ import React, { forwardRef } from "react";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 
 import type { PickerToggleOwnerState, PickerToggleProps, PickerToggleStyledProps } from "../types";
-import { ZeroWidthSpace } from "../../utils";
+import { useMergedRefs, useRelatedLabelFocus, ZeroWidthSpace } from "../../utils";
 import IconButton from "../../icon-button";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
@@ -109,6 +109,9 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 	},
 	ref
 ) {
+	const relatedLabelFocusRef = useRelatedLabelFocus();
+	const mergedRef = useMergedRefs( ref, relatedLabelFocusRef );
+
 	const ownerState: PickerToggleOwnerState = {
 		isOpen,
 		text,
@@ -125,7 +128,7 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 
 	return <DatePickerToggleRoot
 		ownerState={ ownerState }
-		ref={ ref }
+		ref={ mergedRef }
 		aria-expanded={ isOpen ? 'true' : 'false' }
 		aria-haspopup="dialog"
 		aria-disabled={ disabled }

@@ -106,17 +106,24 @@ const ButtonRoot = styled( 'button', { name: 'Button', slot: 'Root' } )<ButtonSt
 	} )
 } ) );
 
-const ButtonStartIcon = styled( 'span', { name: 'Button', slot: 'StartIcon' } )<ButtonStyled>( ( { ownerState } ) => ( {
+const commonIconStyle = {
+	display: 'flex',
+	alignItems: 'center',
+	justifyContent: 'center',
+	height: '0.01em',
+	fontSize: '1.3em',
 	lineHeight: 0,
+}
+
+const ButtonStartIcon = styled( 'span', { name: 'Button', slot: 'StartIcon' } )<ButtonStyled>( ( { ownerState } ) => ( {
+	...commonIconStyle,
 	marginRight: getSpacing( ownerState ).horizontal / 2,
 	marginLeft: -( getSpacing( ownerState ).horizontal / 2 - 5 ),
-	fontSize: '1.3em'
 } ) );
 const ButtonEndIcon = styled( 'span', { name: 'Button', slot: 'EndIcon' } )<ButtonStyled>( ( { ownerState } ) => ( {
-	lineHeight: 0,
+	...commonIconStyle,
 	marginLeft: getSpacing( ownerState ).horizontal / 2,
 	marginRight: -( getSpacing( ownerState ).horizontal / 2 - 5 ),
-	fontSize: '1.3em'
 } ) );
 
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(

@@ -5,17 +5,23 @@ export default function useRelatedLabelFocus<T extends HTMLElement>( id?: string
 	const labelId = useRef( '' );
 
 	return useRefEffect<T>( ( node ) => {
-		if ( !id ) {
+		const nodeId: string = id ?? node.getAttribute( 'id' ) ?? '';
+		let relatedLabel = nodeId && document.querySelector( `label[for="${ nodeId }"]` );
+		let useLabelledBy = true;
+		if ( !relatedLabel ) {
+			relatedLabel = node.closest( 'label' );
+			useLabelledBy = false; // If the component is wrapped in a label, we don't want to use labelled-by to prevent repetitions of the texts contained in the component.
+		}
+		if ( !relatedLabel ) {
 			return;
 		}
 		const onLabelClick = () => node && node?.focus();
 		const maybeSetLabelledBy = ( labelledBy: string ) => node && !node.getAttribute( 'aria-labelledby' ) && node.setAttribute( 'aria-labelledby', labelledBy );
-		const generatedLabelId = id + '__label';
+		const generatedLabelId = nodeId + '__label';
 
-		const relatedLabel = document.querySelector( `label[for="${ id }"]` );
-		relatedLabel && relatedLabel.addEventListener( 'click', onLabelClick );
+		relatedLabel.addEventListener( 'click', onLabelClick );
 
-		if ( relatedLabel ) {
+		if ( useLabelledBy ) {
 			const relatedLabelId = relatedLabel.getAttribute( 'id' );
 			if ( !relatedLabelId ) {
 				labelId.current = generatedLabelId;
@@ -30,7 +36,7 @@ export default function useRelatedLabelFocus<T extends HTMLElement>( id?: string
 			if ( relatedLabel ) {
 				relatedLabel.removeEventListener( 'click', onLabelClick );
 
-				if ( labelId.current && relatedLabel.getAttribute( 'id' ) === generatedLabelId ) {
+				if ( useLabelledBy && labelId.current && relatedLabel.getAttribute( 'id' ) === generatedLabelId ) {
 					relatedLabel.removeAttribute( 'id' );
 				}
 			}

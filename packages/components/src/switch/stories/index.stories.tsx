@@ -28,19 +28,6 @@ export const Default: Story = {
 	render: ( args ) => <Switch { ...args } />
 };
 
-export const Labelled: Story = {
-	args: Default.args,
-	render: ( args ) => <label><Switch { ...args } /> Is enabled?</label>
-};
-
-export const Controlled: Story = {
-	args: Default.args,
-	render: ( args ) => {
-		const [ checked, setChecked ] = React.useState( false );
-		return <Switch { ...args } checked={ checked } onChange={ ( _, value ) => setChecked( value ) }/>;
-	}
-};
-
 const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'sm', label: 'Small' },
 	{ size: 'md', label: 'Medium' },
@@ -64,4 +51,17 @@ export const Sizes: Story = {
 			}
 		) }
 	</Container>
+};
+
+export const InsideLabel: Story = {
+	args: Default.args,
+	render: ( args ) => <label><Switch { ...args } /> Is enabled?</label>
+};
+
+export const Controlled: Story = {
+	args: Default.args,
+	render: ( args ) => {
+		const [ checked, setChecked ] = React.useState( false );
+		return <Switch { ...args } checked={ checked } onChange={ ( _, value ) => setChecked( value ) }/>;
+	}
 };
