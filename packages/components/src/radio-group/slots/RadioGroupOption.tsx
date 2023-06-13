@@ -101,6 +101,9 @@ const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'O
 	...( ownerState.isChecked && {
 		background: theme.palette.primary.main,
 		borderColor: '#0000'
+	} ),
+	...( ownerState.isDisabled && {
+		opacity: theme.palette.action.disabledOpacity
 	} )
 } ) );
 const RadioGroupOptionSelectedIcon = styled( 'div', { name: 'RadioGroup', slot: 'OptionSelectedIcon' } )<RadioGroupOptionStyled>( ( { theme } ) => ( {

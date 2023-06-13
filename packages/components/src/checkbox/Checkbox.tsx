@@ -50,6 +50,10 @@ const CheckboxRoot = styled( 'span', { name: 'Checkbox', slot: 'Root' } )<Checkb
 	...( ownerState.useIcons && {
 		color: ownerState.checked ? theme.palette[ ownerState.color ].main : theme.palette.grey[ 400 ],
 	} ),
+	...( ownerState.disabled && {
+		opacity: theme.palette.action.disabledOpacity,
+		cursor: 'not-allowed'
+	} )
 } ) );
 const CheckboxField = styled( 'input', { name: 'Checkbox', slot: 'Field' } )`
 	position: absolute !important;
