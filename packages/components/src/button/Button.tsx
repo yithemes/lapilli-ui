@@ -45,6 +45,7 @@ const ButtonRoot = styled( 'button', { name: 'Button', slot: 'Root' } )<ButtonSt
 	cursor: 'pointer',
 	lineHeight: 1.5,
 	fontSize: theme.fields.fontSize,
+	fontFamily: theme.fields.fontFamily,
 	padding: getPadding( ownerState ),
 	fontWeight: 600,
 	transition: 'all .3s ease-in-out',

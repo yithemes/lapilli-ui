@@ -21,6 +21,7 @@ const SelectOptions = styled( 'div', { name: 'Select', slot: 'Options' } )( ( { 
 	maxHeight: '200px',
 	overflowY: 'auto',
 	fontSize: theme.fields.fontSize,
+	fontFamily: theme.fields.fontFamily,
 } ) );
 
 const SelectOptionsNoResults = styled( 'div', { name: 'Select', slot: 'OptionsNoResults' } )(

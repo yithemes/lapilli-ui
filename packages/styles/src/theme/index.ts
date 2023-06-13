@@ -60,6 +60,7 @@ export interface DefaultThemeOptions {
 		borderRadius: NonNullable<React.CSSProperties[ 'borderRadius' ]>;
 		borderColor: NonNullable<React.CSSProperties[ 'borderColor' ]>;
 		padding: Record<FieldSize, NonNullable<React.CSSProperties[ 'padding' ]>>;
+		fontFamily: NonNullable<React.CSSProperties[ 'fontFamily' ]>
 		fontSize: NonNullable<React.CSSProperties[ 'fontSize' ]>;
 		background: NonNullable<React.CSSProperties[ 'background' ]>;
 		color: NonNullable<React.CSSProperties[ 'color' ]>;
@@ -199,6 +200,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 			lg: '13px 18px',
 			xl: '16.5px 20px',
 		},
+		fontFamily: 'inherit',
 		fontSize: '14px',
 		background: '#ffffff',
 		color: '#333333',

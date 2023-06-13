@@ -36,7 +36,6 @@ const RESET_STYLES: React.CSSProperties = {
 	boxSizing: 'border-box !important',
 	border: '1px solid transparent !important',
 	color: 'inherit !important',
-	fontFamily: 'inherit !important',
 	margin: '0 !important',
 	outline: 'none !important',
 	height: 'auto !important',
@@ -96,6 +95,7 @@ const InputField = styled( 'input', {
 
 	return {
 		...RESET_STYLES,
+		fontFamily: theme.fields.fontFamily + ' !important',
 		padding: paddingProp + ' !important',
 		fontSize: 'inherit' + ' !important',
 		width: ( !isMini ? ( fullWidth ? '100%' : 'auto' ) : minWidth ) + ' !important',

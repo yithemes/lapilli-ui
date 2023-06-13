@@ -32,6 +32,7 @@ const useComponentClasses = ( ownerState: RadioGroupOwnerState ): RadioGroupClas
 const RadioGroupRoot = styled( Stack, { name: 'RadioGroup', slot: 'Root' } )<RadioGroupStyled>( ( { theme, ownerState } ) => ( {
 	position: 'relative',
 	fontSize: theme.fields.fontSize,
+	fontFamily: theme.fields.fontFamily,
 	lineHeight: 1.5,
 	...( ownerState.variant === 'segmented' && {
 		background: 'light' === theme.mode ? theme.palette.grey[ 50 ] : theme.palette.grey[ 900 ],

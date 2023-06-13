@@ -17,10 +17,12 @@ type TimeSelectorProps = Omit<React.ComponentProps<'input'>, 'onChange' | 'value
 	minutesStep?: number;
 };
 
-const TimeSelectorRoot = styled( 'div', { name: 'TimeSelector', slot: 'Root' } )`
-	display: flex;
-	align-items: baseline;
-`;
+const TimeSelectorRoot = styled( 'div', { name: 'TimeSelector', slot: 'Root' } )( ( { theme } ) => ( {
+	display: 'flex',
+	alignItems: 'baseline',
+	fontSize: theme.fields.fontSize,
+	fontFamily: theme.fields.fontFamily,
+} ) )
 
 const TimeSelectorSeparator = styled( 'span', { name: 'TimeSelector', slot: 'Separator' } )`
 	margin: 0 5px;

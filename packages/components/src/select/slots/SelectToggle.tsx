@@ -31,6 +31,7 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 	borderRadius: theme.fields.borderRadius,
 	padding: theme.fields.padding[ ownerState.size ],
 	fontSize: theme.fields.fontSize,
+	fontFamily: theme.fields.fontFamily,
 	lineHeight: 1.5,
 	color: theme.fields.color,
 	'&:focus, &:focus-visible': {

@@ -14,18 +14,19 @@ const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calen
 	{
 		padding: 12,
 		fontSize: theme.fields.fontSize,
+		fontFamily: theme.fields.fontFamily,
 	}
 ) );
 const DatePickerCalendarHeader = styled( Stack, { name: 'DatePicker', slot: 'CalendarHeader' } )( () => (
 	{}
 ) );
 const DatePickerCalendarHeaderLabel = styled( 'div', { name: 'DatePicker', slot: 'CalendarHeaderLabel' } )`
-display: flex;
-align-items: center;
-justify-content: center;
-flex: 1;
-font-weight: 600;
-font-size: 1.1em;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex: 1;
+	font-weight: 600;
+	font-size: 1.1em;
 `;
 
 const Calendar = ( { className, autoFocus = false }: { className: string, autoFocus?: boolean } ) => {

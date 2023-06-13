@@ -45,7 +45,7 @@ export const themes = {
 		shape      : { borderRadius: 0 },
 		fields     : {
 			borderRadius      : 0,
-			focusedBorderColor: '#191d25'
+			focusedBorderColor: '#191d25',
 		},
 		components : {
 			Button: {
