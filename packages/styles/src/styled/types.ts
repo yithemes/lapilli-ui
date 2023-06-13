@@ -1,7 +1,7 @@
-import type {Theme} from "../theme";
+import type { Theme } from "../theme";
 import type * as CSS from 'csstype';
-import type {StyledComponent as EmotionStyledComponent, StyledOptions as EmotionStyledOptions} from '@emotion/styled';
-import type {PropsOf} from '@emotion/react';
+import type { StyledComponent as EmotionStyledComponent, StyledOptions as EmotionStyledOptions } from '@emotion/styled';
+import type { PropsOf } from '@emotion/react';
 
 export type CSSProperties = CSS.PropertiesFallback<number | string>;
 export type CSSPropertiesWithMultiValues = {
@@ -15,13 +15,31 @@ export interface SerializedStyles {
 	next?: SerializedStyles;
 }
 
-// TODO: Improve SX props!
-export type SxProps = CSSProperties | ((theme: Theme) => CSSProperties);
+type CssVariableType = string | number;
+
+interface CSSSelectorObjectOrCssVariables<Theme extends object = {}> {
+	[ cssSelectorOrVariable: string ]:
+		| ( ( theme: Theme ) => SystemStyleObject<Theme> | string | number )
+		| SystemStyleObject<Theme>
+		| CssVariableType;
+}
+
+type CSSPseudoSelectorProps<Theme extends object = {}> = {
+	[K in CSS.Pseudos]?: ( ( theme: Theme ) => SystemStyleObject<Theme> ) | SystemStyleObject<Theme>;
+};
+
+type SystemStyleObject<Theme extends object = {}> =
+	| CSSProperties
+	| CSSPseudoSelectorProps<Theme>
+	| CSSSelectorObjectOrCssVariables<Theme>
+	| null;
+
+export type SxProps = SystemStyleObject<Theme> | ( ( theme: Theme ) => SystemStyleObject<Theme> );
 
 type CSSPseudos = { [K in CSS.Pseudos]?: unknown | CSSObject };
 
 interface CSSOthersObject {
-	[propertiesName: string]: unknown | CSSInterpolation;
+	[ propertiesName: string ]: unknown | CSSInterpolation;
 }
 
 interface ArrayCSSInterpolation extends Array<CSSInterpolation> {
@@ -55,7 +73,7 @@ type InterpolationPrimitive =
 type CSSInterpolation = InterpolationPrimitive | ArrayCSSInterpolation;
 
 interface FunctionInterpolation<Props> {
-	(props: Props): Interpolation<Props>;
+	( props: Props ): Interpolation<Props>;
 }
 
 interface ArrayInterpolation<Props> extends Array<Interpolation<Props>> {
@@ -69,7 +87,7 @@ type Interpolation<Props> =
 interface FilteringStyledOptions<Props, ForwardedProps extends keyof Props = keyof Props> {
 	label?: string;
 
-	shouldForwardProp?(propName: PropertyKey): propName is ForwardedProps;
+	shouldForwardProp?( propName: PropertyKey ): propName is ForwardedProps;
 
 	target?: string;
 }
@@ -78,7 +96,7 @@ export interface CreateStyledComponent<ComponentProps extends {},
 	SpecificComponentProps extends {} = {},
 	JSXProps extends {} = {},
 	T extends object = {},
-	> {
+> {
 	(
 		...styles: Array<Interpolation<ComponentProps & SpecificComponentProps & { theme: T }>>
 	): EmotionStyledComponent<ComponentProps, SpecificComponentProps, JSXProps>;
@@ -105,10 +123,10 @@ export interface CreateStyledComponent<ComponentProps extends {},
 export interface CreateStyled<StyledCommonProps extends {},
 	StyledOptions,
 	Theme extends object,
-	> {
+> {
 	<C extends React.ComponentClass<React.ComponentProps<C>>,
 		ForwardedProps extends keyof React.ComponentProps<C> = keyof React.ComponentProps<C>,
-		>(
+	>(
 		component: C,
 		options: FilteringStyledOptions<React.ComponentProps<C>, ForwardedProps> & StyledOptions,
 	): CreateStyledComponent<Pick<PropsOf<C>, ForwardedProps> & StyledCommonProps,
@@ -130,7 +148,7 @@ export interface CreateStyled<StyledCommonProps extends {},
 
 	<C extends React.JSXElementConstructor<React.ComponentProps<C>>,
 		ForwardedProps extends keyof React.ComponentProps<C> = keyof React.ComponentProps<C>,
-		>(
+	>(
 		component: C,
 		options: FilteringStyledOptions<React.ComponentProps<C>, ForwardedProps> & StyledOptions,
 	): CreateStyledComponent<Pick<PropsOf<C>, ForwardedProps> & StyledCommonProps, {}, {}, Theme>;
@@ -142,7 +160,7 @@ export interface CreateStyled<StyledCommonProps extends {},
 
 	<Tag extends keyof JSX.IntrinsicElements,
 		ForwardedProps extends keyof JSX.IntrinsicElements[Tag] = keyof JSX.IntrinsicElements[Tag],
-		>(
+	>(
 		tag: Tag,
 		options: FilteringStyledOptions<JSX.IntrinsicElements[Tag], ForwardedProps> & StyledOptions,
 	): CreateStyledComponent<StyledCommonProps,
