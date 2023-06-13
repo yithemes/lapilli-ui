@@ -72,7 +72,7 @@ const RadioGroupOptionRadioShape = styled( 'div', { name: 'RadioGroup', slot: 'O
 	height: '16px',
 	border: `1px solid ${ theme.fields.borderColor }`,
 	transform: 'translateY( 3px )',
-	marginRight: '8px',
+	margin: '4px 8px 4px 4px',
 	boxSizing: 'border-box',
 	'&:after': {
 		content: '""',

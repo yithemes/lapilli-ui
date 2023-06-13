@@ -3,6 +3,7 @@ export { default as Button }           from './button';
 export { default as Container }        from './container';
 export { default as Card }             from './card';
 export *                               from './card';
+export { default as Checkbox }         from './checkbox';
 export { default as Collapse }         from './collapse';
 export { default as DatePicker }       from './date-picker';
 export { default as Dropdown }         from './dropdown';
@@ -32,4 +33,4 @@ export { useId } from './utils';
 /**
  * Types
  */
-export *                                                   from './date-picker/types'
+export *         from './date-picker/types'

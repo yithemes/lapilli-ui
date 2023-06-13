@@ -26,12 +26,16 @@ type SwitchOwnProps = {
 	 * Callback fired when the value changes.
 	 */
 	onChange?: ( event: React.ChangeEvent<HTMLInputElement>, value: boolean ) => void
+	/**
+	 * Set to `true` to disable the field padding
+	 */
+	noPadding?: boolean
 }
 
 type SwitchPropsWithRef = Omit<React.ComponentProps<'input'>, keyof SwitchOwnProps> & SwitchOwnProps
 export type SwitchProps = Omit<SwitchPropsWithRef, 'ref'>
 
-export type SwitchOwnerState = Required<Pick<SwitchOwnProps, 'checked' | 'color' | 'disabled' | 'size'>> & {
+export type SwitchOwnerState = Required<Pick<SwitchOwnProps, 'checked' | 'color' | 'disabled' | 'size' | 'noPadding'>> & {
 	/**
 	 * True if the field is focused.
 	 */

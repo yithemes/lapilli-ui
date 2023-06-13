@@ -1,40 +1,43 @@
 {
-  "name": "yith-components-doc",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build -o .storybook/build"
-  },
-  "dependencies": {
-    "@storybook/addon-a11y": "7.0.9",
-    "@storybook/addon-actions": "7.0.9",
-    "@storybook/addon-docs": "7.0.9",
-    "@storybook/addon-essentials": "7.0.9",
-    "@storybook/addon-interactions": "7.0.9",
-    "@storybook/addon-links": "7.0.9",
-    "@storybook/react": "7.0.9",
-    "@storybook/testing-library": "^0.1.0",
-    "@types/lodash": "^4.14.191",
-    "@types/node": "^18.14.6",
-    "@types/react": "^18.0.17",
-    "@types/react-dom": "^18.0.6",
-    "@yith/components": "workspace:*",
-    "@yith/date": "workspace:*",
-    "@yith/styles": "workspace:*",
-    "@yith/tsconfig": "workspace:*",
-    "eslint": "^7.32.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "storybook": "^7.0.9",
-    "storybook-addon-themes": "6.1.0",
-    "typescript": "^4.9.3"
-  },
-  "devDependencies": {
-    "@babel/preset-env": "^7.21.5",
-    "@babel/preset-react": "^7.18.6",
-    "@babel/preset-typescript": "^7.21.5",
-    "@storybook/addon-mdx-gfm": "7.0.9",
-    "@storybook/react-webpack5": "7.0.9"
-  }
+	"name": "yith-components-doc",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"storybook": "storybook dev -p 6006",
+		"build-storybook": "storybook build -o .storybook/build"
+	},
+	"dependencies": {
+		"@storybook/addon-a11y": "7.0.9",
+		"@storybook/addon-actions": "7.0.9",
+		"@storybook/addon-docs": "7.0.9",
+		"@storybook/addon-essentials": "7.0.9",
+		"@storybook/addon-interactions": "7.0.9",
+		"@storybook/addon-links": "7.0.9",
+		"@storybook/react": "7.0.9",
+		"@storybook/testing-library": "^0.1.0",
+		"@types/lodash": "^4.14.191",
+		"@types/node": "^18.14.6",
+		"@types/react": "^18.0.17",
+		"@types/react-dom": "^18.0.6",
+		"@yith/components": "workspace:*",
+		"@yith/date": "workspace:*",
+		"@yith/styles": "workspace:*",
+		"@yith/tsconfig": "workspace:*",
+		"@heroicons/react": "2.0.13",
+		"eslint": "^7.32.0",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"storybook": "^7.0.9",
+		"storybook-addon-themes": "6.1.0",
+		"typescript": "^4.9.3"
+	},
+	"devDependencies": {
+		"@types/react": "^18.0.17",
+		"@types/react-dom": "^18.0.6",
+		"@babel/preset-env": "^7.21.5",
+		"@babel/preset-react": "^7.18.6",
+		"@babel/preset-typescript": "^7.21.5",
+		"@storybook/addon-mdx-gfm": "7.0.9",
+		"@storybook/react-webpack5": "7.0.9"
+	}
 }

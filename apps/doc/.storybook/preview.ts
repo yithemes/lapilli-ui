@@ -1,4 +1,3 @@
-import { withThemeFromJSXProvider } from "@storybook/addon-styling";
 import type { Preview } from "@storybook/react";
 import { themes } from './utils/themes';
 import ThemeDecorator from "./utils/ThemeDecorator";

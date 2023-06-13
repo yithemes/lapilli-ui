@@ -8,58 +8,41 @@ import { useControlledState, ZeroWidthSpace } from "../utils";
 import React from 'react';
 import type { SwitchOwnerState, SwitchProps, SwitchStyled } from "./types";
 
-const SwitchRoot = styled( 'span', { name: 'Switch', slot: 'Root' } )<SwitchStyled>( ( { ownerState, theme } ) => {
-	const { size, color, checked, isFocused } = ownerState;
-	const background = !checked ? ( 'light' === theme.mode ? theme.palette.grey[ 200 ] : theme.palette.grey[ 600 ] ) : theme.palette[ color ].main;
-	const foreground = !checked ? theme.palette.grey[ 500 ] : theme.palette[ color ].main;
-	const focusedShadowColor = theme.palette[ color ].main;
+const getPadding = ( ownerState: SwitchOwnerState ) => ownerState.noPadding ? 0 : 4
+
+const getSizing = ( ownerState: SwitchOwnerState ) => {
+	return {
+		sm: { width: 36, height: 20 },
+		md: { width: 44, height: 24 },
+		lg: { width: 52, height: 28 },
+		xl: { width: 60, height: 32 },
+	}[ ownerState.size ];
+}
+
+const getSizingStyle = ( ownerState: SwitchOwnerState ) => {
+	const sizing = getSizing( ownerState );
 
 	return {
-		display: 'inline-block',
-		cursor: 'pointer',
-		position: 'relative',
-		transition: 'all 0.3s',
-		boxSizing: 'border-box',
-		userSelect: 'none',
-		background: background,
-		color: foreground,
-		width: 44,
-		minWidth: 44,
-		height: 24,
-		borderRadius: 24,
-		lineHeight: '20px',
-		border: '2px solid #0000',
-		boxShadow: '0 0 0 0 rgba(0,0,0,0)',
-		...( size === 'sm' && {
-			width: 36,
-			minWidth: 36,
-			height: 20,
-			borderRadius: 20,
-			lineHeight: '16px',
-		} ),
-		...( size === 'lg' && {
-			width: 52,
-			minWidth: 52,
-			height: 28,
-			borderRadius: 28,
-			lineHeight: '24px',
-		} ),
-		...( size === 'xl' && {
-			width: 60,
-			minWidth: 60,
-			height: 32,
-			borderRadius: 32,
-			lineHeight: '28px',
-		} ),
-		...( isFocused && {
-			boxShadow: `0 0 0px 2px ${ theme.palette.background.default }, 0 0 0px 4px ${ focusedShadowColor }`
-		} ),
-		...( ownerState.disabled && {
-			opacity: theme.palette.action.disabledOpacity,
-			cursor: 'not-allowed'
-		} )
+		width: sizing.width,
+		minWidth: sizing.width,
+		height: sizing.height,
+		borderRadius: sizing.height,
+		lineHeight: sizing.height + 'px',
 	}
-} );
+}
+
+const SwitchRoot = styled( 'span', { name: 'Switch', slot: 'Root' } )<SwitchStyled>( ( { ownerState, theme } ) => ( {
+	display: 'inline-block',
+	cursor: 'pointer',
+	position: 'relative',
+	color: 'light' === theme.mode ? theme.palette.grey[ 500 ] : theme.palette.grey[ 600 ],
+	padding: getPadding( ownerState ),
+	boxSizing: 'content-box',
+	...getSizingStyle( ownerState ),
+	...( ownerState.checked && {
+		color: theme.palette[ ownerState.color ].main,
+	} ),
+} ) );
 const SwitchField = styled( 'input', { name: 'Switch', slot: 'Field' } )`
 	position: absolute !important;
 	opacity: 0 !important;
@@ -72,39 +55,51 @@ const SwitchField = styled( 'input', { name: 'Switch', slot: 'Field' } )`
 	cursor: inherit !important;
 	z-index: 1 !important;
 `;
+
+const SwitchTrack = styled( 'span', { name: 'Switch', slot: 'Track' } )<SwitchStyled>( ( { ownerState, theme } ) => ( {
+	display: 'block',
+	cursor: 'pointer',
+	position: 'absolute',
+	transitionProperty: 'background, box-shadow',
+	transitionDuration: '0.2s',
+	transitionTimingFunction: 'cubic-bezier(.4,0,.2,1)',
+	boxSizing: 'border-box',
+	userSelect: 'none',
+	background: 'light' === theme.mode ? theme.palette.grey[ 200 ] : theme.palette.grey[ 800 ],
+	border: '2px solid #0000',
+	width: `calc(100% - ${ getPadding( ownerState ) * 2 }px)`,
+	height: `calc(100% - ${ getPadding( ownerState ) * 2 }px)`,
+	borderRadius: 'inherit',
+	boxShadow: `0 0 0 0 ${ theme.palette[ ownerState.color ].main }`,
+	...( ownerState.checked && {
+		background: theme.palette[ ownerState.color ].main
+	} ),
+	...( ownerState.isFocused && {
+		boxShadow: `0 0 0px 2px ${ theme.palette.background.default }, 0 0 0px 4px ${ theme.palette[ ownerState.color ].main }`
+	} ),
+	...( ownerState.disabled && {
+		opacity: theme.palette.action.disabledOpacity,
+		cursor: 'not-allowed'
+	} )
+} ) );
+
 const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )<SwitchStyled>( ( { ownerState } ) => ( {
 	background: '#fff',
 	borderRadius: '50%',
 	position: 'absolute',
-	transition: 'all 0.2s cubic-bezier(.4,0,.2,1)',
+	transition: 'transform .2s cubic-bezier(.4,0,.2,1)',
 	boxSizing: 'border-box',
 	display: 'flex',
 	alignItems: 'center',
 	justifyContent: 'center',
-	fontSize: '10px',
-	width: 20,
-	height: 20,
-	top: 0,
-	left: !ownerState.checked ? 0 : 20,
+	fontSize: `${ getSizing( ownerState ).height / 2 - 2 }px`,
+	width: '2em',
+	height: '2em',
+	top: getPadding( ownerState ) + 2,
+	left: getPadding( ownerState ) + 2,
 	boxShadow: '0 1px 3px 0 rgba(0,0,0,0.1), 0 1px 2px -1px rgba(0,0,0,0.1)',
-	...( ownerState.size === 'sm' && {
-		width: 16,
-		height: 16,
-		left: !ownerState.checked ? 0 : 16,
-		fontSize: '8px',
-	} ),
-	...( ownerState.size === 'lg' && {
-		width: 24,
-		height: 24,
-		left: !ownerState.checked ? 0 : 24,
-		fontSize: '12px',
-	} ),
-	...( ownerState.size === 'xl' && {
-		width: 28,
-		height: 28,
-		top: 0,
-		left: !ownerState.checked ? 0 : 28,
-		fontSize: '14px',
+	...( ownerState.checked && {
+		transform: 'translateX(2em)',
 	} ),
 	'& > svg': {
 		width: '1em',
@@ -125,6 +120,7 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		onFocus = noop,
 		onBlur = noop,
 		size = 'md',
+		noPadding = false,
 		...other
 	}: SwitchProps,
 	ref
@@ -163,7 +159,8 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		disabled,
 		isFocused,
 		color,
-		size
+		size,
+		noPadding
 	};
 
 	return (
@@ -187,6 +184,8 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 				disabled={ disabled }
 			/>
 			{ 'hidden' === type && <input type="hidden" value={ isChecked ? 'yes' : 'no' } name={ name }/> }
+
+			<SwitchTrack ownerState={ ownerState }/>
 			<SwitchThumb ownerState={ ownerState }>
 				{ isChecked ? <CheckIcon/> : <XMarkIcon/> }
 			</SwitchThumb>
