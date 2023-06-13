@@ -139,11 +139,11 @@ const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'Toggle
 );
 
 const SelectToggleActions = styled( 'div', { name: 'Select', slot: 'ToggleActions' } )`
-    display: flex;
-    align-items: center;
-    box-sizing: border-box;
-    gap: 6px;
-    margin-left: 6px;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	gap: 6px;
+	margin-left: 6px;
 `;
 
 const SelectToggleSpinner = styled( 'span', { name: 'Select', slot: 'ToggleSpinner' } )`
@@ -299,6 +299,8 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			}
 		}
 
+		const showClear = allowClear && !isEmpty && !showTags;
+
 		return (
 			<SelectToggleRoot
 				{ ...other }
@@ -319,14 +321,14 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 				<SelectToggleWrap ownerState={ ownerState }>
 					{ !!display ? display : <ZeroWidthSpace/> }
 
-					<SelectToggleActions className={ classes.toggleActions }>
+					{ ( isLoading || showClear || !hideToggleIcon ) && <SelectToggleActions className={ classes.toggleActions }>
 						{ isLoading && (
 							<SelectToggleSpinner className={ classes.toggleSpinner }>
 								<Spinner size={ 16 }/>
 							</SelectToggleSpinner>
 						) }
 
-						{ allowClear && !isEmpty && !showTags && (
+						{ showClear && (
 							<SelectToggleClear
 								className={ classes.toggleClear }
 								onClick={ handleClear }
@@ -341,7 +343,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 						{ !hideToggleIcon && <SelectToggleExpand className={ classes.toggleExpand } ownerState={ ownerState }>
 							<ChevronUpDownIcon/>
 						</SelectToggleExpand> }
-					</SelectToggleActions>
+					</SelectToggleActions> }
 				</SelectToggleWrap>
 			</SelectToggleRoot>
 		);

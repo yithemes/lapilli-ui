@@ -210,7 +210,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 		modal: 100000
 	},
 	typography: {
-		fontFamily: 'sans-serif',
+		fontFamily: 'inherit',
 		h1: {
 			fontWeight: 400,
 			fontSize: '2.5rem',

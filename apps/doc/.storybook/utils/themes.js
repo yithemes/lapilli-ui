@@ -1,7 +1,7 @@
 import { defaultThemeOptions } from '@yith/styles';
 
 export const themes = {
-	'Default'  : defaultThemeOptions,
+	'Default': defaultThemeOptions,
 	'Purple' : {
 		palette    : {
 			primary  : {
@@ -81,7 +81,8 @@ export const themes = {
 				dropdown: '#131c24'
 			},
 			text      : {
-				default: 'rgba(255,255,255,0.9)'
+				default: 'rgba(255,255,255,0.9)',
+				primary: 'rgba(255,255,255,0.9)'
 			}
 		},
 		baseSpacing: 8,
