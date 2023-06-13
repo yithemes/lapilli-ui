@@ -1,7 +1,21 @@
-import { styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@yith/styles';
 import React, { forwardRef } from 'react';
 
 import type { CardMediaOwnerState, CardMediaProps, CardMediaStyled } from "./types";
+import classNames from "classnames";
+
+const useComponentClasses = ( ownerState: CardMediaOwnerState ) => {
+	return generateComponentClasses(
+		'CardMedia',
+		{
+			root: [
+				'root',
+				ownerState.isMedia && '--media',
+				ownerState.isImage && '--image'
+			],
+		}
+	)
+}
 
 const CardMediaRoot = styled( 'div', { name: 'CardMedia', slot: 'Root' } )( ( { ownerState }: CardMediaStyled ) => ( {
 	display: 'block',
@@ -30,6 +44,7 @@ function isImageElement( element: React.ElementType ): element is 'picture' | 'i
 
 const CardMedia = forwardRef<HTMLDivElement, CardMediaProps>( function CardMedia(
 	{
+		className,
 		component = 'div',
 		src = '',
 		style: styleProp,
@@ -45,8 +60,11 @@ const CardMedia = forwardRef<HTMLDivElement, CardMediaProps>( function CardMedia
 
 	const ownerState: CardMediaOwnerState = { isMedia, isImage };
 
+	const classes = useComponentClasses( ownerState );
+
 	return <CardMediaRoot
 		{ ...props }
+		className={ classNames( className, classes.root ) }
 		ownerState={ ownerState }
 		style={ style }
 		as={ component }
