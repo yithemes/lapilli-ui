@@ -1,7 +1,21 @@
-import { styled, TypographyVariant } from '@yith/styles';
+import { generateComponentClasses, styled, TypographyVariant } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { TypographyOwnerState, TypographyProps, TypographyStyled } from "./types";
+import classNames from "classnames";
+
+const useComponentClasses = ( ownerState: TypographyOwnerState ) => {
+	return generateComponentClasses(
+		'Typography',
+		{
+			root: [
+				'root',
+				`--${ ownerState.variant }`,
+				ownerState.gutterBottom && '--gutterBottom',
+			],
+		}
+	)
+}
 
 const TypographyRoot = styled( 'span', { name: 'Typography', slot: 'Root' } )<TypographyStyled>(
 	( { theme, ownerState } ) => ( {
@@ -28,6 +42,7 @@ const variantMapping: Record<TypographyVariant, React.ElementType> = {
 
 const Typography = forwardRef<HTMLDivElement, TypographyProps>( function Typography(
 	{
+		className,
 		variant = 'body',
 		color = 'text.primary',
 		component: componentProp,
@@ -47,8 +62,10 @@ const Typography = forwardRef<HTMLDivElement, TypographyProps>( function Typogra
 		gutterBottom
 	}
 
+	const classes = useComponentClasses( ownerState );
+
 	return (
-		<TypographyRoot ref={ ref } as={ Component } ownerState={ ownerState } { ...props }>
+		<TypographyRoot { ...props } className={ classNames( className, classes.root ) } ref={ ref } as={ Component } ownerState={ ownerState }>
 			{ children }
 		</TypographyRoot>
 	);

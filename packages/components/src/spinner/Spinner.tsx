@@ -1,6 +1,7 @@
-import { keyframes, PaletteClass, styled, SxProps } from '@yith/styles';
+import { generateComponentSlotClasses, keyframes, PaletteClass, styled, SxProps } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
+import classNames from "classnames";
 
 type SpinnerOwnerState = {
 	/**
@@ -28,33 +29,38 @@ type SpinnerProps = Omit<SpinnerPropsWithRef, 'ref'>
 
 type StyledSpinnerProps = { ownerState: SpinnerOwnerState };
 
+const classes = generateComponentSlotClasses(
+	'Spinner',
+	[ 'root' ]
+);
+
 const SVG_SIZE = 44;
 
 const rotateKeyframe = keyframes`
-  0% {
-    transform: rotate(0deg);
-  }
+	0% {
+		transform: rotate(0deg);
+	}
 
-  100% {
-    transform: rotate(360deg);
-  }
+	100% {
+		transform: rotate(360deg);
+	}
 `;
 
 const dashKeyframe = keyframes`
-  0% {
-    stroke-dasharray: 1px, 200px;
-    stroke-dashoffset: 0;
-  }
+	0% {
+		stroke-dasharray: 1px, 200px;
+		stroke-dashoffset: 0;
+	}
 
-  50% {
-    stroke-dasharray: 100px, 200px;
-    stroke-dashoffset: -15px;
-  }
+	50% {
+		stroke-dasharray: 100px, 200px;
+		stroke-dashoffset: -15px;
+	}
 
-  100% {
-    stroke-dasharray: 100px, 200px;
-    stroke-dashoffset: -125px;
-  }
+	100% {
+		stroke-dasharray: 100px, 200px;
+		stroke-dashoffset: -125px;
+	}
 `;
 
 const SpinnerRoot = styled( 'span', { name: 'Spinner', slot: 'Root' } )<StyledSpinnerProps>( ( { ownerState, theme } ) => ( {
@@ -84,6 +90,7 @@ const SpinnerCircle = styled( 'circle', { name: 'Spinner', slot: 'Circle' } )( (
 
 const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>( function Spinner(
 	{
+		className,
 		color = 'default',
 		thickness = 3.6,
 		size: sizeProp = 24,
@@ -95,7 +102,7 @@ const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>( function Spinner(
 
 	const ownerState: SpinnerOwnerState = { color, thickness, size };
 	return (
-		<SpinnerRoot ownerState={ ownerState } ref={ ref } { ...other }>
+		<SpinnerRoot { ...other } ownerState={ ownerState } ref={ ref } className={ classNames( className, classes.root ) }>
 			<SpinnerSvg viewBox={ `${ SVG_SIZE / 2 } ${ SVG_SIZE / 2 } ${ SVG_SIZE } ${ SVG_SIZE }` }>
 				<SpinnerCircle
 					cx={ SVG_SIZE }

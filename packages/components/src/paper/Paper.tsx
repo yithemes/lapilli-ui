@@ -1,7 +1,23 @@
-import { styled } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
+import classNames from "classnames";
+import { generateComponentClasses, styled } from '@yith/styles';
+
 import type { PaperOwnerState, PaperProps, PaperStyled } from "./types";
+
+const useComponentClasses = ( ownerState: PaperOwnerState ) => {
+	return generateComponentClasses(
+		'Paper',
+		{
+			root: [
+				'root',
+				`--${ ownerState.variant }`,
+				!ownerState.squared && '--rounded',
+				ownerState.variant === 'elevation' && `--elevation-${ ownerState.elevation }`
+			],
+		}
+	)
+}
 
 const PaperRoot = styled( 'div', { name: 'Paper', slot: 'Root' } )<PaperStyled>( ( { ownerState, theme } ) => ( {
 	background: theme.palette.background.paper,
@@ -20,6 +36,7 @@ const PaperRoot = styled( 'div', { name: 'Paper', slot: 'Root' } )<PaperStyled>(
 
 const Paper = forwardRef<HTMLDivElement, PaperProps>( function Paper(
 	{
+		className,
 		children,
 		elevation: elevationProp,
 		variant = 'elevation',
@@ -40,8 +57,10 @@ const Paper = forwardRef<HTMLDivElement, PaperProps>( function Paper(
 		borderColor
 	};
 
+	const classes = useComponentClasses( ownerState );
+
 	return (
-		<PaperRoot ref={ ref } ownerState={ ownerState } { ...other }>
+		<PaperRoot { ...other } ref={ ref } ownerState={ ownerState } className={ classNames( className, classes.root ) }>
 			{ children }
 		</PaperRoot>
 	);

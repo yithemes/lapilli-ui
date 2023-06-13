@@ -1,7 +1,13 @@
 import React, { CSSProperties } from 'react';
 
-import { styled } from '@yith/styles';
+import { generateComponentSlotClasses, styled } from '@yith/styles';
 import type { StackAlignment, StackJustify, StackOwnerState, StackProps, StyledStackProps } from "./types";
+import classNames from "classnames";
+
+const classes = generateComponentSlotClasses(
+	'Stack',
+	[ 'root' ]
+);
 
 function mapAlignValue( value: StackAlignment ) {
 	const map: Record<StackAlignment, CSSProperties['alignItems']> = {
@@ -38,6 +44,7 @@ const StackRoot = styled( 'div', { name: 'Stack', slot: 'Root' } )<StyledStackPr
 
 const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stack(
 	{
+		className,
 		as = 'div',
 		direction = 'column',
 		isReverse = false,
@@ -63,7 +70,7 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stac
 	};
 
 	return (
-		<StackRoot as={ as } ownerState={ ownerState } ref={ ref } { ...others }>
+		<StackRoot  { ...others } as={ as } ownerState={ ownerState } ref={ ref } className={ classNames( className, classes.root ) } >
 			{ children }
 		</StackRoot>
 	);

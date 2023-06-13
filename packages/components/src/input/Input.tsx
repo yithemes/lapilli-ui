@@ -1,8 +1,31 @@
-import { styled } from '@yith/styles';
-import { noop } from 'lodash';
+import { generateComponentClasses, styled } from '@yith/styles';
+import { capitalize, noop } from 'lodash';
 import React from 'react';
 import { forwardRef, useState } from 'react';
 import type { InputOwnerState, InputProps, InputStyled } from "./types";
+import classNames from "classnames";
+
+const useComponentClasses = ( ownerState: InputOwnerState ) => {
+	return generateComponentClasses(
+		'Input',
+		{
+			root: [
+				'root',
+				`--${ ownerState.variant }`,
+				`--size${ capitalize( ownerState.size ) }`,
+				ownerState.isFocused && 'focused',
+				ownerState.disabled && 'disabled',
+				ownerState.isMini && '--mini',
+				ownerState.hasStartAdornment && '--hasStartAdornment',
+				ownerState.hasEndAdornment && '--hasEndAdornment',
+			],
+			field: [ 'field' ],
+			backdrop: [ 'backdrop' ],
+			startAdornment: [ 'startAdornment' ],
+			endAdornment: [ 'endAdornment' ],
+		}
+	)
+}
 
 const splitPadding = ( padding: React.CSSProperties[ 'padding' ] ) => {
 	const sPadding = padding?.toString().split( ' ' );
@@ -43,10 +66,7 @@ const RESET_STYLES: React.CSSProperties = {
 	boxShadow: 'none !important'
 };
 
-const InputRoot = styled( 'div', {
-	name: 'Input',
-	slot: 'Root',
-} )<InputStyled>( ( { theme, ownerState } ) => {
+const InputRoot = styled( 'div', { name: 'Input', slot: 'Root' } )<InputStyled>( ( { theme, ownerState } ) => {
 	const { isMini, hasStartAdornment, hasEndAdornment, fullWidth } = ownerState;
 	const style: React.CSSProperties = {
 		borderRadius: theme.fields.borderRadius,
@@ -75,10 +95,7 @@ const InputRoot = styled( 'div', {
 	}
 } );
 
-const InputField = styled( 'input', {
-	name: 'Input',
-	slot: 'Field',
-} )<InputStyled>( ( { theme, ownerState } ) => {
+const InputField = styled( 'input', { name: 'Input', slot: 'Field' } )<InputStyled>( ( { theme, ownerState } ) => {
 	const { isMini, hasStartAdornment, hasEndAdornment, fullWidth } = ownerState;
 	const padding = splitPadding( theme.fields.padding[ ownerState.size ] );
 
@@ -112,8 +129,8 @@ const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<Input
 	box-sizing: border-box;
 	border-radius: inherit;
 	inset: 0px;
-	margin: 0px;
-	padding: 0px;
+	margin: 0;
+	padding: 0;
 	pointer-events: none;
 	position: absolute;
 
@@ -144,27 +161,27 @@ const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<Input
 	} }
 `;
 
-type InputAdornmentOwnerState = {
-	position: 'start' | 'end';
-};
+const InputStartAdornment = styled( 'div', { name: 'Input', slot: 'StartAdornment' } )( ( { theme } ) => ( {
+	display: 'flex',
+	alignItems: 'center',
+	height: '0.01em',
+	whiteSpace: 'nowrap',
+	color: theme.palette.action.active,
+	marginRight: '14px'
+} ) );
 
-const InputAdornment = styled( 'div', { name: 'Input', slot: 'Adornment' } )<{ ownerState: InputAdornmentOwnerState }>`
-	display: flex;
-	align-items: center;
-	height: 0.01em;
-	white-space: nowrap;
-	${ ( { theme, ownerState } ) => {
-		const { position } = ownerState;
-
-		return {
-			[ `margin${ 'start' === position ? 'Right' : 'Left' }` ]: '14px',
-			color: theme.palette.action.active,
-		};
-	} }
-`;
+const InputEndAdornment = styled( 'div', { name: 'Input', slot: 'EndAdornment' } )( ( { theme } ) => ( {
+	display: 'flex',
+	alignItems: 'center',
+	height: '0.01em',
+	whiteSpace: 'nowrap',
+	color: theme.palette.action.active,
+	marginLeft: '14px'
+} ) );
 
 const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 	{
+		className,
 		type = 'text',
 		value,
 		variant = 'outlined',
@@ -202,10 +219,14 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 		hasEndAdornment: !!endAdornment,
 	};
 
+	const classes = useComponentClasses( ownerState );
+
 	return (
-		<InputRoot ownerState={ ownerState }>
-			{ !!startAdornment && <InputAdornment ownerState={ { position: 'start' } }>{ startAdornment }</InputAdornment> }
+		<InputRoot ownerState={ ownerState } className={ classNames( className, classes.root ) }>
+			{ !!startAdornment && <InputStartAdornment className={ classes.startAdornment }>{ startAdornment }</InputStartAdornment> }
 			<InputField
+				autoComplete="off"
+				{ ...other }
 				ref={ ref }
 				type={ type }
 				value={ value }
@@ -218,13 +239,12 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 					setIsFocused( false );
 					onFocus( e );
 				} }
-				autoComplete="off"
 				ownerState={ ownerState }
 				disabled={ disabled }
-				{ ...other }
+				className={ classes.field }
 			/>
-			{ !!endAdornment && <InputAdornment ownerState={ { position: 'end' } }>{ endAdornment }</InputAdornment> }
-			<InputBackdrop ownerState={ ownerState }/>
+			{ !!endAdornment && <InputEndAdornment className={ classes.endAdornment }>{ endAdornment }</InputEndAdornment> }
+			<InputBackdrop ownerState={ ownerState } className={ classes.backdrop }/>
 		</InputRoot>
 	);
 } );

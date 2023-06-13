@@ -1,7 +1,13 @@
-import { styled } from '@yith/styles';
+import { generateComponentSlotClasses, styled } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridOwnerState, GridProps, GridStyled } from "./types";
+import classNames from "classnames";
+
+const classes = generateComponentSlotClasses(
+	'Grid',
+	[ 'root' ]
+);
 
 const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( { ownerState, theme } ) => ( {
 	display: 'grid',
@@ -29,6 +35,7 @@ const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( 
 
 const Grid = forwardRef<HTMLDivElement, GridProps>( function Grid(
 	{
+		className,
 		children,
 		columns = 1,
 		rows = false,
@@ -43,7 +50,7 @@ const Grid = forwardRef<HTMLDivElement, GridProps>( function Grid(
 	};
 
 	return (
-		<GridRoot ref={ ref } ownerState={ ownerState } { ...other }>
+		<GridRoot { ...other } ref={ ref } ownerState={ ownerState } className={ classNames( className, classes.root ) }>
 			{ children }
 		</GridRoot>
 	);

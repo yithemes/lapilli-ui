@@ -1,7 +1,14 @@
-import { styled, useBreakpointProps } from '@yith/styles';
+import { generateComponentSlotClasses, styled, useBreakpointProps } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";
+import classNames from "classnames";
+
+const classes = generateComponentSlotClasses(
+	'GridItem',
+	[ 'root' ]
+);
+
 
 const GridItemRoot = styled( 'div', { name: 'GridItem', slot: 'Root' } )<GridItemStyled>( ( { ownerState, theme } ) => ( {
 	...( theme.breakpoints.stylize(
@@ -30,6 +37,7 @@ const GridItemRoot = styled( 'div', { name: 'GridItem', slot: 'Root' } )<GridIte
 
 const GridItem = forwardRef<HTMLDivElement, GridItemProps>( function Grid(
 	{
+		className,
 		children,
 		colSpan = 1,
 		rowSpan = 1,
@@ -53,7 +61,7 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>( function Grid(
 	};
 
 	return (
-		<GridItemRoot ref={ ref } ownerState={ ownerState } { ...otherFiltered }>
+		<GridItemRoot { ...otherFiltered } ref={ ref } ownerState={ ownerState } className={ classNames( className, classes.root ) }>
 			{ children }
 		</GridItemRoot>
 	);

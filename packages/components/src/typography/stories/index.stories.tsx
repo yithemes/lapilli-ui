@@ -1,15 +1,17 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Typography from "..";
 import type { TypographyVariant } from "@yith/styles";
 
-const meta: ComponentMeta<typeof Typography> = {
+const meta: Meta<typeof Typography> = {
 	title: 'Components/Typography',
 	component: Typography,
 };
 
 export default meta;
+
+type Story = StoryObj<typeof Typography>;
 
 const LOREM_IPSUM = `Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.`
 
@@ -24,14 +26,18 @@ const variants: Record<TypographyVariant, string> = {
 	body2: LOREM_IPSUM,
 }
 
-const Template: ComponentStory<typeof Typography> = () => {
-	return <>
+export const Default: Story = {
+	args: {
+		variant: 'body',
+		color: 'text.primary',
+		gutterBottom: true,
+		align: 'left'
+	},
+	render: args => <>
 		{ ( Object.keys( variants ) as TypographyVariant[] ).map( key => (
-			<Typography key={ key } variant={ key } gutterBottom>
+			<Typography { ...args } key={ key } variant={ key }>
 				{ `${ key } - ${ variants[ key ] }` }
 			</Typography>
 		) ) }
 	</>
-};
-
-export const Default: ComponentStory<typeof Typography> = Template.bind( {} );
+}
