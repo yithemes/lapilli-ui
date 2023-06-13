@@ -14,9 +14,7 @@ const sizes: Record<FieldSize, number> = {
 	lg: 24,
 	xl: 28
 };
-
 const getPadding = ( ownerState: CheckboxOwnerState ) => ownerState.noPadding ? 0 : 10;
-
 const useComponentClasses = ( ownerState: CheckboxOwnerState ) => {
 	return generateComponentClasses(
 		'Checkbox',
@@ -163,12 +161,13 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>( function Checkbox(
 		icon,
 		checkedIcon,
 		noPadding = false,
+		defaultChecked = false,
 		sx,
 		...other
 	}: CheckboxProps,
 	ref
 ) {
-	const [ isChecked, setIsChecked ] = useControlledState( checkedProp, false );
+	const [ isChecked, setIsChecked ] = useControlledState( checkedProp, defaultChecked );
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {

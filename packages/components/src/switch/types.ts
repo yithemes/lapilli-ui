@@ -1,5 +1,5 @@
 import type React from "react";
-import type { FieldSize, PaletteClass } from "@yith/styles";
+import type { FieldSize, PaletteClass, SxProps } from "@yith/styles";
 
 type SwitchOwnProps = {
 	/**
@@ -30,6 +30,14 @@ type SwitchOwnProps = {
 	 * Set to `true` to disable the field padding
 	 */
 	noPadding?: boolean
+	/**
+	 * The default checked status. Useful when the component is not controlled.
+	 */
+	defaultChecked?: boolean
+	/**
+	 * Sx theme props.
+	 */
+	sx?: SxProps
 }
 
 type SwitchPropsWithRef = Omit<React.ComponentProps<'input'>, keyof SwitchOwnProps> & SwitchOwnProps

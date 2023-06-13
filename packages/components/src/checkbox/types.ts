@@ -35,6 +35,10 @@ type CheckboxOwnProps = {
 	 */
 	noPadding?: boolean
 	/**
+	 * The default checked status. Useful when the component is not controlled.
+	 */
+	defaultChecked?: boolean
+	/**
 	 * Sx theme props.
 	 */
 	sx?: SxProps

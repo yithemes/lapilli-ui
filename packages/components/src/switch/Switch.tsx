@@ -1,12 +1,29 @@
-import { noop } from 'lodash';
+import { capitalize, noop } from 'lodash';
 import { forwardRef, useState } from 'react';
 
-import { styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@yith/styles';
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 import { useControlledState, ZeroWidthSpace } from "../utils";
 import React from 'react';
 import type { SwitchOwnerState, SwitchProps, SwitchStyled } from "./types";
+import classNames from "classnames";
+
+const useComponentClasses = ( ownerState: SwitchOwnerState ) => {
+	return generateComponentClasses(
+		'Switch',
+		{
+			root: [
+				'root',
+				`--size${ capitalize( ownerState.size ) }`,
+				ownerState.checked && 'checked'
+			],
+			field: [ 'field' ],
+			track: [ 'track' ],
+			thumb: [ 'thumb' ],
+		}
+	)
+}
 
 const getPadding = ( ownerState: SwitchOwnerState ) => ownerState.noPadding ? 0 : 4
 
@@ -55,7 +72,6 @@ const SwitchField = styled( 'input', { name: 'Switch', slot: 'Field' } )`
 	cursor: inherit !important;
 	z-index: 1 !important;
 `;
-
 const SwitchTrack = styled( 'span', { name: 'Switch', slot: 'Track' } )<SwitchStyled>( ( { ownerState, theme } ) => ( {
 	display: 'block',
 	cursor: 'pointer',
@@ -82,7 +98,6 @@ const SwitchTrack = styled( 'span', { name: 'Switch', slot: 'Track' } )<SwitchSt
 		cursor: 'not-allowed'
 	} )
 } ) );
-
 const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )<SwitchStyled>( ( { ownerState } ) => ( {
 	background: '#fff',
 	borderRadius: '50%',
@@ -121,11 +136,13 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		onBlur = noop,
 		size = 'md',
 		noPadding = false,
+		defaultChecked = false,
+		sx,
 		...other
 	}: SwitchProps,
 	ref
 ) {
-	const [ isChecked, setIsChecked ] = useControlledState( checkedProp, false );
+	const [ isChecked, setIsChecked ] = useControlledState( checkedProp, defaultChecked );
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const handleChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
@@ -163,13 +180,17 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		noPadding
 	};
 
+	const classes = useComponentClasses( ownerState );
+
 	return (
 		<SwitchRoot
-			className={ className }
+			className={ classNames( className, classes.root ) }
 			ownerState={ ownerState }
+			sx={ sx }
 		>
 			<SwitchField
 				{ ...other }
+				className={ classes.field }
 				ref={ ref }
 				type="checkbox"
 				checked={ isChecked }
@@ -185,8 +206,8 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 			/>
 			{ 'hidden' === type && <input type="hidden" value={ isChecked ? 'yes' : 'no' } name={ name }/> }
 
-			<SwitchTrack ownerState={ ownerState }/>
-			<SwitchThumb ownerState={ ownerState }>
+			<SwitchTrack className={ classes.track } ownerState={ ownerState }/>
+			<SwitchThumb className={ classes.thumb } ownerState={ ownerState }>
 				{ isChecked ? <CheckIcon/> : <XMarkIcon/> }
 			</SwitchThumb>
 			<ZeroWidthSpace/>
