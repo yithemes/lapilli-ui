@@ -18,7 +18,6 @@ import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { drawerRight } from '@wordpress/icons';
 import { createBlock, BlockInstance } from "@wordpress/blocks";
 
-// @ts-ignore
 import { styled } from "@yith/styles";
 import useLayoutClasses from "../utils/use-layout-classes";
 import { useLosingFocusFix } from "./utils/useLosingFocusFix";

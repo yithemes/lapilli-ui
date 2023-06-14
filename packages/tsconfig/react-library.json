@@ -32,20 +32,6 @@
 			"react-dom"
 		],
 		"rootDir": "./",
-		"paths": {
-			"@yith/block-editor": [
-				"../block-editor/src"
-			],
-			"@yith/components": [
-				"../components/src"
-			],
-			"@yith/date": [
-				"../date/src"
-			],
-			"@yith/styles": [
-				"../styles/src"
-			]
-		},
 		"skipLibCheck": true,
 		"strictNullChecks": true
 	},
