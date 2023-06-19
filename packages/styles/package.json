@@ -1,33 +1,36 @@
 {
-  "name" : "@yith/styles",
-  "version" : "0.0.0",
-  "main": "build/index.js",
-  "module": "build-module/index.js",
-  "types": "build-types",
-  "license": "GPL-3.0+",
-  "private" : true,
-  "scripts" : {
-	"build:types" : "tsc --build",
-	"watch:types" : "tsc --watch",
-	"clean" : "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
-  },
-  "dependencies" : {
-	"@babel/runtime" : "^7.16.0",
-	"@emotion/react" : "^11.10.4",
-	"@emotion/styled" : "^11.10.4",
-	"lodash" : "^4.17.21"
-  },
-  "peerDependencies" : {
-	"react" : "^17.0.0",
-	"react-dom" : "^17.0.0"
-  },
-  "devDependencies" : {
-	"csstype" : "3.1.1",
-	"@types/react" : "^18.0.17",
-	"@types/react-dom" : "^18.0.6",
-	"eslint" : "^7.32.0",
-	"react" : "^18.2.0",
-	"@yith/tsconfig": "workspace:*",
-	"typescript" : "^4.5.2"
-  }
+	"name": "@yith/styles",
+	"version": "0.0.0",
+	"main": "build/index.js",
+	"module": "build-module/index.js",
+	"types": "build-types",
+	"license": "MIT",
+	"author": "YITH (https://www.yithemes.com)",
+	"scripts": {
+		"build:types": "tsc --build",
+		"watch:types": "tsc --watch",
+		"clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
+	},
+	"dependencies": {
+		"@babel/runtime": "^7.16.0",
+		"@emotion/react": "^11.10.4",
+		"@emotion/styled": "^11.10.4",
+		"lodash": "^4.17.21"
+	},
+	"peerDependencies": {
+		"react": "^17.0.0",
+		"react-dom": "^17.0.0"
+	},
+	"devDependencies": {
+		"csstype": "3.1.1",
+		"@types/react": "^18.0.17",
+		"@types/react-dom": "^18.0.6",
+		"eslint": "^7.32.0",
+		"react": "^18.2.0",
+		"@yith/tsconfig": "workspace:*",
+		"typescript": "^4.5.2"
+	},
+	"publishConfig": {
+		"registry": "http://verdaccio.leanza.io:4873"
+	}
 }

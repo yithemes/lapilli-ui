@@ -63,7 +63,13 @@ const RESET_STYLES: React.CSSProperties = {
 	outline: 'none !important',
 	height: 'auto !important',
 	lineHeight: '1.5em !important',
-	boxShadow: 'none !important'
+	boxShadow: 'none !important',
+	'&[type=number]::-webkit-inner-spin-button': {
+		opacity: 0
+	},
+	'&[type=number]:enabled:read-write:-webkit-any(:focus, :hover)::-webkit-inner-spin-button': {
+		opacity: 1
+	}
 };
 
 const InputRoot = styled( 'div', { name: 'Input', slot: 'Root' } )<InputStyled>( ( { theme, ownerState } ) => {

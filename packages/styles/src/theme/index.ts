@@ -188,11 +188,11 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 		}
 	},
 	shape: {
-		borderRadius: '7px',
+		borderRadius: '8px',
 	},
 	baseSpacing: 8,
 	fields: {
-		borderRadius: '7px',
+		borderRadius: '8px',
 		borderColor: '#cbd5e1',
 		padding: {
 			sm: '5px 14px',

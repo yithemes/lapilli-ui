@@ -23,10 +23,10 @@ type ButtonSpacing = {
 
 const getSpacing = ( ownerState: ButtonOwnerState ): ButtonSpacing => {
 	const SPACINGS: Record<FieldSize, ButtonSpacing> = {
-		sm: { horizontal: ownerState.short ? 6 : 20, vertical: 4.5 },
-		md: { horizontal: ownerState.short ? 10 : 32, vertical: 8.5 },
-		lg: { horizontal: ownerState.short ? 15 : 40, vertical: 12.5 },
-		xl: { horizontal: ownerState.short ? 20 : 48, vertical: 16.5 },
+		sm: { horizontal: ownerState.short ? 12 : 20, vertical: 4.5 },
+		md: { horizontal: ownerState.short ? 16 : 32, vertical: 8.5 },
+		lg: { horizontal: ownerState.short ? 20 : 40, vertical: 12.5 },
+		xl: { horizontal: ownerState.short ? 24 : 48, vertical: 16.5 },
 	}
 
 	return SPACINGS[ ownerState.size ];
@@ -56,7 +56,7 @@ const ButtonRoot = styled( 'button', { name: 'Button', slot: 'Root' } )<ButtonSt
 	...( ownerState.fullWidth && {
 		width: '100%'
 	} ),
-	'&:focus': {
+	'&:focus-visible': {
 		boxShadow: '0 0 0 3px ' + alpha( theme.palette[ ownerState.color ].main ?? '#ffffff', 0.15 ),
 	},
 	...( ownerState.variant === 'contained' && {
@@ -92,12 +92,13 @@ const ButtonRoot = styled( 'button', { name: 'Button', slot: 'Root' } )<ButtonSt
 	} ),
 	...( ownerState.variant === 'dashed' && {
 		background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.05 ),
-		border: `1px dashed ${ alpha( theme.palette[ ownerState.color ].main ?? '', 0.7 ) }`,
-		color: alpha( theme.palette[ ownerState.color ].main ?? '', 0.8 ),
+		border: `1px dashed ${ alpha( theme.palette[ ownerState.color ].main ?? '', 0.8 ) }`,
+		color: alpha( theme.palette[ ownerState.color ].main ?? '', 0.9 ),
 		...( !ownerState.disabled && {
 			'&:hover': {
 				color: theme.palette[ ownerState.color ].main,
 				borderColor: theme.palette[ ownerState.color ].main,
+				background: alpha( theme.palette[ ownerState.color ].main ?? '', 0.1 ),
 			},
 		} )
 	} ),

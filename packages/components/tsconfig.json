@@ -17,10 +17,10 @@
 		"declarationDir": "build-types",
 		"paths": {
 			"@yith/date": [
-				"../date"
+				"../date/src"
 			],
 			"@yith/styles": [
-				"../styles"
+				"../styles/src"
 			]
 		}
 	}

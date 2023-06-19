@@ -48,7 +48,11 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 				boxShadow: theme.fields.focusedBoxShadow,
 				outline: 'none'
 			}
-		} )
+		} ),
+		...( ownerState.isOpen && ( {
+			borderColor: theme.fields.focusedBorderColor,
+			boxShadow: theme.fields.focusedBoxShadow
+		} ) ),
 	} ),
 	...( ownerState.variant === 'reveal' && !ownerState.disabled && {
 		'&:hover, &:focus, &:focus-visible': {
@@ -60,10 +64,6 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 			outline: 'none'
 		} ) ),
 	} ),
-	...( ownerState.isOpen && ( {
-		borderColor: theme.fields.focusedBorderColor,
-		boxShadow: theme.fields.focusedBoxShadow
-	} ) ),
 	...( ownerState.disabled && {
 		cursor: 'not-allowed'
 	} )
