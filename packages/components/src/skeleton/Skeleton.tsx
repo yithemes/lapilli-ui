@@ -54,6 +54,9 @@ const SkeletonRoot = styled( 'div', { name: 'Skeleton', slot: 'Root' } )<Skeleto
 	} )
 );
 
+/**
+ * The Skeleton component display a "placeholder preview" of a non-yet loaded content.
+ */
 const Skeleton = React.forwardRef<HTMLDivElement, SkeletonProps>( function Skeleton(
 	{
 		width = 'auto',

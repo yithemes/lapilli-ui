@@ -69,6 +69,9 @@ const HOURS = range( 24 )
 	.map( formatSingle )
 	.map( _ => ( { value: _, label: _ } ) );
 
+/**
+ * The TimeSelector component lets the user select a time (HH:mm).
+ */
 const TimeSelector = React.forwardRef<HTMLInputElement, TimeSelectorProps>( function TimeSelector(
 	{
 		value = '00:00',

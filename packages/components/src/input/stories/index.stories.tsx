@@ -6,7 +6,6 @@ import { CalendarIcon, CheckIcon, XMarkIcon, PencilIcon, EyeIcon, EyeSlashIcon, 
 
 import Input from '../';
 import FormControl from "../../form-control";
-import Container from "../../container";
 import Stack from "../../stack";
 import IconButton from "../../icon-button";
 import Button from "../../button";
@@ -104,14 +103,9 @@ const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'xl', label: 'Extra Large' },
 ]
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 export const Sizes: Story = {
 	args: Default.args,
-	render: args => <Container style={ CONTAINER_STYLE }>
+	render: args => <>
 		{ SIZES.map( _ => {
 				const fieldId = `input-size-${ _.size }`;
 				return <FormControl key={ _.size } label={ _.label } htmlFor={ fieldId }>
@@ -119,7 +113,7 @@ export const Sizes: Story = {
 				</FormControl>
 			}
 		) }
-	</Container>
+	</>
 }
 
 export const Adornments: Story = {

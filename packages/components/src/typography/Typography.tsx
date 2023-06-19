@@ -40,6 +40,9 @@ const variantMapping: Record<TypographyVariant, React.ElementType> = {
 	body2: 'p',
 }
 
+/**
+ * The Typography allows to render typography elements (body, heading, ...).
+ */
 const Typography = forwardRef<HTMLDivElement, TypographyProps>( function Typography(
 	{
 		className,

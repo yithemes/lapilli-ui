@@ -159,6 +159,9 @@ function setAttribute( element: HTMLElement, prop: string, value: string ) {
 	}
 }
 
+/**
+ * The Popover component can be used to display some content on top of another.
+ */
 function Popover(
 	{
 		anchorRef,

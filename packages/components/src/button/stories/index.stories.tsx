@@ -6,7 +6,6 @@ import { CalendarIcon, CheckIcon, XMarkIcon, PencilIcon } from "@heroicons/react
 import Button from '../';
 import type { FieldSize } from "@yith/styles";
 import Stack from "../../stack";
-import Container from "../../container";
 
 const iconsSettings = {
 	control: {
@@ -51,19 +50,14 @@ const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'xl', label: 'Extra Large' },
 ]
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 export const Sizes: Story = {
 	args: Default.args,
-	render: ( args ) => <Container style={ CONTAINER_STYLE }>
+	render: ( args ) => <>
 		<Stack spacing={ 2 } direction="column" align="start">
 			{ SIZES.map( _ => <Stack key={ _.size } direction="row" align="center" spacing={ 2 }>
 				<div style={ { minWidth: 100 } }>{ _.label }</div>
 				<Button { ...args } size={ _.size }>Button</Button>
 			</Stack> ) }
 		</Stack>
-	</Container>
+	</>
 }

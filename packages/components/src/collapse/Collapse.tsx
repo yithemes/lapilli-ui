@@ -6,6 +6,9 @@ import type { CollapseProps } from "./types";
 
 const CollapseRoot = styled( motion.div, { name: 'Collapse', slot: 'Root' } )``;
 
+/**
+ * The Collapse component allows you to create a collapsible box, that can be easily opened and collapsed through the `open` prop.
+ */
 const Collapse = forwardRef<HTMLDivElement, CollapseProps>( function Collapse(
 	{
 		children,

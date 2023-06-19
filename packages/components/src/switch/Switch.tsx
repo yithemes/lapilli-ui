@@ -123,6 +123,9 @@ const SwitchThumb = styled( 'span', { name: 'Switch', slot: 'Thumb' } )<SwitchSt
 	}
 } ) );
 
+/**
+ * The Switch component is used to toggle the state of a single setting (on or off).
+ */
 const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 	{
 		type = 'checkbox',

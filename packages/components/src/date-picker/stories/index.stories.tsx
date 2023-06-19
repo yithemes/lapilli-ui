@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import DatePicker from '../';
 import type { FieldSize } from "@yith/styles";
-import Container from "../../container";
 import FormControl from "../../form-control";
 
 const meta: Meta<typeof DatePicker> = {
@@ -121,15 +120,11 @@ const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'xl', label: 'Extra Large' },
 ]
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
 
 export const Sizes: Story = {
 	args: Default.args,
 	render: ( { ...args } ) => {
-		return <Container style={ CONTAINER_STYLE }>
+		return <>
 			{ SIZES.map( _ => {
 					const fieldId = `input-size-${ _.size }`;
 					return <FormControl key={ _.size } label={ _.label } htmlFor={ fieldId }>
@@ -137,7 +132,7 @@ export const Sizes: Story = {
 					</FormControl>
 				}
 			) }
-		</Container>;
+		</>;
 	}
 }
 

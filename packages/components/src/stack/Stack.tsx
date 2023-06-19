@@ -42,6 +42,9 @@ const StackRoot = styled( 'div', { name: 'Stack', slot: 'Root' } )<StyledStackPr
 	...( theme.breakpoints.stylize( ownerState.wrap, ( value ) => ( { flexWrap: !!value ? 'wrap' : undefined } ) ) ),
 } ) );
 
+/**
+ * Let's create a stacked layout by using the Stack component. It uses the flexbox layout.
+ */
 const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stack(
 	{
 		className,
@@ -70,7 +73,7 @@ const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stac
 	};
 
 	return (
-		<StackRoot  { ...others } as={ as } ownerState={ ownerState } ref={ ref } className={ classNames( className, classes.root ) } >
+		<StackRoot  { ...others } as={ as } ownerState={ ownerState } ref={ ref } className={ classNames( className, classes.root ) }>
 			{ children }
 		</StackRoot>
 	);

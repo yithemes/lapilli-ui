@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import FwIcon from '../';
-import Container from "../../container";
+import Typography from "../../typography";
 
 const meta: Meta<typeof FwIcon> = {
 	title: 'Components/FwIcon',
@@ -30,11 +30,6 @@ export const Default: Story = {
 	render: ( args ) => <FwIcon { ...args } />
 };
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 const SIZES = [
 	{ size: 'sm', label: 'Small', description: '16px' },
 	{ size: 'md', label: 'Medium', description: '24px' },
@@ -46,14 +41,14 @@ export const Sizes: Story = {
 	args: {
 		icon: 'calendar',
 	},
-	render: ( { ...args } ) => <Container style={ CONTAINER_STYLE }>
+	render: ( { ...args } ) => <>
 		{ SIZES.map( _ => (
 				<div key={ _.size } style={ { textAlign: "center", padding: "10px 15px", display: 'inline-block' } }>
 					<FwIcon { ...args } fontSize={ _.size }/>
-					<div style={ { margin: '8px 0 0' } }>{ _.label }</div>
-					<div>{ _.description }</div>
+					<Typography align='center'>{ _.label }</Typography>
+					<Typography variant='body2' align='center'>{ _.description }</Typography>
 				</div>
 			)
 		) }
-	</Container>
+	</>
 };

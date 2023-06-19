@@ -93,8 +93,9 @@ export interface Theme extends DefaultThemeOptions {
 	spacing: ( theSpacing: string | number ) => string
 	color: ( themeColor: ThemeColor ) => string
 	breakpoints: DefaultThemeOptions[ 'breakpoints' ] & {
-		up: ( key: Breakpoint ) => string;
+		up: ( key: Breakpoint ) => string
 		stylize: <T extends any>( value: ResponsiveStyleValue<T>, stylize: ( value: T, breakpoint?: Breakpoint ) => any ) => any
+		isBreakpoint: ( breakpoint: any ) => breakpoint is Breakpoint
 	}
 }
 
@@ -325,6 +326,9 @@ export const createTheme = ( options: ThemeOptions ): Theme => {
 			}
 
 			return stylize( value );
+		},
+		isBreakpoint: ( key: any ): key is Breakpoint => {
+			return typeof key === 'string' && key in themeBreakpoints.values;
 		}
 	};
 	const color = ( themeColor: ThemeColor ) => {

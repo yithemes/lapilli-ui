@@ -88,6 +88,11 @@ const SpinnerCircle = styled( 'circle', { name: 'Spinner', slot: 'Circle' } )( (
 	animation: `${ dashKeyframe } 1.4s linear infinite`,
 } ) );
 
+/**
+ * The Spinner component lets you notify users that their action is being processed.
+ *
+ * When possible, prefer using the `Skeleton` component instead, to reduce the load-time frustration.
+ */
 const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>( function Spinner(
 	{
 		className,

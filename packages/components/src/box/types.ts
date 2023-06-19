@@ -1,4 +1,12 @@
+import type React from "react";
 import type { SxProps } from "@yith/styles";
-import type React from 'react';
 
-export type BoxProps = Omit<React.ComponentProps<'div'> & { sx?: SxProps }, 'ref'>;
+type BoxOwnProps = {
+	/**
+	 * The sx prop lets you style elements inline, using values from your theme.
+	 */
+	sx?: SxProps
+}
+
+type BoxPropsWithRef = Omit<React.ComponentProps<'div'>, keyof BoxOwnProps> & BoxOwnProps
+export type BoxProps = Omit<BoxPropsWithRef, 'ref'>

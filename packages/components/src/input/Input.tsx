@@ -185,6 +185,9 @@ const InputEndAdornment = styled( 'div', { name: 'Input', slot: 'EndAdornment' }
 	marginLeft: '14px'
 } ) );
 
+/**
+ * The Input component allows the user to enter text (or password, or numbers) into a UI.
+ */
 const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 	{
 		className,

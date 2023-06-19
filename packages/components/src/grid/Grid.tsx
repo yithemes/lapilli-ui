@@ -33,6 +33,11 @@ const GridRoot = styled( 'div', { name: 'Grid', slot: 'Root' } )<GridStyled>( ( 
 	) ),
 } ) );
 
+/**
+ * Let's create a great Grid layout by using the Grid component.
+ *
+ * You can use its `GridItem` subcomponent to render the items and to create complex layouts.
+ */
 const Grid = forwardRef<HTMLDivElement, GridProps>( function Grid(
 	{
 		className,

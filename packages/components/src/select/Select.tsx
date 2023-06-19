@@ -44,6 +44,9 @@ function defaultRenderOption( props: SelectOptionProps ) {
 	);
 }
 
+/**
+ * The Select component lets the user select one (or more than one, if multiple) of the available options.
+ */
 const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	{
 		value: valueProp,

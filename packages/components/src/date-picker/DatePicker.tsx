@@ -104,6 +104,9 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 	</DatePickerProvider>
 };
 
+/**
+ * The DatePicker component lets the user select a date.
+ */
 const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePicker(
 	props,
 	ref

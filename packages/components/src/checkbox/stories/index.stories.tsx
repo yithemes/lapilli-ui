@@ -3,7 +3,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Checkbox from '../Checkbox';
 import type { FieldSize } from "@yith/styles";
-import Container from "../../container";
 import FormControl from "../../form-control";
 
 import { HeartIcon, StarIcon } from "@heroicons/react/24/outline";
@@ -50,14 +49,9 @@ const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'xl', label: 'Extra Large' },
 ]
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 export const Sizes: Story = {
 	args: Default.args,
-	render: ( args ) => <Container style={ CONTAINER_STYLE }>
+	render: ( args ) => <>
 		{ SIZES.map( _ => {
 				const fieldId = `input-size-${ _.size }`;
 				return <FormControl key={ _.size } label={ _.label } htmlFor={ fieldId }>
@@ -78,7 +72,7 @@ export const Sizes: Story = {
 				</FormControl>
 			}
 		) }
-	</Container>
+	</>
 };
 
 export const CustomColors: Story = {

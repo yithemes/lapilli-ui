@@ -81,6 +81,11 @@ const useComponentClasses = () => {
 	)
 }
 
+/**
+ * The Modal is used for showing dialogs containing specific contents.
+ *
+ * You can use the subcomponents to display the different sections of the modal: `ModalTitle`, `ModalContent` and `ModalActions`.
+ */
 const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 	{
 		className,

@@ -28,6 +28,9 @@ const DropdownContent = styled( Paper, { name: 'Dropdown', slot: 'Content' } )( 
 	overflow: 'hidden'
 } ) );
 
+/**
+ * The Dropdown component allows you to easily create a custom dropdown, by customizing the "toggle" and the "content" to be shown.
+ */
 const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	{
 		onOpen = noop,

@@ -34,6 +34,9 @@ const PaperRoot = styled( 'div', { name: 'Paper', slot: 'Root' } )<PaperStyled>(
 	} )
 } ) );
 
+/**
+ * The Paper is a surface that can contain contents.
+ */
 const Paper = forwardRef<HTMLDivElement, PaperProps>( function Paper(
 	{
 		className,

@@ -141,6 +141,9 @@ const IconButtonRoot = styled( 'button', { name: 'IconButton', slot: 'Root' } )<
 	} }
 `;
 
+/**
+ * The IconButton is a simple button containing an icon.
+ */
 const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>( function IconButton(
 	{
 		type = 'button',

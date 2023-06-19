@@ -8,6 +8,9 @@ const getContainer = ( container: PortalProps['container'] ) => {
 	return theContainer || document.body;
 }
 
+/**
+ * The Portal component allows you to render children into a DOM node that exists outside the Portal's DOM hierarchy.
+ */
 export default function Portal(
 	{
 		disablePortal = false,

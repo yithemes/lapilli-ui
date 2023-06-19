@@ -2,7 +2,6 @@ import React from 'react';
 import type { ComponentMeta, ComponentStory } from '@storybook/react';
 
 import Spinner from '../';
-import Container from "../../container";
 
 const meta: ComponentMeta<typeof Spinner> = {
 	title: 'Components/Spinner',
@@ -22,11 +21,6 @@ Default.args = {
 	size: 'md'
 };
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 const SIZES: { size: 'sm' | 'md' | 'lg' | 'xl', label: string, description: string }[] = [
 	{ size: 'sm', label: 'Small', description: '16px' },
 	{ size: 'md', label: 'Medium', description: '24px' },
@@ -35,7 +29,7 @@ const SIZES: { size: 'sm' | 'md' | 'lg' | 'xl', label: string, description: stri
 ]
 
 const SizesTemplate: ComponentStory<typeof Spinner> = ( { ...args } ) => {
-	return <Container style={ CONTAINER_STYLE }>
+	return <>
 		{ SIZES.map( _ => (
 				<div key={ _.size } style={ { textAlign: "center", padding: "10px 15px", display: 'inline-block' } }>
 					<Spinner { ...args } size={ _.size }/>
@@ -44,7 +38,7 @@ const SizesTemplate: ComponentStory<typeof Spinner> = ( { ...args } ) => {
 				</div>
 			)
 		) }
-	</Container>;
+	</>;
 };
 
 export const Sizes: ComponentStory<typeof Spinner> = SizesTemplate.bind( {} );

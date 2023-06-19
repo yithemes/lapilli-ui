@@ -4,6 +4,9 @@ import type { FocusTrapProps } from "./types";
 import { getFocusable } from "./getFocusable";
 import { useMergedRefs } from "../utils";
 
+/**
+ * The FocusTrap create a "trap" for the focus.
+ */
 export default function FocusTrap(
 	{
 		open,

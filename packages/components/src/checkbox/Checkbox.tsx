@@ -151,6 +151,11 @@ const CheckboxRipple = styled( 'span', { name: 'Checkbox', slot: 'Ripple' } )<Ch
 	} )
 } ) );
 
+/**
+ * The Checkbox component allows the user to make a binary choice.
+ *
+ * By default, it's displayed as a normal HTML checkbox, but you can use custom icons to be shown for checked and un-checked status.
+ */
 const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>( function Checkbox(
 	{
 		color = 'primary',

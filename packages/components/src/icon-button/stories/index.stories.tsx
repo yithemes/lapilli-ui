@@ -6,7 +6,7 @@ import type { FieldSize } from "@yith/styles";
 
 import IconButton from '../';
 import Stack from "../../stack";
-import Container from "../../container";
+import Typography from "../../typography";
 
 const meta: Meta<typeof IconButton> = {
 	title: 'Components/IconButton',
@@ -50,23 +50,19 @@ const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'xl', label: 'Extra Large' },
 ]
 
-const CONTAINER_STYLE = {
-	fontSize: '14px',
-	lineHeight: 1.5
-}
-
 export const Sizes: Story = {
 	args: Default.args,
 	render: ( { children, ...args } ) => {
-		return <Container style={ CONTAINER_STYLE }>
-			<Stack spacing={ 2 } direction="row" align="start">
+		return <>
+			<Stack spacing={ 3 } direction="row" align="start" wrap>
 				{ SIZES.map( _ => <Stack key={ _.size } direction="column" align="center" spacing={ 2 }>
 					<Stack style={ { minHeight: 60 } } align="center" justify="center">
 						<IconButton { ...args } size={ _.size } aria-label='Click me'>{ children }</IconButton>
 					</Stack>
-					<div style={ { textAlign: 'center' } }>{ _.label }</div>
+					<Typography align='center'>{ _.label }</Typography>
 				</Stack> ) }
 			</Stack>
-		</Container>;
+
+		</>;
 	}
 };

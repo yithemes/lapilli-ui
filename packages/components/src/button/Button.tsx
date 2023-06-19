@@ -128,6 +128,9 @@ const ButtonEndIcon = styled( 'span', { name: 'Button', slot: 'EndIcon' } )<Butt
 	marginRight: -( getSpacing( ownerState ).horizontal / 2 - 5 ),
 } ) );
 
+/**
+ * Lets users take actions and make choices with a single click or tap through the Button component.
+ */
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 	function Button(
 		{
