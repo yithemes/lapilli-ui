@@ -22,6 +22,7 @@ const CardMediaRoot = styled( 'div', { name: 'CardMedia', slot: 'Root' } )( ( { 
 	backgroundSize: 'cover',
 	backgroundRepeat: 'no-repeat',
 	backgroundPosition: 'center',
+	boxSizing: 'border-box',
 	...( ownerState.isMedia && {
 		width: '100%',
 	} ),

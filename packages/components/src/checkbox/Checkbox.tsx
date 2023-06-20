@@ -44,6 +44,8 @@ const CheckboxRoot = styled( 'span', { name: 'Checkbox', slot: 'Root' } )<Checkb
 	color: theme.palette[ ownerState.color ].main,
 	width: '1em',
 	height: '1em',
+	minWidth: '1em',
+	maxWidth: '1em',
 	fontSize: `${ sizes[ ownerState.size ] }px`,
 	padding: getPadding( ownerState ),
 	lineHeight: 1,

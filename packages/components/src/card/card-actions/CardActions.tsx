@@ -4,6 +4,7 @@ import { forwardRef } from 'react';
 
 import type { CardActionsOwnerState, CardActionsProps, CardActionsStyled } from "./types";
 import classNames from "classnames";
+import { useCard } from "../context";
 
 const useComponentClasses = ( ownerState: CardActionsOwnerState ) => {
 	return generateComponentClasses(
@@ -20,11 +21,10 @@ const useComponentClasses = ( ownerState: CardActionsOwnerState ) => {
 const CardActionsRoot = styled( 'div', { name: 'CardActions', slot: 'Root' } )( ( { ownerState }: CardActionsStyled ) => ( {
 	display: 'flex',
 	alignItems: 'center',
-	padding: 8,
+	padding: ownerState.card.sizing( 1 / 2 ),
+	boxSizing: 'border-box',
 	...( !ownerState.disableSpacing && {
-		'& > :not(:first-of-type)': {
-			marginLeft: 8,
-		},
+		gap: ownerState.card.sizing( 1 / 2 ),
 	} ),
 } ) );
 
@@ -38,7 +38,8 @@ const CardActions = forwardRef<HTMLDivElement, CardActionsProps>( function CardA
 	ref
 ) {
 
-	const ownerState: CardActionsOwnerState = { disableSpacing };
+	const card = useCard();
+	const ownerState: CardActionsOwnerState = { disableSpacing, card };
 	const classes = useComponentClasses( ownerState );
 
 	return <CardActionsRoot

@@ -1,6 +1,7 @@
 import type React from "react";
 import type { SxProps } from "@yith/styles";
 import type { TypographyProps } from "../../typography";
+import type { useCard } from "../context";
 
 export type CardHeaderOwnProps = {
 	/**
@@ -51,3 +52,9 @@ export type CardHeaderOwnProps = {
 
 type CardHeaderPropsWithRef = Omit<React.ComponentProps<'div'>, keyof CardHeaderOwnProps> & CardHeaderOwnProps
 export type CardHeaderProps = Omit<CardHeaderPropsWithRef, 'ref'>
+
+export type CardHeaderOwnerState = { card: ReturnType<typeof useCard> }
+
+export type CardHeaderStyled = {
+	ownerState: CardHeaderOwnerState
+}

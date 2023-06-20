@@ -8,6 +8,10 @@ export type CardOwnProps = {
 	 */
 	raised?: boolean
 	/**
+	 * Set the size of the Card. This will impact on padding/spacing of Cards subcomponents.
+	 */
+	size?: 'sm' | 'md' | 'lg' | 'xl'
+	/**
 	 * Sx props.
 	 */
 	sx?: SxProps

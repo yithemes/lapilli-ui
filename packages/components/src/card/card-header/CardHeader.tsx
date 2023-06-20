@@ -1,44 +1,46 @@
 import { generateComponentSlotClasses, styled } from '@yith/styles';
 import React, { forwardRef } from 'react';
 
-import type { CardHeaderProps } from "./types";
+import type { CardHeaderOwnerState, CardHeaderProps, CardHeaderStyled } from "./types";
 import Typography from "../../typography";
 import classNames from "classnames";
+import { useCard } from "../context";
 
 const classes = generateComponentSlotClasses(
 	'CardHeader',
 	[ 'root', 'content', 'startAdornment', 'endAdornment', 'action' ]
 );
 
-const CardHeaderRoot = styled( 'div', { name: 'CardHeader', slot: 'Root' } )( () => ( {
+const CardHeaderRoot = styled( 'div', { name: 'CardHeader', slot: 'Root' } )<CardHeaderStyled>( ( { ownerState } ) => ( {
 	display: 'flex',
 	alignItems: 'center',
-	padding: 16,
+	padding: ownerState.card.sizing( 1 ),
+	boxSizing: 'border-box',
 } ) );
 
-const CardHeaderContent = styled( 'div', { name: 'CardHeader', slot: 'Content' } )( () => ( {
+const CardHeaderContent = styled( 'div', { name: 'CardHeader', slot: 'Content' } )<CardHeaderStyled>( () => ( {
 	flex: '1 1 auto',
 } ) );
 
-const CardHeaderStartAdornment = styled( 'div', { name: 'CardHeader', slot: 'StartAdornment' } )( () => ( {
+const CardHeaderStartAdornment = styled( 'div', { name: 'CardHeader', slot: 'StartAdornment' } )<CardHeaderStyled>( ( { ownerState } ) => ( {
 	display: 'flex',
 	flex: '0 0 auto',
-	marginRight: 16,
+	marginRight: ownerState.card.sizing( 1 ),
 } ) );
 
-const CardHeaderEndAdornment = styled( 'div', { name: 'CardHeader', slot: 'EndAdornment' } )( () => ( {
+const CardHeaderEndAdornment = styled( 'div', { name: 'CardHeader', slot: 'EndAdornment' } )<CardHeaderStyled>( ( { ownerState } ) => ( {
 	display: 'flex',
 	flex: '0 0 auto',
-	marginLeft: 16,
+	marginLeft: ownerState.card.sizing( 1 ),
 } ) );
 
-const CardHeaderAction = styled( 'div', { name: 'CardHeader', slot: 'Action' } )( () => ( {
+const CardHeaderAction = styled( 'div', { name: 'CardHeader', slot: 'Action' } )<CardHeaderStyled>( ( { ownerState } ) => ( {
 	flex: '0 0 auto',
 	display: 'flex',
 	alignItems: 'center',
-	marginTop: -4,
-	marginRight: -8,
-	marginBottom: -4,
+	marginTop: -ownerState.card.sizing( 1 / 4 ),
+	marginRight: -ownerState.card.sizing( 1 / 2 ),
+	marginBottom: -ownerState.card.sizing( 1 / 4 ),
 } ) );
 
 const isTypography = ( element: React.ReactNode ) => {
@@ -86,14 +88,17 @@ const CardHeader = forwardRef<HTMLDivElement, CardHeaderProps>( function CardHea
 		</Typography>
 	}
 
-	return <CardHeaderRoot { ...props } className={ classNames( className, classes.root ) } ref={ ref }>
-		{ startAdornment && <CardHeaderStartAdornment { ...startAdornmentProps } className={ classNames( startAdornmentProps?.className, classes.startAdornment ) }>{ startAdornment }</CardHeaderStartAdornment> }
-		<CardHeaderContent className={ classes.content }>
+	const card = useCard();
+	const ownerState: CardHeaderOwnerState = { card };
+
+	return <CardHeaderRoot { ...props } ownerState={ ownerState } className={ classNames( className, classes.root ) } ref={ ref }>
+		{ startAdornment && <CardHeaderStartAdornment { ...startAdornmentProps } ownerState={ ownerState } className={ classNames( startAdornmentProps?.className, classes.startAdornment ) }>{ startAdornment }</CardHeaderStartAdornment> }
+		<CardHeaderContent ownerState={ ownerState } className={ classes.content }>
 			{ title }
 			{ subtitle }
 		</CardHeaderContent>
-		{ endAdornment && <CardHeaderEndAdornment { ...endAdornmentProps } className={ classNames( endAdornmentProps?.className, classes.endAdornment ) }>{ endAdornment }</CardHeaderEndAdornment> }
-		{ action && <CardHeaderAction className={ classes.action }>{ action }</CardHeaderAction> }
+		{ endAdornment && <CardHeaderEndAdornment { ...endAdornmentProps } ownerState={ ownerState } className={ classNames( endAdornmentProps?.className, classes.endAdornment ) }>{ endAdornment }</CardHeaderEndAdornment> }
+		{ action && <CardHeaderAction ownerState={ ownerState } className={ classes.action }>{ action }</CardHeaderAction> }
 	</CardHeaderRoot>
 } );
 

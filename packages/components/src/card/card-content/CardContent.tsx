@@ -2,19 +2,18 @@ import { generateComponentSlotClasses, styled } from '@yith/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 
-import type { CardContentProps } from "./types";
+import type { CardContentOwnerState, CardContentProps, CardContentStyled } from "./types";
 import classNames from "classnames";
+import { useCard } from "../context";
 
 const classes = generateComponentSlotClasses(
 	'CardContent',
 	[ 'root' ]
 );
 
-const CardContentRoot = styled( 'div', { name: 'CardContent', slot: 'Root' } )( () => ( {
-	padding: 16,
-	'&:last-child': {
-		paddingBottom: 24,
-	},
+const CardContentRoot = styled( 'div', { name: 'CardContent', slot: 'Root' } )<CardContentStyled>( ( { ownerState } ) => ( {
+	padding: ownerState.card.sizing( 1 ),
+	boxSizing: 'border-box',
 } ) );
 
 const CardContent = forwardRef<HTMLDivElement, CardContentProps>( function CardContent(
@@ -26,8 +25,12 @@ const CardContent = forwardRef<HTMLDivElement, CardContentProps>( function CardC
 	ref
 ) {
 
+	const card = useCard();
+	const ownerState: CardContentOwnerState = { card };
+
 	return <CardContentRoot
 		{ ...props }
+		ownerState={ ownerState }
 		className={ classNames( className, classes.root ) }
 		ref={ ref }
 	>
