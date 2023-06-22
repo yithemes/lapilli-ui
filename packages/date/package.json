@@ -12,7 +12,6 @@
 	"clean" : "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
   },
   "dependencies" : {
-	"@wordpress/date" : "4.19.0",
 	"date-fns" : "2.29.3",
 	"lodash" : "^4.17.21"
   },

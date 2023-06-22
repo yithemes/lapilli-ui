@@ -1,5 +1,5 @@
 import { styled } from "@yith/styles";
-import { formatDateSameTimezone, getWeekArray, isSameDay, isSameMonth, addDays, addMonths, addYears, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from "@yith/date";
+import { format, getDateFormat, getWeekArray, isSameDay, isSameMonth, addDays, addMonths, addYears, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from "@yith/date";
 import { useDatePickerContext } from "../context";
 import { useCallback, useMemo, useState } from "react";
 import DayPickerDay from "./DayPickerDay";
@@ -145,12 +145,12 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 	return <DayPickerRoot className={ className } role='grid' aria-labelledby={ gridLabelId }>
 		<DayPickerHeader role='row'>
 			{ weeks[ 0 ].map( ( date: Date ) => {
-				const dayName = formatDateSameTimezone( 'l', date );
+				const dayName = format( getDateFormat( 'weekdayShort' ), date );
 				return <DayPickerWeekdayLabel
 					key={ date.getDay() }
 					role="columnheader"
 				>
-					{ dayName.substring( 0, 1 ) }
+					{ dayName.charAt( 0 ).toUpperCase() }
 				</DayPickerWeekdayLabel>
 			} ) }
 		</DayPickerHeader>

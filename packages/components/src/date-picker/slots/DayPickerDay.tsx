@@ -1,5 +1,5 @@
 import { alpha, styled } from "@yith/styles";
-import { formatDateSameTimezone } from "@yith/date";
+import { format, getDateFormat } from "@yith/date";
 import { noop } from "lodash";
 import type { PickerDayOwnerState, PickerDayProps } from "../types";
 import React, { useEffect, useRef } from "react";
@@ -49,7 +49,7 @@ const DayPickerDayRoot = styled( 'div', { name: 'DayPicker', slot: 'Day' } )<{ o
 					'&:hover, &:focus': {
 						background: theme.palette.primary.light,
 					},
-				})
+				} )
 			} ),
 			...( !ownerState.isDatePickerDisabled && ( ownerState.isDisabled || !ownerState.isSelected ) && {
 				'&:hover': {
@@ -120,7 +120,7 @@ const DayPickerDay = ( props: PickerDayProps ) => {
 		{ ...( ( isDisabled || isDatePickerDisabled ) && { 'aria-disabled': true, disabled: true } ) }
 		{ ...other }
 	>
-		{ formatDateSameTimezone( 'j', day ) }
+		{ format( getDateFormat( 'dayOfMonth' ), day ) }
 	</DayPickerDayRoot>
 
 };

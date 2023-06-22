@@ -11,6 +11,8 @@
 		"build:only": "wp-scripts build --progress",
 		"build:types": "turbo run build:types",
 		"build:packages": "node ./bin/packages/build.js",
+		"analyze": "pnpm run build:types && pnpm run build:packages && pnpm run analyze:only",
+		"analyze:only": "wp-scripts build --progress --webpack-bundle-analyzer",
 		"watch": "concurrently \"pnpm run watch:types\" \"pnpm run watch:packages\" \"pnpm run watch:only\"",
 		"watch:only": "wp-scripts start --progress --mode=development",
 		"watch:types": "turbo run watch:types",
@@ -20,6 +22,7 @@
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.8",
+		"@babel/runtime": "^7.16.0",
 		"@emotion/babel-plugin": "^11.11.0",
 		"@types/lodash": "^4.14.194",
 		"@types/node": "^18.16.5",

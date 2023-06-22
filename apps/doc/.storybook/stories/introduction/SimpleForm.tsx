@@ -13,7 +13,7 @@ import Select from "../../../../../packages/components/src/select";
 import Stack from "../../../../../packages/components/src/stack";
 import Switch from "../../../../../packages/components/src/switch/Switch";
 import type { DatePickerRef } from "../../../../../packages/components/src/";
-import { formatDateSameTimezone } from "../../../../../packages/date/src/";
+import { format, getDateFormat } from "../../../../../packages/date/src/";
 
 import { Square2StackIcon, EyeIcon, TrashIcon, ArrowLongLeftIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { HeartIcon } from "@heroicons/react/24/solid";
@@ -110,8 +110,8 @@ function SimpleForm() {
 			<Stack direction="row" spacing={ 1 } align="center" style={ { height: '30px', fontSize: 13, marginTop: -15 } }>
 				{ isFeatured && <>
 					<FeaturedIcon/>
-					{ !!featuredFrom && <span>from { formatDateSameTimezone( 'M j, Y', featuredFrom ) }</span> }
-					{ !!featuredTo && <span>to { formatDateSameTimezone( 'M j, Y', featuredTo ) }</span> }
+					{ !!featuredFrom && <span>from { format( getDateFormat( 'fullDate' ), featuredFrom ) }</span> }
+					{ !!featuredTo && <span>to { format( getDateFormat( 'fullDate' ), featuredTo ) }</span> }
 				</> }
 			</Stack>
 			<Container>
@@ -180,7 +180,7 @@ function SimpleForm() {
 		<Modal open={ modalOpened } onClose={ () => setModalOpened( false ) }>
 			<ModalTitle>{ !!name ? name : 'Untitled' }</ModalTitle>
 			<ModalContent>
-				{ !!publishedDate ? <PublishedInfo>Published on { formatDateSameTimezone( 'M j, Y', publishedDate ) }</PublishedInfo> : <PublishedInfo>In draft</PublishedInfo> }
+				{ !!publishedDate ? <PublishedInfo>Published on { format( getDateFormat('fullDate'), publishedDate ) }</PublishedInfo> : <PublishedInfo>In draft</PublishedInfo> }
 				{ LOREM_IPSUM }
 				<FooterInfo>
 					{ typeof pages !== 'undefined' && <div>{ pages } pages</div> }

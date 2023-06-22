@@ -86,8 +86,38 @@ class Feature_Plugin {
 			$script = $base_url . $path . 'index.js';
 			$style  = $base_url . $path . 'style.css';
 
+			if ( 'yith-date' === $handle ) {
+				$dependencies[] = 'wp-date';
+			}
+
 			wp_register_script( $handle, $script, $dependencies, $version, true );
 		}
+
+		$locale_options = array(
+			'options' => array(
+				'weekStartsOn' => (int) get_option( 'start_of_week', 0 ),
+			),
+		);
+
+		$date_formats = array(
+			'year'         => 'Y',
+			'month'        => 'F',
+			'dayOfMonth'   => 'j',
+			'monthShort'   => 'M',
+			'weekday'      => 'l',
+			'weekdayShort' => 'D',
+			'fullDate'     => get_option( 'date_format', __( 'F j, Y' ) ),
+			'inputDate'    => 'Y-m-d',
+			'monthAndDate' => 'F j',
+			'monthAndYear' => 'F Y',
+		);
+
+		wp_add_inline_script(
+			'yith-date',
+			'yith.date.setLocale( ' . wp_json_encode( $locale_options ) . ' );
+			yith.date.setDateFormats( ' . wp_json_encode( $date_formats ) . ' );
+			yith.date.setFormatDate( wp.date.format );'
+		);
 
 	}
 }

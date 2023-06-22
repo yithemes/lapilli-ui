@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useCallback, useImperativeHandle } from "react";
 import { styled, generateComponentClasses } from "@yith/styles";
-import { formatDateSameTimezone } from "@yith/date";
+import { format, getDateFormat } from "@yith/date";
 import classNames from "classnames";
 
 import type { DatePickerProps, DatePickerRef } from "./types";
@@ -118,13 +118,15 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		name,
 		id,
 		onChange,
-		inputFormat = 'Y-m-d',
-		displayFormat = 'M j, Y',
+		inputFormat: inputFormatProp,
+		displayFormat: displayFormatProp,
 		size = 'md',
 		allowClear = false,
 		startAdornment,
 		disabled = false
 	} = props;
+	const inputFormat = inputFormatProp ? inputFormatProp : getDateFormat( 'inputDate' );
+	const displayFormat = displayFormatProp ? displayFormatProp : getDateFormat( 'fullDate' );
 	const { datePickerProps, resetSelectedDate } = useDatePickerProps( props );
 	const { selectedDate, setSelectedDate } = datePickerProps;
 	const classes = useComponentClasses( props );
@@ -162,7 +164,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		<input
 			type='hidden'
 			name={ name }
-			value={ !!selectedDate ? formatDateSameTimezone( inputFormat, selectedDate ) : '' }
+			value={ !!selectedDate ? format( inputFormat, selectedDate ) : '' }
 			disabled={ disabled }
 		/>
 		{
@@ -191,7 +193,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 									}
 								}
 								isOpen={ isOpen }
-								text={ !!selectedDate ? formatDateSameTimezone( displayFormat, selectedDate ) : '' }
+								text={ !!selectedDate ? format( displayFormat, selectedDate ) : '' }
 								placeholder={ placeholder }
 								size={ size }
 								allowClear={ allowClear }
