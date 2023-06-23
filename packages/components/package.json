@@ -12,6 +12,7 @@
 		"clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
 	},
 	"dependencies": {
+		"@babel/runtime": "^7.16.0",
 		"@heroicons/react": "2.0.13",
 		"@wordpress/i18n": "4.17.0",
 		"@yith/date": "workspace:*",

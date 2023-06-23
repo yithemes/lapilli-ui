@@ -44,3 +44,6 @@ export type ModalOwnerState = Required<Pick<ModalOwnProps, 'maxWidth' | 'fullWid
 export type ModalStyled = {
 	ownerState: ModalOwnerState
 }
+
+export type ModalContentProps = Omit<React.ComponentProps<'div'>, 'ref'>
+export type ModalActionsProps = Omit<React.ComponentProps<'div'>, 'ref'>

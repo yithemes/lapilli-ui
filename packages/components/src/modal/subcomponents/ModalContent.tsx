@@ -1,7 +1,8 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { generateComponentClasses, styled } from "@yith/styles";
 import classNames from "classnames";
 import { modalTitleClasses } from "./ModalTitle";
+import type { ModalContentProps } from "../types";
 
 export const modalContentClasses = generateComponentClasses(
 	'ModalContent',
@@ -20,7 +21,7 @@ const ModalContentRoot = styled( 'div', { name: 'ModalContent', slot: 'Root' } )
 		}
 	} ) );
 
-const ModalContent = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>( function ModalContent(
+const ModalContent = forwardRef<HTMLDivElement, ModalContentProps>( function ModalContent(
 	{
 		className,
 		children,

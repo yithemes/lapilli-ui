@@ -5,11 +5,11 @@
 			"dom",
 			"esnext"
 		],
-		"baseUrl": "./",
+		"baseUrl": ".",
 		"allowJs": true,
 		"checkJs": true,
 		"allowSyntheticDefaultImports": true,
-		"jsx": "react",
+		"jsx": "preserve",
 		"module": "commonjs",
 		"declaration": true,
 		"declarationMap": true,
@@ -31,9 +31,18 @@
 			"node",
 			"react-dom"
 		],
+		"typeRoots": ["../../node_modules/@types" ],
 		"rootDir": "./",
 		"skipLibCheck": true,
-		"strictNullChecks": true
+		"strictNullChecks": true,
+		"paths": {
+			"@yith/date": [
+				"../date/src"
+			],
+			"@yith/styles": [
+				"../styles/src"
+			]
+		}
 	},
 	"exclude": [
 		"**/*.android.js",

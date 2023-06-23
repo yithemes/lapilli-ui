@@ -1,5 +1,6 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { styled } from "@yith/styles";
+import type { ModalActionsProps } from "../types";
 
 const ModalActionsRoot = styled( 'div', { name: 'ModalActions', slot: 'Root' } )(
 	() => ( {
@@ -13,7 +14,7 @@ const ModalActionsRoot = styled( 'div', { name: 'ModalActions', slot: 'Root' } )
 		}
 	} ) );
 
-const ModalActions = forwardRef<HTMLDivElement, React.ComponentPropsWithoutRef<'div'>>( function ModalActions(
+const ModalActions = forwardRef<HTMLDivElement, ModalActionsProps>( function ModalActions(
 	{
 		children,
 		...other

@@ -1,6 +1,6 @@
 import type { FieldSize } from "@yith/styles";
 
-export type StaticDatePickerProps = {
+export type DatePickerProps = {
 	/**
 	 * The class name for the root slot.
 	 */
@@ -53,25 +53,22 @@ export type StaticDatePickerProps = {
 	 * Set to `true` to disable the field.
 	 */
 	disabled?: boolean
-}
-
-export type DatePickerProps = StaticDatePickerProps & {
 	/**
 	 * Set `true` to show the date-picker directly.
 	 */
-	isStatic?: boolean,
+	isStatic?: boolean
 	/**
 	 * The placeholder.
 	 */
-	placeholder?: string,
+	placeholder?: string
 	/**
 	 * The field size.
 	 */
-	size?: FieldSize;
+	size?: FieldSize
 	/**
 	 * If provided, displays the adornment at the start position inside the toggle.
 	 */
-	startAdornment?: React.ReactNode;
+	startAdornment?: React.ReactNode
 }
 
 export type DatePickerRef = {

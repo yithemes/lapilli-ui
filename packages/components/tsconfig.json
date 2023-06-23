@@ -15,13 +15,5 @@
 		"rootDir": "src",
 		"outDir": "build-module",
 		"declarationDir": "build-types",
-		"paths": {
-			"@yith/date": [
-				"../date/src"
-			],
-			"@yith/styles": [
-				"../styles/src"
-			]
-		}
 	}
 }
