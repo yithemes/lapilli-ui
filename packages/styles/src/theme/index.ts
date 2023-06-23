@@ -1,6 +1,5 @@
 import { merge, cloneDeep } from 'lodash';
 import type React from 'react';
-import { useTheme as emotionUseTheme } from "@emotion/react";
 import { createGlows, createShadows } from "../utils";
 
 export type PaletteClass = 'primary' | 'secondary' | 'warning' | 'error' | 'info' | 'success';
@@ -84,8 +83,8 @@ export interface DefaultThemeOptions {
 		[ component: string ]: {
 			[ slot: string ]: React.CSSProperties | ( ( props: any ) => React.CSSProperties );
 		};
-	};
-
+	}
+	translations: Record<string, string>
 	__yithUI: boolean
 }
 
@@ -268,6 +267,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 			},
 		},
 	},
+	translations: {},
 	__yithUI: true
 };
 
@@ -298,8 +298,8 @@ function getPath<T extends {}>( obj: T, path: CompletePathOf<T> | string, checkV
 }
 
 export const createTheme = ( options: ThemeOptions ): Theme => {
-	const themeSpacing = getPath( options, 'baseSpacing', false ) ?? 4;
 	const theTheme: DefaultThemeOptions = merge( cloneDeep( defaultThemeOptions ), options );
+	const themeSpacing = theTheme.baseSpacing ?? 4;
 	const spacing = ( theSpacing: string | number ): string => {
 		if ( typeof theSpacing === 'string' ) {
 			return theSpacing;
@@ -356,33 +356,4 @@ export const breakpointStylize = <T extends any>( theme: Theme, value: Responsiv
 	}
 
 	return stylize( value );
-}
-
-const isValidTheme = ( theme: any ): theme is Theme => {
-	return theme && '__yithUI' in theme && theme.__yithUI;
-}
-
-export const useTheme = (): Theme => {
-	const theme = emotionUseTheme();
-
-	return isValidTheme( theme ) ? theme : defaultTheme;
-}
-
-type BreakpointProps<PropValue> = {
-	[key in Breakpoint]?: PropValue | null
-}
-
-export function useBreakpointProps<PropValue>( props: Record<string, any> ) {
-	const { breakpoints } = useTheme();
-	const other = { ...props };
-	const breakpointProps: BreakpointProps<PropValue> = {};
-
-	( Object.keys( breakpoints.values ) as Breakpoint[] ).forEach( ( breakpoint ) => {
-		if ( other[ breakpoint ] != null ) {
-			breakpointProps[ breakpoint ] = other[ breakpoint ];
-			delete other[ breakpoint ];
-		}
-	} );
-
-	return [ breakpointProps, other ];
 }

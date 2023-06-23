@@ -45,6 +45,7 @@ export type SelectProviderProps = {
 	| 'noResultsText'
 	| 'noOptionsText'
 	| 'loadingText'
+	| 'searchPlaceholder'
 	| 'closeOnSelect'
 	| 'disabled'
 	| 'classes'

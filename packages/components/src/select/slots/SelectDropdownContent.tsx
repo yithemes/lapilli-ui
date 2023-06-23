@@ -3,7 +3,6 @@ import { useDropdown } from "../../dropdown";
 import { useSelectContext } from "../context";
 import { styled, Theme } from "@yith/styles";
 import Input from "../../input";
-import { __ } from "@wordpress/i18n";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import type { SelectOptionParams, SelectOptionProps, SelectOptionState } from "../types";
 import { noop } from "lodash";
@@ -66,6 +65,7 @@ const SelectDropdownContent = () => {
 		noOptionsText,
 		noResultsText,
 		loadingText,
+		searchPlaceholder,
 		closeOnSelect,
 		componentIds,
 		handleTyping
@@ -180,7 +180,7 @@ const SelectDropdownContent = () => {
 				variant="ghost"
 				value={ searchedTerm }
 				onChange={ ( _, newValue ) => setSearchedTerm( newValue ) }
-				placeholder={ __( 'Search', 'yith-plugin-fw' ) }
+				placeholder={ searchPlaceholder }
 				startAdornment={ <MagnifyingGlassIcon width="1.25em"/> }
 				fullWidth
 				onKeyDown={ handleSearchInputKeydown }

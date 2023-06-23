@@ -14,7 +14,6 @@
 	"dependencies": {
 		"@babel/runtime": "^7.16.0",
 		"@heroicons/react": "2.0.13",
-		"@wordpress/i18n": "4.17.0",
 		"@yith/date": "workspace:*",
 		"@yith/styles": "workspace:*",
 		"classnames": "^2.3.1",

@@ -11,6 +11,12 @@ import type { SelectOptionParams } from "../types";
 const meta: Meta<typeof Select> = {
 	title: 'Components/Select',
 	component: Select,
+	argTypes: {
+		noOptionsText: { table: { defaultValue: { summary: '"No options"' } } },
+		noResultsText: { table: { defaultValue: { summary: '"No results"' } } },
+		loadingText: { table: { defaultValue: { summary: '"Loading..."' } } },
+		searchPlaceholder: { table: { defaultValue: { summary: '"Search"' } } },
+	}
 };
 
 const HEROES = [

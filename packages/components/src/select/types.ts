@@ -118,6 +118,10 @@ type SingleSelectOwnProps = {
 	 */
 	noResultsText?: string
 	/**
+	 * The text shown as placeholder in the search field.
+	 */
+	searchPlaceholder?: string
+	/**
 	 * Set to `true` to make the field fits width to its parent's width.
 	 */
 	fullWidth?: boolean

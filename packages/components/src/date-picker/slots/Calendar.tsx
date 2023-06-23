@@ -1,5 +1,4 @@
-import { __ } from "@wordpress/i18n";
-import { styled } from "@yith/styles";
+import { styled, useThemeTranslations } from "@yith/styles";
 import { format, getDateFormat, addMonths } from "@yith/date";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
@@ -30,6 +29,7 @@ const DatePickerCalendarHeaderLabel = styled( 'div', { name: 'DatePicker', slot:
 `;
 
 const Calendar = ( { className, autoFocus = false }: { className: string, autoFocus?: boolean } ) => {
+	const { __ } = useThemeTranslations();
 	const { internalDate, setInternalDate, isPrevMonthDisabled, isNextMonthDisabled } = useDatePickerContext();
 	const id = useId();
 	const gridLabelId = `${ id }:grid-label`;
@@ -38,13 +38,13 @@ const Calendar = ( { className, autoFocus = false }: { className: string, autoFo
 		<DatePickerCalendarHeader spacing={ 2 } direction='row'>
 			<IconButton
 				onClick={ () => setInternalDate( _ => addMonths( _, -1 ) ) }
-				aria-label={ __( 'Previous month', 'yith-plugin-fw' ) }
+				aria-label={ __( 'Previous month' ) }
 				disabled={ isPrevMonthDisabled( internalDate ) }
 			><ChevronLeftIcon width="1em"/></IconButton>
 			<DatePickerCalendarHeaderLabel aria-live="polite" id={ gridLabelId }>{ format( getDateFormat( 'monthAndYear' ), internalDate ) }</DatePickerCalendarHeaderLabel>
 			<IconButton
 				onClick={ () => setInternalDate( _ => addMonths( _, 1 ) ) }
-				aria-label={ __( 'Next month', 'yith-plugin-fw' ) }
+				aria-label={ __( 'Next month' ) }
 				disabled={ isNextMonthDisabled( internalDate ) }
 			><ChevronRightIcon width="1em"/></IconButton>
 		</DatePickerCalendarHeader>

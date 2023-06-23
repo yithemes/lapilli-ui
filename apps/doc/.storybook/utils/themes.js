@@ -65,7 +65,7 @@ export const themes = {
 				contrastText: '#ffffff'
 			},
 			border    : {
-				primary: '#344656',
+				primary  : '#344656',
 				secondary: '#2d3a45'
 			},
 			action    : {
@@ -84,9 +84,9 @@ export const themes = {
 				paper   : '#131c24'
 			},
 			text      : {
-				default: 'rgba(255,255,255,0.9)',
-				primary: 'rgba(255,255,255,0.9)',
-				secondary: 'rgba(255,255,255,0.75)',
+				default  : 'rgba(255,255,255,0.9)',
+				primary  : 'rgba(255,255,255,0.9)',
+				secondary: 'rgba(255,255,255,0.75)'
 			}
 		},
 		baseSpacing: 8,
@@ -98,11 +98,11 @@ export const themes = {
 			focusedBoxShadow  : '0',
 			placeholderColor  : 'rgba(235, 235, 235, 0.62)'
 		},
-		shadows: {
-			primary: createShadows([ 0, 0, 0 ]),
-			secondary: createShadows([ 55, 121, 137 ]),
-			primaryGlow: createGlows( [ 0, 0, 0 ] ),
-			secondaryGlow: createGlows( [ 55, 121, 137 ] ),
+		shadows    : {
+			primary      : createShadows( [0, 0, 0] ),
+			secondary    : createShadows( [55, 121, 137] ),
+			primaryGlow  : createGlows( [0, 0, 0] ),
+			secondaryGlow: createGlows( [55, 121, 137] )
 		},
 		components : {
 			Dropdown: {
@@ -110,7 +110,7 @@ export const themes = {
 					boxShadow: '0 2px 8px 0 rgba(0, 8, 20, .48)'
 				}
 			},
-			Card: {
+			Card    : {
 				Root: {
 					background: '#212e3e'
 				}

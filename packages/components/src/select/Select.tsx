@@ -1,7 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { __ } from '@wordpress/i18n';
 import { noop } from 'lodash';
-import { generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, mergeComponentClasses, styled, useThemeTranslations } from '@yith/styles';
 
 import Dropdown from '../dropdown';
 import { useControlledState, useId } from '../utils';
@@ -62,9 +61,6 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		closeOnSelect: closeOnSelectProp,
 		hideSelectedOptions = false,
 		isLoading = false,
-		loadingText = __( 'Loading...', 'yith-plugin-fw' ),
-		noOptionsText = __( 'No options', 'yith-plugin-fw' ),
-		noResultsText = __( 'No results', 'yith-plugin-fw' ),
 		onChange = noop,
 		onClear = noop,
 		onClose = noop,
@@ -82,10 +78,20 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		variant = 'outlined',
 		hideToggleIcon = false,
 		disabled = false,
+		loadingText: loadingTextProp,
+		noOptionsText: noOptionsTextProp,
+		noResultsText: noResultsTextProp,
+		searchPlaceholder: searchPlaceholderProp,
 		...other
 	},
 	ref
 ) {
+	const { __ } = useThemeTranslations();
+	const loadingText = loadingTextProp ?? __( 'Loading...' );
+	const noOptionsText = noOptionsTextProp ?? __( 'No options' );
+	const noResultsText = noResultsTextProp ?? __( 'No results' );
+	const searchPlaceholder = searchPlaceholderProp ?? __( 'Search' );
+
 	const filterSearch: SelectOwnProps[ 'filterSearch' ] =
 		filterSearchProp ??
 		( ( option, search ) => getOptionLabel( option ).toLowerCase().indexOf( search.toLowerCase() ) >= 0 );
@@ -282,6 +288,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		noOptionsText,
 		noResultsText,
 		loadingText,
+		searchPlaceholder,
 		closeOnSelect,
 		disabled,
 		classes,
