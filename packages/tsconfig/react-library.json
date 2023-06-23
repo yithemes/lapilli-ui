@@ -31,11 +31,19 @@
 			"node",
 			"react-dom"
 		],
-		"typeRoots": ["../../node_modules/@types" ],
+		"typeRoots": [
+			"../../node_modules/@types"
+		],
 		"rootDir": "./",
 		"skipLibCheck": true,
 		"strictNullChecks": true,
 		"paths": {
+			"@yith/block-editor": [
+				"../block-editor/src"
+			],
+			"@yith/components": [
+				"../components/src"
+			],
 			"@yith/date": [
 				"../date/src"
 			],
@@ -49,8 +57,9 @@
 		"**/*.ios.js",
 		"**/*.native.js",
 		"**/benchmark",
-		"packages/*/build-*/**",
-		"packages/*/build/**",
+		"**/build-*",
+		"*+/build/",
+		"**/node_modules",
 		"**/test/**",
 		"packages/**/react-native-*/**"
 	]

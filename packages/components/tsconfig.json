@@ -4,16 +4,13 @@
 		"src/*",
 		"src/**/*"
 	],
-	"exclude": [
-		"dist",
-		"build",
-		"build-module",
-		"build-types",
-		"node_modules"
-	],
 	"compilerOptions": {
 		"rootDir": "src",
 		"outDir": "build-module",
 		"declarationDir": "build-types",
-	}
+	},
+	"references": [
+		{ "path": "../styles" },
+		{ "path": "../date" }
+	]
 }
