@@ -99,7 +99,7 @@ export const ComplexInteraction: Story = {
 				}
 			/>
 			<CardMedia src="images/albus-silente.jpeg" sx={ { height: 150 } }/>
-			<CardActions disableSpacing>
+			<CardActions disableSpacing compact>
 				<IconButton><HeartIcon width="1em"/></IconButton>
 				<IconButton><ShareIcon width="1em"/></IconButton>
 				<IconButton
@@ -122,7 +122,10 @@ export const ComplexInteraction: Story = {
 }
 
 export const HorizontalLayout: Story = {
-	args: SimpleCard.args,
+	args: {
+		...SimpleCard.args,
+		size: 'sm'
+	},
 	render: ( args ) => {
 		return <Card { ...args } sx={ { width: 400 } }>
 			<Stack direction='row'>
@@ -148,7 +151,7 @@ export const Custom: Story = {
 		...SimpleCard.args,
 		variant: 'outlined',
 		elevation: 2,
-		size: 'lg',
+		size: 'md',
 		shadowColor: 'secondary'
 	},
 	render: ( args ) => {

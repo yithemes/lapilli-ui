@@ -9,6 +9,10 @@ export type CardActionsOwnProps = {
 	 */
 	disableSpacing?: boolean
 	/**
+	 * If `true`, use a 'compact' version with less padding.
+	 */
+	compact?: boolean
+	/**
 	 * Sx props.
 	 */
 	sx?: SxProps
@@ -17,7 +21,7 @@ export type CardActionsOwnProps = {
 type CardActionsPropsWithRef = Omit<React.ComponentProps<'div'>, keyof CardActionsOwnProps> & CardActionsOwnProps
 export type CardActionsProps = Omit<CardActionsPropsWithRef, 'ref'>
 
-export type CardActionsOwnerState = Required<Pick<CardActionsOwnProps, 'disableSpacing'>> & { card: ReturnType<typeof useCard> }
+export type CardActionsOwnerState = Required<Pick<CardActionsOwnProps, 'disableSpacing' | 'compact'>> & { card: ReturnType<typeof useCard> }
 
 export type CardActionsStyled = {
 	ownerState: CardActionsOwnerState

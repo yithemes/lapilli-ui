@@ -11,9 +11,26 @@ const classes = generateComponentSlotClasses(
 	[ 'root' ]
 );
 
+const subcomponentClasses = {
+	actions: generateComponentSlotClasses( 'CardActions', [ 'root' ] ).root,
+	content: generateComponentSlotClasses( 'CardContent', [ 'root' ] ).root,
+	header: generateComponentSlotClasses( 'CardHeader', [ 'root' ] ).root,
+	media: generateComponentSlotClasses( 'CardMedia', [ 'root' ] ).root,
+}
+
 const CardRoot = styled( Paper, { name: 'Card', slot: 'Root' } )( () => ( {
 	overflow: 'hidden',
-	boxSizing: 'border-box'
+	boxSizing: 'border-box',
+	[ [
+		`.${ subcomponentClasses.actions }+.${ subcomponentClasses.content }`,
+		`.${ subcomponentClasses.actions }+.${ subcomponentClasses.header }`,
+		`.${ subcomponentClasses.content }+.${ subcomponentClasses.actions }`,
+		`.${ subcomponentClasses.content }+.${ subcomponentClasses.header }`,
+		`.${ subcomponentClasses.header }+.${ subcomponentClasses.actions }`,
+		`.${ subcomponentClasses.header }+.${ subcomponentClasses.content }`,
+	].join( ',' ) ]: {
+		paddingTop: 0
+	}
 } ) );
 
 /**

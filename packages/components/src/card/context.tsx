@@ -13,10 +13,10 @@ export const useCard = () => {
 	const cardContext = React.useContext( Context );
 
 	const sizeMultipliers = {
-		sm: 8,
-		md: 16,
-		lg: 24,
-		xl: 32
+		sm: 16,
+		md: 24,
+		lg: 32,
+		xl: 40
 	};
 	const sizing = ( number: number ) => number * sizeMultipliers[ cardContext.size ];
 
