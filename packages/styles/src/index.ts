@@ -7,4 +7,6 @@ export * from './styled';
 export * from './theme';
 export * from './utils';
 
+export * from './rtl';
+
 export * from './hooks';

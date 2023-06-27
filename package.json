@@ -18,7 +18,8 @@
 		"watch:types": "turbo run watch:types",
 		"watch:packages": "node ./bin/packages/watch.js",
 		"clean": "turbo run clean && rm -rf ./dist",
-		"build-dev-alpha-zip": "node ./bin/build-zip.js --root-ignore-file .distignore-dev-alpha --folder yith-ui-alpha"
+		"build-dev-alpha-zip": "node ./bin/build-zip.js --root-ignore-file .distignore-dev-alpha --folder yith-ui-alpha",
+		"release:dry-run": "lerna publish --no-push --no-git-tag-version --no-private --registry \"http://verdaccio.leanza.io\""
 	},
 	"devDependencies": {
 		"@babel/core": "^7.21.8",
@@ -48,9 +49,10 @@
 		"worker-farm": "^1.7.0"
 	},
 	"dependencies": {
-		"@yith/components": "workspace:0.0.0",
-		"@yith/date": "workspace:0.0.0",
-		"@yith/styles": "workspace:0.0.0",
+		"@yith/block-editor": "workspace:*",
+		"@yith/components": "workspace:*",
+		"@yith/date": "workspace:*",
+		"@yith/styles": "workspace:*",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0"
 	},

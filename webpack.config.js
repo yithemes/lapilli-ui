@@ -41,7 +41,7 @@ module.exports = {
 		filename        : "[name]/index.js"
 	},
 	plugins     : [
-		// ...defaultConfig.plugins,
+		...defaultConfig.plugins,
 		new DependencyExtractionWebpackPlugin( { injectPolyfill: true, requestToExternal, requestToHandle } )
 	],
 	watchOptions: {

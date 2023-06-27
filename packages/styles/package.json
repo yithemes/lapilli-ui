@@ -13,14 +13,16 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.16.0",
+		"@emotion/cache": "^11.11.0",
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
-		"lodash": "^4.17.21"
+		"lodash": "^4.17.21",
+		"stylis": "^4.2.0",
+		"stylis-plugin-rtl": "^2.1.1"
 	},
 	"devDependencies": {
 		"csstype": "3.1.1",
 		"eslint": "^7.32.0",
-		"@yith/tsconfig": "workspace:*",
 		"typescript": "^4.5.2"
 	},
 	"peerDependencies": {

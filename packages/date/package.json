@@ -4,8 +4,7 @@
 	"main": "build/index.js",
 	"module": "build-module/index.js",
 	"types": "build-types",
-	"license": "GPL-3.0+",
-	"private": true,
+	"license": "MIT",
 	"scripts": {
 		"build:types": "tsc --build",
 		"watch:types": "tsc --watch",
@@ -17,7 +16,6 @@
 	},
 	"devDependencies": {
 		"eslint": "^7.32.0",
-		"@yith/tsconfig": "workspace:*",
 		"typescript": "^4.5.2"
 	},
 	"peerDependencies": {
