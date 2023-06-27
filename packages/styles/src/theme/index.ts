@@ -99,13 +99,26 @@ export interface Theme extends DefaultThemeOptions {
 }
 
 type PathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends string ? `${ Key }` : ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) ) : never;
-type CompletePathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends string ? `${ Key }` : ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) ) | Key  : never;
+type CompletePathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends string ? `${ Key }` : ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) ) | Key : never;
 
 type AvailableColors = PaletteClass | 'background' | 'text' | 'border';
 export type ThemeColor = PathOf<Theme['palette'], AvailableColors>
 
 const primaryRgbShadow = [ 24, 53, 62 ];
 const secondaryRgbShadow = [ 145, 191, 227 ];
+const primaryRgbGlow = [ 24, 53, 62 ];
+const secondaryRgbGlow = [ 77, 152, 209 ];
+
+function hslToHex( h: number, s: number, l: number ) {
+	l /= 100;
+	const a = s * Math.min( l, 1 - l ) / 100;
+	const f = ( n: number ) => {
+		const k = ( n + h / 30 ) % 12;
+		const color = l - a * Math.max( Math.min( k - 3, 9 - k, 1 ), -1 );
+		return Math.round( 255 * color ).toString( 16 ).padStart( 2, '0' );
+	};
+	return `#${ f( 0 ) }${ f( 8 ) }${ f( 4 ) }`;
+}
 
 export const defaultThemeOptions: DefaultThemeOptions = {
 	mode: 'light',
@@ -175,16 +188,16 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 			secondary: 'rgba(0,0,0,0.6)',
 		},
 		grey: {
-			50: '#f2f5f8',
-			100: '#edf1f4',
-			200: '#e2e8f0',
-			300: '#a8c8e1',
-			400: '#9db4c8',
-			500: '#94a3b8',
-			600: '#7b8fa0',
-			700: '#607382',
-			800: '#455361',
-			900: '#2b353e',
+			50: hslToHex( 208, 18, 97 ),
+			100: hslToHex( 208, 18, 95 ),
+			200: hslToHex( 208, 18, 90 ),
+			300: hslToHex( 208, 18, 80 ),
+			400: hslToHex( 208, 18, 70 ),
+			500: hslToHex( 208, 18, 60 ),
+			600: hslToHex( 208, 18, 50 ),
+			700: hslToHex( 208, 18, 40 ),
+			800: hslToHex( 208, 18, 30 ),
+			900: hslToHex( 208, 18, 20 ),
 		}
 	},
 	shape: {
@@ -257,8 +270,8 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 	shadows: {
 		primary: createShadows( primaryRgbShadow ),
 		secondary: createShadows( secondaryRgbShadow ),
-		primaryGlow: createGlows( primaryRgbShadow ),
-		secondaryGlow: createGlows( secondaryRgbShadow ),
+		primaryGlow: createGlows( primaryRgbGlow ),
+		secondaryGlow: createGlows( secondaryRgbGlow ),
 	},
 	components: {
 		Button: {
