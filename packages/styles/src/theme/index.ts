@@ -98,8 +98,8 @@ export interface Theme extends DefaultThemeOptions {
 	}
 }
 
-type PathOf<T, Key extends keyof T = keyof T> = Key extends string ? T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` : never;
-type CompletePathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) | Key : never;
+type PathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends string ? `${ Key }` : ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) ) : never;
+type CompletePathOf<T, Key extends keyof T = keyof T> = Key extends string ? ( T[Key] extends string ? `${ Key }` : ( T[Key] extends Record<string, any> ? `${ Key }.${ PathOf<T[Key]> }` : `${ Key }` ) ) | Key  : never;
 
 type AvailableColors = PaletteClass | 'background' | 'text' | 'border';
 export type ThemeColor = PathOf<Theme['palette'], AvailableColors>
