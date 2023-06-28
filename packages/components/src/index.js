@@ -9,7 +9,6 @@ export { default as DatePicker }       from './date-picker';
 export { default as Dropdown }         from './dropdown';
 export { default as FormControl }      from './form-control';
 export { default as FormControlLabel } from './form-control-label';
-export { default as FwIcon }           from './fw-icon';
 export { default as IconButton }       from './icon-button';
 export { default as Input }            from './input';
 export { default as Modal }            from './modal';
