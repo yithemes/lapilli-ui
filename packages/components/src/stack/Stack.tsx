@@ -44,18 +44,20 @@ const StackRoot = styled( 'div', { name: 'Stack', slot: 'Root' } )<StyledStackPr
 
 /**
  * Let's create a stacked layout by using the Stack component. It uses the flexbox layout.
+ *
+ * If you don't need to change direction based on "responsive" conditions, please prefer using `HStack` and `VStack` components, instead of the `Stack` one.
  */
 const Stack = React.forwardRef<HTMLDivElement, StackProps<'div'>>( function Stack(
 	{
 		className,
-		as = 'div',
 		direction = 'column',
-		isReverse = false,
-		wrap = false,
-		spacing = 0,
 		align = 'stretch',
 		justify = 'start',
+		isReverse = false,
+		wrap = false,
 		inline = false,
+		spacing = 0,
+		as = 'div',
 		children,
 		...others
 	},
