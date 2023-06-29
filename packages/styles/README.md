@@ -26,7 +26,7 @@ In addition, this will allow your styled components to use the `sx` prop to rece
 
 You can easily customize the style of your components or only for a specific "section", by using the `ThemeProvider` to configure the theme options.
 
-```jsx
+```sh
 const theme = {
 	palette:
 		{
