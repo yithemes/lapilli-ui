@@ -150,7 +150,7 @@ function SimpleForm() {
 						<Select options={ SIZES } value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) }/>
 					</Stack>
 				</FormControl>
-				<FormControl label="Best seller?" htmlFor="bests-ellers" help="Select to include in best-sellers list.">
+				<FormControl label="Best seller?" htmlFor="best-sellers" help="Select to include in best-sellers list.">
 					<Checkbox id='best-sellers' noPadding/>
 				</FormControl>
 				<FormControl label="Is featured?" htmlFor="featured" help="Enable if this is a featured book.">
