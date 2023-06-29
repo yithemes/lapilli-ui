@@ -1,24 +1,21 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
 
 import Skeleton from '../';
 
-const meta: ComponentMeta<typeof Skeleton> = {
+const meta: Meta<typeof Skeleton> = {
 	title: 'Components/Skeleton',
 	component: Skeleton,
 };
 
 export default meta;
 
-const Template: ComponentStory<typeof Skeleton> = ( args ) => {
-	return <Skeleton { ...args } />;
-};
+type Story = StoryObj<typeof Skeleton>
 
-export const Default: ComponentStory<typeof Skeleton> = Template.bind(
-	{}
-);
-
-Default.args = {
-	variant: 'text',
-	animation: 'pulse'
+export const Default: Story = {
+	args: {
+		variant: 'text',
+		animation: 'pulse'
+	},
+	render: ( args ) => <Skeleton { ...args } />
 };

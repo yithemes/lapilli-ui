@@ -1,35 +1,37 @@
 import React from 'react';
-import type { ComponentMeta, ComponentStory } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react';
+import type { FieldSize } from "@yith/styles";
 
 import Spinner from '../';
 
-const meta: ComponentMeta<typeof Spinner> = {
+const meta: Meta<typeof Spinner> = {
 	title: 'Components/Spinner',
 	component: Spinner,
 };
 
 export default meta;
 
-const Template: ComponentStory<typeof Spinner> = ( args ) => {
-	return <Spinner { ...args }/>;
-};
+type Story = StoryObj<typeof Spinner>;
 
-export const Default: ComponentStory<typeof Spinner> = Template.bind( {} );
-Default.args = {
-	color: 'default',
-	thickness: 3.6,
-	size: 'md'
-};
+export const Default: Story = {
+	args: {
+		color: 'default',
+		thickness: 3.6,
+		size: 'md'
+	},
+	render: ( args ) => <Spinner { ...args } />
+}
 
-const SIZES: { size: 'sm' | 'md' | 'lg' | 'xl', label: string, description: string }[] = [
+const SIZES: { size: FieldSize, label: string, description: string }[] = [
 	{ size: 'sm', label: 'Small', description: '16px' },
 	{ size: 'md', label: 'Medium', description: '24px' },
 	{ size: 'lg', label: 'Large', description: '32px' },
 	{ size: 'xl', label: 'Extra large', description: '40px' },
 ]
 
-const SizesTemplate: ComponentStory<typeof Spinner> = ( { ...args } ) => {
-	return <>
+export const Sizes: Story = {
+	args: Default.args,
+	render: ( args ) => <>
 		{ SIZES.map( _ => (
 				<div key={ _.size } style={ { textAlign: "center", padding: "10px 15px", display: 'inline-block' } }>
 					<Spinner { ...args } size={ _.size }/>
@@ -38,12 +40,5 @@ const SizesTemplate: ComponentStory<typeof Spinner> = ( { ...args } ) => {
 				</div>
 			)
 		) }
-	</>;
-};
-
-export const Sizes: ComponentStory<typeof Spinner> = SizesTemplate.bind( {} );
-Sizes.args = {
-	color: 'default',
-	thickness: 3.6,
-	size: 'md'
+	</>
 };
