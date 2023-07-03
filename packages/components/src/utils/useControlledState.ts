@@ -1,6 +1,6 @@
 import { useCallback, useRef, useState } from 'react';
 
-type SetStateAction<T> = ( newValue: T | ( ( prevState?: T ) => T ) ) => void;
+type SetStateAction<T> = ( newValue: T | ( ( prevState: T ) => T ) ) => void;
 
 export default function useControlledState<T extends any>(
 	controlledValue: T | undefined,

@@ -21,6 +21,7 @@ export { default as RadioGroup }       from './radio-group';
 export *                               from './radio-group';
 export { default as Select }           from './select';
 export { default as Skeleton }         from './skeleton';
+export { default as Slider }           from './slider';
 export { default as Spinner }          from './spinner';
 export { default as Stack }            from './stack';
 export { default as Switch }           from './switch';
