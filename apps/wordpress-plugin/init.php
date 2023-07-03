@@ -1,14 +1,14 @@
 <?php
 /**
- * Plugin Name: YITH Monorepo - feature plugin
+ * Plugin Name: YITH UI - feature plugin
  * Description: Allows to use the YITH UI React packages.
  * Version: 0.3.0
  * Author: Leanza Francesco
  *
- * @package YITH\Framework\UI
+ * @package YITH\UI
  */
 
-namespace YITH\Framework\UI;
+namespace YITH\UI;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -45,12 +45,7 @@ class Feature_Plugin {
 
 	public function should_load_block_editor_scripts_and_styles( $should_load ) {
 		if ( ! $should_load ) {
-			$screen    = function_exists( 'get_current_screen' ) ? get_current_screen() : false;
-			$screen_id = $screen ? $screen->id : false;
-
-			if ( 'toplevel_page_yith_framework' === $screen_id ) {
-				$should_load = true;
-			}
+			$should_load = wp_script_is( 'yith-block-editor', 'enqueued' );
 		}
 
 

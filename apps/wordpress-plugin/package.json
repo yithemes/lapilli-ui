@@ -1,0 +1,33 @@
+{
+	"name": "yith-ui-library-wordpress-plugin",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"analyze": "wp-scripts build --progress --webpack-bundle-analyzer",
+		"build": "wp-scripts build --progress",
+		"build-zip": "node ./bin/build-zip.js --folder yith-ui",
+		"watch": "wp-scripts start --progress --mode=development"
+	},
+	"dependencies": {
+		"@yith/block-editor": "workspace:*",
+		"@yith/components": "workspace:*",
+		"@yith/date": "workspace:*",
+		"@yith/styles": "workspace:*",
+		"react": "^18.0.0",
+		"react-dom": "^18.0.0",
+		"typescript": "^5.1.6",
+		"webpack": "^5.88.1"
+	},
+	"devDependencies": {
+		"@wordpress/babel-preset-default": "^7.16.0",
+		"@wordpress/dependency-extraction-webpack-plugin": "^4.15.0",
+		"@wordpress/scripts": "^25.5.1",
+		"archiver": "^5.3.1",
+		"babel-plugin-inline-json-import": "^0.3.2",
+		"chalk": "4.1.2",
+		"commander": "^10.0.1",
+		"concurrently": "^7.6.0",
+		"fast-glob": "^3.2.12",
+		"fs-extra": "^11.1.1"
+	}
+}

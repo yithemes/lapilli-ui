@@ -1,4 +1,4 @@
-import { alpha, FieldSize, generateComponentClasses, styled } from '@yith/styles';
+import { alpha, FieldSize, generateComponentClasses, styled, useTheme } from '@yith/styles';
 import { capitalize } from 'lodash';
 import React, { forwardRef } from 'react';
 import classNames from "classnames";
@@ -149,6 +149,8 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 		},
 		ref
 	) {
+		const theme = useTheme();
+		console.log( { theme } );
 		const ownerState: ButtonOwnerState = { variant, color, size, fullWidth, short, disabled };
 		const classes = useComponentClasses( ownerState );
 		return (

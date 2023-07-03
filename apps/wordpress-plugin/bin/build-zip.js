@@ -62,7 +62,7 @@ const getExcluded = ( dir, ignoreFile ) => {
 
 ( async () => {
 	const TEMP_PLUGIN_PATH = path.resolve( '/', 'tmp', PLUGIN_FOLDER );
-	const BUILD_PATH       = path.resolve( '..' );
+	const BUILD_PATH       = path.resolve( './build' );
 	const ZIP_PATH         = path.resolve( BUILD_PATH, `${PLUGIN_FOLDER}.zip` );
 	const archive          = archiver( 'zip', { zlib: { level: 9 } } );
 

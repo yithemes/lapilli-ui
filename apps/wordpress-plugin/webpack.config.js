@@ -23,7 +23,7 @@ const getEntryPoints = () => {
 	const entryPoints = {};
 	packages.forEach( ( name ) => {
 		entryPoints[ name ] = {
-			import : `./packages/${name}/build-module/index.js`,
+			import : `../../packages/${name}/build-module/index.js`,
 			library: {
 				name: ['yith', camelCaseDash( name )],
 				type: 'window'
@@ -41,7 +41,10 @@ module.exports = {
 		filename        : "[name]/index.js"
 	},
 	plugins     : [
-		...defaultConfig.plugins,
+		...defaultConfig.plugins.filter(
+			( plugin ) =>
+				plugin.constructor.name !== 'DependencyExtractionWebpackPlugin'
+		),
 		new DependencyExtractionWebpackPlugin( { injectPolyfill: true, requestToExternal, requestToHandle } )
 	],
 	watchOptions: {

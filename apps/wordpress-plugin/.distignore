@@ -1,0 +1,17 @@
+# Hidden folders
+.git
+.DS_Store
+.idea
+bin
+build
+
+# Hidden files
+.distignore
+
+# Git
+.gitignore
+
+# NPM, composer, grunt and other utilities compiled
+*.lock
+node_modules
+package-lock.json

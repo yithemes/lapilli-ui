@@ -7,7 +7,7 @@ This allows you to customize the style of your components in different contexts.
 
 Install the module
 
-```bash
+```sh
 npm install @yith/styles --save
 ```
 
@@ -26,7 +26,7 @@ In addition, this will allow your styled components to use the `sx` prop to rece
 
 You can easily customize the style of your components or only for a specific "section", by using the `ThemeProvider` to configure the theme options.
 
-```sh
+```jsx
 const theme = {
 	palette:
 		{

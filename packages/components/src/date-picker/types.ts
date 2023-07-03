@@ -136,7 +136,7 @@ type PickerDaySpecificProps = Omit<PickerDayOwnerState, 'isDatePickerDisabled'> 
 	onDaySelect?: ( day: Date ) => void;
 };
 
-type PickerDayPropsWithRef = Omit<React.ComponentProps<'button'>, keyof PickerDaySpecificProps> & PickerDaySpecificProps;
+type PickerDayPropsWithRef = Omit<React.ComponentProps<'div'>, keyof PickerDaySpecificProps> & PickerDaySpecificProps;
 export type PickerDayProps = Omit<PickerDayPropsWithRef, 'ref'>;
 
 export type PickerToggleOwnerState = {
