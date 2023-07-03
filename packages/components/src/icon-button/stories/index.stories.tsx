@@ -34,7 +34,7 @@ export const Default: Story = {
 	args: {
 		color: 'primary',
 		children: 'edit',
-		variant: 'shadowed',
+		variant: 'ghost',
 		size: 'md'
 	},
 	render: ( { children, ...args } ) => {
