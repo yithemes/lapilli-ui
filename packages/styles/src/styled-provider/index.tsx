@@ -32,12 +32,13 @@ const memoizedCreateCache = weakMemoize(
 export default function StyledProvider(
 	{
 		document: currentDocument,
-		direction = 'ltr',
+		direction,
 		children
 	}: StyledProviderProps ) {
+	const theDocument = currentDocument ?? document;
 	const cache = memoizedCreateCache( {
-		container: ( currentDocument ?? document ).head,
-		direction
+		container: theDocument.head,
+		direction: direction ?? ( theDocument.dir === 'rtl' ? 'rtl' : 'ltr' )
 	} );
 
 	return <CacheProvider value={ cache }>
