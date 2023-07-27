@@ -7,6 +7,7 @@ import type { SliderMark, SliderOwnerState, SliderProps, SliderStyled } from "./
 import classNames from "classnames";
 import { useControlledState, useMergedRefs, useRelatedLabelFocus } from "../utils";
 import Popover from "../popover";
+import { useDocument } from "../document-provider";
 
 const useComponentClasses = ( ownerState: SliderOwnerState ) => {
 	return generateComponentClasses(
@@ -207,6 +208,7 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>( function Slider(
 ) {
 	const [ value, setValue ] = useControlledState( valueProp, defaultValue ?? 0 );
 	const percentage = valueToPercentage( value, min, max );
+	const document = useDocument();
 	const rootRef = useRef<HTMLDivElement>();
 	const relatedLabelFocusRef = useRelatedLabelFocus();
 	const mainRef = useMergedRefs( rootRef, relatedLabelFocusRef, ref );

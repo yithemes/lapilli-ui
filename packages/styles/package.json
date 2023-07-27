@@ -16,6 +16,7 @@
 		"@emotion/cache": "^11.11.0",
 		"@emotion/react": "^11.10.4",
 		"@emotion/styled": "^11.10.4",
+		"@emotion/weak-memoize": "^0.3.1",
 		"@types/stylis": "^4.2.0",
 		"lodash": "^4.17.21",
 		"stylis": "^4.2.0",

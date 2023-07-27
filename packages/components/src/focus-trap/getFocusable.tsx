@@ -1,3 +1,5 @@
+import ownerDocument from "../utils/ownerDocument";
+
 const focusableSelector = [
 	'input',
 	'select',
@@ -51,7 +53,7 @@ function isNonFocusableRadio( node: HTMLInputElement ): boolean {
 		return false;
 	}
 
-	const getRadio = ( selector: string ) => node.ownerDocument.querySelector( `input[type="radio"]${ selector }` );
+	const getRadio = ( selector: string ) => ownerDocument( node ).querySelector( `input[type="radio"]${ selector }` );
 
 	// If there is a checked radio button, get it; on the contrary, get the first one of the group.
 	let radio = getRadio( `[name="${ node.name }"]:checked` );

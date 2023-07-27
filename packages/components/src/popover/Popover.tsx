@@ -1,8 +1,9 @@
-import { createPortal } from 'react-dom';
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import { styled } from '@yith/styles';
 import type { PopoverComputedPosition, PopoverComputePositionProps } from "./types.internal";
 import type { PopoverProps } from "./types";
+import Portal from "../portal";
+import { useDocument } from "../document-provider";
 
 const PopoverRoot = styled( 'div', { name: 'Popover', slot: 'Root' } )`
 	position: fixed;
@@ -22,7 +23,8 @@ const computePopoverPosition = ( {
 									 position,
 									 verticalMargin = 0,
 									 forceMinWidth,
-									 forceInView = true
+									 document,
+									 forceInView = true,
 								 }: PopoverComputePositionProps ) => {
 	let [ yPos, xPos ] = position.split( ' ' );
 	const computed: PopoverComputedPosition = {} as PopoverComputedPosition;
@@ -175,6 +177,7 @@ function Popover(
 		...other
 	}: PopoverProps
 ) {
+	const document = useDocument();
 	const containerRef = useRef<HTMLDivElement>( null );
 	const syntheticEventRef = useRef( false );
 
@@ -199,7 +202,8 @@ function Popover(
 					position,
 					verticalMargin,
 					forceMinWidth,
-					forceInView
+					forceInView,
+					document
 				} );
 
 				setStyles(
@@ -269,7 +273,7 @@ function Popover(
 		</PopoverRoot>
 	);
 
-	return disablePortal ? popover : createPortal( popover, document.body );
+	return disablePortal ? popover : <Portal>{ popover }</Portal>
 }
 
 export default Popover;

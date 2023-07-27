@@ -134,6 +134,10 @@ type PickerDaySpecificProps = Omit<PickerDayOwnerState, 'isDatePickerDisabled'> 
 	 * Callback triggered on day select.
 	 */
 	onDaySelect?: ( day: Date ) => void;
+	/**
+	 * Autofocus flag.
+	 */
+	autoFocus?: boolean;
 };
 
 type PickerDayPropsWithRef = Omit<React.ComponentProps<'div'>, keyof PickerDaySpecificProps> & PickerDaySpecificProps;

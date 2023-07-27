@@ -1,12 +1,13 @@
 import React, { useRef } from "react";
 import { useRefEffect } from "./index";
+import ownerDocument from "./ownerDocument";
 
 export default function useRelatedLabelFocus<T extends HTMLElement>( id?: string ): React.RefCallback<T> {
 	const labelId = useRef( '' );
 
 	return useRefEffect<T>( ( node ) => {
 		const nodeId: string = id ?? node.getAttribute( 'id' ) ?? '';
-		let relatedLabel = nodeId && document.querySelector( `label[for="${ nodeId }"]` );
+		let relatedLabel = nodeId && ownerDocument( node ).querySelector( `label[for="${ nodeId }"]` );
 		let useLabelledBy = true;
 		if ( !relatedLabel ) {
 			relatedLabel = node.closest( 'label' );

@@ -7,6 +7,9 @@ import FormControl from "../../form-control";
 import Stack from "../../stack";
 import Typography from "../../typography";
 import type { SelectOptionParams } from "../types";
+import ReactDOM from "react-dom";
+import { StyledProvider } from "@yith/styles";
+import DocumentProvider from "../../document-provider";
 
 const meta: Meta<typeof Select> = {
 	title: 'Components/Select',
@@ -146,5 +149,57 @@ export const InsideLabel: Story = {
 	args: Default.args,
 	render: ( args ) => {
 		return <label>Choose an hero: <Select { ...args } /></label>;
+	}
+}
+
+// TODO: Remove the insideIframe story (and move it to a specific project), since it's only for testing.
+// @ts-ignore
+function WpIframe( { children } ) {
+	const [ iframeDocument, setIframeDocument ] = React.useState();
+	// @ts-ignore
+	const handleLoad = ( event ) => {
+		setIframeDocument( event.target.contentDocument );
+	};
+
+	const html =
+		'<!doctype html>' +
+		'<style>html{height:auto!important;min-height:100%;}body{margin:0}</style>';
+
+	const [ src ] = React.useMemo( () => {
+		const _src = URL.createObjectURL(
+			new window.Blob( [ html ], { type: 'text/html' } )
+		);
+		return [ _src, () => URL.revokeObjectURL( _src ) ];
+	}, [ html ] );
+
+	return <iframe onLoad={ handleLoad } src={ src } style={ { width: '100%', height: '100%', border: 'none', overflow: 'auto', flex: 1, minHeight: '500px' } }>
+		{ iframeDocument &&
+			ReactDOM.createPortal(
+				<body>
+				{ children }
+				</body>,
+				// @ts-ignore
+				iframeDocument.documentElement
+			) }
+	</iframe>;
+}
+
+// @ts-ignore
+const InsideIframe: Story = {
+	args: Default.args,
+	render: ( args ) => {
+		const [ doc, setDoc ] = React.useState<Document>();
+
+		return <WpIframe>
+			<div ref={ ( node ) => node && node?.ownerDocument && setDoc( node.ownerDocument ) }>
+				{ doc &&
+					<DocumentProvider document={ doc }>
+						<StyledProvider document={ doc }>
+							<Select { ...args } />
+						</StyledProvider>
+					</DocumentProvider>
+				}
+			</div>
+		</WpIframe>;
 	}
 }

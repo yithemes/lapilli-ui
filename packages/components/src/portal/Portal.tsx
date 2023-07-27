@@ -1,11 +1,12 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import type { PortalProps } from "./types";
+import { useDocument } from "../document-provider";
 
-const getContainer = ( container: PortalProps['container'] ) => {
+const getContainer = ( container: PortalProps['container'], defaultNode: Element ) => {
 	const theContainer = typeof container === 'function' ? container() : container;
 
-	return theContainer || document.body;
+	return theContainer || defaultNode;
 }
 
 /**
@@ -17,7 +18,8 @@ export default function Portal(
 		container,
 		children
 	}: PortalProps ) {
-	const renderContainer = getContainer( container );
+	const document = useDocument();
+	const renderContainer = getContainer( container, document.body );
 
 	if ( disablePortal ) {
 		return <>{ children }</>
