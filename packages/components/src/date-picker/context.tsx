@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { noop } from "lodash";
+import { usePropState } from "../utils";
 
 type SelectDateAction = 'set' | 'finish' | 'clear'
 
@@ -34,7 +35,7 @@ export const useDatePickerContext = (): ContextValue => React.useContext( DatePi
 
 export function DatePickerProvider( { children, ...props }: ProviderProps ) {
 	const { focusedDate, isDatePickerDisabled } = props;
-	const [ internalDate, setInternalDate ] = useState( focusedDate );
+	const [ internalDate, setInternalDate ] = usePropState( focusedDate );
 	const theContext: ContextValue = {
 		...props,
 		currentDate: useMemo( () => internalDate.getDate(), [ internalDate ] ),

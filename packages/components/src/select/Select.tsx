@@ -3,7 +3,7 @@ import { noop } from 'lodash';
 import { generateComponentClasses, mergeComponentClasses, styled, useThemeTranslations } from '@yith/styles';
 
 import Dropdown from '../dropdown';
-import { useControlledState, useId } from '../utils';
+import { useControlledState, useId, usePropState } from '../utils';
 
 import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps, SelectClasses } from "./types";
 import { SelectProvider } from "./context";
@@ -180,7 +180,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	const getOptionId = useCallback( ( index: number ) => `${ id }__option__${ index }`, [ id ] );
 
 	const defaultActiveDescendantIndex = useMemo( () => filteredOptions.findIndex( _ => isOptionSelected( _ ) ), [ filteredOptions, isOptionSelected ] );
-	const [ activeDescendantIndex, setActiveDescendantIndex ] = useState( defaultActiveDescendantIndex );
+	const [ activeDescendantIndex, setActiveDescendantIndex ] = usePropState( defaultActiveDescendantIndex );
 	const minMaxActiveDescendant = useCallback( ( index: number ) => Math.max( 0, Math.min( filteredOptions.length - 1, index ) ), [ filteredOptions ] );
 	const nextActiveDescendant = useCallback( ( increment = 1 ) => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ + increment ) ), [ filteredOptions ] );
 	const prevActiveDescendant = useCallback( ( increment = 1 ) => setActiveDescendantIndex( _ => minMaxActiveDescendant( _ - increment ) ), [ filteredOptions ] );

@@ -1,9 +1,10 @@
 import type { DatePickerProps } from "../types";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useControlledState } from "../../utils";
 import useIsDateDisabled from "./useIsDateDisabled";
 import { useIsNextMonthDisabled, useIsPrevMonthDisabled } from "./date-helper-hooks";
 import useDatePickerDefaultFocused from "./useDatePickerDefaultFocused";
+import usePropState from "../../utils/usePropState";
 
 const useDatePickerProps = ( props: DatePickerProps ) => {
 	const {
@@ -14,7 +15,7 @@ const useDatePickerProps = ( props: DatePickerProps ) => {
 	const defaultFocused = useDatePickerDefaultFocused( props );
 	const defaultValue = typeof defaultValueProp !== 'undefined' ? ( typeof defaultValueProp === 'string' ? new Date( defaultValueProp ) : defaultValueProp ) : undefined;
 	const value = typeof valueProp !== 'undefined' ? ( typeof valueProp === 'string' ? new Date( valueProp ) : valueProp ) : undefined;
-	const [ focusedDate, setFocusedDate ] = useState( value ?? defaultValue ?? defaultFocused );
+	const [ focusedDate, setFocusedDate ] = usePropState( value ?? defaultValue ?? defaultFocused );
 	const [ selectedDate, setSelectedDate ] = useControlledState( value, defaultValue ?? null );
 
 	const isDateDisabled = useIsDateDisabled( props );

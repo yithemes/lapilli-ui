@@ -1,9 +1,10 @@
 import { styled } from "@yith/styles";
 import { format, getDateFormat, getWeekArray, isSameDay, isSameMonth, addDays, addMonths, addYears, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from "@yith/date";
 import { useDatePickerContext } from "../context";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo } from "react";
 import DayPickerDay from "./DayPickerDay";
 import React from "react";
+import { usePropState } from "../../utils";
 
 const DAY_SIZE = 36;
 const DAY_MARGIN = 2;
@@ -46,7 +47,7 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		isDateDisabled
 	} = useDatePickerContext();
 	const weeks = useMemo( () => getWeekArray( internalDate ), [ internalDate ] );
-	const [ hasFocus, setHasFocus ] = useState( autoFocus );
+	const [ hasFocus, setHasFocus ] = usePropState( autoFocus );
 
 	const focusableDay = useMemo( () => {
 		const currentStartOfMonth = startOfMonth( internalDate );
