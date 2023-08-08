@@ -1,5 +1,4 @@
-import { createShadows, defaultThemeOptions } from '@yith/styles';
-import { createGlows }                        from '@yith/styles/build-module';
+import { createShadows, defaultThemeOptions, createGlows } from '@yith/styles';
 
 export const themes = {
 	'Default': defaultThemeOptions,
@@ -20,13 +19,6 @@ export const themes = {
 		fields     : {
 			borderRadius      : '22px',
 			focusedBorderColor: '#a983de'
-		},
-		components : {
-			Button: {
-				Root: {
-					borderRadius: '50px'
-				}
-			}
 		}
 	},
 	'Squared': {
@@ -47,13 +39,6 @@ export const themes = {
 		fields     : {
 			borderRadius      : 0,
 			focusedBorderColor: '#191d25'
-		},
-		components : {
-			Button: {
-				Root: {
-					borderRadius: 0
-				}
-			}
 		}
 	},
 	'Dark'   : {
@@ -106,13 +91,17 @@ export const themes = {
 		},
 		components : {
 			Dropdown: {
-				Popover: {
-					boxShadow: '0 2px 8px 0 rgba(0, 8, 20, .48)'
+				styles: {
+					Popover: {
+						boxShadow: '0 2px 8px 0 rgba(0, 8, 20, .48)'
+					}
 				}
 			},
 			Card    : {
-				Root: {
-					background: '#212e3e'
+				styles: {
+					Root: {
+						background: '#212e3e'
+					}
 				}
 			}
 		}

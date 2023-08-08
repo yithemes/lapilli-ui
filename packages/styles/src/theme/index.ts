@@ -81,7 +81,10 @@ export interface DefaultThemeOptions {
 	}
 	components: {
 		[ component: string ]: {
-			[ slot: string ]: React.CSSProperties | ( ( props: any ) => React.CSSProperties );
+			styles: {
+				[ slot: string ]: React.CSSProperties | ( ( props: any ) => React.CSSProperties )
+			}
+			// Todo: add other kinds of customization (i.e. defaultProps)
 		};
 	}
 	translations: Record<string, string>
@@ -273,13 +276,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 		primaryGlow: createGlows( primaryRgbGlow ),
 		secondaryGlow: createGlows( secondaryRgbGlow ),
 	},
-	components: {
-		Button: {
-			Root: {
-				borderRadius: '7px',
-			},
-		},
-	},
+	components: {},
 	translations: {},
 	__yithUI: true
 };

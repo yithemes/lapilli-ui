@@ -51,7 +51,7 @@ const createProcessComponentStyles = ( name?: string, slot?: string ) => {
 
 	return ( props: { theme?: Theme } ) => {
 		const theme = isEmpty( props.theme ) ? defaultTheme : props.theme;
-		const styles = name in theme.components && slot in theme.components[ name ] ? theme.components[ name ][ slot ] : {};
+		const styles = theme.components?.[ name ]?.styles?.[ slot ] ?? {};
 
 		if ( typeof styles === 'function' ) {
 			return styles( { ...props, theme } );

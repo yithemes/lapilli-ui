@@ -38,7 +38,7 @@ yarn-error.log*
 .turbo
 
 # Build
-.storybook/build
+apps/doc/.storybook/build
 dist/
 packages/*/build/
 packages/*/build-module
