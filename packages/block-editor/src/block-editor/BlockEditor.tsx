@@ -32,6 +32,7 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 			overflow: 'hidden',
 			width: '100%',
 			borderBottom: `1px solid ${ theme.fields.borderColor }`,
+			top: 0,
 
 			'.block-editor-block-toolbar .components-toolbar-group': {
 				borderColor: theme.fields.borderColor,
@@ -51,6 +52,16 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 		padding: '12px',
 		boxSizing: 'border-box',
 		minHeight: '120px',
+	},
+	'.admin-bar:not(.is-fullscreen-mode) &': {
+		'.block-editor-block-contextual-toolbar': {
+			'&.is-fixed': {
+				top: 32,
+				'@media screen and (max-width: 782px)': {
+					top: 46,
+				}
+			}
+		}
 	},
 	...getChildPopoverStyle( theme )
 } ) );
