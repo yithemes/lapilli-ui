@@ -53,7 +53,10 @@ const BlockEditorToolbarActionsRoot = styled( 'div', { name: 'BlockEditorToolbar
 	flex: 1,
 	'.components-toolbar-group': {
 		border: 'none',
-		paddingRight: 0
+		paddingRight: 0,
+		'&:after': {
+			display: 'none'
+		}
 	}
 } ) );
 

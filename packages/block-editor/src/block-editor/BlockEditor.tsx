@@ -27,8 +27,20 @@ const BlockEditorRoot = styled( 'div', { name: 'BlockEditor', slot: 'Root' } )( 
 		borderTopRightRadius: theme.fields.borderRadius,
 		borderColor: theme.fields.borderColor,
 		'&.is-fixed': {
+			margin: 0,
+			position: 'sticky',
+			overflow: 'hidden',
+			width: '100%',
+			borderBottom: `1px solid ${ theme.fields.borderColor }`,
+
 			'.block-editor-block-toolbar .components-toolbar-group': {
 				borderColor: theme.fields.borderColor,
+			},
+			'.is-showing-movers': {
+				width: '100%',
+			},
+			'.block-editor-block-toolbar__group-collapse-fixed-toolbar': {
+				display: 'none'
 			}
 		},
 		'.block-editor-block-toolbar .components-toolbar-group': {
