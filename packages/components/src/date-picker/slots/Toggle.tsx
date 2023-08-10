@@ -20,6 +20,7 @@ const DatePickerToggleRoot = styled( 'div', { name: 'DatePicker', slot: 'Toggle'
 		padding: theme.fields.padding[ ownerState.size ],
 		fontSize: theme.fields.fontSize,
 		fontFamily: theme.fields.fontFamily,
+		textAlign: 'start',
 		lineHeight: 1.5,
 		background: theme.fields.background,
 		color: theme.fields.color,

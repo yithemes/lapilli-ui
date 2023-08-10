@@ -77,6 +77,7 @@ const InputRoot = styled( 'div', { name: 'Input', slot: 'Root' } )<InputStyled>(
 	const style: React.CSSProperties = {
 		borderRadius: theme.fields.borderRadius,
 		fontSize: theme.fields.fontSize,
+		textAlign: 'start',
 		background: 'transparent',
 		color: theme.fields.color,
 		width: !isMini && fullWidth ? '100%' : 'fit-content',
