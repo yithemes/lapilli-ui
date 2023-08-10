@@ -1,11 +1,11 @@
 /**
  * External dependencies
  */
-const { promisify } = require( 'util' );
-const fs = require( 'fs' );
-const path = require( 'path' );
-const babel = require( '@babel/core' );
-const makeDir = require( 'make-dir' );
+const { promisify }  = require( 'util' );
+const fs             = require( 'fs' );
+const path           = require( 'path' );
+const babel          = require( '@babel/core' );
+const makeDir        = require( 'make-dir' );
 /**
  * Internal dependencies
  */
@@ -26,8 +26,8 @@ const PACKAGES_DIR = path
  * @type {Object}
  */
 const JS_ENVIRONMENTS = {
-	main: 'build',
-	module: 'build-module',
+	main  : 'build',
+	module: 'build-module'
 };
 
 /**
@@ -57,41 +57,37 @@ function getPackageName( file ) {
  * @return {string} Build path.
  */
 function getBuildPath( file, buildFolder ) {
-	const pkgName = getPackageName( file );
-	const pkgSrcPath = path.resolve( PACKAGES_DIR, pkgName, 'src' );
-	const pkgBuildPath = path.resolve( PACKAGES_DIR, pkgName, buildFolder );
+	const pkgName           = getPackageName( file );
+	const pkgSrcPath        = path.resolve( PACKAGES_DIR, pkgName, 'src' );
+	const pkgBuildPath      = path.resolve( PACKAGES_DIR, pkgName, buildFolder );
 	const relativeToSrcPath = path.relative( pkgSrcPath, file );
 	return path.resolve( pkgBuildPath, relativeToSrcPath );
 }
 
 async function buildJS( file ) {
-	for ( const [ environment, buildDir ] of Object.entries(
-		JS_ENVIRONMENTS
-	) ) {
-		const destPath = getBuildPath(
-			file.replace( /\.tsx?$/, '.js' ),
-			buildDir
-		);
-		const babelOptions = getBabelConfig(
-			environment,
-			file.replace( PACKAGES_DIR, '@yithUI' )
+	for ( const [environment, buildDir] of Object.entries( JS_ENVIRONMENTS ) ) {
+		const destPath     = getBuildPath( file.replace( /\.tsx?$/, '.js' ), buildDir );
+		const babelOptions = getBabelConfig( environment, file.replace( PACKAGES_DIR, '@yithUI' ) );
+
+		const [, transformed] = await Promise.all(
+			[
+				makeDir( path.dirname( destPath ) ),
+				babel.transformFileAsync( file, babelOptions )
+			]
 		);
 
-		const [ , transformed ] = await Promise.all( [
-			makeDir( path.dirname( destPath ) ),
-			babel.transformFileAsync( file, babelOptions ),
-		] );
-
-		await Promise.all( [
-			writeFile( destPath + '.map', JSON.stringify( transformed.map ) ),
-			writeFile(
-				destPath,
-				transformed.code +
+		await Promise.all(
+			[
+				writeFile( destPath + '.map', JSON.stringify( transformed.map ) ),
+				writeFile(
+					destPath,
+					transformed.code +
 					'\n//# sourceMappingURL=' +
 					path.basename( destPath ) +
 					'.map'
-			),
-		] );
+				)
+			]
+		);
 	}
 }
 
@@ -101,17 +97,17 @@ async function buildJS( file ) {
  * @type {Object<string,Function>}
  */
 const BUILD_TASK_BY_EXTENSION = {
-	'.js': buildJS,
-	'.ts': buildJS,
-	'.tsx': buildJS,
+	'.js' : buildJS,
+	'.ts' : buildJS,
+	'.tsx': buildJS
 };
 
 module.exports = async ( file, callback ) => {
 	const extension = path.extname( file );
-	const task = BUILD_TASK_BY_EXTENSION[ extension ];
+	const task      = BUILD_TASK_BY_EXTENSION[ extension ];
 
-	if ( ! task ) {
-		callback( new Error( `No handler for extension: ${ extension }` ) );
+	if ( !task ) {
+		callback( new Error( `No handler for extension: ${extension}` ) );
 	}
 
 	try {

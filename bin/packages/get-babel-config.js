@@ -11,21 +11,6 @@ module.exports = ( environment = '', file ) => {
 			name: `YITH_UI_BUILD_${ environment.toUpperCase() }`,
 		},
 	};
-	switch ( environment ) {
-		case 'main':
-			// To be merged as a presetEnv option.
-			callerOpts.caller.modules = 'commonjs';
-			break;
-		case 'module':
-			// To be merged as a presetEnv option.
-			callerOpts.caller.modules = false;
-			// To be merged as a pluginTransformRuntime option.
-			callerOpts.caller.useESModules = true;
-			break;
-		default:
-			// Preventing measure, this shouldn't happen ever.
-			delete callerOpts.caller;
-	}
 
 	// Sourcemaps options.
 	const sourceMapsOpts = {
