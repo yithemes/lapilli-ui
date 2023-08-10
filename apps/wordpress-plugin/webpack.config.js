@@ -2,10 +2,16 @@ const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extrac
 const { camelCaseDash }                 = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
 const defaultConfig                     = require( '@wordpress/scripts/config/webpack.config' );
 
-const packages = ['block-editor', 'components', 'date', 'styles'];
+const SCOPE            = '@yith/'; // Scope for packages to export.
+const WP_HANDLE_PREFIX = 'yith-'; // Prefix for WordPress handles of JS scripts enqueued.
+const JS_GLOBAL        = 'yith'; // Global variable to be exposed in the window.
+const NAMESPACE        = 'yith'; // Namespace, used in devTools.
 
-const depMap    = packages.reduce( ( acc, _ ) => ( { ...acc, ...{ [ `@yith/${_}` ]: ['yith', camelCaseDash( _ )] } } ), {} );
-const handleMap = packages.reduce( ( acc, _ ) => ( { ...acc, ...{ [ `@yith/${_}` ]: `yith-${_}` } } ), {} );
+const packageOptions = require( './package.json' );
+const packages       = Object.keys( packageOptions.dependencies ).filter( dep => !!dep.startsWith( SCOPE ) ).map( dep => dep.replace( SCOPE, '' ) );
+
+const depMap    = packages.reduce( ( acc, _ ) => ( { ...acc, ...{ [ SCOPE + _ ]: [JS_GLOBAL, camelCaseDash( _ )] } } ), {} );
+const handleMap = packages.reduce( ( acc, _ ) => ( { ...acc, ...{ [ SCOPE + _ ]: WP_HANDLE_PREFIX + _ } } ), {} );
 
 const requestToExternal = ( request ) => {
 	if ( depMap[ request ] ) {
@@ -25,7 +31,7 @@ const getEntryPoints = () => {
 		entryPoints[ name ] = {
 			import : `../../packages/${name}/build-module/index.js`,
 			library: {
-				name: ['yith', camelCaseDash( name )],
+				name: [JS_GLOBAL, camelCaseDash( name )],
 				type: 'window'
 			}
 		};
@@ -37,7 +43,7 @@ module.exports = {
 	...defaultConfig,
 	entry       : getEntryPoints(),
 	output      : {
-		devtoolNamespace: 'yith',
+		devtoolNamespace: NAMESPACE,
 		filename        : "[name]/index.js"
 	},
 	plugins     : [
