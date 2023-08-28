@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { noop, debounce, capitalize } from 'lodash';
+import { debounce, capitalize } from 'lodash';
 import { generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
 
 import Stack from '../stack';
@@ -68,7 +68,7 @@ const RadioGroup = (
 		variant = 'radio',
 		value: valueProp,
 		defaultValue,
-		onChange = noop,
+		onChange,
 		spacing: spacingProp,
 		name: nameProp,
 		direction = 'column',
@@ -214,7 +214,7 @@ const RadioGroup = (
 							option={ option }
 							onChange={ ( event: React.ChangeEvent<HTMLInputElement> ) => {
 								setValue( event.target.value );
-								onChange( event, event.target.value );
+								onChange?.( event, event.target.value );
 							} }
 							onFocus={ handleFocus }
 							onBlur={ handleBlur }

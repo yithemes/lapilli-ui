@@ -1,4 +1,4 @@
-import { capitalize, noop } from 'lodash';
+import { capitalize } from 'lodash';
 import React, { forwardRef, useState } from 'react';
 import { CheckIcon } from "@heroicons/react/20/solid";
 
@@ -163,11 +163,11 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>( function Checkbox(
 		color = 'primary',
 		checked: checkedProp,
 		disabled = false,
-		onChange = noop,
+		onChange,
 		className,
 		name,
-		onFocus = noop,
-		onBlur = noop,
+		onFocus,
+		onBlur,
 		size = 'md',
 		icon,
 		checkedIcon,
@@ -194,17 +194,17 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>( function Checkbox(
 		const newChecked = event.target.checked;
 		setIsChecked( newChecked );
 
-		onChange( event, newChecked );
+		onChange?.( event, newChecked );
 	};
 
 	const handleFocus = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( true );
-		onFocus( e );
+		onFocus?.( e );
 	};
 
 	const handleBlur = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( false );
-		onBlur( e );
+		onBlur?.( e );
 	};
 
 	const theIcon = isChecked && icon ? checkedIcon ?? icon : icon;

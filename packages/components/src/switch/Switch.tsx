@@ -1,4 +1,4 @@
-import { capitalize, noop } from 'lodash';
+import { capitalize } from 'lodash';
 import { forwardRef, useState } from 'react';
 
 import { generateComponentClasses, styled } from '@yith/styles';
@@ -132,11 +132,11 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		color = 'primary',
 		checked: checkedProp,
 		disabled = false,
-		onChange = noop,
+		onChange,
 		className,
 		name,
-		onFocus = noop,
-		onBlur = noop,
+		onFocus,
+		onBlur,
 		size = 'md',
 		noPadding = false,
 		defaultChecked = false,
@@ -161,17 +161,17 @@ const Switch = forwardRef<HTMLInputElement, SwitchProps>( function Switch(
 		const newChecked = event.target.checked;
 		setIsChecked( newChecked );
 
-		onChange( event, newChecked );
+		onChange?.( event, newChecked );
 	};
 
 	const handleFocus = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( true );
-		onFocus( e );
+		onFocus?.( e );
 	};
 
 	const handleBlur = ( e: React.FocusEvent<HTMLInputElement> ) => {
 		setIsFocused( false );
-		onBlur( e );
+		onBlur?.( e );
 	};
 
 	const ownerState: SwitchOwnerState = {

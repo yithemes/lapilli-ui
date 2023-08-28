@@ -1,5 +1,4 @@
 import { generateComponentClasses, styled } from '@yith/styles';
-import { noop } from 'lodash';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import Popover from '../popover';
@@ -33,8 +32,8 @@ const DropdownContent = styled( Paper, { name: 'Dropdown', slot: 'Content' } )( 
  */
 const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	{
-		onOpen = noop,
-		onClose = noop,
+		onOpen,
+		onClose,
 		renderToggle,
 		renderContent,
 		popoverProps,
@@ -57,9 +56,9 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 
 		if ( wasFirstOpened.current ) {
 			if ( isOpen ) {
-				onOpen();
+				onOpen?.();
 			} else {
-				onClose();
+				onClose?.();
 			}
 		}
 	}, [ isOpen ] );

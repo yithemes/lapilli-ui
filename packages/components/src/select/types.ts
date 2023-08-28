@@ -155,7 +155,7 @@ type MultipleSelectOwnProps = Omit<SingleSelectOwnProps, 'onChange' | 'value' | 
 	/**
 	 * Whether the select is multiple or not.
 	 */
-	multiple?: true
+	multiple: true
 	/**
 	 * The value.
 	 */

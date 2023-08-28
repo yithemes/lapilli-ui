@@ -1,5 +1,5 @@
 import { styled } from '@yith/styles';
-import { noop, range } from 'lodash';
+import { range } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import Select from '../select';
 
@@ -11,9 +11,8 @@ type Time = {
 	value: string;
 };
 
-type TimeSelectorProps = Omit<React.ComponentProps<'input'>, 'onChange' | 'value'> & {
+type TimeSelectorProps = Omit<React.ComponentProps<'input'>, 'value'> & {
 	value?: string;
-	onChange?: ( ( value: string ) => void ) | React.Dispatch<React.SetStateAction<string>>;
 	minutesStep?: number;
 };
 
@@ -75,7 +74,6 @@ const HOURS = range( 24 )
 const TimeSelector = React.forwardRef<HTMLInputElement, TimeSelectorProps>( function TimeSelector(
 	{
 		value = '00:00',
-		onChange = noop,
 		minutesStep = 1,
 		...other
 	},

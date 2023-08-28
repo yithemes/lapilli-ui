@@ -1,5 +1,5 @@
 import { generateComponentClasses, styled } from '@yith/styles';
-import { capitalize, noop } from 'lodash';
+import { capitalize } from 'lodash';
 import React from 'react';
 import { forwardRef, useState } from 'react';
 import type { InputOwnerState, InputProps, InputStyled } from "./types";
@@ -195,9 +195,9 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 		type = 'text',
 		value,
 		variant = 'outlined',
-		onChange = noop,
-		onFocus = noop,
-		onBlur = noop,
+		onChange,
+		onFocus,
+		onBlur,
 		startAdornment,
 		endAdornment,
 		isMini = false,
@@ -215,7 +215,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 			return;
 		}
 		const newValue = event.target.value ?? '';
-		onChange( event, newValue );
+		onChange?.( event, newValue );
 	};
 
 	const ownerState: InputOwnerState = {
@@ -243,11 +243,11 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 				onChange={ handleChange }
 				onFocus={ ( e: React.FocusEvent<HTMLInputElement> ) => {
 					setIsFocused( true );
-					onFocus( e );
+					onFocus?.( e );
 				} }
 				onBlur={ ( e: React.FocusEvent<HTMLInputElement> ) => {
 					setIsFocused( false );
-					onFocus( e );
+					onBlur?.( e );
 				} }
 				ownerState={ ownerState }
 				disabled={ disabled }
