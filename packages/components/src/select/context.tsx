@@ -48,6 +48,7 @@ export type SelectProviderProps = {
 	| 'searchPlaceholder'
 	| 'closeOnSelect'
 	| 'disabled'
+	| 'error'
 	| 'classes'
 >
 >

@@ -54,6 +54,14 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 			borderColor: theme.fields.focusedBorderColor,
 			boxShadow: theme.fields.focusedBoxShadow
 		} ) ),
+		...( ownerState.error && {
+			borderColor: theme.palette.error.main,
+			'&:focus, &:focus-visible': {
+				borderColor: theme.palette.error.main,
+				boxShadow: 'none',
+				outline: `1px solid ${theme.palette.error.main}`
+			},
+		} ),
 	} ),
 	...( ownerState.variant === 'reveal' && !ownerState.disabled && {
 		'&:hover, &:focus, &:focus-visible': {
@@ -204,6 +212,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			moveToLastActiveDescendant,
 			componentIds,
 			disabled,
+			error,
 			handleTyping
 		} = useSelectContext();
 		const { toggle, open, isOpen } = useDropdown();
@@ -218,6 +227,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			isEmpty,
 			isFocused,
 			disabled,
+			error,
 			size,
 			variant
 		};

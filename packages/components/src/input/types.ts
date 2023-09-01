@@ -39,6 +39,10 @@ type TextInputOwnProps = {
 	 */
 	disabled?: boolean;
 	/**
+	 * If `true`, the input will indicate an error state.
+	 */
+	error?: boolean;
+	/**
 	 * The field size.
 	 */
 	size?: FieldSize;
@@ -59,7 +63,7 @@ type InputOwnProps = TextInputOwnProps | NumberInputOwnProps;
 type InputPropsWithRef = Omit<React.ComponentProps<'input'>, keyof InputOwnProps> & InputOwnProps
 export type InputProps = Omit<InputPropsWithRef, 'ref'>
 
-export type InputOwnerState = Required<Pick<InputOwnProps, 'variant' | 'size' | 'isMini' | 'fullWidth' | 'disabled'>> & {
+export type InputOwnerState = Required<Pick<InputOwnProps, 'variant' | 'size' | 'isMini' | 'fullWidth' | 'disabled' | 'error'>> & {
 	/**
 	 * Is the input focused?
 	 */

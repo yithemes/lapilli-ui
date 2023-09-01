@@ -15,6 +15,7 @@ const useComponentClasses = ( ownerState: InputOwnerState ) => {
 				`--size${ capitalize( ownerState.size ) }`,
 				ownerState.isFocused && 'focused',
 				ownerState.disabled && 'disabled',
+				ownerState.error && 'error',
 				ownerState.isMini && '--mini',
 				ownerState.hasStartAdornment && '--hasStartAdornment',
 				ownerState.hasEndAdornment && '--hasEndAdornment',
@@ -142,7 +143,7 @@ const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<Input
 	position: absolute;
 
 	${ ( { theme, ownerState } ) => {
-		const { isFocused, variant } = ownerState;
+		const { isFocused, variant, error } = ownerState;
 
 		const style: React.CSSProperties = {
 			background: theme.fields.background,
@@ -159,6 +160,14 @@ const InputBackdrop = styled( 'div', { name: 'Input', slot: 'Backdrop' } )<Input
 				...( isFocused && {
 					borderColor: theme.fields.focusedBorderColor,
 					boxShadow: theme.fields.focusedBoxShadow,
+				} ),
+				...( error && {
+					borderColor: theme.palette.error.main,
+					...( isFocused && {
+						borderColor: theme.palette.error.main,
+						boxShadow: 'none',
+						outline: `1px solid ${theme.palette.error.main}`
+					} ),
 				} ),
 			},
 			ghost: {},
@@ -203,6 +212,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 		isMini = false,
 		fullWidth = false,
 		disabled = false,
+		error = false,
 		size = 'md',
 		...other
 	},
@@ -225,6 +235,7 @@ const Input = forwardRef<HTMLInputElement, InputProps>( function Input(
 		isMini,
 		fullWidth,
 		disabled,
+		error,
 		hasStartAdornment: !!startAdornment,
 		hasEndAdornment: !!endAdornment,
 	};

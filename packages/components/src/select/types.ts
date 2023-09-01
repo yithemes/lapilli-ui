@@ -146,6 +146,10 @@ type SingleSelectOwnProps = {
 	 */
 	disabled?: boolean;
 	/**
+	 * If `true`, the field will indicate an error state.
+	 */
+	error?: boolean;
+	/**
 	 * Theme sc props.
 	 */
 	sx?: SxProps
@@ -200,6 +204,7 @@ export type SelectToggleOwnerState = {
 	isEmpty: boolean
 	isFocused: boolean
 	disabled: boolean
+	error: boolean
 	size: FieldSize
 	variant: SelectProps['variant']
 }

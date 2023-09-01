@@ -4,6 +4,12 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DatePicker from '../';
 import type { FieldSize } from "@yith/styles";
 import FormControl from "../../form-control";
+import Stack from "../../stack";
+import Select from "../../select";
+import Input from "../../input";
+import { isInteger } from "lodash";
+import Typography from "../../typography";
+import Box from "../../box";
 
 const meta: Meta<typeof DatePicker> = {
 	title: 'Components/DatePicker',
@@ -146,4 +152,138 @@ export const InsideLabel: Story = {
 export const WithDefaultValue: Story = {
 	args: { ...Default.args, defaultValue: '2023-10-31' },
 	render: Default.render
+}
+
+const isValidYear = ( year: number | string ) => Number( year ) >= 1900 && Number( year ) < 3000 && isInteger( Number( year ) );
+const getDaysInMonth = ( month: number, year: number | string = 1900 ) => new Date( isValidYear( year ) ? Number( year ) : 1900, month, 0 ).getDate();
+
+function DateFieldsFirstSolution() {
+	const [ day, setDay ] = useState( '1' );
+	const [ month, setMonth ] = useState( 1 );
+	const [ year, setYear ] = useState( '' );
+
+	const daysInMonth = getDaysInMonth( month, year );
+
+	const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+		.map( ( label, index ) => ( { value: String( index + 1 ), label: label } ) );
+
+	const isValidDate = !year || ( isValidYear( year ) && Number( day ) <= daysInMonth );
+
+	return <Stack direction='column' spacing={ 1 } sx={ { color: !isValidDate ? '#951300' : undefined } }>
+		<Stack direction='row' spacing={ 1 }>
+			<Stack direction='column' spacing={ .5 }>
+				<label htmlFor='day'>Day</label>
+				<Input
+					id='day'
+					sx={ { width: '80px !important' } }
+					size='lg'
+					value={ day }
+					onChange={ e => setDay( e.target.value ) }
+					error={ !isValidDate }
+				/>
+			</Stack>
+			<Stack direction='column' spacing={ .5 }>
+				<label htmlFor='month'>Month</label>
+				<Select
+					id='month'
+					options={ months }
+					sx={ { width: 150 } }
+					size='lg'
+					value={ String( month ) }
+					onChange={ ( _: string ) => setMonth( Number( _ ) ) }
+					error={ !isValidDate }
+				/>
+			</Stack>
+			<Stack direction='column' spacing={ .5 }>
+				<label htmlFor='year'>Year</label>
+				<Input
+					id='year'
+					placeholder='AAAA'
+					sx={ { width: '100px !important' } }
+					size='lg'
+					value={ year }
+					onChange={ e => setYear( e.target.value ) }
+					error={ !isValidDate }
+				/>
+			</Stack>
+		</Stack>
+		{ !isValidDate && <div style={ { fontSize: '.8em' } }>Invalid date</div> }
+	</Stack>
+}
+
+function DateFieldsSecondSolution() {
+	const [ day, setDay ] = useState( 1 );
+	const [ month, setMonth ] = useState( 1 );
+	const [ year, setYear ] = useState( 1990 );
+
+	const daysInMonth = getDaysInMonth( month, year );
+
+	const days = [ ...( new Array( daysInMonth ).keys() ) ]
+		.map( ( index ) => ( { value: String( index + 1 ), label: ( index + 1 < 10 ? '0' : '' ) + ( index + 1 ) } ) );
+
+	const months = [ 'January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ]
+		.map( ( label, index ) => ( { value: String( index + 1 ), label: label } ) );
+
+	const years = [ ...( new Array( 200 ).keys() ) ]
+		.map( ( index ) => ( { value: String( index + 1900 ), label: String( index + 1900 ) } ) );
+
+	React.useEffect( () => {
+		if ( day > daysInMonth ) {
+			setDay( daysInMonth );
+		}
+	}, [ day, month, year ] )
+
+	return <Stack direction='row' spacing={ 1 }>
+		<Stack direction='column' spacing={ .5 }>
+			<label htmlFor='day'>Day</label>
+			<Select
+				id='day'
+				options={ days }
+				sx={ { width: 80 } }
+				size='lg'
+				value={ String( day ) }
+				onChange={ ( _: string ) => setDay( Number( _ ) ) }
+			/>
+		</Stack>
+		<Stack direction='column' spacing={ .5 }>
+			<label htmlFor='month'>Month</label>
+			<Select
+				id='month'
+				options={ months }
+				sx={ { width: 150 } }
+				size='lg'
+				value={ String( month ) }
+				onChange={ ( _: string ) => setMonth( Number( _ ) ) }
+			/>
+		</Stack>
+		<Stack direction='column' spacing={ .5 }>
+			<label htmlFor='year'>Year</label>
+			<Select
+				id='year'
+				options={ years }
+				sx={ { width: 100 } }
+				size='lg'
+				value={ String( year ) }
+				onChange={ ( _: string ) => setYear( Number( _ ) ) }
+			/>
+		</Stack>
+	</Stack>
+}
+
+export const Birthday: Story = {
+	args: {},
+	render: () => {
+		return <>
+			<Typography gutterBottom>The <strong>DatePicker</strong> should be used for dates that the user <strong>don't know</strong>.</Typography>
+			<Typography gutterBottom>For dates that user <strong>exactly knows</strong> (e.g. birthday), it could be better using different fields as follows.</Typography>
+			<Box sx={{margin: '36px 0'}}>
+				<Typography variant='h3' gutterBottom>Solution 1</Typography>
+				<DateFieldsFirstSolution/>
+			</Box>
+			<Box sx={{margin: '36px 0'}}>
+				<Typography variant='h3' gutterBottom>Solution 2</Typography>
+				<DateFieldsSecondSolution/>
+			</Box>
+		</>
+	}
 }

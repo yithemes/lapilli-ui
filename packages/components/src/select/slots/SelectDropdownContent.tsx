@@ -157,13 +157,16 @@ const SelectDropdownContent = () => {
 		handleGenericKeys( event.key ) && event.stopPropagation();
 
 		switch ( event.key ) {
+			case 'Tab':
 			case 'Enter':
 			case ' ': {
 				const selectedOption = filteredOptions[ activeDescendantIndex ] ?? undefined;
 				if ( selectedOption ) {
 					handleChangeCustom( selectedOption );
 				}
-				event.stopPropagation();
+				if ( event.key !== 'Tab' ) {
+					event.stopPropagation();
+				}
 			}
 				break;
 			default:
