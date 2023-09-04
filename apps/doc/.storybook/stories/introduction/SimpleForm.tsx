@@ -12,6 +12,7 @@ import RadioGroup from "../../../../../packages/components/src/radio-group";
 import Select from "../../../../../packages/components/src/select";
 import Stack from "../../../../../packages/components/src/stack";
 import Switch from "../../../../../packages/components/src/switch/Switch";
+import Typography from "../../../../../packages/components/src/typography";
 import type { DatePickerRef } from "../../../../../packages/components/src/";
 import { format, getDateFormat } from "../../../../../packages/date/src/";
 
@@ -62,24 +63,19 @@ function FeaturedIcon() {
 }
 
 function PublishedInfo( { children } ) {
-	const style = {
-		color: 'rgba(00,22,56,0.5)',
-		fontSize: '.8em',
-		fontWeight: 500,
-		marginBottom: '16px'
-	}
-	return <div style={ style }>
+	return <Typography variant='body2' color='text.secondary' sx={ { marginBottom: '16px' } }>
 		{ children }
-	</div>
+	</Typography>
+}
+
+function FooterInfoItem( { children } ) {
+	return <Typography variant='body2' color='text.secondary'>
+		{ children }
+	</Typography>
 }
 
 function FooterInfo( { children } ) {
-	const style = {
-		color: 'rgba(00,22,56,0.5)',
-		fontSize: '.8em',
-		fontWeight: 500,
-		marginTop: '16px',
-	}
+	const style = { marginTop: '16px' }
 	return <Stack style={ style } direction="row" justify="center" spacing={ 2 }>
 		{ children }
 	</Stack>
@@ -147,7 +143,7 @@ function SimpleForm() {
 				<FormControl label="File size" htmlFor="size" help="Choose the file size">
 					<Stack direction="row" spacing={ 1 } align="center">
 						<Input id="size" type="number" isMini min={ 0 } value={ size } onChange={ ( e, _ ) => setSize( _ ) }/>
-						<Select options={ SIZES } value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) }/>
+						<Select options={ SIZES } value={ sizeUnit } onChange={ _ => setSizeUnit( _ ) } aria-label='File size unit'/>
 					</Stack>
 				</FormControl>
 				<FormControl label="Best seller?" htmlFor="best-sellers" help="Select to include in best-sellers list.">
@@ -180,11 +176,11 @@ function SimpleForm() {
 		<Modal open={ modalOpened } onClose={ () => setModalOpened( false ) }>
 			<ModalTitle>{ !!name ? name : 'Untitled' }</ModalTitle>
 			<ModalContent>
-				{ !!publishedDate ? <PublishedInfo>Published on { format( getDateFormat('fullDate'), publishedDate ) }</PublishedInfo> : <PublishedInfo>In draft</PublishedInfo> }
-				{ LOREM_IPSUM }
+				{ !!publishedDate ? <PublishedInfo>Published on { format( getDateFormat( 'fullDate' ), publishedDate ) }</PublishedInfo> : <PublishedInfo>In draft</PublishedInfo> }
+				<Typography variant='body' align='justify'>{ LOREM_IPSUM }</Typography>
 				<FooterInfo>
-					{ typeof pages !== 'undefined' && <div>{ pages } pages</div> }
-					{ typeof size !== 'undefined' && <div>{ `${ size } ${ sizeUnit }` }</div> }
+					{ typeof pages !== 'undefined' && <FooterInfoItem>{ pages } pages</FooterInfoItem> }
+					{ typeof size !== 'undefined' && <FooterInfoItem>{ `${ size } ${ sizeUnit }` }</FooterInfoItem> }
 				</FooterInfo>
 			</ModalContent>
 			<ModalActions>

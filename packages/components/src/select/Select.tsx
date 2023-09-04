@@ -5,7 +5,7 @@ import { generateComponentClasses, mergeComponentClasses, styled, useThemeTransl
 import Dropdown from '../dropdown';
 import { useControlledState, useId, usePropState } from '../utils';
 
-import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps, SelectClasses } from "./types";
+import type { SelectOptionParams, SelectOptionState, SelectOwnerState, SelectOwnProps, SelectProps, SelectStyled, SelectOptionProps, SelectClasses, SelectToggleProps } from "./types";
 import { SelectProvider } from "./context";
 import SelectOption from "./slots/SelectOption";
 import SelectToggle from "./slots/SelectToggle";
@@ -83,6 +83,9 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		noOptionsText: noOptionsTextProp,
 		noResultsText: noResultsTextProp,
 		searchPlaceholder: searchPlaceholderProp,
+		// Get some ARIA attributes to be passed to the ToggleProps.
+		'aria-label': ariaLabel,
+		'aria-labelledby': ariaLabelledBy,
 		...other
 	},
 	ref
@@ -267,6 +270,13 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		options: `${ id }__options`,
 	}
 
+	const toggleProps: Omit<SelectToggleProps, 'ref'> = {
+		id,
+		onClear: handleClear,
+		'aria-label': ariaLabel,
+		'aria-labelledby': ariaLabelledBy,
+	}
+
 	const providerProps: Omit<React.ComponentProps<typeof SelectProvider>, 'children'> = {
 		id,
 		allowClear,
@@ -322,7 +332,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 				) ) }
 				<Dropdown
 					ref={ toggleRef }
-					renderToggle={ () => <SelectToggle id={ id } onClear={ handleClear }/> }
+					renderToggle={ () => <SelectToggle { ...toggleProps }/> }
 					renderContent={ () => <SelectDropdownContent/> }
 					onClose={ handleClose }
 					popoverProps={ {
