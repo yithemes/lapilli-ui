@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Checkbox from '../Checkbox';
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 import FormControl from "../../form-control";
 
 import { HeartIcon, StarIcon } from "@heroicons/react/24/outline";
@@ -103,7 +103,7 @@ export const CustomColors: Story = {
 					icon={ <HeartIcon width='1em' strokeWidth={ 2 }/> }
 					checkedIcon={ <HeartIconSolid width='1em'/> }
 					sx={ {
-						'&.yithUI--checked': {
+						'&.mayaUI--checked': {
 							color: '#e91e63'
 						}
 					} }
@@ -138,7 +138,7 @@ export const CustomColors: Story = {
 							icon={ <HeartIcon width='1em' strokeWidth={ 2 }/> }
 							checkedIcon={ <HeartIconSolid width='1em'/> }
 							sx={ {
-								'&.yithUI--checked': {
+								'&.mayaUI--checked': {
 									color: '#e91e63'
 								}
 							} }

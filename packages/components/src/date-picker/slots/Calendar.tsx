@@ -1,5 +1,5 @@
-import { styled, useThemeTranslations } from "@yith/styles";
-import { format, getDateFormat, addMonths } from "@yith/date";
+import { styled, useThemeTranslations } from "@maya-ui/styles";
+import { format, getDateFormat, addMonths } from "@maya-ui/date";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
 import { useDatePickerContext } from "../context";

@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses, keyframes, PaletteClass, styled, SxProps } from '@yith/styles';
+import { generateComponentSlotClasses, keyframes, PaletteClass, styled, SxProps } from '@maya-ui/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import classNames from "classnames";

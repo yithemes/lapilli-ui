@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import classNames from "classnames";
 import { XMarkIcon } from "@heroicons/react/20/solid";
 
-import { Breakpoint, generateComponentClasses, keyframes, styled } from "@yith/styles";
+import { Breakpoint, generateComponentClasses, keyframes, styled } from "@maya-ui/styles";
 
 import type { ModalOwnerState, ModalProps, ModalStyled } from "./types";
 import Portal from "../portal";

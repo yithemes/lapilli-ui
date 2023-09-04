@@ -1,5 +1,5 @@
-import { styled } from "@yith/styles";
-import { format, getDateFormat, getWeekArray, isSameDay, isSameMonth, addDays, addMonths, addYears, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from "@yith/date";
+import { styled } from "@maya-ui/styles";
+import { format, getDateFormat, getWeekArray, isSameDay, isSameMonth, addDays, addMonths, addYears, startOfWeek, endOfWeek, startOfMonth, endOfMonth, isBefore, isAfter } from "@maya-ui/date";
 import { useDatePickerContext } from "../context";
 import { useCallback, useMemo } from "react";
 import DayPickerDay from "./DayPickerDay";

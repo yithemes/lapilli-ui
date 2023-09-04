@@ -1,7 +1,7 @@
 import { capitalize } from 'lodash';
 import { forwardRef, useState } from 'react';
 
-import { generateComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@maya-ui/styles';
 import { CheckIcon, XMarkIcon } from "@heroicons/react/20/solid";
 
 import { useControlledState, ZeroWidthSpace } from "../utils";

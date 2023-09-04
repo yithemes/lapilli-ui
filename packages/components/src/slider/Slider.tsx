@@ -1,7 +1,7 @@
 import { capitalize } from 'lodash';
 import React, { forwardRef, Fragment, useCallback, useRef, useState } from 'react';
 
-import { alpha, FieldSize, generateComponentClasses, styled } from '@yith/styles';
+import { alpha, FieldSize, generateComponentClasses, styled } from '@maya-ui/styles';
 
 import type { SliderMark, SliderOwnerState, SliderProps, SliderStyled } from "./types";
 import classNames from "classnames";

@@ -2,13 +2,13 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Select from '../';
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 import FormControl from "../../form-control";
 import Stack from "../../stack";
 import Typography from "../../typography";
 import type { SelectOptionParams } from "../types";
 import ReactDOM from "react-dom";
-import { StyledProvider } from "@yith/styles";
+import { StyledProvider } from "@maya-ui/styles";
 import DocumentProvider from "../../document-provider";
 
 const meta: Meta<typeof Select> = {

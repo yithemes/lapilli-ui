@@ -1,5 +1,5 @@
 {
-	"extends": "@yith/tsconfig/react-library.json",
+	"extends": "@maya-ui/tsconfig/react-library.json",
 	"include": [
 		"src/*",
 		"src/**/*"
@@ -10,7 +10,7 @@
 		"outDir": "build-module",
 		"declarationDir": "build-types",
 		"paths": {
-			"@yith/styles": [
+			"@maya-ui/styles": [
 				"../styles"
 			]
 		}

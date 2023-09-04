@@ -4,7 +4,7 @@ import { create } from '@storybook/theming';
 const lightTheme = create(
 	{
 		base      : 'light',
-		brandTitle: 'YITH UI',
+		brandTitle: 'Maya UI',
 		brandUrl  : 'https://yithemes.com',
 		brandImage: './images/logo.svg'
 	}

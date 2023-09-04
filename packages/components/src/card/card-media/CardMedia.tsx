@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@maya-ui/styles';
 import React, { forwardRef } from 'react';
 
 import type { CardMediaOwnerState, CardMediaProps, CardMediaStyled } from "./types";

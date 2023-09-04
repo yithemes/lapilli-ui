@@ -8,7 +8,7 @@ module.exports = ( environment = '', file ) => {
 	 */
 	const callerOpts = {
 		caller: {
-			name: `YITH_UI_BUILD_${ environment.toUpperCase() }`,
+			name: `MAYA_UI_BUILD_${ environment.toUpperCase() }`,
 		},
 	};
 

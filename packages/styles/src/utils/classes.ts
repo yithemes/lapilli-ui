@@ -1,4 +1,4 @@
-const CLASS_PREFIX = 'yithUI';
+const CLASS_PREFIX = 'mayaUI';
 
 const globalStateClasses = [
 	'active',

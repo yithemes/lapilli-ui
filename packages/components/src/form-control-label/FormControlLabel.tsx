@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@maya-ui/styles';
 import { forwardRef } from 'react';
 import type { FormControlLabelOwnerState, FormControlLabelProps, FormControlLabelStyled } from "./types";
 import Typography from "../typography";

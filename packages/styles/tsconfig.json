@@ -1,5 +1,5 @@
 {
-  "extends" : "@yith/tsconfig/react-library.json",
+  "extends" : "@maya-ui/tsconfig/react-library.json",
   "include" :  [
 	"src/*",
 	"src/**/*"

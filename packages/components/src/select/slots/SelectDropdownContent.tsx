@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useDropdown } from "../../dropdown";
 import { useSelectContext } from "../context";
-import { styled, Theme } from "@yith/styles";
+import { styled, Theme } from "@maya-ui/styles";
 import Input from "../../input";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import type { SelectOptionParams, SelectOptionProps, SelectOptionState } from "../types";

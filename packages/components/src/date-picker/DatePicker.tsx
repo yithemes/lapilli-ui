@@ -1,6 +1,6 @@
 import React, { forwardRef, useRef, useCallback, useImperativeHandle } from "react";
-import { styled, generateComponentClasses } from "@yith/styles";
-import { format, getDateFormat } from "@yith/date";
+import { styled, generateComponentClasses } from "@maya-ui/styles";
+import { format, getDateFormat } from "@maya-ui/date";
 import classNames from "classnames";
 
 import type { DatePickerProps, DatePickerRef } from "./types";

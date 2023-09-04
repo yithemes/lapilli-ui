@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@maya-ui/styles';
 import { capitalize } from 'lodash';
 import React from 'react';
 import { forwardRef, useState } from 'react';

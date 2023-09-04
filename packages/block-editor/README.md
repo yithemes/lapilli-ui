@@ -23,7 +23,7 @@ wp_add_inline_script(
 	'wp.blocks.unstable__bootstrapServerSideBlockDefinitions(' . wp_json_encode( get_block_editor_server_block_settings() ) . ');'
 );
 
-$block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'yith/my-plugin/panel' ) );
+$block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'my-plugin/context' ) );
 
 $editor_settings = get_block_editor_settings(
 	array(
@@ -89,7 +89,7 @@ You should also set the settings for the BlockEditor, by using its `settings` pr
 You could use `wp_localize_script` to pass the settings to your React code, as follows:
 
 ```php
-$block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'yith/my-plugin/panel' ) );
+$block_editor_context = new \WP_Block_Editor_Context( array( 'name' => 'my-plugin/context' ) );
 
 $editor_settings = get_block_editor_settings(
 	array(
@@ -107,8 +107,8 @@ $editor_settings = get_block_editor_settings(
 );
 
 wp_localize_script(
-	'yith-my-plugin-panel',
-	'yithMyPluginPanel',
+	'my-plugin-script',
+	'myPluginOptions',
 	array(
 		'blockEditorSettings' => $editor_settings,
 	)
@@ -127,7 +127,7 @@ const replaceMediaUpload = () => MediaUpload;
 
 addFilter(
 	'editor.MediaUpload',
-	'yith-my-plugin/panel/replace-media-upload',
+	'my-plugin/replace-media-upload',
 	replaceMediaUpload
 );
 ```
@@ -138,7 +138,7 @@ To use the block editor, you need to add the BlockEditor component to your React
 
 ```jsx
 import { useState }         from 'react';
-import { BlockEditor }      from '@yith/block-editor';
+import { BlockEditor }      from '@maya-ui/block-editor';
 import { parse, serialize } from '@wordpress/blocks';
 
 export default function MyOptions() {
@@ -156,7 +156,7 @@ export default function MyOptions() {
 			<BlockEditor
 				blocks={description}
 				onChange={setDescription}
-				settings={yithMyPluginPanel.blockEditorSettings}
+				settings={myPluginOptions.blockEditorSettings}
 			/>
 		</div>
 	);

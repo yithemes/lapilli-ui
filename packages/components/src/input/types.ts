@@ -1,5 +1,5 @@
 import type React from "react";
-import type { FieldSize, SxProps } from "@yith/styles";
+import type { FieldSize, SxProps } from "@maya-ui/styles";
 
 type TextInputOwnProps = {
 	/**

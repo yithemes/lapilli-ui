@@ -1,5 +1,5 @@
 import type React from "react";
-import type { ThemeColor, SxProps, TypographyVariant } from "@yith/styles";
+import type { ThemeColor, SxProps, TypographyVariant } from "@maya-ui/styles";
 
 export type TypographyOwnerState = {
 	/**

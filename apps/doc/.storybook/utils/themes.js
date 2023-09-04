@@ -1,4 +1,4 @@
-import { createShadows, defaultThemeOptions, createGlows } from '@yith/styles';
+import { createShadows, defaultThemeOptions, createGlows } from '@maya-ui/styles';
 
 export const themes = {
 	'Default': defaultThemeOptions,

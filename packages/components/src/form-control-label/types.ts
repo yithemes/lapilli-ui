@@ -1,4 +1,4 @@
-import type { SxProps } from "@yith/styles";
+import type { SxProps } from "@maya-ui/styles";
 import type React from "react";
 import type { TypographyProps } from "../typography";
 

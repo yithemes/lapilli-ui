@@ -88,7 +88,7 @@ export interface DefaultThemeOptions {
 		};
 	}
 	translations: Record<string, string>
-	__yithUI: boolean
+	__mayaUI: boolean
 }
 
 export interface Theme extends DefaultThemeOptions {
@@ -278,7 +278,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 	},
 	components: {},
 	translations: {},
-	__yithUI: true
+	__mayaUI: true
 };
 
 type ThemeOptions = {

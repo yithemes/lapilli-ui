@@ -1,5 +1,5 @@
 import type React from "react";
-import type { ResponsiveStyleValue, SxProps } from "@yith/styles";
+import type { ResponsiveStyleValue, SxProps } from "@maya-ui/styles";
 
 type GridOwnProps = {
 	/**

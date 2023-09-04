@@ -1,5 +1,5 @@
-import { alpha, styled } from "@yith/styles";
-import { format, getDateFormat } from "@yith/date";
+import { alpha, styled } from "@maya-ui/styles";
+import { format, getDateFormat } from "@maya-ui/date";
 import type { PickerDayOwnerState, PickerDayProps } from "../types";
 import React, { useEffect, useRef } from "react";
 import { useDatePickerContext } from "../context";

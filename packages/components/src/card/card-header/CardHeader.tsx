@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses, styled } from '@yith/styles';
+import { generateComponentSlotClasses, styled } from '@maya-ui/styles';
 import React, { forwardRef } from 'react';
 
 import type { CardHeaderOwnerState, CardHeaderProps, CardHeaderStyled } from "./types";

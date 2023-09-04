@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Breakpoint, SxProps } from "@yith/styles";
+import type { Breakpoint, SxProps } from "@maya-ui/styles";
 
 type ContainerOwnProps = {
 	/**

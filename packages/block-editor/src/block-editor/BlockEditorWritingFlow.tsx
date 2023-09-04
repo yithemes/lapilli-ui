@@ -18,7 +18,7 @@ import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { drawerRight } from '@wordpress/icons';
 import { createBlock, BlockInstance } from "@wordpress/blocks";
 
-import { styled } from "@yith/styles";
+import { styled } from "@maya-ui/styles";
 import useLayoutClasses from "../utils/use-layout-classes";
 import { useLosingFocusFix } from "./utils/useLosingFocusFix";
 

@@ -22,7 +22,7 @@ const memoizedCreateCache = weakMemoize(
 	( { container, direction }: MemoizedCacheArgs ) => {
 		const isRTL = direction === 'rtl';
 		return createCache( {
-			key: 'yith-ui' + ( isRTL ? '-rtl' : '' ),
+			key: 'maya-ui' + ( isRTL ? '-rtl' : '' ),
 			container,
 			stylisPlugins: isRTL ? [ prefixer, rtlPlugin ] : undefined
 		} )

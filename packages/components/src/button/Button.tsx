@@ -1,4 +1,4 @@
-import { alpha, FieldSize, generateComponentClasses, styled } from '@yith/styles';
+import { alpha, FieldSize, generateComponentClasses, styled } from '@maya-ui/styles';
 import { capitalize } from 'lodash';
 import React, { forwardRef } from 'react';
 import classNames from "classnames";

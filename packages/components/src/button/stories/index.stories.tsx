@@ -4,7 +4,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { CalendarIcon, CheckIcon, XMarkIcon, PencilIcon } from "@heroicons/react/24/outline";
 
 import Button from '../';
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 import Stack from "../../stack";
 
 const iconsSettings = {

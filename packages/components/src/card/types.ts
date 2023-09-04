@@ -1,5 +1,5 @@
 import type React from "react";
-import type { SxProps } from "@yith/styles";
+import type { SxProps } from "@maya-ui/styles";
 import type { PaperProps } from "../paper";
 
 export type CardOwnProps = {

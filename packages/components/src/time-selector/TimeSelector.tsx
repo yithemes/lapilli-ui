@@ -1,4 +1,4 @@
-import { styled } from '@yith/styles';
+import { styled } from '@maya-ui/styles';
 import { range } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import Select from '../select';

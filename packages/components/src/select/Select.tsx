@@ -1,6 +1,6 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { noop } from 'lodash';
-import { generateComponentClasses, mergeComponentClasses, styled, useThemeTranslations } from '@yith/styles';
+import { generateComponentClasses, mergeComponentClasses, styled, useThemeTranslations } from '@maya-ui/styles';
 
 import Dropdown from '../dropdown';
 import { useControlledState, useId, usePropState } from '../utils';

@@ -1,5 +1,5 @@
 import type React from "react";
-import type { FieldSize, PaletteClass, SxProps } from "@yith/styles";
+import type { FieldSize, PaletteClass, SxProps } from "@maya-ui/styles";
 
 type CheckboxOwnProps = {
 	/**

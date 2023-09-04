@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Theme } from "@yith/styles";
+import type { Theme } from "@maya-ui/styles";
 
 type BackdropOwnProps = {
 	open: boolean

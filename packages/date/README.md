@@ -7,5 +7,5 @@ A date module to easily handle dates.
 Install the module
 
 ```sh
-npm install @yith/date --save
+npm install @maya-ui/date --save
 ```

@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { generateComponentClasses, styled } from "@yith/styles";
+import { generateComponentClasses, styled } from "@maya-ui/styles";
 import classNames from "classnames";
 import { modalTitleClasses } from "./ModalTitle";
 import type { ModalContentProps } from "../types";

@@ -1,4 +1,4 @@
-import { styled, SxProps } from '@yith/styles';
+import { styled, SxProps } from '@maya-ui/styles';
 import React, { forwardRef } from 'react';
 
 type FormControlProps = React.ComponentProps<'div'> & {

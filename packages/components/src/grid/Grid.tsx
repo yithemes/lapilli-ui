@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses, styled } from '@yith/styles';
+import { generateComponentSlotClasses, styled } from '@maya-ui/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridOwnerState, GridProps, GridStyled } from "./types";

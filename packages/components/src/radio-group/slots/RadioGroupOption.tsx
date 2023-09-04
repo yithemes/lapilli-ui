@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { noop } from "lodash";
 import { CheckIcon } from "@heroicons/react/20/solid";
-import { alpha, generateComponentClasses, mergeComponentClasses, styled } from '@yith/styles';
+import { alpha, generateComponentClasses, mergeComponentClasses, styled } from '@maya-ui/styles';
 
 import { useRadioGroupContext } from "../context";
 import type { RadioGroupClasses, RadioGroupOptionOwnerState, RadioGroupOptionProps, RadioGroupOptionStyled } from "../types";

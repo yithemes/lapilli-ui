@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled, TypographyVariant } from '@yith/styles';
+import { generateComponentClasses, styled, TypographyVariant } from '@maya-ui/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { TypographyOwnerState, TypographyProps, TypographyStyled } from "./types";

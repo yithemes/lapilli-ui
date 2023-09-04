@@ -38,16 +38,16 @@
 		"skipLibCheck": true,
 		"strictNullChecks": true,
 		"paths": {
-			"@yith/block-editor": [
+			"@maya-ui/block-editor": [
 				"../block-editor/src"
 			],
-			"@yith/components": [
+			"@maya-ui/components": [
 				"../components/src"
 			],
-			"@yith/date": [
+			"@maya-ui/date": [
 				"../date/src"
 			],
-			"@yith/styles": [
+			"@maya-ui/styles": [
 				"../styles/src"
 			]
 		}

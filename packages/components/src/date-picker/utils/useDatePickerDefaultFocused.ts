@@ -1,6 +1,6 @@
 import type { DatePickerProps } from "../types";
 import { useMemo } from "react";
-import { getDate, isAfter, isBefore, startOfDay } from "@yith/date";
+import { getDate, isAfter, isBefore, startOfDay } from "@maya-ui/date";
 
 const useDatePickerDefaultFocused = ( props: DatePickerProps ) => {
 	const {

@@ -1,4 +1,4 @@
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 
 export type DatePickerProps = {
 	/**

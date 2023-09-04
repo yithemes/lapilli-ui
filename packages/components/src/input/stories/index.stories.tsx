@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 import { CalendarIcon, CheckIcon, XMarkIcon, PencilIcon, EyeIcon, EyeSlashIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 
 

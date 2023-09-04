@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses } from "@yith/styles";
+import { generateComponentSlotClasses } from "@maya-ui/styles";
 
 export const selectClasses = generateComponentSlotClasses(
 	'Select',

@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Breakpoint, ResponsiveStyleValue } from "@yith/styles";
+import type { Breakpoint, ResponsiveStyleValue } from "@maya-ui/styles";
 
 type ResponsiveColSpan = {
 	/**

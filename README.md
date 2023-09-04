@@ -1,6 +1,10 @@
-# YITH Monorepo
+# Maya UI
 
-This is the YITH monorepo, that includes the UI Library elements.
+Speed up your development process by using the UI components provided by the **Maya UI**.
+
+You can find some examples in the "Introduction" section and you can find all stable components in the "Components" section.
+
+Enjoy it! ;-)
 
 ### Build
 

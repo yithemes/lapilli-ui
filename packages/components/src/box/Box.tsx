@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@yith/styles';
+import { generateComponentClasses, styled } from '@maya-ui/styles';
 import React from 'react';
 import type { BoxProps } from "./types";
 import classNames from "classnames";

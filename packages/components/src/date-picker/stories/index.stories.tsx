@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import DatePicker from '../';
-import type { FieldSize } from "@yith/styles";
+import type { FieldSize } from "@maya-ui/styles";
 import FormControl from "../../form-control";
 import Stack from "../../stack";
 import Select from "../../select";

@@ -1,6 +1,6 @@
 import React, { CSSProperties } from 'react';
 
-import { generateComponentSlotClasses, styled } from '@yith/styles';
+import { generateComponentSlotClasses, styled } from '@maya-ui/styles';
 import type { StackAlignment, StackJustify, StackOwnerState, StackProps, StyledStackProps } from "./types";
 import classNames from "classnames";
 

@@ -8,7 +8,7 @@ This allows you to customize the style of your components in different contexts.
 Install the module
 
 ```sh
-npm install @yith/styles --save
+npm install @maya-ui/styles --save
 ```
 
 ## Key concepts

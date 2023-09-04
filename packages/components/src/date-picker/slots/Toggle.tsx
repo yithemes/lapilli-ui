@@ -1,4 +1,4 @@
-import { styled } from "@yith/styles";
+import { styled } from "@maya-ui/styles";
 import React, { forwardRef } from "react";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 

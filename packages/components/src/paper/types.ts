@@ -1,5 +1,5 @@
 import type React from "react";
-import type { SxProps, Theme, ThemeColor } from "@yith/styles";
+import type { SxProps, Theme, ThemeColor } from "@maya-ui/styles";
 
 type PaperOwnProps = {
 	/**

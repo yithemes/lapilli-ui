@@ -12,7 +12,7 @@ import {
 // @ts-ignore No types exists for this yet.
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 
-import { styled } from "@yith/styles";
+import { styled } from "@maya-ui/styles";
 
 import type { BlockEditorPreviewProps } from "./types";
 import useLayoutClasses from "../utils/use-layout-classes";

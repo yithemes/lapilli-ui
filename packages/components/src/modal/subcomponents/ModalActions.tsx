@@ -1,5 +1,5 @@
 import { forwardRef } from "react";
-import { styled } from "@yith/styles";
+import { styled } from "@maya-ui/styles";
 import type { ModalActionsProps } from "../types";
 
 const ModalActionsRoot = styled( 'div', { name: 'ModalActions', slot: 'Root' } )(

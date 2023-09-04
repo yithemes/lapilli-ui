@@ -2,7 +2,7 @@ import { capitalize } from 'lodash';
 import React, { forwardRef, useState } from 'react';
 import { CheckIcon } from "@heroicons/react/20/solid";
 
-import { FieldSize, generateComponentClasses, styled } from '@yith/styles';
+import { FieldSize, generateComponentClasses, styled } from '@maya-ui/styles';
 
 import { useControlledState, ZeroWidthSpace } from "../utils";
 import type { CheckboxOwnerState, CheckboxProps, CheckboxStyled } from "./types";
