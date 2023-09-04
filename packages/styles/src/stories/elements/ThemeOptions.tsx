@@ -1,15 +1,17 @@
 import React from 'React';
 import useTheme from "../../hooks/useTheme";
-// @ts-ignore
-import Switch from "../../../../components/src/switch/Switch";
-
 const listStyle = {
 	listStyle: 'none'
 }
 
-const Context = React.createContext<boolean>( false );
+type ExpandContext = {
+	expanded: boolean
+	trigger: number
+}
 
-export const useExpanded = (): boolean => React.useContext( Context );
+const Context = React.createContext<ExpandContext>( { expanded: false, trigger: 0 } );
+
+export const useExpanded = (): ExpandContext => React.useContext( Context );
 
 const getType = ( obj: any ) => {
 	let type: string = typeof obj;
@@ -22,12 +24,12 @@ const getType = ( obj: any ) => {
 
 const MaybeCollapsible = ( { label, obj }: { label: string, obj: any } ) => {
 	const type: string = getType( obj );
-	const expanded = useExpanded();
+	const { expanded, trigger } = useExpanded();
 	const [ open, setOpen ] = React.useState( expanded );
 
 	React.useEffect( () => {
 		setOpen( expanded );
-	}, [ expanded ] )
+	}, [ trigger ] )
 
 	let isCollapsible = [ 'array', 'object' ].includes( type );
 	if ( isCollapsible ) {
@@ -79,15 +81,77 @@ const PrintR = ( { obj }: { obj: any } ) => {
 	}
 }
 
+const styles: Record<string, React.CSSProperties> = {
+	container: {
+		marginTop: 32,
+		background: '#fff',
+		color: '#222'
+	},
+	actions: {
+		marginBottom: 24,
+		display: 'flex',
+		flexDirection: 'row',
+		justifyContent: 'flex-end',
+		gap: 16
+	},
+	action: {
+		display: 'flex',
+		flexDirection: 'row',
+		gap: 4,
+		alignItems: 'center',
+		textDecoration: 'none',
+		borderRadius: '8px',
+		background: '#f1f1f1',
+		color: 'inherit',
+		padding: '4px 12px',
+		cursor: 'pointer',
+		fontSize: '.9em'
+	},
+	actionIcon: {
+		transform: 'rotate(45deg)'
+	}
+}
+
 export default function ThemeOptions() {
 	const theme = useTheme();
-	const [ expanded, setExpanded ] = React.useState( false );
+	const [ expanded, setExpandedState ] = React.useState( false );
+	const [ trigger, setTrigger ] = React.useState( 0 );
+	const setExpanded = ( expandedValue: boolean ) => {
+		setExpandedState( expandedValue );
+		setTrigger( _ => _ + 1 );
+	}
 
-	return <Context.Provider value={ expanded }>
-		<div style={ { marginTop: 32, background: '#fff', color: '#222' } }>
-			<div style={ { marginBottom: 24 } }>
-				<Switch checked={ expanded } onChange={ e => setExpanded( e.target.checked ) } id='exapanded'/>
-				<label htmlFor='exapanded' style={ { marginLeft: 4 } }>Expanded</label>
+	const handleExpand = ( event: React.MouseEvent ) => {
+		event.preventDefault();
+		setExpanded( true );
+	}
+
+	const handleCollapse = ( event: React.MouseEvent ) => {
+		event.preventDefault();
+		setExpanded( false );
+	}
+
+	return <Context.Provider value={ { expanded, trigger } }>
+		<div style={ styles.container }>
+			<div style={ styles.actions }>
+				<a
+					onClick={ handleExpand }
+					style={ styles.action }
+				>
+					<svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" width='1em' height='1em' style={styles.actionIcon}>
+						<path d="M12 5.83 15.17 9l1.41-1.41L12 3 7.41 7.59 8.83 9 12 5.83zm0 12.34L8.83 15l-1.41 1.41L12 21l4.59-4.59L15.17 15 12 18.17z"></path>
+					</svg>
+					Expand all
+				</a>
+				<a
+					onClick={ handleCollapse }
+					style={ styles.action }
+				>
+					<svg focusable="false" aria-hidden="true" viewBox="0 0 24 24" width='1em' height='1em' style={styles.actionIcon}>
+						<path d="M7.41 18.59 8.83 20 12 16.83 15.17 20l1.41-1.41L12 14l-4.59 4.59zm9.18-13.18L15.17 4 12 7.17 8.83 4 7.41 5.41 12 10l4.59-4.59z"></path>
+					</svg>
+					Collapse all
+				</a>
 			</div>
 			<PrintR obj={ theme }/>
 		</div>
