@@ -5,8 +5,8 @@ const lightTheme = create(
 	{
 		base      : 'light',
 		brandTitle: 'Maya UI',
-		brandUrl  : 'https://yithemes.com',
-		brandImage: './images/logo.svg'
+		brandUrl  : 'https://github.com/yithemes/maya-ui',
+		// brandImage: './images/logo.svg'
 	}
 );
 
