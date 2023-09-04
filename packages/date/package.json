@@ -1,32 +1,32 @@
 {
-	"name": "@maya-ui/date",
-	"version": "0.0.1",
-	"main": "build/index.js",
-	"module": "build-module/index.js",
-	"types": "build-types",
-	"license": "MIT",
-	"scripts": {
-		"build:types": "tsc --build",
-		"watch:types": "tsc --watch",
-		"clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
-	},
-	"dependencies": {
-		"date-fns": "2.29.3",
-		"lodash": "^4.17.21"
-	},
-	"devDependencies": {
-		"eslint": "^7.32.0",
-		"@maya-ui/tsconfig": "workspace:*",
-		"typescript": "^4.5.2"
-	},
-	"peerDependencies": {
-		"@types/react": "^17.0.0 || ^18.0.0",
-		"@types/react-dom": "^17.0.0 || ^18.0.0",
-		"react": "^17.0.0 || ^18.0.0",
-		"react-dom": "^17.0.0 || ^18.0.0"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"sideEffects": false
+  "name": "@maya-ui/date",
+  "version": "0.0.2",
+  "main": "build/index.js",
+  "module": "build-module/index.js",
+  "types": "build-types",
+  "license": "MIT",
+  "scripts": {
+    "build:types": "tsc --build",
+    "watch:types": "tsc --watch",
+    "clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "date-fns": "2.29.3",
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "@maya-ui/tsconfig": "workspace:*",
+    "eslint": "^7.32.0",
+    "typescript": "^4.5.2"
+  },
+  "peerDependencies": {
+    "@types/react": "^17.0.0 || ^18.0.0",
+    "@types/react-dom": "^17.0.0 || ^18.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }
