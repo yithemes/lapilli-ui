@@ -4,12 +4,13 @@ import type { Meta, StoryObj } from '@storybook/react';
 import DatePicker from '../';
 import type { FieldSize } from "@maya-ui/styles";
 import FormControl from "../../form-control";
-import Stack from "../../stack";
 import Select from "../../select";
 import Input from "../../input";
 import { isInteger } from "lodash";
 import Typography from "../../typography";
 import Box from "../../box";
+import VStack from "../../v-stack";
+import HStack from "../../h-stack";
 
 const meta: Meta<typeof DatePicker> = {
 	title: 'Components/DatePicker',
@@ -169,9 +170,9 @@ function DateFieldsFirstSolution() {
 
 	const isValidDate = !year || ( isValidYear( year ) && Number( day ) <= daysInMonth );
 
-	return <Stack direction='column' spacing={ 1 } sx={ { color: !isValidDate ? '#951300' : undefined } }>
-		<Stack direction='row' spacing={ 1 }>
-			<Stack direction='column' spacing={ .5 }>
+	return <VStack spacing={ 1 } sx={ { color: !isValidDate ? '#951300' : undefined } }>
+		<HStack spacing={ 1 }>
+			<VStack spacing={ .5 }>
 				<label htmlFor='day'>Day</label>
 				<Input
 					id='day'
@@ -181,8 +182,8 @@ function DateFieldsFirstSolution() {
 					onChange={ e => setDay( e.target.value ) }
 					error={ !isValidDate }
 				/>
-			</Stack>
-			<Stack direction='column' spacing={ .5 }>
+			</VStack>
+			<VStack spacing={ .5 }>
 				<label htmlFor='month'>Month</label>
 				<Select
 					id='month'
@@ -193,8 +194,8 @@ function DateFieldsFirstSolution() {
 					onChange={ ( _: string ) => setMonth( Number( _ ) ) }
 					error={ !isValidDate }
 				/>
-			</Stack>
-			<Stack direction='column' spacing={ .5 }>
+			</VStack>
+			<VStack spacing={ .5 }>
 				<label htmlFor='year'>Year</label>
 				<Input
 					id='year'
@@ -205,10 +206,10 @@ function DateFieldsFirstSolution() {
 					onChange={ e => setYear( e.target.value ) }
 					error={ !isValidDate }
 				/>
-			</Stack>
-		</Stack>
+			</VStack>
+		</HStack>
 		{ !isValidDate && <div style={ { fontSize: '.8em' } }>Invalid date</div> }
-	</Stack>
+	</VStack>
 }
 
 function DateFieldsSecondSolution() {
@@ -233,8 +234,8 @@ function DateFieldsSecondSolution() {
 		}
 	}, [ day, month, year ] )
 
-	return <Stack direction='row' spacing={ 1 }>
-		<Stack direction='column' spacing={ .5 }>
+	return <HStack spacing={ 1 }>
+		<VStack spacing={ .5 }>
 			<label htmlFor='day'>Day</label>
 			<Select
 				id='day'
@@ -244,8 +245,8 @@ function DateFieldsSecondSolution() {
 				value={ String( day ) }
 				onChange={ ( _: string ) => setDay( Number( _ ) ) }
 			/>
-		</Stack>
-		<Stack direction='column' spacing={ .5 }>
+		</VStack>
+		<VStack spacing={ .5 }>
 			<label htmlFor='month'>Month</label>
 			<Select
 				id='month'
@@ -255,8 +256,8 @@ function DateFieldsSecondSolution() {
 				value={ String( month ) }
 				onChange={ ( _: string ) => setMonth( Number( _ ) ) }
 			/>
-		</Stack>
-		<Stack direction='column' spacing={ .5 }>
+		</VStack>
+		<VStack spacing={ .5 }>
 			<label htmlFor='year'>Year</label>
 			<Select
 				id='year'
@@ -266,8 +267,8 @@ function DateFieldsSecondSolution() {
 				value={ String( year ) }
 				onChange={ ( _: string ) => setYear( Number( _ ) ) }
 			/>
-		</Stack>
-	</Stack>
+		</VStack>
+	</HStack>
 }
 
 export const Birthday: Story = {
