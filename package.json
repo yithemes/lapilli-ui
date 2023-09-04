@@ -35,7 +35,7 @@
 		"chalk": "4.1.2",
 		"concurrently": "^7.6.0",
 		"fast-glob": "^3.2.12",
-		"lerna": "^7.1.0",
+		"lerna": "^7.2.0",
 		"lodash": "^4.17.21",
 		"make-dir": "^3.1.0",
 		"node-watch": "^0.7.3",
