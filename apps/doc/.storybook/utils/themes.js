@@ -1,4 +1,4 @@
-import { createShadows, defaultThemeOptions, createGlows } from '@maya-ui/styles';
+import { createShadows, defaultThemeOptions, createGlows } from '@lapilli-ui/styles';
 
 export const themes = {
 	'Default': defaultThemeOptions,

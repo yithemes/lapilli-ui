@@ -1,4 +1,4 @@
-import { alpha, FieldSize, generateComponentClasses, PaletteClass, styled, SxProps } from '@maya-ui/styles';
+import { alpha, FieldSize, generateComponentClasses, PaletteClass, styled, SxProps } from '@lapilli-ui/styles';
 import React, { forwardRef } from 'react';
 import { capitalize } from "lodash";
 import classNames from "classnames";

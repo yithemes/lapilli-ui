@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses } from "@maya-ui/styles";
+import { generateComponentSlotClasses } from "@lapilli-ui/styles";
 
 export const radioGroupClasses = generateComponentSlotClasses(
 	'RadioGroup',

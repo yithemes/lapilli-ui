@@ -1,4 +1,4 @@
-const CLASS_PREFIX = 'mayaUI';
+const CLASS_PREFIX = 'lapilliUI';
 
 const globalStateClasses = [
 	'active',

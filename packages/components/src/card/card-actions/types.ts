@@ -1,5 +1,5 @@
 import type React from "react";
-import type { SxProps } from "@maya-ui/styles";
+import type { SxProps } from "@lapilli-ui/styles";
 import type { useCard } from "../context";
 
 

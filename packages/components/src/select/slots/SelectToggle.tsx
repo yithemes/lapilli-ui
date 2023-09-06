@@ -1,4 +1,4 @@
-import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@maya-ui/styles";
+import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@lapilli-ui/styles";
 import { ChevronUpDownIcon, XMarkIcon } from "@heroicons/react/20/solid";
 import React, { forwardRef, useMemo, useRef, useState } from "react";
 

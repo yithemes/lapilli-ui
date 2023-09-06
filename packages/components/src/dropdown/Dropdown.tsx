@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@maya-ui/styles';
+import { generateComponentClasses, styled } from '@lapilli-ui/styles';
 import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import Popover from '../popover';

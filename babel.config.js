@@ -9,7 +9,7 @@ module.exports = ( api ) => {
 		return undefined;
 	} );
 
-	const useESModules = 'MAYA_UI_BUILD_MODULE' === callerName;
+	const useESModules = 'LAPILLI_UI_BUILD_MODULE' === callerName;
 
 	return {
 		presets: [
@@ -18,7 +18,7 @@ module.exports = ( api ) => {
 				{
 					bugfixes        : true,
 					modules         : useESModules ? false : 'commonjs',
-					shippedProposals: 'MAYA_UI_BUILD_MODULE' === callerName
+					shippedProposals: 'LAPILLI_UI_BUILD_MODULE' === callerName
 				}
 			],
 			[

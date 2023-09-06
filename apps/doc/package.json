@@ -1,5 +1,5 @@
 {
-	"name": "maya-ui-components-doc",
+	"name": "lapilli-ui-components-doc",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
@@ -19,10 +19,10 @@
 		"@types/node": "^18.14.6",
 		"@types/react": "^18.0.17",
 		"@types/react-dom": "^18.0.6",
-		"@maya-ui/components": "workspace:*",
-		"@maya-ui/date": "workspace:*",
-		"@maya-ui/styles": "workspace:*",
-		"@maya-ui/tsconfig": "workspace:*",
+		"@lapilli-ui/components": "workspace:*",
+		"@lapilli-ui/date": "workspace:*",
+		"@lapilli-ui/styles": "workspace:*",
+		"@lapilli-ui/tsconfig": "workspace:*",
 		"@heroicons/react": "2.0.13",
 		"eslint": "^7.32.0",
 		"react": "^18.2.0",

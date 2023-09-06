@@ -2,10 +2,10 @@ const DependencyExtractionWebpackPlugin = require( '@wordpress/dependency-extrac
 const { camelCaseDash }                 = require( '@wordpress/dependency-extraction-webpack-plugin/lib/util' );
 const defaultConfig                     = require( '@wordpress/scripts/config/webpack.config' );
 
-const SCOPE            = '@maya-ui/'; // Scope for packages to export.
-const WP_HANDLE_PREFIX = 'maya-ui-'; // Prefix for WordPress handles of JS scripts enqueued.
-const JS_GLOBAL        = 'mayaUI'; // Global variable to be exposed in the window.
-const NAMESPACE        = 'mayaUI'; // Namespace, used in devTools.
+const SCOPE            = '@lapilli-ui/'; // Scope for packages to export.
+const WP_HANDLE_PREFIX = 'lapilli-ui-'; // Prefix for WordPress handles of JS scripts enqueued.
+const JS_GLOBAL        = 'lapilliUI'; // Global variable to be exposed in the window.
+const NAMESPACE        = 'lapilliUI'; // Namespace, used in devTools.
 
 const packageOptions = require( './package.json' );
 const packages       = Object.keys( packageOptions.dependencies ).filter( dep => !!dep.startsWith( SCOPE ) ).map( dep => dep.replace( SCOPE, '' ) );

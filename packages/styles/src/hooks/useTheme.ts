@@ -3,7 +3,7 @@ import type { Theme } from "../theme";
 import { defaultTheme } from "../theme";
 
 const isValidTheme = ( theme: any ): theme is Theme => {
-	return theme && '__mayaUI' in theme && theme.__mayaUI;
+	return theme && '__lapilliUI' in theme && theme.__lapilliUI;
 }
 
 const useTheme = (): Theme => {

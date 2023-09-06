@@ -138,7 +138,7 @@ To use the block editor, you need to add the BlockEditor component to your React
 
 ```jsx
 import { useState }         from 'react';
-import { BlockEditor }      from '@maya-ui/block-editor';
+import { BlockEditor }      from '@lapilli-ui/block-editor';
 import { parse, serialize } from '@wordpress/blocks';
 
 export default function MyOptions() {

@@ -1,14 +1,15 @@
 <?php
 /**
- * Plugin Name: Maya UI - feature plugin
- * Description: Allows to use the Maya UI React packages.
+ * Plugin Name: Lapilli UI - feature plugin
+ * Description: Allows to use the Lapilli UI React packages.
  * Version: 0.3.0
- * Author: Leanza Francesco
+ * Author: YITH
+ * Author: https://yithemes.com/
  *
- * @package MayaUI\WordPress
+ * @package LapilliUI\WordPress
  */
 
-namespace MayaUI\WordPress;
+namespace LapilliUI\WordPress;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -45,7 +46,7 @@ class Feature_Plugin {
 
 	public function should_load_block_editor_scripts_and_styles( $should_load ) {
 		if ( ! $should_load ) {
-			$should_load = wp_script_is( 'maya-ui-block-editor', 'enqueued' );
+			$should_load = wp_script_is( 'lapilli-ui-block-editor', 'enqueued' );
 		}
 
 
@@ -58,16 +59,16 @@ class Feature_Plugin {
 	public function register_scripts() {
 		$base_url = untrailingslashit( plugin_dir_url( __FILE__ ) );
 		$assets   = array(
-			'maya-ui-block-editor' => array(
+			'lapilli-ui-block-editor' => array(
 				'path' => '/dist/block-editor/',
 			),
-			'maya-ui-components'   => array(
+			'lapilli-ui-components'   => array(
 				'path' => '/dist/components/',
 			),
-			'maya-ui-styles'       => array(
+			'lapilli-ui-styles'       => array(
 				'path' => '/dist/styles/',
 			),
-			'maya-ui-date'         => array(
+			'lapilli-ui-date'         => array(
 				'path' => '/dist/date/',
 			),
 		);
@@ -81,7 +82,7 @@ class Feature_Plugin {
 			$script = $base_url . $path . 'index.js';
 			$style  = $base_url . $path . 'style.css';
 
-			if ( 'maya-ui-date' === $handle ) {
+			if ( 'lapilli-ui-date' === $handle ) {
 				$dependencies[] = 'wp-date';
 			}
 
@@ -108,10 +109,10 @@ class Feature_Plugin {
 		);
 
 		wp_add_inline_script(
-			'maya-ui-date',
-			'maya-ui.date.setLocale( ' . wp_json_encode( $locale_options ) . ' );
-			maya-ui.date.setDateFormats( ' . wp_json_encode( $date_formats ) . ' );
-			maya-ui.date.setFormatDate( wp.date.format );'
+			'lapilli-ui-date',
+			'lapilli-ui.date.setLocale( ' . wp_json_encode( $locale_options ) . ' );
+			lapilli-ui.date.setDateFormats( ' . wp_json_encode( $date_formats ) . ' );
+			lapilli-ui.date.setFormatDate( wp.date.format );'
 		);
 
 	}

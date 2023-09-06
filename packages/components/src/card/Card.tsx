@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses, styled } from '@maya-ui/styles';
+import { generateComponentSlotClasses, styled } from '@lapilli-ui/styles';
 import React, { forwardRef } from 'react';
 
 import type { CardProps } from "./types";

@@ -1,6 +1,6 @@
 import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import type { FieldSize } from "@maya-ui/styles";
+import type { FieldSize } from "@lapilli-ui/styles";
 
 import Spinner from '../';
 

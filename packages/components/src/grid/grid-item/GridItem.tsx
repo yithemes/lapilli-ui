@@ -1,4 +1,4 @@
-import { generateComponentSlotClasses, styled, useBreakpointProps } from '@maya-ui/styles';
+import { generateComponentSlotClasses, styled, useBreakpointProps } from '@lapilli-ui/styles';
 import React from 'react';
 import { forwardRef } from 'react';
 import type { GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";

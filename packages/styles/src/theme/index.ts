@@ -88,7 +88,7 @@ export interface DefaultThemeOptions {
 		};
 	}
 	translations: Record<string, string>
-	__mayaUI: boolean
+	__lapilliUI: boolean
 }
 
 export interface Theme extends DefaultThemeOptions {
@@ -278,7 +278,7 @@ export const defaultThemeOptions: DefaultThemeOptions = {
 	},
 	components: {},
 	translations: {},
-	__mayaUI: true
+	__lapilliUI: true
 };
 
 type ThemeOptions = {

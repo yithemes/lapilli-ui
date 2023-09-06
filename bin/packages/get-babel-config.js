@@ -8,7 +8,7 @@ module.exports = ( environment = '', file ) => {
 	 */
 	const callerOpts = {
 		caller: {
-			name: `MAYA_UI_BUILD_${ environment.toUpperCase() }`,
+			name: `LAPILLI_UI_BUILD_${ environment.toUpperCase() }`,
 		},
 	};
 

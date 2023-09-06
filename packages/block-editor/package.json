@@ -1,5 +1,5 @@
 {
-	"name": "@maya-ui/block-editor",
+	"name": "@lapilli-ui/block-editor",
 	"version": "0.0.2",
 	"main": "build/index.js",
 	"module": "build-module/index.js",
@@ -13,7 +13,7 @@
 	},
 	"dependencies": {
 		"@babel/runtime": "^7.16.0",
-		"@maya-ui/styles": "workspace:*",
+		"@lapilli-ui/styles": "workspace:*",
 		"@wordpress/block-editor": "^11.6.0",
 		"@wordpress/block-library": "^8.6.0",
 		"@wordpress/blocks": "^12.6.0",
@@ -28,7 +28,7 @@
 		"lodash": "^4.17.21"
 	},
 	"devDependencies": {
-		"@maya-ui/tsconfig": "workspace:*",
+		"@lapilli-ui/tsconfig": "workspace:*",
 		"@types/wordpress__block-editor": "^11.0.1",
 		"@types/wordpress__block-library": "^2.6.1",
 		"@types/wordpress__blocks": "^12.0.3",

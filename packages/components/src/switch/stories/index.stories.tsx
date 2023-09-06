@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Switch from '../Switch';
-import type { FieldSize } from "@maya-ui/styles";
+import type { FieldSize } from "@lapilli-ui/styles";
 import FormControl from "../../form-control";
 
 const meta: Meta<typeof Switch> = {

@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import Slider from '..';
 import Box from "../../box";
-import type { FieldSize } from "@maya-ui/styles";
+import type { FieldSize } from "@lapilli-ui/styles";
 import FormControl from "../../form-control";
 
 const meta: Meta<typeof Slider> = {

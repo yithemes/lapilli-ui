@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useRef } from 'react';
-import { styled } from '@maya-ui/styles';
+import { styled } from '@lapilli-ui/styles';
 import type { PopoverComputedPosition, PopoverComputePositionProps } from "./types.internal";
 import type { PopoverProps } from "./types";
 import Portal from "../portal";

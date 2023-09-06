@@ -1,4 +1,4 @@
-import type { FieldSize } from "@maya-ui/styles";
+import type { FieldSize } from "@lapilli-ui/styles";
 
 export type DatePickerProps = {
 	/**

@@ -1,18 +1,18 @@
 {
-	"name": "maya-ui-library-wordpress-plugin",
+	"name": "lapilli-ui-library-wordpress-plugin",
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
 		"analyze": "wp-scripts build --progress --webpack-bundle-analyzer",
 		"build": "wp-scripts build --progress",
-		"build-zip": "node ./bin/build-zip.js --folder maya-ui",
+		"build-zip": "node ./bin/build-zip.js --folder lapilli-ui",
 		"watch": "wp-scripts start --progress --mode=development"
 	},
 	"dependencies": {
-		"@maya-ui/block-editor": "workspace:*",
-		"@maya-ui/components": "workspace:*",
-		"@maya-ui/date": "workspace:*",
-		"@maya-ui/styles": "workspace:*",
+		"@lapilli-ui/block-editor": "workspace:*",
+		"@lapilli-ui/components": "workspace:*",
+		"@lapilli-ui/date": "workspace:*",
+		"@lapilli-ui/styles": "workspace:*",
 		"react": "^18.0.0",
 		"react-dom": "^18.0.0",
 		"typescript": "^5.1.6",

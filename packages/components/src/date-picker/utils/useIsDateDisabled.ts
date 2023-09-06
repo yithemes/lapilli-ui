@@ -1,6 +1,6 @@
 import type { DatePickerProps } from "../types";
 import { useCallback } from "react";
-import { isAfter, isBefore, startOfDay } from "@maya-ui/date";
+import { isAfter, isBefore, startOfDay } from "@lapilli-ui/date";
 
 const useIsDateDisabled = ( props: DatePickerProps ) => {
 	const {

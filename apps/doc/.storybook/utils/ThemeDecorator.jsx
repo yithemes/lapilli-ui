@@ -1,4 +1,4 @@
-import { defaultThemeOptions, ThemeProvider } from '@maya-ui/styles';
+import { defaultThemeOptions, ThemeProvider } from '@lapilli-ui/styles';
 import React                                  from "react";
 import { themes }                             from './themes';
 

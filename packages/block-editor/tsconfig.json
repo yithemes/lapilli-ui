@@ -1,5 +1,5 @@
 {
-	"extends": "@maya-ui/tsconfig/react-library.json",
+	"extends": "@lapilli-ui/tsconfig/react-library.json",
 	"include": [
 		"src/*",
 		"src/**/*"
@@ -10,7 +10,7 @@
 		"outDir": "build-module",
 		"declarationDir": "build-types",
 		"paths": {
-			"@maya-ui/styles": [
+			"@lapilli-ui/styles": [
 				"../styles"
 			]
 		}

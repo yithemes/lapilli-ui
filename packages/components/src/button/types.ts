@@ -1,4 +1,4 @@
-import type { FieldSize, PaletteClass, SxProps } from "@maya-ui/styles";
+import type { FieldSize, PaletteClass, SxProps } from "@lapilli-ui/styles";
 import type React from "react";
 
 type ButtonOwnProps = {

@@ -1,6 +1,6 @@
 import type { DatePickerProps } from "../types";
 import { useCallback } from "react";
-import { addMonths, endOfMonth, isAfter, isBefore, startOfDay, startOfMonth } from "@maya-ui/date";
+import { addMonths, endOfMonth, isAfter, isBefore, startOfDay, startOfMonth } from "@lapilli-ui/date";
 
 export const useIsPrevMonthDisabled = ( props: DatePickerProps ) => {
 	const { minDate } = props;

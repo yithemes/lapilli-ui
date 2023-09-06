@@ -1,4 +1,4 @@
-import { alpha, generateComponentClasses, styled, keyframes } from '@maya-ui/styles';
+import { alpha, generateComponentClasses, styled, keyframes } from '@lapilli-ui/styles';
 import React from 'react';
 import type { SkeletonOwnerState, SkeletonProps, SkeletonStyled } from "./types";
 import classNames from "classnames";

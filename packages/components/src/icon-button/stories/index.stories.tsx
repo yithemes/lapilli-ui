@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { PencilIcon, EyeIcon, TrashIcon } from "@heroicons/react/24/outline";
 
-import type { FieldSize } from "@maya-ui/styles";
+import type { FieldSize } from "@lapilli-ui/styles";
 
 import IconButton from '../';
 import Stack from "../../stack";

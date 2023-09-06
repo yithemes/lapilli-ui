@@ -1,6 +1,6 @@
 import type { DatePickerProps } from "../types";
 import { useMemo } from "react";
-import { getDate, isAfter, isBefore, startOfDay } from "@maya-ui/date";
+import { getDate, isAfter, isBefore, startOfDay } from "@lapilli-ui/date";
 
 const useDatePickerDefaultFocused = ( props: DatePickerProps ) => {
 	const {

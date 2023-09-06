@@ -4,8 +4,8 @@ import { create } from '@storybook/theming';
 const lightTheme = create(
 	{
 		base      : 'light',
-		brandTitle: 'Maya UI',
-		brandUrl  : 'https://github.com/yithemes/maya-ui',
+		brandTitle: 'Lapilli UI',
+		brandUrl  : 'https://github.com/yithemes/lapilli-ui',
 		// brandImage: './images/logo.svg'
 	}
 );

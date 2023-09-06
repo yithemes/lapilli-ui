@@ -1,4 +1,4 @@
-import type { SxProps } from "@maya-ui/styles";
+import type { SxProps } from "@lapilli-ui/styles";
 import type React from 'react';
 
 export type SkeletonOwnProps = {

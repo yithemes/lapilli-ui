@@ -1,4 +1,4 @@
-import { generateComponentClasses, styled } from '@maya-ui/styles';
+import { generateComponentClasses, styled } from '@lapilli-ui/styles';
 import React, { forwardRef } from 'react';
 
 import type { CardMediaOwnerState, CardMediaProps, CardMediaStyled } from "./types";

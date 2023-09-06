@@ -1,6 +1,6 @@
 import React from "react";
 import classNames from "classnames";
-import { generateComponentClasses, keyframes, styled } from "@maya-ui/styles";
+import { generateComponentClasses, keyframes, styled } from "@lapilli-ui/styles";
 
 import type { BackdropProps, BackdropStyled } from "./types";
 

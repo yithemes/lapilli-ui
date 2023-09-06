@@ -1,4 +1,4 @@
-import { styled } from "@maya-ui/styles";
+import { styled } from "@lapilli-ui/styles";
 import React, { forwardRef } from "react";
 import { CalendarDaysIcon } from "@heroicons/react/24/outline";
 

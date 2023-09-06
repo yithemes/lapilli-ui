@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { debounce, capitalize } from 'lodash';
-import { generateComponentClasses, mergeComponentClasses, styled } from '@maya-ui/styles';
+import { generateComponentClasses, mergeComponentClasses, styled } from '@lapilli-ui/styles';
 
 import Stack from '../stack';
 import { useControlledState, useId } from '../utils';

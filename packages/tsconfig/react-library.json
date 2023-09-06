@@ -38,16 +38,16 @@
 		"skipLibCheck": true,
 		"strictNullChecks": true,
 		"paths": {
-			"@maya-ui/block-editor": [
+			"@lapilli-ui/block-editor": [
 				"../block-editor/src"
 			],
-			"@maya-ui/components": [
+			"@lapilli-ui/components": [
 				"../components/src"
 			],
-			"@maya-ui/date": [
+			"@lapilli-ui/date": [
 				"../date/src"
 			],
-			"@maya-ui/styles": [
+			"@lapilli-ui/styles": [
 				"../styles/src"
 			]
 		}

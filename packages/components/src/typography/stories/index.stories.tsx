@@ -2,7 +2,7 @@ import React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
 import Typography from "..";
-import type { TypographyVariant } from "@maya-ui/styles";
+import type { TypographyVariant } from "@lapilli-ui/styles";
 
 const meta: Meta<typeof Typography> = {
 	title: 'Components/Typography',

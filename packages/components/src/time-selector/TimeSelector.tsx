@@ -1,4 +1,4 @@
-import { styled } from '@maya-ui/styles';
+import { styled } from '@lapilli-ui/styles';
 import { range } from 'lodash';
 import React, { useMemo, useState } from 'react';
 import Select from '../select';

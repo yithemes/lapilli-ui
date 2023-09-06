@@ -1,5 +1,5 @@
 import type React from "react";
-import type { FieldSize, SxProps } from "@maya-ui/styles";
+import type { FieldSize, SxProps } from "@lapilli-ui/styles";
 import type { StackProps } from "../stack/types";
 import type { RadioGroupContextValue } from "./context";
 import type { radioGroupClasses } from "./classes";

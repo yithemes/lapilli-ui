@@ -6,7 +6,7 @@ import { BlockEditorProvider } from '@wordpress/block-editor';
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
-import { generateComponentClasses, styled, Theme } from "@maya-ui/styles";
+import { generateComponentClasses, styled, Theme } from "@lapilli-ui/styles";
 
 import type { BlockEditorProps } from "./types";
 import useMediaUpload from "../utils/use-media-upload";

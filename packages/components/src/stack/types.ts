@@ -1,4 +1,4 @@
-import type { ResponsiveStyleValue, SxProps } from "@maya-ui/styles";
+import type { ResponsiveStyleValue, SxProps } from "@lapilli-ui/styles";
 import type React from "react";
 
 type StackDirection = 'row' | 'column';

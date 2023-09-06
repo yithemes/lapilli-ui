@@ -67,7 +67,7 @@ function getBuildPath( file, buildFolder ) {
 async function buildJS( file ) {
 	for ( const [environment, buildDir] of Object.entries( JS_ENVIRONMENTS ) ) {
 		const destPath     = getBuildPath( file.replace( /\.tsx?$/, '.js' ), buildDir );
-		const babelOptions = getBabelConfig( environment, file.replace( PACKAGES_DIR, '@mayaUI' ) );
+		const babelOptions = getBabelConfig( environment, file.replace( PACKAGES_DIR, '@lapilliUI' ) );
 
 		const [, transformed] = await Promise.all(
 			[

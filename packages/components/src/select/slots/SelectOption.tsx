@@ -1,4 +1,4 @@
-import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@maya-ui/styles";
+import { alpha, generateComponentClasses, mergeComponentClasses, styled } from "@lapilli-ui/styles";
 import React, { forwardRef } from "react";
 import type { SelectOptionOwnerState, SelectOptionProps, SelectOptionStyled } from "../types";
 import classNames from "classnames";

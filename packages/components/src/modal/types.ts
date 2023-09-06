@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Breakpoint } from "@maya-ui/styles";
+import type { Breakpoint } from "@lapilli-ui/styles";
 
 type ModalOwnProps = {
 	/**
