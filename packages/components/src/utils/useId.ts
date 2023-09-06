@@ -1,4 +1,4 @@
-const PREFIX = 'yb:';
+const PREFIX = 'lpl:';
 let globalId = 0;
 export default function useId( idOverride?: string ) {
 	if ( idOverride ) {
