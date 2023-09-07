@@ -9,7 +9,13 @@ const useComponentClasses = ( ownerState: ButtonOwnerState ) => {
 	return generateComponentClasses(
 		'Button',
 		{
-			root: [ 'root', `--${ ownerState.variant }`, `--size${ capitalize( ownerState.size ) }`, `--color${ capitalize( ownerState.color ) }` ],
+			root: [
+				'root',
+				`--${ ownerState.variant }`,
+				`--size${ capitalize( ownerState.size ) }`,
+				`--color${ capitalize( ownerState.color ) }`,
+				ownerState.disabled && 'disabled',
+			],
 			startIcon: [ 'startIcon' ],
 			endIcon: [ 'endIcon' ],
 		}

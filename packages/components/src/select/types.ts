@@ -187,7 +187,7 @@ export type SelectOwnProps = SingleSelectOwnProps | MultipleSelectOwnProps
 type SelectPropsWithRef = Omit<React.ComponentProps<'div'>, keyof SelectOwnProps> & SelectOwnProps
 export type SelectProps = Omit<SelectPropsWithRef, 'ref'>
 
-export type SelectOwnerState = Required<Pick<SelectProps, 'fullWidth' | 'variant' | 'classes'>>
+export type SelectOwnerState = Required<Pick<SelectProps, 'fullWidth' | 'variant' | 'size' | 'disabled' | 'error' | 'classes'>>
 
 export type SelectStyled = {
 	ownerState: SelectOwnerState

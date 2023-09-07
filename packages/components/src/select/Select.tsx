@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { noop } from 'lodash';
+import { capitalize, noop } from 'lodash';
 import { generateComponentClasses, mergeComponentClasses, styled, useThemeTranslations } from '@lapilli-ui/styles';
 
 import Dropdown from '../dropdown';
@@ -17,7 +17,14 @@ const useComponentClasses = ( ownerState: SelectOwnerState ): SelectClasses => {
 	const stateClasses = generateComponentClasses(
 		'Select',
 		{
-			root: [ `--${ ownerState.variant }` ],
+			root: [
+				`--${ ownerState.variant }`,
+				`--size${ capitalize( ownerState.size ) }`,
+				ownerState.fullWidth && '--fullWidth',
+				ownerState.disabled && 'disabled',
+				ownerState.error && 'error',
+				// todo: add 'focused' and 'isOpen' classes.
+			],
 		}
 	);
 
@@ -262,7 +269,14 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		}
 	}, [ typingTerm ] )
 
-	const ownerState: SelectOwnerState = { fullWidth, variant, classes: classesProp };
+	const ownerState: SelectOwnerState = {
+		fullWidth,
+		variant,
+		size,
+		disabled,
+		error,
+		classes: classesProp
+	};
 	const classes = useComponentClasses( ownerState );
 
 	const componentIds: React.ComponentProps<typeof SelectProvider>['componentIds'] = {

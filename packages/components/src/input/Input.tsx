@@ -17,6 +17,7 @@ const useComponentClasses = ( ownerState: InputOwnerState ) => {
 				ownerState.disabled && 'disabled',
 				ownerState.error && 'error',
 				ownerState.isMini && '--mini',
+				ownerState.fullWidth && '--fullWidth',
 				ownerState.hasStartAdornment && '--hasStartAdornment',
 				ownerState.hasEndAdornment && '--hasEndAdornment',
 			],

@@ -22,7 +22,8 @@ const useComponentClasses = ( ownerState: CheckboxOwnerState ) => {
 			root: [
 				'root',
 				`--size${ capitalize( ownerState.size ) }`,
-				ownerState.checked && 'checked'
+				ownerState.checked && 'checked',
+				ownerState.disabled && 'disabled',
 			],
 			field: [ 'field' ],
 			shape: [ 'shape' ],

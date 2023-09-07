@@ -16,7 +16,8 @@ const useComponentClasses = ( ownerState: SwitchOwnerState ) => {
 			root: [
 				'root',
 				`--size${ capitalize( ownerState.size ) }`,
-				ownerState.checked && 'checked'
+				ownerState.checked && 'checked',
+				ownerState.disabled && 'disabled',
 			],
 			field: [ 'field' ],
 			track: [ 'track' ],
