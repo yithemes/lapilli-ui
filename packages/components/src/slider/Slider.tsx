@@ -23,6 +23,9 @@ const useComponentClasses = ( ownerState: SliderOwnerState ) => {
 			track: [ 'track' ],
 			filledTrack: [ 'filledTrack' ],
 			thumb: [ 'thumb' ],
+			valueLabel: [ 'valueLabel' ],
+			mark: [ 'mark' ],
+			markLabel: [ 'markLabel' ],
 		}
 	)
 }
@@ -348,12 +351,12 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>( function Slider(
 				disabled={ disabled }
 			/>
 
-			<SliderTrack ownerState={ ownerState }>
-				<SliderFilledTrack sx={ { width: `${ percentage }%` } } ownerState={ ownerState }/>
+			<SliderTrack ownerState={ ownerState } className={ classes.track }>
+				<SliderFilledTrack sx={ { width: `${ percentage }%` } } ownerState={ ownerState } className={ classes.filledTrack }/>
 			</SliderTrack>
 
-			<Popover anchorRef={ rootRef.current } forceMinWidth position='top left'>
-				<SliderValueLabel sx={ { left: `${ percentage }%` } } ownerState={ ownerState }>{ value }</SliderValueLabel>
+			<Popover anchorRef={ rootRef.current } forceMinWidth position='top left' forceInView={ false }>
+				<SliderValueLabel sx={ { left: `${ percentage }%` } } ownerState={ ownerState } className={ classes.valueLabel }>{ value }</SliderValueLabel>
 			</Popover>
 
 			{ theMarks.map( mark => {
@@ -366,17 +369,19 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>( function Slider(
 							sx={ { left: `${ markPercentage }%` } }
 							active={ isActive }
 							ownerState={ ownerState }
+							className={ classes.mark }
 						/>
 						{ typeof markLabel !== 'undefined' && <SliderMarkLabel
 							sx={ { left: `${ markPercentage }%` } }
 							active={ isActive }
 							ownerState={ ownerState }
+							className={ classes.markLabel }
 						>{ markLabel }</SliderMarkLabel> }
 					</Fragment>
 				}
 			) }
 
-			<SliderThumb sx={ { left: `${ percentage }%` } } ownerState={ ownerState }/>
+			<SliderThumb sx={ { left: `${ percentage }%` } } ownerState={ ownerState } className={ classes.thumb }/>
 		</SliderRoot>
 	);
 } );
