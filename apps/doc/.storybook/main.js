@@ -1,8 +1,9 @@
+const sortedPackages = ['components', 'styles', 'date', 'block-editor']
+
 module.exports = {
 	stories   : [
 		'./stories/*.@(js|jsx|ts|tsx|mdx)',
-		'../../../packages/components/src/**/stories/*.stories.@(js|jsx|ts|tsx|mdx)',
-		'../../../packages/styles/src/**/stories/*.stories.@(js|jsx|ts|tsx|mdx)'
+		...sortedPackages.map(packageName => `../../../packages/${packageName}/src/**/stories/*.stories.@(js|jsx|ts|tsx|mdx)`)
 	],
 	addons    : [
 		"@storybook/addon-links",
