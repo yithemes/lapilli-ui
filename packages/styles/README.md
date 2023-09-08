@@ -1,4 +1,4 @@
-# Styles
+# Lapilli UI - Styles
 
 A styling solution for React components, by using `@emotion/styled` and one or more themes.
 This allows you to customize the style of your components in different contexts.

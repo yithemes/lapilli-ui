@@ -1,4 +1,4 @@
-# Components
+# Lapilli UI - Components
 
 A library of components you can use in your app to create your layout.
 

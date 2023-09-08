@@ -1,4 +1,4 @@
-# Dates
+# Lapilli UI - Date
 
 A date module to easily handle dates.
 

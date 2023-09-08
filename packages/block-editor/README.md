@@ -1,4 +1,4 @@
-# Block Editor
+# Lapilli UI - Block Editor
 
 You can use the Gutenberg block editor through the BlockEditor component.
 
