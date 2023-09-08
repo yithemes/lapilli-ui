@@ -4,17 +4,6 @@ import ThemeDecorator from "./utils/ThemeDecorator";
 
 export const decorators = [ ThemeDecorator ];
 
-export const parameters = {
-	actions: { argTypesRegex: "^on[A-Z].*" },
-	controls: {
-		expanded: true,
-		matchers: {
-			color: /(background|color)$/i,
-			date: /Date$/
-		}
-	}
-}
-
 const preview: Preview = {
 	globalTypes: {
 		theme: {
@@ -27,6 +16,21 @@ const preview: Preview = {
 			},
 		},
 	},
+	parameters: {
+		actions: { argTypesRegex: "^on[A-Z].*" },
+		controls: {
+			expanded: true,
+			matchers: {
+				color: /(background|color)$/i,
+				date: /Date$/
+			}
+		},
+		options: {
+			storySort: {
+				order: [ 'Introduction', 'Components', [ 'Introduction' ], 'Styles', [ 'Introduction' ], 'Date', [ 'Introduction' ], 'BlockEditor', [ 'Introduction' ] ],
+			},
+		}
+	}
 };
 
 export default preview;
