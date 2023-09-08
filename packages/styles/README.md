@@ -49,3 +49,7 @@ You can use our functions to easily create CSS classes for your components:
 - generateComponentClasses
 - mergeComponentClasses
 - generateComponentSlotClasses
+
+## Documentation
+
+See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.

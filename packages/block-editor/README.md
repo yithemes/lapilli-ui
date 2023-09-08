@@ -164,3 +164,7 @@ export default function MyOptions() {
 ```
 
 You can use the `parse` and `serialize` functions from `@wordpress/blocks` to convert the blocks to HTML and vice versa.
+
+## Documentation
+
+See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.

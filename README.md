@@ -9,7 +9,7 @@ It contains different packages:
 - **Date**: a date module to easily handle dates.
 - **BlockEditor**: a library to use the WordPress Gutenberg block editor through the BlockEditor component.
 
-### Usage
+## Usage
 
 Here an example of a basic app using the Button component.
 
@@ -22,4 +22,8 @@ function App() {
 }
 ```
 
-Enjoy it! ;-)
+## Documentation
+
+See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.
+
+Enjoy it! 😉 

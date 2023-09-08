@@ -22,3 +22,7 @@ function App() {
 	return <Button variant="outlined" color="secondary">Click me</Button>;
 }
 ```
+
+## Documentation
+
+See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.

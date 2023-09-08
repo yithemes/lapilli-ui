@@ -2,7 +2,6 @@ import { Meta }     from '@storybook/addon-docs';
 import { Markdown } from '@storybook/blocks';
 import Readme       from '../../README.md';
 
-
 <Meta title="Styles/Introduction"/>
 
-<Markdown>{Readme}</Markdown>
+<Markdown>{Readme.split('## Documentation')[0] + '\n' + "Enjoy it! 😉"}</Markdown>
