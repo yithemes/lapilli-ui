@@ -6,7 +6,7 @@ const lightTheme = create(
 		base      : 'light',
 		brandTitle: 'Lapilli UI',
 		brandUrl  : 'https://github.com/yithemes/lapilli-ui',
-		// brandImage: './images/logo.svg'
+		brandImage: './images/logo.svg'
 	}
 );
 
