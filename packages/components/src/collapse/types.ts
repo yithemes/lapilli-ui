@@ -1,6 +1,6 @@
 import type React from "react";
 import type { SxProps } from "@lapilli-ui/styles";
-import type { MotionProps } from "framer-motion";
+import type { TransitionStatus } from "react-transition-group";
 
 export type CollapseOwnProps = {
 	/**
@@ -21,5 +21,13 @@ export type CollapseOwnProps = {
 	sx?: SxProps
 }
 
-export type CollapsePropsWithRef = Omit<React.ComponentProps<'div'>, keyof CollapseOwnProps | keyof MotionProps> & CollapseOwnProps & MotionProps
+export type CollapsePropsWithRef = Omit<React.ComponentProps<'div'>, keyof CollapseOwnProps> & CollapseOwnProps
 export type CollapseProps = Omit<CollapsePropsWithRef, 'ref'>
+
+export type CollapseOwnerState = Required<Pick<CollapseOwnProps, 'open' | 'orientation' | 'collapsedSize'>> & {
+	state: TransitionStatus
+}
+
+export type CollapseStyled = {
+	ownerState: CollapseOwnerState
+};
