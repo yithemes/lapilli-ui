@@ -7,7 +7,7 @@ A library of components you can use in your app to create your layout.
 Install the module
 
 ```sh
-npm install @lapilli-ui/components --save
+npm install @lapilli-ui/components @emotion/react @emotion/styled --save
 ```
 
 ## Getting started

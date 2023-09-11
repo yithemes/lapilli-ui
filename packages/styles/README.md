@@ -8,7 +8,7 @@ This allows you to customize the style of your components in different contexts.
 Install the module
 
 ```sh
-npm install @lapilli-ui/styles --save
+npm install @lapilli-ui/styles @emotion/react @emotion/styled --save
 ```
 
 ## Key concepts
