@@ -89,6 +89,9 @@ const BlockEditorPopover = styled( 'div', { name: 'BlockEditor', slot: 'Popover'
 	...getChildPopoverStyle( theme )
 } ) );
 
+// @ts-ignore Slot exists as property of Popover.
+const PopoverSlot = Popover.Slot;
+
 const useComponentClasses = () => {
 	return generateComponentClasses(
 		'BlockEditor',
@@ -152,7 +155,7 @@ function BlockEditor( {
 					/>
 
 					{
-						!disablePortal ? createPortal( <BlockEditorPopover role="presentation"><Popover.Slot/></BlockEditorPopover>, document.body ) : <Popover.Slot/>
+						!disablePortal ? createPortal( <BlockEditorPopover role="presentation"><PopoverSlot/></BlockEditorPopover>, document.body ) : <PopoverSlot/>
 					}
 
 				</BlockEditorProvider>
