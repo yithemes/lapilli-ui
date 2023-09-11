@@ -1,14 +1,14 @@
 {
-	"name": "@lapilli-ui/tsconfig",
-	"version": "0.0.1",
-	"license": "MIT",
-	"author": "YITH (https://www.yithemes.com)",
-	"files": [
-		"base.json",
-		"nextjs.json",
-		"react-library.json"
-	],
-	"publishConfig": {
-		"access": "public"
-	}
+  "name": "@lapilli-ui/tsconfig",
+  "version": "1.0.0-beta.1",
+  "license": "MIT",
+  "author": "YITH (https://www.yithemes.com)",
+  "files": [
+    "base.json",
+    "nextjs.json",
+    "react-library.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

@@ -1,41 +1,41 @@
 {
-	"name": "@lapilli-ui/styles",
-	"version": "0.0.2",
-	"main": "build/index.js",
-	"module": "build-module/index.js",
-	"types": "build-types",
-	"license": "MIT",
-	"author": "YITH (https://www.yithemes.com)",
-	"scripts": {
-		"build:types": "tsc --build",
-		"watch:types": "tsc --watch",
-		"clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
-	},
-	"dependencies": {
-		"@babel/runtime": "^7.16.0",
-		"@emotion/cache": "^11.11.0",
-		"@emotion/weak-memoize": "^0.3.1",
-		"@types/stylis": "^4.2.0",
-		"lodash": "^4.17.21",
-		"stylis": "^4.2.0",
-		"stylis-plugin-rtl": "^2.1.1"
-	},
-	"devDependencies": {
-		"@lapilli-ui/tsconfig": "workspace:*",
-		"csstype": "3.1.1",
-		"eslint": "^7.32.0",
-		"typescript": "^4.5.2"
-	},
-	"peerDependencies": {
-		"@types/react": "^17.0.0 || ^18.0.0",
-		"@types/react-dom": "^17.0.0 || ^18.0.0",
-		"react": "^17.0.0 || ^18.0.0",
-		"react-dom": "^17.0.0 || ^18.0.0",
-		"@emotion/react": "^11.10.4",
-		"@emotion/styled": "^11.10.4"
-	},
-	"publishConfig": {
-		"access": "public"
-	},
-	"sideEffects": false
+  "name": "@lapilli-ui/styles",
+  "version": "1.0.0-beta.1",
+  "main": "build/index.js",
+  "module": "build-module/index.js",
+  "types": "build-types",
+  "license": "MIT",
+  "author": "YITH (https://www.yithemes.com)",
+  "scripts": {
+    "build:types": "tsc --build",
+    "watch:types": "tsc --watch",
+    "clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.16.0",
+    "@emotion/cache": "^11.11.0",
+    "@emotion/weak-memoize": "^0.3.1",
+    "@types/stylis": "^4.2.0",
+    "lodash": "^4.17.21",
+    "stylis": "^4.2.0",
+    "stylis-plugin-rtl": "^2.1.1"
+  },
+  "devDependencies": {
+    "@lapilli-ui/tsconfig": "workspace:*",
+    "csstype": "3.1.1",
+    "eslint": "^7.32.0",
+    "typescript": "^4.5.2"
+  },
+  "peerDependencies": {
+    "@emotion/react": "^11.10.4",
+    "@emotion/styled": "^11.10.4",
+    "@types/react": "^17.0.0 || ^18.0.0",
+    "@types/react-dom": "^17.0.0 || ^18.0.0",
+    "react": "^17.0.0 || ^18.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false
 }
