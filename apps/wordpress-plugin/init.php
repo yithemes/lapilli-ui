@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Lapilli UI - feature plugin
  * Description: Allows to use the Lapilli UI React packages.
- * Version: 0.3.0
+ * Version: 1.0.0
  * Author: YITH
  * Author: https://yithemes.com/
  *
