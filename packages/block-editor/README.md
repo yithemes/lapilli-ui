@@ -167,4 +167,4 @@ You can use the `parse` and `serialize` functions from `@wordpress/blocks` to co
 
 ## Documentation
 
-See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.
+See the main [Lapilli UI](https://lapilli.yithemes.com) website for the list of available components, API and usage documentation.

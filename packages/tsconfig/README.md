@@ -4,4 +4,4 @@ These are base shared `tsconfig.json`s from which all other `tsconfig.json`'s in
 
 ## Documentation
 
-See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.
+See the main [Lapilli UI](https://lapilli.yithemes.com) website for the list of available components, API and usage documentation.

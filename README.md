@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://lapilliui.yithemes.com/" rel="noopener" target="_blank">
+  <a href="https://lapilli.yithemes.com/" rel="noopener" target="_blank">
 	<img width="450px" src="./apps/doc/.storybook/static/images/logo.svg" alt="Lapilli UI">
   </a>
 </p>
@@ -30,6 +30,6 @@ function App() {
 
 ## Documentation
 
-See the main [Lapilli UI](https://lapilliui.yithemes.com) website for the list of available components, API and usage documentation.
+See the main [Lapilli UI](https://lapilli.yithemes.com) website for the list of available components, API and usage documentation.
 
 Enjoy it! 😉 
