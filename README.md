@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://lapilliui.yithemes.com/" rel="noopener" target="_blank">
+	<img width="800px" src="./apps/doc/.storybook/static/images/logo.svg" alt="Lapilli UI">
+  </a>
+</p>
+
 # Lapilli UI
 
 Speed up your development process by using the UI components provided by the **Lapilli UI**.

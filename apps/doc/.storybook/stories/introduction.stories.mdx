@@ -4,4 +4,4 @@ import Readme       from '../../../../README.md';
 
 <Meta title="Introduction/Introduction"/>
 
-<Markdown>{Readme.split('## Documentation')[0] + '\n' + "Enjoy it! 😉"}</Markdown>
+<Markdown>{Readme.replace('./apps/doc/.storybook/static/', '').split('## Documentation')[0] + '\n' + "Enjoy it! 😉"}</Markdown>

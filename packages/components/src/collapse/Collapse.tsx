@@ -51,7 +51,7 @@ const Collapse = forwardRef<HTMLDivElement, CollapseProps>( function Collapse(
 	const wrapperRef = useRef<HTMLDivElement>( null );
 	const mergedRef = useMergedRefs( rootRef, ref );
 	const isHorizontal = orientation === 'horizontal';
-	const size = isHorizontal ? 'width' : 'height';
+	const sizeProperty = isHorizontal ? 'width' : 'height';
 	const collapsedSizeCss = typeof collapsedSize === "number" ? ( collapsedSize + 'px' ) : collapsedSize;
 
 	const getWrapperSize = () => wrapperRef.current ? ( isHorizontal ? wrapperRef.current.clientWidth : wrapperRef.current.clientHeight ) : 0;
@@ -61,27 +61,27 @@ const Collapse = forwardRef<HTMLDivElement, CollapseProps>( function Collapse(
 		// Use absolute position to correctly get the size of the content.
 		isHorizontal && setWrapperPosition( 'absolute' );
 
-		node.style[ size ] = collapsedSizeCss;
+		node.style[ sizeProperty ] = collapsedSizeCss;
 	};
 
 	const handleEntering = ( node: HTMLElement ) => {
-		node.style[ size ] = `${ getWrapperSize() }px`;
+		node.style[ sizeProperty ] = `${ getWrapperSize() }px`;
 
 		// Reset the position, since we've already retrieved the needed size.
 		isHorizontal && setWrapperPosition( '' );
 	}
 
 	const handleEntered = ( node: HTMLElement ) => {
-		node.style[ size ] = 'auto';
+		node.style[ sizeProperty ] = 'auto';
 	}
 
 	const handleExit = ( node: HTMLElement ) => {
-		node.style[ size ] = `${ getWrapperSize() }px`;
+		node.style[ sizeProperty ] = `${ getWrapperSize() }px`;
 	}
 
 	const handleExiting = ( node: HTMLElement ) => {
-		getWrapperSize(); // Trigger to get the size, so the browser will wait for the sizing.
-		node.style[ size ] = collapsedSizeCss;
+		getWrapperSize(); // Triggered to get the size, so the browser will wait for the sizing.
+		node.style[ sizeProperty ] = collapsedSizeCss;
 	}
 
 	return <Transition
