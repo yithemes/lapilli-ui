@@ -110,9 +110,9 @@ class Feature_Plugin {
 
 		wp_add_inline_script(
 			'lapilli-ui-date',
-			'lapilli-ui.date.setLocale( ' . wp_json_encode( $locale_options ) . ' );
-			lapilli-ui.date.setDateFormats( ' . wp_json_encode( $date_formats ) . ' );
-			lapilli-ui.date.setFormatDate( wp.date.format );'
+			'lapilliUI.date.setLocale( ' . wp_json_encode( $locale_options ) . ' );
+			lapilliUI.date.setDateFormats( ' . wp_json_encode( $date_formats ) . ' );
+			lapilliUI.date.setFormatDate( wp.date.format );'
 		);
 
 	}

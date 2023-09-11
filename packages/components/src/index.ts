@@ -10,6 +10,7 @@ export { default as Dropdown } from './dropdown';
 export { default as __experimentalDocumentProvider } from './document-provider';
 export { default as __experimentalFormControl } from './form-control';
 export { default as __experimentalFormControlLabel } from './form-control-label';
+export { default as HStack } from './h-stack';
 export { default as IconButton } from './icon-button';
 export { default as Input } from './input';
 export { default as Modal } from './modal';
@@ -28,6 +29,7 @@ export { default as Stack } from './stack';
 export { default as Switch } from './switch';
 export { default as __experimentalTimeSelector } from './time-selector';
 export { default as Typography } from './typography';
+export { default as VStack } from './v-stack';
 
 export { useId } from './utils';
 
