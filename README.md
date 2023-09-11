@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://lapilliui.yithemes.com/" rel="noopener" target="_blank">
-	<img width="800px" src="./apps/doc/.storybook/static/images/logo.svg" alt="Lapilli UI">
+	<img width="450px" src="./apps/doc/.storybook/static/images/logo.svg" alt="Lapilli UI">
   </a>
 </p>
 
