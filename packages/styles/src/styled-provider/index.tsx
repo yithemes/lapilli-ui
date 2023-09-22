@@ -14,7 +14,7 @@ type StyledProviderProps = {
 };
 
 type MemoizedCacheArgs = {
-	container: Node,
+	container?: Node,
 	direction: Direction
 }
 
@@ -35,10 +35,11 @@ export default function StyledProvider(
 		direction,
 		children
 	}: StyledProviderProps ) {
-	const theDocument = currentDocument ?? document;
+	const mainDocument = typeof document !== "undefined" ? document : undefined
+	const theDocument = currentDocument ?? mainDocument;
 	const cache = memoizedCreateCache( {
-		container: theDocument.head,
-		direction: direction ?? ( theDocument.dir === 'rtl' ? 'rtl' : 'ltr' )
+		container: theDocument?.head,
+		direction: direction ?? ( theDocument?.dir === 'rtl' ? 'rtl' : 'ltr' )
 	} );
 
 	return <CacheProvider value={ cache }>
