@@ -5,9 +5,9 @@ type DocumentProviderProps = {
 	children: React.ReactNode
 }
 
-const Context = React.createContext<Document>( document );
+const Context = React.createContext<Document | undefined>( typeof document !== 'undefined' ? document : undefined );
 
-export const useDocument = (): Document => React.useContext( Context );
+export const useDocument = () => React.useContext( Context );
 
 export default function DocumentProvider( { children, document: documentProp }: DocumentProviderProps ) {
 	return <Context.Provider value={ documentProp ? documentProp : document }>

@@ -27,12 +27,15 @@ function getBodyPaddingRight( document: Document ) {
 
 export default function useMainView( enabled = true, options: MainViewOptions = {} ) {
 	const document = useDocument();
-	const container = document.body;
 	const indexRef = useRef( 0 );
 	const { disableScrollLock = false } = options;
 
 	useEffect( () => {
 		const stylesToRestore: StylesToRestore = {};
+		if ( !document )
+			return;
+
+		const container = document.body;
 
 		if ( enabled && !disableScrollLock && hasBodyScrollbar( document ) ) {
 			stylesToRestore.overflow = container.style.overflow;
@@ -77,9 +80,9 @@ export default function useMainView( enabled = true, options: MainViewOptions = 
 	}
 
 	useEffect( () => {
-		document.addEventListener( 'keydown', handleEscapeKeyDown );
+		document?.addEventListener( 'keydown', handleEscapeKeyDown );
 		return () => {
-			document.removeEventListener( 'keydown', handleEscapeKeyDown );
+			document?.removeEventListener( 'keydown', handleEscapeKeyDown );
 		}
 	}, [] );
 }

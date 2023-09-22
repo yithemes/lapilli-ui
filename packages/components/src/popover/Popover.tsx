@@ -30,7 +30,7 @@ const computePopoverPosition = ( {
 	const computed: PopoverComputedPosition = {} as PopoverComputedPosition;
 	const containerRect = container.getBoundingClientRect();
 
-	const { clientWidth: viewportWidth, clientHeight: viewportHeight } = document.documentElement;
+	const { clientWidth: viewportWidth = 0, clientHeight: viewportHeight = 0 } = document?.documentElement ?? {};
 
 	let minWidth = 0;
 
@@ -129,7 +129,7 @@ const computePopoverPosition = ( {
 	 * Useful in case of disabling the Portal.
 	 * @see https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/offsetParent
 	 */
-	if ( offsetParent && offsetParent !== document.body ) {
+	if ( offsetParent && offsetParent !== document?.body ) {
 		const offsetParentRect = offsetParent.getBoundingClientRect();
 		typeof computed.left !== 'undefined' && ( computed.left -= offsetParentRect.left );
 		typeof computed.right !== 'undefined' && ( computed.right -= viewportWidth - offsetParentRect.right );
@@ -260,9 +260,9 @@ function Popover(
 	};
 
 	useEffect( () => {
-		document.addEventListener( 'mousedown', handleClickOutside );
+		document?.addEventListener( 'mousedown', handleClickOutside );
 		return () => {
-			document.removeEventListener( 'mousedown', handleClickOutside );
+			document?.removeEventListener( 'mousedown', handleClickOutside );
 			syntheticEventRef.current = false;
 		};
 	} );

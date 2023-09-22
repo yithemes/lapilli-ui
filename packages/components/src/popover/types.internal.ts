@@ -7,7 +7,7 @@ export type PopoverComputePositionProps = {
 	verticalMargin: number;
 	forceMinWidth: boolean | number;
 	forceInView: PopoverProps['forceInView']
-	document: Document
+	document?: Document
 };
 
 export type PopoverComputedPosition = {

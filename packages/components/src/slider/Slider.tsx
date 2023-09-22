@@ -257,8 +257,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>( function Slider(
 			setValue( newValue );
 			setIsDragging( false );
 
-			document.removeEventListener( 'mousemove', handleMouseMove );
-			document.removeEventListener( 'mouseup', handleMouseUp );
+			document?.removeEventListener( 'mousemove', handleMouseMove );
+			document?.removeEventListener( 'mouseup', handleMouseUp );
 		}
 	}
 
@@ -267,8 +267,8 @@ const Slider = forwardRef<HTMLDivElement, SliderProps>( function Slider(
 			const newValue = getValueFromPosition( { x: event.clientX, y: event.clientY } );
 
 			setValue( newValue );
-			document.addEventListener( 'mousemove', handleMouseMove );
-			document.addEventListener( 'mouseup', handleMouseUp );
+			document?.addEventListener( 'mousemove', handleMouseMove );
+			document?.addEventListener( 'mouseup', handleMouseUp );
 		}
 
 		onMouseDown?.( event );
