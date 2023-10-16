@@ -1,4 +1,4 @@
-import { forwardRef } from "react";
+import React, { forwardRef } from "react";
 import { generateComponentClasses, styled } from "@lapilli-ui/styles";
 import classNames from "classnames";
 import { modalTitleClasses } from "./ModalTitle";
