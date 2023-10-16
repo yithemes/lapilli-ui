@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { noop } from "lodash";
 import { usePropState } from "../utils";
+import type { DatePickerProps } from "@lapilli-ui/components";
 
 type SelectDateAction = 'set' | 'finish' | 'clear'
 
@@ -14,6 +15,7 @@ type ProviderProps = {
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
 	children: React.ReactNode
+	components?: DatePickerProps['components']
 };
 
 type ContextValue = Omit<ProviderProps, 'children'> & {

@@ -69,6 +69,10 @@ export type DatePickerProps = {
 	 * If provided, displays the adornment at the start position inside the toggle.
 	 */
 	startAdornment?: React.ReactNode
+	/**
+	 * If provided, displays the adornment at the start position inside the toggle.
+	 */
+	components?: { Day: ( props: PickerDayProps ) => JSX.Element }
 }
 
 export type DatePickerRef = {

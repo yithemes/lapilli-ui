@@ -54,6 +54,7 @@ type CalendarWrapperProps = {
 	isDateDisabled: ( date: Date ) => string | boolean
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
+	components?: DatePickerProps['components']
 }
 
 const CalendarWrapper = ( props: CalendarWrapperProps ) => {
@@ -69,7 +70,8 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		onFinishSelect,
 		isDateDisabled,
 		isPrevMonthDisabled,
-		isNextMonthDisabled
+		isNextMonthDisabled,
+		components
 	} = props;
 
 	return <DatePickerProvider
@@ -99,6 +101,7 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		isDateDisabled={ isDateDisabled }
 		isPrevMonthDisabled={ isPrevMonthDisabled }
 		isNextMonthDisabled={ isNextMonthDisabled }
+		components={ components }
 	>
 		<Calendar className={ className } autoFocus={ autoFocus }/>
 	</DatePickerProvider>
@@ -123,7 +126,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		size = 'md',
 		allowClear = false,
 		startAdornment,
-		disabled = false
+		disabled = false,
+		components
 	} = props;
 	const inputFormat = inputFormatProp ? inputFormatProp : getDateFormat( 'inputDate' );
 	const displayFormat = displayFormatProp ? displayFormatProp : getDateFormat( 'fullDate' );
@@ -175,6 +179,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 						className={ classes.calendar }
 						{ ...datePickerProps }
 						onChange={ handleChange }
+						components={ components }
 					/>
 				</DatePickerStatic> :
 				<Dropdown
@@ -212,6 +217,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 								onChange={ onChange }
 								onFinishSelect={ () => close() }
 								autoFocus
+								components={ components }
 							/>
 						}
 					}

@@ -45,7 +45,8 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		setFocusedDate,
 		selectedDate,
 		setSelectedDate,
-		isDateDisabled
+		isDateDisabled,
+		components
 	} = useDatePickerContext();
 	const weeks = useMemo( () => getWeekArray( internalDate ), [ internalDate ] );
 	const [ hasFocus, setHasFocus ] = usePropState( autoFocus );
@@ -150,6 +151,8 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		focusDay( day );
 	}, [] );
 
+	const DayComponent = components?.Day ?? DayPickerDay;
+
 	return <DayPickerRoot className={ className } role='grid' aria-labelledby={ gridLabelId }>
 		<DayPickerHeader role='row'>
 			{ weeks[ 0 ].map( ( date: Date ) => {
@@ -174,7 +177,7 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 						const isDisabled = isDateDisabled( day );
 						const isOutsideCurrentMonth = !isSameMonth( day, internalDate );
 
-						return <DayPickerDay
+						return <DayComponent
 							key={ day.toString() }
 							day={ day }
 							role='gridcell'
