@@ -5,6 +5,7 @@ import { useCallback, useMemo } from "react";
 import DayPickerDay from "./DayPickerDay";
 import React from "react";
 import { usePropState } from "../../utils";
+import { debounce } from "lodash";
 
 const DAY_SIZE = 36;
 const DAY_MARGIN = 2;
@@ -74,64 +75,70 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		setHasFocus( true );
 	}, [ setInternalDate, setFocusedDate ] );
 
-	const handleDayKeydown = useCallback( ( event: React.KeyboardEvent, date: Date ) => {
-		let preventPropagation = true;
-		switch ( event.key ) {
-			case 'Right':
-			case 'ArrowRight':
-				focusDay( addDays( date, 1 ) )
-				break;
-			case 'Left':
-			case 'ArrowLeft':
-				focusDay( addDays( date, -1 ) )
-				break;
-			case 'Down':
-			case 'ArrowDown':
-				focusDay( addDays( date, 7 ) )
-				break;
-			case 'Up':
-			case 'ArrowUp':
-				focusDay( addDays( date, -7 ) )
-				break;
-			case 'PageUp':
-				if ( event.shiftKey ) {
-					focusDay( addYears( date, -1 ) )
-				} else {
-					focusDay( addMonths( date, -1 ) )
+	const handleDayKeydown = useCallback(
+		debounce(
+			( event: React.KeyboardEvent, date: Date ) => {
+				let preventPropagation = true;
+				switch ( event.key ) {
+					case 'Right':
+					case 'ArrowRight':
+						focusDay( addDays( date, 1 ) )
+						break;
+					case 'Left':
+					case 'ArrowLeft':
+						focusDay( addDays( date, -1 ) )
+						break;
+					case 'Down':
+					case 'ArrowDown':
+						focusDay( addDays( date, 7 ) )
+						break;
+					case 'Up':
+					case 'ArrowUp':
+						focusDay( addDays( date, -7 ) )
+						break;
+					case 'PageUp':
+						if ( event.shiftKey ) {
+							focusDay( addYears( date, -1 ) )
+						} else {
+							focusDay( addMonths( date, -1 ) )
+						}
+						break;
+					case 'PageDown':
+						if ( event.shiftKey ) {
+							focusDay( addYears( date, 1 ) )
+						} else {
+							focusDay( addMonths( date, 1 ) )
+						}
+						break;
+					case 'Home':
+						focusDay( startOfWeek( date ) )
+						break;
+					case 'End':
+						focusDay( endOfWeek( date ) )
+						break;
+					case 'Enter':
+						if ( !isDateDisabled( date ) ) {
+							setSelectedDate( date, 'finish' );
+						}
+						break;
+					case ' ':
+						if ( !isDateDisabled( date ) ) {
+							setSelectedDate( date );
+						}
+						break;
+					default:
+						preventPropagation = false;
 				}
-				break;
-			case 'PageDown':
-				if ( event.shiftKey ) {
-					focusDay( addYears( date, 1 ) )
-				} else {
-					focusDay( addMonths( date, 1 ) )
-				}
-				break;
-			case 'Home':
-				focusDay( startOfWeek( date ) )
-				break;
-			case 'End':
-				focusDay( endOfWeek( date ) )
-				break;
-			case 'Enter':
-				if ( !isDateDisabled( date ) ) {
-					setSelectedDate( date, 'finish' );
-				}
-				break;
-			case ' ':
-				if ( !isDateDisabled( date ) ) {
-					setSelectedDate( date );
-				}
-				break;
-			default:
-				preventPropagation = false;
-		}
 
-		if ( preventPropagation ) {
-			event.stopPropagation();
-			event.preventDefault();
-		}
-	}, [ focusedDate ] );
+				if ( preventPropagation ) {
+					event.stopPropagation();
+					event.preventDefault();
+				}
+			},
+			10
+		),
+		[ focusedDate ]
+	);
 
 	const handleDayBlur = useCallback( ( _: React.FocusEvent, day: Date ) => {
 		if ( hasFocus && isSameDay( day, internalDate ) ) {
