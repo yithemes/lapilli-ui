@@ -21,7 +21,7 @@ Here an example of a basic app using the Button component.
 
 ```jsx
 import * as React from 'react';
-import Button     from '@lapilli-ui/components';
+import { Button } from '@lapilli-ui/components';
 
 function App() {
 	return <Button variant="outlined" color="secondary">Click me</Button>;
