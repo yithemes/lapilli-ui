@@ -100,6 +100,7 @@ const IconButtonRoot = styled( 'button', { name: 'IconButton', slot: 'Root' } )<
 			borderRadius: '50%',
 			cursor: 'pointer',
 			lineHeight: 0,
+			padding: 0,
 			color: 'inherit' !== color ? mainColor : color,
 			background: 'transparent',
 			boxShadow: `0 0 0 8px ${ alpha( mainColor, 0 ) }`,

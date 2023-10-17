@@ -5,14 +5,12 @@
 		"src/**/*"
 	],
 	"compilerOptions": {
-		"jsx": "react",
 		"rootDir": "src",
 		"outDir": "build-module",
 		"declarationDir": "build-types",
-		"paths": {
-			"@lapilli-ui/styles": [
-				"../styles"
-			]
-		}
-	}
+	},
+	"references": [
+		{ "path": "../styles" },
+		{ "path": "../date" }
+	]
 }

@@ -1,7 +1,7 @@
-import { generateComponentSlotClasses, styled, useBreakpointProps } from '@lapilli-ui/styles';
+import { Breakpoint, generateComponentSlotClasses, styled, useTheme } from '@lapilli-ui/styles';
 import React from 'react';
 import { forwardRef } from 'react';
-import type { GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";
+import type { GridItemBreakpointProps, GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";
 import classNames from "classnames";
 
 const classes = generateComponentSlotClasses(
@@ -9,6 +9,20 @@ const classes = generateComponentSlotClasses(
 	[ 'root' ]
 );
 
+function useGridItemBreakpointProps( props: Record<string, any> ) {
+	const { breakpoints } = useTheme();
+	const other = { ...props };
+	const breakpointProps: GridItemBreakpointProps = {};
+
+	( Object.keys( breakpoints.values ) as Breakpoint[] ).forEach( ( breakpoint ) => {
+		if ( other[ breakpoint ] != null ) {
+			breakpointProps[ breakpoint ] = other[ breakpoint ];
+			delete other[ breakpoint ];
+		}
+	} );
+
+	return [ breakpointProps, other ];
+}
 
 const GridItemRoot = styled( 'div', { name: 'GridItem', slot: 'Root' } )<GridItemStyled>( ( { ownerState, theme } ) => ( {
 	...( theme.breakpoints.stylize(
@@ -17,9 +31,9 @@ const GridItemRoot = styled( 'div', { name: 'GridItem', slot: 'Root' } )<GridIte
 			gridColumn: `span ${ value } / span ${ value }`,
 		} )
 	) ),
-	...( theme.breakpoints.stylize(
+	...( theme.breakpoints.stylize<number | null>(
 		ownerState.responsiveColSpan,
-		( value ) => ( value > 1 && {
+		( value ) => ( value && value > 1 && {
 			gridColumn: `span ${ value } / span ${ value }`,
 		} )
 	) ),
@@ -48,7 +62,7 @@ const GridItem = forwardRef<HTMLDivElement, GridItemProps>( function Grid(
 		...other
 	}, ref ) {
 
-	const [ responsiveColSpan, otherFiltered ] = useBreakpointProps( other );
+	const [ responsiveColSpan, otherFiltered ] = useGridItemBreakpointProps( other );
 
 	const ownerState: GridItemOwnerState = {
 		colSpan,

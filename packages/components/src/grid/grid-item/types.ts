@@ -40,9 +40,13 @@ export type GridItemProps = Omit<GridItemPropsWithRef, 'ref'>
 
 export type GridItemOwnerState = Required<Pick<GridItemOwnProps, 'colSpan' | 'rowSpan'>> &
 	Pick<GridItemOwnProps, 'colStart' | 'colEnd' | 'rowStart' | 'rowEnd'> & {
-	responsiveColSpan: { [key in Breakpoint]?: number | null }
+	responsiveColSpan: GridItemBreakpointProps
 }
 
 export type GridItemStyled = {
 	ownerState: GridItemOwnerState
+}
+
+export type GridItemBreakpointProps = {
+	[key in Breakpoint]?: number | null
 }
