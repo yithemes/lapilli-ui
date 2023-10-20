@@ -6,6 +6,10 @@ export type DatePickerProps = {
 	 */
 	className?: string,
 	/**
+	 * Specify the field style.
+	 */
+	variant?: 'outlined' | 'ghost';
+	/**
 	 * The id name for the field.
 	 */
 	id?: string,
@@ -58,6 +62,10 @@ export type DatePickerProps = {
 	 */
 	isStatic?: boolean
 	/**
+	 * Set `true` to show the date-picker dates as loading.
+	 */
+	isLoading?: boolean
+	/**
 	 * The placeholder.
 	 */
 	placeholder?: string
@@ -70,9 +78,9 @@ export type DatePickerProps = {
 	 */
 	startAdornment?: React.ReactNode
 	/**
-	 * If provided, displays the adornment at the start position inside the toggle.
+	 * Allows overriding the slot components.
 	 */
-	components?: { Day: ( props: PickerDayProps ) => JSX.Element }
+	slots?: { Day: ( props: PickerDayProps ) => JSX.Element }
 }
 
 export type DatePickerRef = {
@@ -153,7 +161,7 @@ export type PickerToggleOwnerState = {
 	placeholder: string
 	disabled: boolean
 	size: FieldSize
-}
+} & Pick<PickerToggleProps, 'variant'>
 
 type PickerToggleSpecificProps = {
 	/**
@@ -188,7 +196,7 @@ type PickerToggleSpecificProps = {
 	 * Disabled flag.
 	 */
 	disabled?: boolean
-}
+} & Required<Pick<DatePickerProps, 'variant'>>
 
 type PickerTogglePropsWithRef = PickerToggleSpecificProps & Omit<React.ComponentProps<'div'>, keyof PickerToggleSpecificProps>;
 export type PickerToggleProps = Omit<PickerTogglePropsWithRef, 'ref'>;

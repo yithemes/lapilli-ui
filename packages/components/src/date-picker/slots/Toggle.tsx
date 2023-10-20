@@ -26,16 +26,19 @@ const DatePickerToggleRoot = styled( 'div', { name: 'DatePicker', slot: 'Toggle'
 		color: theme.fields.color,
 		borderWidth: '1px',
 		borderStyle: 'solid',
-		borderColor: theme.fields.borderColor,
-		...( !ownerState.disabled && {
-			'&:focus': {
+		borderColor: 'transparent',
+		...( ownerState.variant === 'outlined' && {
+			borderColor: theme.fields.borderColor,
+			...( !ownerState.disabled && {
+				'&:focus': {
+					borderColor: theme.fields.focusedBorderColor,
+					boxShadow: theme.fields.focusedBoxShadow,
+				}
+			} ),
+			...( ownerState.isOpen && {
 				borderColor: theme.fields.focusedBorderColor,
 				boxShadow: theme.fields.focusedBoxShadow,
-			}
-		} ),
-		...( ownerState.isOpen && {
-			borderColor: theme.fields.focusedBorderColor,
-			boxShadow: theme.fields.focusedBoxShadow,
+			} ),
 		} ),
 		...( ownerState.disabled && {
 			opacity: theme.palette.action.disabledOpacity,
@@ -107,6 +110,7 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 		startAdornment,
 		onClick,
 		disabled = false,
+		variant,
 		...other
 	},
 	ref
@@ -119,7 +123,8 @@ const Toggle = forwardRef<HTMLDivElement, PickerToggleProps>( function DatePicke
 		text,
 		placeholder,
 		size,
-		disabled
+		disabled,
+		variant
 	}
 
 	const handleClick = ( event: React.MouseEvent<HTMLDivElement> ) => {

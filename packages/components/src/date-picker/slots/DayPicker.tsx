@@ -6,6 +6,7 @@ import DayPickerDay from "./DayPickerDay";
 import React from "react";
 import { usePropState } from "../../utils";
 import { debounce } from "lodash";
+import DayPickerDaySkeleton from "./DayPickerDaySkeleton";
 
 const DAY_SIZE = 36;
 const DAY_MARGIN = 2;
@@ -46,7 +47,8 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		selectedDate,
 		setSelectedDate,
 		isDateDisabled,
-		components
+		slots,
+		isLoading
 	} = useDatePickerContext();
 	const weeks = useMemo( () => getWeekArray( internalDate ), [ internalDate ] );
 	const [ hasFocus, setHasFocus ] = usePropState( autoFocus );
@@ -151,7 +153,7 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 		focusDay( day );
 	}, [] );
 
-	const DayComponent = components?.Day ?? DayPickerDay;
+	const DayComponent = slots?.Day ?? DayPickerDay;
 
 	return <DayPickerRoot className={ className } role='grid' aria-labelledby={ gridLabelId }>
 		<DayPickerHeader role='row'>
@@ -172,10 +174,14 @@ const DayPicker = ( { className, autoFocus = false, gridLabelId = '' }: { classN
 					role="row"
 				>
 					{ week.map( ( day: Date ) => {
+						const isOutsideCurrentMonth = !isSameMonth( day, internalDate );
+						if ( isLoading ) {
+							return <DayPickerDaySkeleton key={ day.toString() } visible={ !isOutsideCurrentMonth }/>
+						}
+
 						const isSelected = Boolean( selectedDate && isSameDay( day, selectedDate ) );
 						const isFocusable = isSameDay( day, focusableDay ) && !isDatePickerDisabled;
 						const isDisabled = isDateDisabled( day );
-						const isOutsideCurrentMonth = !isSameMonth( day, internalDate );
 
 						return <DayComponent
 							key={ day.toString() }

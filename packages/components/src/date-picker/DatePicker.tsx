@@ -27,13 +27,16 @@ const DatePickerRoot = styled( 'div', { name: 'DatePicker', slot: 'Root' } )( ()
 	display: 'inline-flex'
 } ) );
 
-const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )<{ ownerState: { isDatePickerDisabled: boolean } }>( ( { theme, ownerState } ) => ( {
+const DatePickerStatic = styled( 'div', { name: 'DatePicker', slot: 'Static' } )<{ ownerState: { isDatePickerDisabled: boolean, variant: Required<DatePickerProps['variant']> } }>( ( { theme, ownerState } ) => ( {
 	borderStyle: 'solid',
 	borderWidth: '1px',
-	borderColor: theme.fields.borderColor,
+	borderColor: 'transparent',
 	borderRadius: theme.fields.borderRadius,
 	background: theme.fields.background,
 	width: 'fit-content',
+	...( ownerState.variant === 'outlined' && {
+		borderColor: theme.fields.borderColor,
+	} ),
 	...( ownerState.isDatePickerDisabled && {
 		opacity: theme.palette.action.disabledOpacity
 	} )
@@ -54,7 +57,8 @@ type CalendarWrapperProps = {
 	isDateDisabled: ( date: Date ) => string | boolean
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
-	components?: DatePickerProps['components']
+	isLoading: DatePickerProps['isLoading']
+	slots?: DatePickerProps['slots']
 }
 
 const CalendarWrapper = ( props: CalendarWrapperProps ) => {
@@ -71,7 +75,8 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		isDateDisabled,
 		isPrevMonthDisabled,
 		isNextMonthDisabled,
-		components
+		slots,
+		isLoading
 	} = props;
 
 	return <DatePickerProvider
@@ -101,7 +106,8 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		isDateDisabled={ isDateDisabled }
 		isPrevMonthDisabled={ isPrevMonthDisabled }
 		isNextMonthDisabled={ isNextMonthDisabled }
-		components={ components }
+		slots={ slots }
+		isLoading={ isLoading }
 	>
 		<Calendar className={ className } autoFocus={ autoFocus }/>
 	</DatePickerProvider>
@@ -116,7 +122,9 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 ) {
 	const {
 		className,
+		variant = 'outlined',
 		isStatic = false,
+		isLoading = false,
 		placeholder,
 		name,
 		id,
@@ -127,7 +135,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		allowClear = false,
 		startAdornment,
 		disabled = false,
-		components
+		slots
 	} = props;
 	const inputFormat = inputFormatProp ? inputFormatProp : getDateFormat( 'inputDate' );
 	const displayFormat = displayFormatProp ? displayFormatProp : getDateFormat( 'fullDate' );
@@ -173,13 +181,14 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		/>
 		{
 			isStatic ?
-				<DatePickerStatic ownerState={ { isDatePickerDisabled: disabled } }>
+				<DatePickerStatic ownerState={ { isDatePickerDisabled: disabled, variant } }>
 					<CalendarWrapper
 						disabled={ disabled }
 						className={ classes.calendar }
 						{ ...datePickerProps }
 						onChange={ handleChange }
-						components={ components }
+						slots={ slots }
+						isLoading={ isLoading }
 					/>
 				</DatePickerStatic> :
 				<Dropdown
@@ -205,6 +214,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 								onClear={ handleClear }
 								startAdornment={ startAdornment }
 								disabled={ disabled }
+								variant={ variant }
 							/>
 						}
 					}
@@ -217,7 +227,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 								onChange={ onChange }
 								onFinishSelect={ () => close() }
 								autoFocus
-								components={ components }
+								slots={ slots }
+								isLoading={ isLoading }
 							/>
 						}
 					}

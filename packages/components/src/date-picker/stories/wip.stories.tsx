@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { addDays, format, getDateFormat, isSameDay } from "@lapilli-ui/date";
+import { addDays, endOfMonth, format, getDateFormat, isSameDay, startOfMonth } from "@lapilli-ui/date";
 
 import DatePicker from '../';
 import VStack from "../../v-stack";
@@ -31,7 +31,7 @@ type Story = StoryObj<typeof DatePicker>
 
 const formatDate = ( date: Date ) => format( getDateFormat( 'fullDate' ), date );
 
-const DAY_SIZE = 36;
+const DAY_SIZE = 40;
 const DAY_MARGIN = '1px 0';
 
 const RangeDayPickerDayFiller = styled( 'div', { name: 'RangeDayPicker', slot: 'DayFiller' } )( () => ( {
@@ -43,7 +43,7 @@ const RangeDayPickerDayFiller = styled( 'div', { name: 'RangeDayPicker', slot: '
 } ) );
 
 type RangePickerDayOwnerState = PickerDayOwnerState & {
-	currentDateType: false | 'start' | 'inside' | 'end'
+	currentDateType: false | 'start' | 'inside' | 'end' | 'inside-month-start' | 'inside-month-end'
 }
 
 const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Day' } )<{ ownerState: RangePickerDayOwnerState }>( ( { ownerState, theme } ) => {
@@ -64,11 +64,11 @@ const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Da
 		userSelect: 'none',
 		outline: 0,
 		background: alpha( theme.palette.primary.main, 0 ),
-		'&:first-child': {
+		'&:first-of-type': {
 			borderTopLeftRadius: '50%',
 			borderBottomLeftRadius: '50%',
 		},
-		'&:last-child': {
+		'&:last-of-type': {
 			borderTopRightRadius: '50%',
 			borderBottomRightRadius: '50%',
 		},
@@ -76,11 +76,11 @@ const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Da
 			...( ( ownerState.currentDateType === 'start' || !ownerState.isDisabled ) && {
 				background: alpha( theme.palette.primary.main, theme.palette.action.hoverOpacity ),
 			} ),
-			...( ownerState.currentDateType === 'start' && {
+			...( ( ownerState.currentDateType === 'start' || ownerState.currentDateType === 'inside-month-start' ) && {
 				borderTopRightRadius: 0,
 				borderBottomRightRadius: 0,
 			} ),
-			...( ownerState.currentDateType === 'end' && {
+			...( ( ownerState.currentDateType === 'end' || ownerState.currentDateType === 'inside-month-end' ) && {
 				borderTopLeftRadius: 0,
 				borderBottomLeftRadius: 0,
 			} ),
@@ -191,6 +191,11 @@ const RangeDayPickerDay = ( props: PickerDayProps ) => {
 			ownerState.currentDateType = 'end'
 		} else if ( from && currentTo && day < currentTo && day > from ) {
 			ownerState.currentDateType = 'inside'
+			if ( isSameDay( day, startOfMonth( day ) ) ) {
+				ownerState.currentDateType = 'inside-month-start'
+			} else if ( isSameDay( day, endOfMonth( day ) ) ) {
+				ownerState.currentDateType = 'inside-month-end'
+			}
 		}
 	}
 
@@ -226,7 +231,6 @@ const RangeDayPickerDay = ( props: PickerDayProps ) => {
 		autoFocus={ autoFocus }
 		{ ...( ( isDisabled || isDatePickerDisabled ) && { 'aria-disabled': true, disabled: true } ) }
 		{ ...other }
-		data-current-date-type-test={ ownerState.currentDateType }
 	>
 		<RangeDayPickerDayNumber ownerState={ ownerState }>
 			{ format( getDateFormat( 'dayOfMonth' ), day ) }
@@ -236,7 +240,14 @@ const RangeDayPickerDay = ( props: PickerDayProps ) => {
 };
 
 
-const Context = React.createContext( {} );
+type ContextValue = {
+	from: Date | null
+	to: Date | null
+	hoverDate: Date | null
+	setHoverDate: React.Dispatch<React.SetStateAction<Date | null>>
+}
+
+const Context = React.createContext<ContextValue>( {} as ContextValue );
 
 export const Range: Story = {
 	args: {},
@@ -276,7 +287,7 @@ export const Range: Story = {
 					minDate={ minDate }
 					allowClear
 					isStatic
-					components={ {
+					slots={ {
 						Day: RangeDayPickerDay
 					} }
 				/>

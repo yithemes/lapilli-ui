@@ -15,7 +15,8 @@ type ProviderProps = {
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
 	children: React.ReactNode
-	components?: DatePickerProps['components']
+	isLoading: DatePickerProps['isLoading']
+	slots?: DatePickerProps['slots']
 };
 
 type ContextValue = Omit<ProviderProps, 'children'> & {
