@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import { noop } from "lodash";
-import { usePropState } from "../utils";
+import { useChangeLayoutEffect, usePropState } from "../utils";
 import type { DatePickerProps } from "@lapilli-ui/components";
+import { startOfMonth } from "@lapilli-ui/date";
 
 type SelectDateAction = 'set' | 'finish' | 'clear'
 
@@ -15,11 +16,12 @@ type ProviderProps = {
 	isPrevMonthDisabled: ( date: Date ) => boolean
 	isNextMonthDisabled: ( date: Date ) => boolean
 	children: React.ReactNode
+	onMonthChange?: DatePickerProps['onMonthChange']
 	isLoading: DatePickerProps['isLoading']
 	slots?: DatePickerProps['slots']
 };
 
-type ContextValue = Omit<ProviderProps, 'children'> & {
+type ContextValue = Omit<ProviderProps, 'onMonthChange' | 'children'> & {
 	currentDate: number
 	currentYear: number
 	currentMonth: number
@@ -36,9 +38,19 @@ const DatePickerContext = React.createContext<ContextValue>( {} as ContextValue 
 
 export const useDatePickerContext = (): ContextValue => React.useContext( DatePickerContext );
 
-export function DatePickerProvider( { children, ...props }: ProviderProps ) {
+export function DatePickerProvider( { children, onMonthChange, ...props }: ProviderProps ) {
 	const { focusedDate, isDatePickerDisabled } = props;
 	const [ internalDate, setInternalDate ] = usePropState( focusedDate );
+
+	useChangeLayoutEffect(
+		internalDate,
+		( prev, current ) => {
+			if ( prev.getMonth() !== current.getMonth() || prev.getFullYear() !== current.getFullYear() ) {
+				onMonthChange?.( startOfMonth( current ) )
+			}
+		}
+	)
+
 	const theContext: ContextValue = {
 		...props,
 		currentDate: useMemo( () => internalDate.getDate(), [ internalDate ] ),

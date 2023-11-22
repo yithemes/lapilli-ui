@@ -53,6 +53,7 @@ type CalendarWrapperProps = {
 	setFocusedDate: React.Dispatch<React.SetStateAction<Date>>,
 	className: string,
 	onChange?: DatePickerProps['onChange'],
+	onMonthChange?: DatePickerProps['onMonthChange'],
 	onFinishSelect?: ( date: Date | null ) => void,
 	isDateDisabled: ( date: Date ) => string | boolean
 	isPrevMonthDisabled: ( date: Date ) => boolean
@@ -71,6 +72,7 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		setFocusedDate,
 		className,
 		onChange,
+		onMonthChange,
 		onFinishSelect,
 		isDateDisabled,
 		isPrevMonthDisabled,
@@ -108,6 +110,7 @@ const CalendarWrapper = ( props: CalendarWrapperProps ) => {
 		isNextMonthDisabled={ isNextMonthDisabled }
 		slots={ slots }
 		isLoading={ isLoading }
+		onMonthChange={ onMonthChange }
 	>
 		<Calendar className={ className } autoFocus={ autoFocus }/>
 	</DatePickerProvider>
@@ -135,7 +138,8 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 		allowClear = false,
 		startAdornment,
 		disabled = false,
-		slots
+		slots,
+		onMonthChange
 	} = props;
 	const inputFormat = inputFormatProp ? inputFormatProp : getDateFormat( 'inputDate' );
 	const displayFormat = displayFormatProp ? displayFormatProp : getDateFormat( 'fullDate' );
@@ -189,6 +193,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 						onChange={ handleChange }
 						slots={ slots }
 						isLoading={ isLoading }
+						onMonthChange={ onMonthChange }
 					/>
 				</DatePickerStatic> :
 				<Dropdown
@@ -229,6 +234,7 @@ const DatePicker = forwardRef<DatePickerRef, DatePickerProps>( function DatePick
 								autoFocus
 								slots={ slots }
 								isLoading={ isLoading }
+								onMonthChange={ onMonthChange }
 							/>
 						}
 					}

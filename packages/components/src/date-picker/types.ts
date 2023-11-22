@@ -30,6 +30,10 @@ export type DatePickerProps = {
 	 */
 	onChange?: ( date: Date | null ) => void,
 	/**
+	 * The function called when a new month is shown.
+	 */
+	onMonthChange?: ( date: Date ) => void,
+	/**
 	 * The format of the hidden input field.
 	 */
 	inputFormat?: string,

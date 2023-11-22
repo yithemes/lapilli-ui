@@ -1,7 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { CSSProperties, useEffect, useRef, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { addDays, endOfMonth, format, getDateFormat, isSameDay, startOfMonth } from "@lapilli-ui/date";
+import { addDays, endOfMonth, format, getDateFormat, isAfter, isSameDay, startOfMonth } from "@lapilli-ui/date";
 
 import DatePicker from '../';
 import VStack from "../../v-stack";
@@ -43,10 +43,12 @@ const RangeDayPickerDayFiller = styled( 'div', { name: 'RangeDayPicker', slot: '
 } ) );
 
 type RangePickerDayOwnerState = PickerDayOwnerState & {
-	currentDateType: false | 'start' | 'inside' | 'end' | 'inside-month-start' | 'inside-month-end'
+	currentDateType: false | 'start' | 'start-only' | 'inside' | 'end' | 'inside-month-start' | 'inside-month-end'
+	isSelecting: boolean
 }
 
 const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Day' } )<{ ownerState: RangePickerDayOwnerState }>( ( { ownerState, theme } ) => {
+	const selectingBorder: CSSProperties['border'] = `1px dashed ${ theme.palette.primary.main }`
 	return {
 		width: DAY_SIZE,
 		height: DAY_SIZE,
@@ -73,8 +75,9 @@ const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Da
 			borderBottomRightRadius: '50%',
 		},
 		...( !!ownerState.currentDateType && {
-			...( ( ownerState.currentDateType === 'start' || !ownerState.isDisabled ) && {
-				background: alpha( theme.palette.primary.main, theme.palette.action.hoverOpacity ),
+
+			...( !ownerState.isSelecting && ( ownerState.currentDateType === 'start' || ownerState.currentDateType === 'start-only' || !ownerState.isDisabled ) && {
+				background: alpha( theme.palette.primary.main, theme.palette.action.selectedOpacity ),
 			} ),
 			...( ( ownerState.currentDateType === 'start' || ownerState.currentDateType === 'inside-month-start' ) && {
 				borderTopRightRadius: 0,
@@ -85,8 +88,40 @@ const RangeDayPickerDayRoot = styled( 'div', { name: 'RangeDayPicker', slot: 'Da
 				borderBottomLeftRadius: 0,
 			} ),
 			...( ownerState.currentDateType === 'inside' && {
-				borderRadius: 0,
-			} )
+				borderRadius: 0
+			} ),
+			...( ownerState.isSelecting && {
+				position: 'relative',
+				'&:after': {
+					content: '""',
+					display: 'block',
+					position: 'absolute',
+					top: 0,
+					left: 0,
+					width: 'calc(100% - 1px)',
+					height: 'calc(100% - 1px)',
+					borderRadius: 'inherit',
+					border: selectingBorder,
+					margin: -1,
+					...( ( ownerState.currentDateType === 'start' || ownerState.currentDateType === 'inside-month-start' ) && {
+						borderRight: 0
+					} ),
+					...( ( ownerState.currentDateType === 'end' || ownerState.currentDateType === 'inside-month-end' ) && {
+						borderLeft: 0
+					} ),
+					...( ownerState.currentDateType === 'inside' && {
+						borderRight: 0,
+						borderLeft: 0,
+					} )
+				},
+				'&:first-of-type:after': {
+					borderLeft: selectingBorder,
+				},
+				'&:last-of-type:after': {
+					borderRight: selectingBorder,
+				},
+
+			} ),
 		} ),
 	}
 } );
@@ -110,21 +145,6 @@ const RangeDayPickerDayNumber = styled( 'div', { name: 'RangeDayPicker', slot: '
 		userSelect: 'none',
 		outline: 0,
 		background: alpha( backgroundColor, 0 ),
-		...( ownerState.isDisabled && {
-			opacity: theme.palette.action.disabledOpacity,
-			cursor: 'default',
-			pointerEvents: 'none'
-		} ),
-		...( !ownerState.isDisabled && ownerState.isSelected && {
-			background: theme.palette.primary.main,
-			color: theme.palette.primary.contrastText,
-			fontWeight: 600,
-			...( !ownerState.isDatePickerDisabled && {
-				'&:hover, &:focus': {
-					background: theme.palette.primary.light,
-				},
-			} )
-		} ),
 		...( !ownerState.isDatePickerDisabled && ( ownerState.isDisabled || !ownerState.isSelected ) && {
 			'&:hover': {
 				background: alpha( backgroundColor, theme.palette.action.hoverOpacity ),
@@ -136,20 +156,37 @@ const RangeDayPickerDayNumber = styled( 'div', { name: 'RangeDayPicker', slot: '
 				},
 			},
 		} ),
-		...( ownerState.isDatePickerDisabled && {
-			cursor: 'not-allowed'
+		...( ownerState.isDisabled && {
+			opacity: theme.palette.action.disabledOpacity,
+			cursor: 'default',
+			pointerEvents: 'none'
 		} ),
-		...( ( ownerState.currentDateType === 'start' || ( !ownerState.isDisabled && ownerState.currentDateType === 'end' ) ) && {
-			opacity: 1,
-			background: theme.palette.primary.main,
-			color: theme.palette.primary.contrastText,
-			fontWeight: 600,
-			'&:hover,&:focus': {
+		...( !ownerState.isSelecting && {
+			...( !ownerState.isDisabled && ownerState.isSelected && {
 				background: theme.palette.primary.main,
 				color: theme.palette.primary.contrastText,
 				fontWeight: 600,
-				opacity: 1
-			},
+				...( !ownerState.isDatePickerDisabled && {
+					'&:hover, &:focus': {
+						background: theme.palette.primary.light,
+					},
+				} )
+			} ),
+			...( ownerState.isDatePickerDisabled && {
+				cursor: 'not-allowed'
+			} ),
+			...( ( ( ownerState.currentDateType === 'start' || ownerState.currentDateType === 'start-only' ) || ( !ownerState.isDisabled && ownerState.currentDateType === 'end' ) ) && {
+				opacity: 1,
+				background: theme.palette.primary.main,
+				color: theme.palette.primary.contrastText,
+				fontWeight: 600,
+				'&:hover,&:focus': {
+					background: theme.palette.primary.main,
+					color: theme.palette.primary.contrastText,
+					fontWeight: 600,
+					opacity: 1
+				},
+			} )
 		} )
 	}
 } );
@@ -179,15 +216,17 @@ const RangeDayPickerDay = ( props: PickerDayProps ) => {
 		isSelected,
 		isOutsideCurrentMonth,
 		isDatePickerDisabled,
-		currentDateType: false
+		currentDateType: false,
+		isSelecting: Boolean( !to && ( from || hoverDate ) )
 	};
 
 	const currentTo = to || hoverDate;
 
 	if ( from ) {
+		const isSelectingOrSelected = ( hoverDate && isAfter( hoverDate, from ) ) || to;
 		if ( from && isSameDay( from, day ) ) {
-			ownerState.currentDateType = 'start'
-		} else if ( currentTo && isSameDay( currentTo, day ) ) {
+			ownerState.currentDateType = isSelectingOrSelected ? 'start' : 'start-only';
+		} else if ( currentTo && isSameDay( currentTo, day ) && ( to || ( hoverDate && isAfter( hoverDate, from ) ) ) ) {
 			ownerState.currentDateType = 'end'
 		} else if ( from && currentTo && day < currentTo && day > from ) {
 			ownerState.currentDateType = 'inside'
@@ -231,6 +270,7 @@ const RangeDayPickerDay = ( props: PickerDayProps ) => {
 		autoFocus={ autoFocus }
 		{ ...( ( isDisabled || isDatePickerDisabled ) && { 'aria-disabled': true, disabled: true } ) }
 		{ ...other }
+		data-data-type-debug={ ownerState.currentDateType }
 	>
 		<RangeDayPickerDayNumber ownerState={ ownerState }>
 			{ format( getDateFormat( 'dayOfMonth' ), day ) }
@@ -255,6 +295,8 @@ export const Range: Story = {
 		const [ from, setFrom ] = useState<Date | null>( null );
 		const [ to, setTo ] = useState<Date | null>( null );
 		const [ hoverDate, setHoverDate ] = useState<Date | null>( null );
+		const [ isLoading, setIsLoading ] = useState( false );
+		const timeout = useRef<any>( null );
 
 		const handleChange = ( date: Date | null ) => {
 			if ( !from || to ) {
@@ -263,6 +305,14 @@ export const Range: Story = {
 			} else {
 				setTo( date );
 			}
+		}
+
+		const handleMonthChange = () => {
+			if ( timeout.current ) {
+				clearTimeout( timeout.current );
+			}
+			setIsLoading( true );
+			timeout.current = setTimeout( () => setIsLoading( false ), 300 )
 		}
 
 		const minDate = !to && from ? addDays( from, 1 ) : null;
@@ -290,6 +340,8 @@ export const Range: Story = {
 					slots={ {
 						Day: RangeDayPickerDay
 					} }
+					onMonthChange={ handleMonthChange }
+					isLoading={ isLoading }
 				/>
 			</VStack>
 		</Context.Provider>
