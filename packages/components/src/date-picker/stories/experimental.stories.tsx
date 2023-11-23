@@ -14,8 +14,15 @@ import type { PickerDayOwnerState } from "@lapilli-ui/components";
 import { useDatePickerContext } from "../context";
 
 const meta: Meta<typeof DatePicker> = {
-	title: 'Components/DatePicker/WIP',
+	title: 'Components/Experimental/DatePicker',
 	component: DatePicker,
+	parameters:{
+		docs:{
+			description:{
+				story: 'By using the experimental `slots` prop of the DatePicker, you can customize its behavior, for example, to create a DateRangePicker component.',
+			}
+		}
+	},
 	argTypes: {
 		value: {
 			control: 'date'
@@ -191,6 +198,9 @@ const RangeDayPickerDayNumber = styled( 'div', { name: 'RangeDayPicker', slot: '
 	}
 } );
 
+/**
+ * RangePicker :-D
+ */
 const RangeDayPickerDay = ( props: PickerDayProps ) => {
 	const ref = useRef<HTMLDivElement>( null );
 	const {
@@ -289,7 +299,7 @@ type ContextValue = {
 
 const Context = React.createContext<ContextValue>( {} as ContextValue );
 
-export const Range: Story = {
+export const DateRangePicker: Story = {
 	args: {},
 	render: () => {
 		const [ from, setFrom ] = useState<Date | null>( null );

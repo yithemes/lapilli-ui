@@ -27,7 +27,7 @@ const preview: Preview = {
 		},
 		options: {
 			storySort: {
-				order: [ 'Introduction', 'Components', [ 'Introduction' ], 'Styles', [ 'Introduction' ], 'Date', [ 'Introduction' ], 'BlockEditor', [ 'Introduction' ] ],
+				order: [ 'Introduction', 'Components', [ 'Introduction', '*', 'Experimental' ], 'Styles', [ 'Introduction' ], 'Date', [ 'Introduction' ], 'BlockEditor', [ 'Introduction' ] ],
 			},
 		}
 	}

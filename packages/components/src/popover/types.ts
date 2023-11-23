@@ -11,7 +11,7 @@ export type PopoverProps = {
 	 */
 	anchorRef?: HTMLElement;
 	/**
-	 * The preferred position of the popover.
+	 * The preferred position of the popover related to the anchor element.
 	 */
 	position?: PopoverPosition;
 	/**
@@ -37,6 +37,10 @@ export type PopoverProps = {
 	 * Use `false` to disable forcing.
 	 */
 	forceInView?: 'horizontally' | 'vertically' | boolean;
+	/**
+	 * If `true`, the popover position will be fixed to the one set in 'position' prop.
+	 */
+	fixed?: boolean;
 	/**
 	 * Sx theme props.
 	 */

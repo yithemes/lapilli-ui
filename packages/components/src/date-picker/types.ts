@@ -83,6 +83,8 @@ export type DatePickerProps = {
 	startAdornment?: React.ReactNode
 	/**
 	 * Allows overriding the slot components.
+	 *
+	 * **(Experimental)**
 	 */
 	slots?: { Day: ( props: PickerDayProps ) => JSX.Element }
 }

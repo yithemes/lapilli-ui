@@ -25,10 +25,14 @@ const computePopoverPosition = ( {
 									 forceMinWidth,
 									 document,
 									 forceInView = true,
+									 fixed
 								 }: PopoverComputePositionProps ) => {
 	let [ yPos, xPos ] = position.split( ' ' );
 	const computed: PopoverComputedPosition = {} as PopoverComputedPosition;
 	const containerRect = container.getBoundingClientRect();
+
+	const horizontalForcing = [ true, 'horizontally' ].includes( forceInView );
+	const verticalForcing = [ true, 'vertically' ].includes( forceInView );
 
 	const { clientWidth: viewportWidth = 0, clientHeight: viewportHeight = 0 } = document?.documentElement ?? {};
 
@@ -47,42 +51,44 @@ const computePopoverPosition = ( {
 		bottom: viewportHeight - anchorRect.top + verticalMargin,
 	};
 
-	const allowedXPos = [];
-	if ( positions.left + containerRect.width <= viewportWidth ) {
-		allowedXPos.push( 'left' );
-	}
-	if ( positions.right + containerRect.width <= viewportWidth ) {
-		allowedXPos.push( 'right' );
-	}
-
-	if ( !allowedXPos.length ) {
-		// Choose the best one.
-		if ( positions.left < positions.right ) {
+	if ( !fixed ) {
+		const allowedXPos = [];
+		if ( positions.left + containerRect.width <= viewportWidth ) {
 			allowedXPos.push( 'left' );
-		} else {
+		}
+		if ( positions.right + containerRect.width <= viewportWidth ) {
 			allowedXPos.push( 'right' );
 		}
-	}
 
-	const allowedYPos = [];
-	if ( positions.top + containerRect.height <= viewportHeight ) {
-		allowedYPos.push( 'bottom' );
-	}
-	if ( positions.bottom + containerRect.height <= viewportHeight ) {
-		allowedYPos.push( 'top' );
-	}
+		if ( !allowedXPos.length ) {
+			// Choose the best one.
+			if ( positions.left < positions.right ) {
+				allowedXPos.push( 'left' );
+			} else {
+				allowedXPos.push( 'right' );
+			}
+		}
+		xPos = !allowedXPos.includes( xPos ) ? allowedXPos[ 0 ] : xPos;
 
-	if ( !allowedYPos.length ) {
-		// Choose the best one.
-		if ( positions.top < positions.bottom ) {
+		const allowedYPos = [];
+		if ( positions.top + containerRect.height <= viewportHeight ) {
 			allowedYPos.push( 'bottom' );
-		} else {
+		}
+		if ( positions.bottom + containerRect.height <= viewportHeight ) {
 			allowedYPos.push( 'top' );
 		}
-	}
 
-	xPos = !allowedXPos.includes( xPos ) ? allowedXPos[ 0 ] : xPos;
-	yPos = !allowedYPos.includes( yPos ) ? allowedYPos[ 0 ] : yPos;
+		if ( !allowedYPos.length ) {
+			// Choose the best one.
+			if ( positions.top < positions.bottom ) {
+				allowedYPos.push( 'bottom' );
+			} else {
+				allowedYPos.push( 'top' );
+			}
+		}
+
+		yPos = !allowedYPos.includes( yPos ) ? allowedYPos[ 0 ] : yPos;
+	}
 
 	if ( 'left' === xPos ) {
 		computed.left = positions.left;
@@ -96,14 +102,14 @@ const computePopoverPosition = ( {
 		computed.bottom = positions.bottom;
 	}
 
-	if ( [ true, 'horizontally' ].includes( forceInView ) ) {
+	if ( horizontalForcing ) {
 		computed?.left && ( computed.left = Math.max( 0, computed.left ) );
 		computed?.right && ( computed.right = Math.max( 0, computed.right ) );
 
 		computed.maxWidth = viewportWidth - ( computed?.left ?? computed?.right );
 	}
 
-	if ( [ true, 'vertically' ].includes( forceInView ) ) {
+	if ( verticalForcing ) {
 		computed?.top && ( computed.top = Math.max( 0, computed.top ) );
 		computed?.bottom && ( computed.bottom = Math.max( 0, computed.bottom ) );
 
@@ -174,6 +180,7 @@ function Popover(
 		forceMinWidth = false,
 		disablePortal = false,
 		forceInView = true,
+		fixed = false,
 		...other
 	}: PopoverProps
 ) {
@@ -203,7 +210,8 @@ function Popover(
 					verticalMargin,
 					forceMinWidth,
 					forceInView,
-					document
+					document,
+					fixed
 				} );
 
 				setStyles(
@@ -242,7 +250,7 @@ function Popover(
 			window.removeEventListener( 'resize', refresh );
 			window.removeEventListener( 'scroll', refresh );
 		};
-	}, [ anchorRef ] );
+	}, [ anchorRef, position, verticalMargin, forceMinWidth, forceInView, fixed ] );
 
 	const handleClickOutside = ( event: MouseEvent ) => {
 		if ( containerRef?.current && event?.target ) {
