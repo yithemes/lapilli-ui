@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { noop } from "lodash";
-import { useChangeLayoutEffect, usePropState } from "../utils";
+import { useChange, usePropState } from "../utils";
 import type { DatePickerProps } from "@lapilli-ui/components";
 import { startOfMonth } from "@lapilli-ui/date";
 
@@ -42,7 +42,7 @@ export function DatePickerProvider( { children, onMonthChange, ...props }: Provi
 	const { focusedDate, isDatePickerDisabled } = props;
 	const [ internalDate, setInternalDate ] = usePropState( focusedDate );
 
-	useChangeLayoutEffect(
+	useChange(
 		internalDate,
 		( prev, current ) => {
 			if ( prev.getMonth() !== current.getMonth() || prev.getFullYear() !== current.getFullYear() ) {

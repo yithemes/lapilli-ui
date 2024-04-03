@@ -1,4 +1,5 @@
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
+import isEqual from "./internals/isEqual";
 
 /**
  * Enhance the useState hook with the strong dependency by the defaultValue, so
@@ -8,14 +9,12 @@ import { useEffect, useRef, useState } from "react";
  */
 export default function usePropState<T>( defaultValue: T ): [ T, React.Dispatch<React.SetStateAction<T>> ] {
 	const [ value, setValue ] = useState( defaultValue );
-	const prevValueRef = useRef( defaultValue );
+	const [ prevValue, setPrevValue ] = useState( defaultValue );
 
-	useEffect( () => {
-		if ( defaultValue !== prevValueRef.current ) {
-			setValue( defaultValue );
-			prevValueRef.current = defaultValue;
-		}
-	}, [ defaultValue ] );
+	if ( !isEqual( defaultValue, prevValue ) ) {
+		setPrevValue( defaultValue )
+		setValue( defaultValue )
+	}
 
 	return [ value, setValue ];
 }
