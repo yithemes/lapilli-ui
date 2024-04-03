@@ -98,6 +98,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 		disableRestoreFocus = false,
 		disableAutoFocus = false,
 		disableConstrainedFocus = false,
+		hideCloseIcon = false,
 		...other
 	},
 	ref
@@ -147,7 +148,7 @@ const Modal = forwardRef<HTMLDivElement, ModalProps>( function Modal(
 				<FocusTrap open disableRestoreFocus={ disableRestoreFocus } disableAutoFocus={ disableAutoFocus } disableConstrainedFocus={ disableConstrainedFocus }>
 					<ModalPaper className={ classes.paper } ownerState={ ownerState } elevation={ 24 }>
 						{ children }
-						<ModalClose className={ classes.close } onClick={ handleCloseIconClick } size="sm" fontSize="md"><XMarkIcon/></ModalClose>
+						{ !hideCloseIcon && <ModalClose className={ classes.close } onClick={ handleCloseIconClick } size="sm" fontSize="md"><XMarkIcon/></ModalClose> }
 					</ModalPaper>
 				</FocusTrap>
 			</ModalContainer>

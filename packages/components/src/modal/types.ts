@@ -1,5 +1,5 @@
 import type React from "react";
-import type { Breakpoint } from "@lapilli-ui/styles";
+import type { Breakpoint, SxProps } from "@lapilli-ui/styles";
 
 type ModalOwnProps = {
 	/**
@@ -34,6 +34,14 @@ type ModalOwnProps = {
 	 * If `true`, the modal will not restore focus to previously focused element when it's closed.
 	 */
 	disableRestoreFocus?: boolean;
+	/**
+	 * If `true`, the 'close' icon will be not shown.
+	 */
+	hideCloseIcon?: boolean;
+	/**
+	 * The sx prop lets you style elements inline, using values from your theme.
+	 */
+	sx?: SxProps
 }
 
 type ModalPropsWithRef = Omit<React.ComponentProps<'div'>, keyof ModalOwnProps> & ModalOwnProps

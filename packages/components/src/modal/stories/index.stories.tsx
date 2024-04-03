@@ -142,7 +142,7 @@ export const ScrollableContent: Story = {
 				<ModalTitle id='modal__label'>Confirm</ModalTitle>
 
 				<ModalContent id='modal__content'>
-					<Container maxWidth="sm">
+					<Container maxWidth="sm" gutters={ 0 }>
 						<Typography>
 							{ LOREM_IPSUM }
 							{ LOREM_IPSUM }
@@ -174,7 +174,7 @@ export const WithFields: Story = {
 				<ModalTitle id='modal__label'>Fill the form</ModalTitle>
 
 				<ModalContent>
-					<Container maxWidth="sm">
+					<Container maxWidth="sm" gutters={ 0 }>
 						<Stack direction="column" spacing={ 3 }>
 							<Stack direction="column" spacing={ 1 } align="start">
 								<label htmlFor="name">Choose a name</label>
