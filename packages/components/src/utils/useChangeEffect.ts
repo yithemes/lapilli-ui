@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import isEqual from "./internals/isEqual";
 
 /**
@@ -7,15 +7,17 @@ import isEqual from "./internals/isEqual";
  * @param value
  * @param effect
  */
-export default function useChange<T>(
+export default function useChangeEffect<T>(
 	value: T,
 	effect: ( prev: T, current: T ) => void
 ) {
 	const prevRef = useRef<T>( value )
 	const { current: prevValue } = prevRef
 
-	if ( !isEqual( value, prevValue ) ) {
-		prevRef.current = value
-		effect( prevValue, value )
-	}
+	useEffect( () => {
+		if ( !isEqual( value, prevValue ) ) {
+			prevRef.current = value
+			effect( prevValue, value )
+		}
+	}, [ value ] );
 }
