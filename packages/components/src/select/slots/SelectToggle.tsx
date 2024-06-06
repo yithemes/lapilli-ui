@@ -264,7 +264,6 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 		const handleClear = ( e: React.MouseEvent ) => {
 			e.stopPropagation();
 			onClear();
-			close();
 		}
 
 		const classes = useComponentClasses( ownerState );
