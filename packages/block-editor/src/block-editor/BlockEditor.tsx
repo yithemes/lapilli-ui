@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Popover, SlotFillProvider } from '@wordpress/components';
-import { BlockEditorProvider } from '@wordpress/block-editor';
+import { BlockEditorProvider , BlockToolbar} from '@wordpress/block-editor';
 
-// @ts-ignore No types exists for this yet.
+// @ts-ignore No type exists for this yet.
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 import { debounce, noop } from "lodash";
 
@@ -147,6 +147,8 @@ function BlockEditor( {
 					onInput={ debounceChange }
 					onChange={ debounceChange }
 				>
+
+					<BlockToolbar />
 
 					<BlockEditorWritingFlow
 						blocks={ blocksRef.current }
