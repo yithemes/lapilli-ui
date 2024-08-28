@@ -172,8 +172,8 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 		[ multiple, getOptionValue, value ]
 	);
 
-	const isEmpty = useMemo( () => ( multiple ? !( value as string[] ).length : !value ), [ value, multiple ] );
 	const selectedOptions = useMemo( () => options.filter( _ => isOptionSelected( _ ) ), [ options, value, multiple ] );
+	const isEmpty = useMemo( () => !selectedOptions.length, [ selectedOptions ] );
 
 	const filteredOptions = useMemo( () => {
 		let filtered = options;

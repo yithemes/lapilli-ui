@@ -82,6 +82,20 @@ export const WithDisabledOptions: Story = {
 	render: Default.render
 }
 
+export const WithNone: Story = {
+	args: {
+		options: [ { value: '', label: 'None' }, ...HEROES.sort().map( _ => ( { value: _, label: _ } ) ) ],
+		placeholder: 'Choose a hero',
+		size: 'md',
+		variant: 'outlined',
+		fullWidth: false,
+		sx: { minWidth: 200 }
+	},
+	render: ( args ) => {
+		return <Select { ...args } />;
+	}
+}
+
 const SIZES: { size: FieldSize, label: string }[] = [
 	{ size: 'sm', label: 'Small' },
 	{ size: 'md', label: 'Medium' },

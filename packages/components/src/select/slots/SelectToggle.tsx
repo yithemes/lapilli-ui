@@ -59,7 +59,7 @@ const SelectToggleRoot = styled( 'div', { name: 'Select', slot: 'Toggle' } )<Sel
 			'&:focus, &:focus-visible': {
 				borderColor: theme.palette.error.main,
 				boxShadow: 'none',
-				outline: `1px solid ${theme.palette.error.main}`
+				outline: `1px solid ${ theme.palette.error.main }`
 			},
 		} ),
 	} ),
@@ -88,11 +88,11 @@ const SelectToggleWrap = styled( 'div', { name: 'Select', slot: 'ToggleWrap' } )
 } ) );
 
 const SelectToggleLabel = styled( 'span', { name: 'Select', slot: 'ToggleLabel' } )`
-	flex: 1;
-	min-width: 0;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	overflow: hidden;
+	flex          : 1;
+	min-width     : 0;
+	text-overflow : ellipsis;
+	white-space   : nowrap;
+	overflow      : hidden;
 `;
 
 const SelectTogglePlaceholder = styled( 'span', { name: 'Select', slot: 'TogglePlaceholder' } )( ( { theme } ) => ( {
@@ -105,11 +105,11 @@ const SelectTogglePlaceholder = styled( 'span', { name: 'Select', slot: 'ToggleP
 } ) );
 
 const SelectToggleTags = styled( 'div', { name: 'Select', slot: 'ToggleTags' } )`
-	flex: 1;
-	display: inline-flex;
-	flex-wrap: wrap;
-	align-items: center;
-	margin: -5px 0 -5px -9px;
+	flex        : 1;
+	display     : inline-flex;
+	flex-wrap   : wrap;
+	align-items : center;
+	margin      : -5px 0 -5px -9px;
 `;
 
 const SelectToggleTag = styled( 'div', { name: 'Select', slot: 'ToggleTag' } )( ( { theme } ) => ( {
@@ -126,8 +126,8 @@ const SelectToggleHiddenTagsCount = styled( 'div', { name: 'Select', slot: 'Togg
 } ) );
 
 const SelectToggleTagLabel = styled( 'span', { name: 'Select', slot: 'ToggleTagLabel' } )`
-	padding: 0 8px 0 12px;
-	font-size: 0.9em;
+	padding   : 0 8px 0 12px;
+	font-size : 0.9em;
 `;
 
 const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'ToggleTagRemove' } )(
@@ -149,22 +149,22 @@ const SelectToggleTagRemove = styled( XMarkIcon, { name: 'Select', slot: 'Toggle
 );
 
 const SelectToggleActions = styled( 'div', { name: 'Select', slot: 'ToggleActions' } )`
-	display: flex;
-	align-items: center;
-	box-sizing: border-box;
-	gap: 6px;
-	margin-left: 6px;
+	display     : flex;
+	align-items : center;
+	box-sizing  : border-box;
+	gap         : 6px;
+	margin-left : 6px;
 `;
 
 const SelectToggleSpinner = styled( 'span', { name: 'Select', slot: 'ToggleSpinner' } )`
-	display: inline-flex;
+	display : inline-flex;
 `;
 
 const SelectToggleClear = styled( IconButton, { name: 'Select', slot: 'ToggleClear' } )`
-	margin: -4px;
+	margin : -4px;
 
 	& > svg {
-		width: 1em;
+		width : 1em;
 	}
 `;
 
@@ -213,7 +213,8 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			componentIds,
 			disabled,
 			error,
-			handleTyping
+			handleTyping,
+			value
 		} = useSelectContext();
 		const { toggle, open, isOpen } = useDropdown();
 		const label = useMemo( () => selectedOptions.map( getOptionLabel ).join( ', ' ), [ selectedOptions ] );
@@ -310,7 +311,7 @@ const SelectToggle = forwardRef<HTMLDivElement, SelectToggleProps>(
 			}
 		}
 
-		const showClear = allowClear && !isEmpty && !showTags;
+		const showClear = allowClear && !isEmpty && !showTags && !!value;
 
 		return (
 			<SelectToggleRoot
