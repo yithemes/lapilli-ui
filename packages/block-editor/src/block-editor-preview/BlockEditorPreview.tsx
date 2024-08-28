@@ -12,7 +12,7 @@ import {
 // @ts-ignore No types exists for this yet.
 import { ShortcutProvider } from '@wordpress/keyboard-shortcuts';
 
-import { styled } from "@lapilli-ui/styles";
+import { generateComponentSlotClasses, styled } from "@lapilli-ui/styles";
 
 import type { BlockEditorPreviewProps } from "./types";
 import useLayoutClasses from "../utils/use-layout-classes";
@@ -26,12 +26,17 @@ const BlockEditorPreviewRoot = styled( 'div', { name: 'BlockEditorPreview', slot
 	},
 } ) );
 
+const classes = generateComponentSlotClasses(
+	'BlockEditorPreview',
+	[ 'root' ]
+);
+
 function BlockEditorPreview( { className, blocks, settings = {}, ...other }: BlockEditorPreviewProps ) {
 
 	const layoutClasses = useLayoutClasses();
 
-	return <BlockEditorPreviewRoot className={ classNames( 'editor-styles-wrapper', className ) } { ...other }>
-		<EditorStyles styles={ settings.styles ?? [] }/>
+	return <BlockEditorPreviewRoot className={ classNames( classes.root, 'editor-styles-wrapper', className ) } { ...other }>
+		<EditorStyles styles={ settings.styles ?? [] } scope={ `.${ classes.root }` }/>
 		<Disabled>
 			<ShortcutProvider>
 				<BlockEditorProvider value={ blocks } settings={ settings }>

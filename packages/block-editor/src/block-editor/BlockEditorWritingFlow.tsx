@@ -18,9 +18,10 @@ import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { drawerRight } from '@wordpress/icons';
 import { createBlock, BlockInstance } from "@wordpress/blocks";
 
-import { styled } from "@lapilli-ui/styles";
+import { generateComponentSlotClasses, styled } from "@lapilli-ui/styles";
 import useLayoutClasses from "../utils/use-layout-classes";
 import { useLosingFocusFix } from "./utils/useLosingFocusFix";
+import classNames from "classnames";
 
 type BlockEditorWritingFlowProps = {
 	blocks: BlockInstance[];
@@ -59,6 +60,11 @@ const BlockEditorToolbarActionsRoot = styled( 'div', { name: 'BlockEditorToolbar
 		}
 	}
 } ) );
+
+const classes = generateComponentSlotClasses(
+	'BlockEditorWritingFlow',
+	[ 'writingFlow' ]
+);
 
 export default function BlockEditorWritingFlow(
 	{
@@ -108,11 +114,11 @@ export default function BlockEditorWritingFlow(
 
 	return <BlockEditorWritingFlowRoot ref={ rootRef }>
 		<BlockTools>
-			<EditorStyles styles={ blockEditorSettings?.styles ?? [] }/>
+			<EditorStyles styles={ blockEditorSettings?.styles ?? [] } scope={ `.${ classes.writingFlow }` }/>
 			<BlockEditorWritingFlowWrapper>
 				<WritingFlow
 					// @ts-ignore className is a valid prop for WritingFlow.
-					className="editor-styles-wrapper"
+					className={ classNames( classes.writingFlow, 'editor-styles-wrapper' ) }
 				>
 					<ObserveTyping>
 						<BlockList className={ layoutClasses }/>
