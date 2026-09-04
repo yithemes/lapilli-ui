@@ -9,39 +9,39 @@
   "scripts": {
     "build:types": "tsc --build",
     "watch:types": "tsc --watch",
-    "clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm tsconfig.tsbuildinfo"
+    "clean": "rm -rf build && rm -rf build-module && rm -rf build-types && rm -f tsconfig.tsbuildinfo"
   },
   "dependencies": {
-    "@babel/runtime": "^7.16.0",
+    "@babel/runtime": "^7.26.0",
     "@lapilli-ui/styles": "workspace:*",
-    "@wordpress/block-editor": "12.19.9",
-    "@wordpress/block-library": "8.28.12",
-    "@wordpress/blocks": "12.28.6",
-    "@wordpress/components": "26.0.6",
-    "@wordpress/compose": "6.28.1",
-    "@wordpress/core-data": "6.28.9",
-    "@wordpress/data": "9.21.1",
-    "@wordpress/icons": "9.42.4",
-    "@wordpress/keyboard-shortcuts": "4.28.1",
-    "@wordpress/media-utils": "4.42.2",
+    "@wordpress/block-editor": "16.0.0",
+    "@wordpress/block-library": "10.2.0",
+    "@wordpress/blocks": "15.24.0",
+    "@wordpress/components": "37.0.0",
+    "@wordpress/compose": "8.4.0",
+    "@wordpress/core-data": "7.51.0",
+    "@wordpress/data": "10.51.0",
+    "@wordpress/icons": "15.2.0",
+    "@wordpress/keyboard-shortcuts": "5.51.0",
+    "@wordpress/media-utils": "5.51.0",
     "classnames": "^2.3.1",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@lapilli-ui/tsconfig": "workspace:*",
-    "@types/wordpress__block-editor": "11.5.3",
-    "@types/wordpress__block-library": "2.6.1",
-    "@types/wordpress__blocks": "12.5.3",
-    "@types/wordpress__components": "23.0.2",
-    "@types/wordpress__media-utils": "4.14.1",
+    "@types/wordpress__block-editor": "15.0.6",
+    "@types/wordpress__block-library": "2.6.3",
+    "@types/wordpress__blocks": "15.17.0",
+    "@types/wordpress__components": "23.8.0",
+    "@types/wordpress__media-utils": "5.8.0",
     "eslint": "^7.32.0",
-    "typescript": "^5.2.2"
+    "typescript": "^5.7.0"
   },
   "peerDependencies": {
-    "@types/react": "^17.0.0 || ^18.0.0",
-    "@types/react-dom": "^17.0.0 || ^18.0.0",
-    "react": "^17.0.0 || ^18.0.0",
-    "react-dom": "^17.0.0 || ^18.0.0"
+    "@types/react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "@types/react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react": "^17.0.0 || ^18.0.0 || ^19.0.0",
+    "react-dom": "^17.0.0 || ^18.0.0 || ^19.0.0"
   },
   "publishConfig": {
     "access": "public"

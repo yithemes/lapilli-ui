@@ -1,4 +1,4 @@
-import React, { CSSProperties, forwardRef, useRef } from 'react';
+import { CSSProperties, forwardRef, useRef } from 'react';
 import { Transition } from "react-transition-group";
 import { styled } from '@lapilli-ui/styles';
 
@@ -57,34 +57,55 @@ const Collapse = forwardRef<HTMLDivElement, CollapseProps>( function Collapse(
 	const getWrapperSize = () => wrapperRef.current ? ( isHorizontal ? wrapperRef.current.clientWidth : wrapperRef.current.clientHeight ) : 0;
 	const setWrapperPosition = ( position: string ) => wrapperRef.current && ( wrapperRef.current.style.position = position );
 
-	const handleEnter = ( node: HTMLElement ) => {
+	const handleEnter = () => {
+		const node = rootRef.current;
+		if ( ! node ) {
+			return;
+		}
 		// Use absolute position to correctly get the size of the content.
 		isHorizontal && setWrapperPosition( 'absolute' );
 
 		node.style[ sizeProperty ] = collapsedSizeCss;
 	};
 
-	const handleEntering = ( node: HTMLElement ) => {
+	const handleEntering = () => {
+		const node = rootRef.current;
+		if ( ! node ) {
+			return;
+		}
 		node.style[ sizeProperty ] = `${ getWrapperSize() }px`;
 
 		// Reset the position, since we've already retrieved the needed size.
 		isHorizontal && setWrapperPosition( '' );
 	}
 
-	const handleEntered = ( node: HTMLElement ) => {
+	const handleEntered = () => {
+		const node = rootRef.current;
+		if ( ! node ) {
+			return;
+		}
 		node.style[ sizeProperty ] = 'auto';
 	}
 
-	const handleExit = ( node: HTMLElement ) => {
+	const handleExit = () => {
+		const node = rootRef.current;
+		if ( ! node ) {
+			return;
+		}
 		node.style[ sizeProperty ] = `${ getWrapperSize() }px`;
 	}
 
-	const handleExiting = ( node: HTMLElement ) => {
+	const handleExiting = () => {
+		const node = rootRef.current;
+		if ( ! node ) {
+			return;
+		}
 		getWrapperSize(); // Triggered to get the size, so the browser will wait for the sizing.
 		node.style[ sizeProperty ] = collapsedSizeCss;
 	}
 
 	return <Transition
+		nodeRef={ rootRef }
 		in={ open }
 		onEnter={ handleEnter }
 		onEntering={ handleEntering }

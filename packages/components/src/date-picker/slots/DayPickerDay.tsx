@@ -1,7 +1,7 @@
 import { alpha, styled } from "@lapilli-ui/styles";
 import { format, getDateFormat } from "@lapilli-ui/date";
 import type { PickerDayOwnerState, PickerDayProps } from "../types";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useDatePickerContext } from "../context";
 
 const DAY_SIZE = 36;

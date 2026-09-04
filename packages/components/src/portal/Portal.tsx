@@ -1,4 +1,3 @@
-import React from "react";
 import ReactDOM from "react-dom";
 import type { PortalProps } from "./types";
 import { useDocument } from "../document-provider";

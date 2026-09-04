@@ -217,7 +217,7 @@ const Select = forwardRef<HTMLDivElement, SelectProps>( function Select(
 	};
 
 	const [ typingTerm, setTypingTerm ] = useState( '' );
-	const typingTimeout = useRef<ReturnType<typeof setTimeout>>();
+	const typingTimeout = useRef<ReturnType<typeof setTimeout> | undefined>( undefined );
 
 	const handleTyping = useCallback(
 		( event: React.KeyboardEvent<HTMLDivElement> ) => {

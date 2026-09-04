@@ -1,5 +1,5 @@
 import { Breakpoint, generateComponentClasses, styled, useTheme } from '@lapilli-ui/styles';
-import React, { forwardRef } from 'react';
+import { forwardRef } from 'react';
 import type { ContainerOwnerState, ContainerProps, ContainerStyled } from "./types";
 import { capitalize } from "lodash";
 import classNames from "classnames";

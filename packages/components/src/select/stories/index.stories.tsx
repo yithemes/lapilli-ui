@@ -1,5 +1,6 @@
 import React from 'react';
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-webpack5';
+import { fn } from 'storybook/test';
 
 import Select from '../';
 import type { FieldSize } from "@lapilli-ui/styles";
@@ -14,6 +15,12 @@ import DocumentProvider from "../../document-provider";
 const meta: Meta<typeof Select> = {
 	title: 'Components/Select',
 	component: Select,
+	args: {
+		onChange: fn(),
+		onClear: fn(),
+		onClose: fn(),
+		onSearch: fn(),
+	},
 	argTypes: {
 		noOptionsText: { table: { defaultValue: { summary: '"No options"' } } },
 		noResultsText: { table: { defaultValue: { summary: '"No results"' } } },

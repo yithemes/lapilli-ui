@@ -7,7 +7,7 @@ export default function useRefEffect<T = Node>(
 	callback: ( node: T ) => CleanupCallback,
 	dependencies: DependencyList
 ): RefCallback<T | null> {
-	const cleanup = useRef<CleanupCallback>();
+	const cleanup = useRef<CleanupCallback | undefined>( undefined );
 	return useCallback( ( node: T | null ) => {
 		if ( node ) {
 			cleanup.current = callback( node );

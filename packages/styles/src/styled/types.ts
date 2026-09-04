@@ -158,18 +158,18 @@ export interface CreateStyled<StyledCommonProps extends {},
 		options?: EmotionStyledOptions<PropsOf<C> & StyledCommonProps> & StyledOptions,
 	): CreateStyledComponent<PropsOf<C> & StyledCommonProps, {}, {}, Theme>;
 
-	<Tag extends keyof JSX.IntrinsicElements,
-		ForwardedProps extends keyof JSX.IntrinsicElements[Tag] = keyof JSX.IntrinsicElements[Tag],
+	<Tag extends keyof React.JSX.IntrinsicElements,
+		ForwardedProps extends keyof React.JSX.IntrinsicElements[Tag] = keyof React.JSX.IntrinsicElements[Tag],
 	>(
 		tag: Tag,
-		options: FilteringStyledOptions<JSX.IntrinsicElements[Tag], ForwardedProps> & StyledOptions,
+		options: FilteringStyledOptions<React.JSX.IntrinsicElements[Tag], ForwardedProps> & StyledOptions,
 	): CreateStyledComponent<StyledCommonProps,
-		Pick<JSX.IntrinsicElements[Tag], ForwardedProps>,
+		Pick<React.JSX.IntrinsicElements[Tag], ForwardedProps>,
 		{},
 		Theme>;
 
-	<Tag extends keyof JSX.IntrinsicElements>(
+	<Tag extends keyof React.JSX.IntrinsicElements>(
 		tag: Tag,
 		options?: EmotionStyledOptions<StyledCommonProps> & StyledOptions,
-	): CreateStyledComponent<StyledCommonProps, JSX.IntrinsicElements[Tag], {}, Theme>;
+	): CreateStyledComponent<StyledCommonProps, React.JSX.IntrinsicElements[Tag], {}, Theme>;
 }

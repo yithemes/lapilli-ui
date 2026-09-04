@@ -1,5 +1,4 @@
 import { Breakpoint, generateComponentSlotClasses, styled, useTheme } from '@lapilli-ui/styles';
-import React from 'react';
 import { forwardRef } from 'react';
 import type { GridItemBreakpointProps, GridItemOwnerState, GridItemProps, GridItemStyled } from "./types";
 import classNames from "classnames";

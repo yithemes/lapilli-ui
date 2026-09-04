@@ -7,7 +7,6 @@ import Stack from "../../stack";
 import IconButton from "../../icon-button";
 import DayPicker from "./DayPicker";
 import { useId } from "../../utils";
-import React from "react";
 
 const DatePickerCalendarRoot = styled( 'div', { name: 'DatePicker', slot: 'Calendar' } )( ( { theme } ) => (
 	{

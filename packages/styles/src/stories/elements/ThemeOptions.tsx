@@ -1,4 +1,4 @@
-import React from 'React';
+import React from 'react';
 import useTheme from "../../hooks/useTheme";
 const listStyle = {
 	listStyle: 'none'

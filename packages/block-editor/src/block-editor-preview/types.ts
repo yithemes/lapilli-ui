@@ -1,4 +1,4 @@
-import type { BlockInstance } from '@wordpress/blocks';
+import type { BlockInstance } from '../types/wordpress';
 import type { BlockEditorProvider } from "@wordpress/block-editor";
 import type React from "react";
 

@@ -1,11 +1,11 @@
-import type { Preview } from "@storybook/react";
+import type { Preview } from "@storybook/react-webpack5";
 import { themes } from './utils/themes';
 import ThemeDecorator from "./utils/ThemeDecorator";
 
 export const decorators = [ ThemeDecorator ];
 
 const preview: Preview = {
-	globalTypes: {
+    globalTypes: {
 		theme: {
 			defaultValue: 'Default',
 			toolbar: {
@@ -16,8 +16,8 @@ const preview: Preview = {
 			},
 		},
 	},
-	parameters: {
-		actions: { argTypesRegex: "^on[A-Z].*" },
+
+    parameters: {
 		controls: {
 			expanded: true,
 			matchers: {
@@ -30,7 +30,9 @@ const preview: Preview = {
 				order: [ 'Introduction', 'Components', [ 'Introduction', '*', 'Experimental' ], 'Styles', [ 'Introduction' ], 'Date', [ 'Introduction' ], 'BlockEditor', [ 'Introduction' ] ],
 			},
 		}
-	}
+	},
+
+    tags: ["autodocs"]
 };
 
 export default preview;

@@ -1,5 +1,4 @@
 import { generateComponentClasses, styled } from '@lapilli-ui/styles';
-import React from 'react';
 import { forwardRef } from 'react';
 
 import type { CardActionsOwnerState, CardActionsProps, CardActionsStyled } from "./types";

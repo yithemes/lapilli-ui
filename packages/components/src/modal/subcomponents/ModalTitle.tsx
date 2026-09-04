@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { generateComponentClasses, styled } from "@lapilli-ui/styles";
 import Typography, { TypographyProps } from "../../typography";
 import classNames from "classnames";

@@ -44,7 +44,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 	},
 	forwardedRef
 ) {
-	const localToggleRef = useRef<HTMLElement>();
+	const localToggleRef = useRef<HTMLElement | undefined>( undefined );
 	const [ isOpen, setIsOpen ] = useState( false );
 	const wasFirstOpened = useRef( false );
 	const classes = useComponentClasses();
@@ -86,7 +86,7 @@ const Dropdown = forwardRef<HTMLElement, DropdownProps>( function Dropdown(
 
 	return (
 		<DropdownProvider { ...providerProps }>
-			{ React.cloneElement( renderToggle( args ), { ref: toggleRef } ) }
+			{ React.cloneElement( renderToggle( args ), { ref: toggleRef } as Record<string, unknown> ) }
 			{ isOpen && (
 				<DropdownPopover
 					role='dialog'

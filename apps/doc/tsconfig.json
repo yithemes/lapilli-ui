@@ -1,3 +1,7 @@
 {
-  "extends" : "@lapilli-ui/tsconfig/react-library.json",
+	"extends": "@lapilli-ui/tsconfig/react-library.json",
+	"compilerOptions": {
+		"module": "ESNext",
+		"moduleResolution": "bundler"
+	}
 }

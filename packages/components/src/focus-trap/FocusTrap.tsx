@@ -26,8 +26,9 @@ export default function FocusTrap(
 		if ( nodeToRestore.current === null ) {
 			nodeToRestore.current = event.relatedTarget;
 		}
-		children.props.onFocus?.( event );
-	}, [] );
+		const childProps = children.props as { onFocus?: ( event: React.FocusEvent ) => void };
+		childProps.onFocus?.( event );
+	}, [ children ] );
 
 	useEffect( () => {
 		if ( !open || !mainRef.current ) {
@@ -75,7 +76,7 @@ export default function FocusTrap(
 
 	return <>
 		{ !disableConstrainedFocus && <div ref={ sentinelStart } tabIndex={ open ? 0 : -1 } onFocus={ handleSentinelFocus }/> }
-		{ React.cloneElement( children, { ref: childrenRef, onFocus: handleChildrenFocus } ) }
+		{ React.cloneElement( children, { ref: childrenRef, onFocus: handleChildrenFocus } as Record<string, unknown> ) }
 		{ !disableConstrainedFocus && <div ref={ sentinelEnd } tabIndex={ open ? 0 : -1 } onFocus={ handleSentinelFocus }/> }
 	</>;
 }

@@ -229,7 +229,7 @@ const SelectDropdownContent = () => {
 
 						return (
 							<Fragment key={ getOptionValue( option ) }>
-								{ React.cloneElement( renderOption( optionProps, option, optionState ), { ref: optionState.isActiveDescendant ? activeDescendantRef : undefined } ) }
+								{ React.cloneElement( renderOption( optionProps, option, optionState ), { ref: optionState.isActiveDescendant ? activeDescendantRef : undefined } as Record<string, unknown> ) }
 							</Fragment>
 						);
 					} ) }

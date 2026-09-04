@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Popover, SlotFillProvider } from '@wordpress/components';
 import { BlockEditorProvider , BlockToolbar} from '@wordpress/block-editor';
 
@@ -141,9 +141,8 @@ function BlockEditor( {
 						...settings,
 						bodyPlaceholder: placeholder,
 						hasFixedToolbar: true,
-						// @ts-ignore mediaUpload is not in the types yet.
 						mediaUpload
-					} }
+					} as BlockEditorProvider.Props['settings'] }
 					onInput={ debounceChange }
 					onChange={ debounceChange }
 				>

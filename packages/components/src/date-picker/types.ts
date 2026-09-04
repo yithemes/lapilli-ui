@@ -1,4 +1,5 @@
 import type { FieldSize } from "@lapilli-ui/styles";
+import type React from "react";
 
 export type DatePickerProps = {
 	/**
@@ -86,7 +87,7 @@ export type DatePickerProps = {
 	 *
 	 * **(Experimental)**
 	 */
-	slots?: { Day: ( props: PickerDayProps ) => JSX.Element }
+	slots?: { Day: ( props: PickerDayProps ) => React.JSX.Element }
 }
 
 export type DatePickerRef = {

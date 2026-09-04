@@ -1,5 +1,4 @@
 import { generateComponentSlotClasses, styled } from '@lapilli-ui/styles';
-import React from 'react';
 import { forwardRef } from 'react';
 
 import type { CardContentOwnerState, CardContentProps, CardContentStyled } from "./types";

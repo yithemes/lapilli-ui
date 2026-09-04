@@ -1,5 +1,4 @@
 import { generateComponentSlotClasses, styled } from '@lapilli-ui/styles';
-import React from 'react';
 import { forwardRef } from 'react';
 import type { GridOwnerState, GridProps, GridStyled } from "./types";
 import classNames from "classnames";

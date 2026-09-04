@@ -1,9 +1,9 @@
 import { useSelect } from "@wordpress/data";
 import { store as coreStore } from "@wordpress/core-data";
-import { uploadMedia, UploadMediaOptions } from "@wordpress/media-utils";
+import { uploadMedia } from "@wordpress/media-utils";
 
-type UploadMediaParams = Omit<UploadMediaOptions, 'onError'> & {
-	onError: ( message: string ) => void
+type UploadMediaParams = Parameters<typeof uploadMedia>[0] & {
+	onError: ( message: string ) => void;
 };
 
 export default function useMediaUpload() {

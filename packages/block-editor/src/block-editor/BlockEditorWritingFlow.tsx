@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
 	BlockList,
 	// @ts-ignore No types for this exist yet.
@@ -16,7 +16,8 @@ import {
 import { useSelect, useDispatch } from "@wordpress/data";
 import { ToolbarButton, ToolbarGroup } from '@wordpress/components';
 import { drawerRight } from '@wordpress/icons';
-import { createBlock, BlockInstance } from "@wordpress/blocks";
+import { createBlock } from "@wordpress/blocks";
+import type { BlockInstance } from "../types/wordpress";
 
 import { generateComponentSlotClasses, styled } from "@lapilli-ui/styles";
 import useLayoutClasses from "../utils/use-layout-classes";
@@ -92,7 +93,7 @@ export default function BlockEditorWritingFlow(
 			return;
 		}
 
-		selectBlock( firstBlock.clientId, null );
+		selectBlock( firstBlock.clientId );
 	}, [ firstBlock, selectedBlockClientIds ] );
 
 	useEffect( () => {

@@ -1,22 +1,22 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
-  "pipeline": {
+  "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["build/**", "build-module/**"]
     },
-	"clean": {
-	  "cache": false
-	},
-	"build:types": {
-	  "dependsOn": ["^build:types"],
-	  "outputs": ["dist/**"]
-	},
-	"watch:types": {
-	  "dependsOn": ["^watch:types"],
-	  "outputs": ["dist/**"]
-	},
+    "clean": {
+      "cache": false
+    },
+    "build:types": {
+      "dependsOn": ["^build:types"],
+      "outputs": ["build-types/**", "tsconfig.tsbuildinfo"]
+    },
+    "watch:types": {
+      "dependsOn": ["^watch:types"],
+      "outputs": ["build-types/**", "tsconfig.tsbuildinfo"]
+    },
     "lint": {
       "outputs": []
     },

@@ -1,4 +1,3 @@
-import React from 'react';
 import { Disabled } from '@wordpress/components';
 import classNames from "classnames";
 import {

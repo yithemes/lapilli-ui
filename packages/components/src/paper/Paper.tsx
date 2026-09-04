@@ -1,4 +1,3 @@
-import React from 'react';
 import { forwardRef } from 'react';
 import classNames from "classnames";
 import { generateComponentClasses, styled } from '@lapilli-ui/styles';

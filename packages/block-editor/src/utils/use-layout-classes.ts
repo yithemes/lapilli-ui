@@ -5,7 +5,7 @@ import classNames from "classnames";
 export default function useLayoutClasses() {
 	const { themeSupportsLayout } = useSelect( ( select ) => {
 		// @ts-ignore This selector is available in the block editor data store.
-		const _settings = select( blockEditorStore ).getSettings();
+		const _settings = select( blockEditorStore ).getSettings() as { supportsLayout?: boolean };
 		return {
 			themeSupportsLayout: _settings.supportsLayout,
 		};

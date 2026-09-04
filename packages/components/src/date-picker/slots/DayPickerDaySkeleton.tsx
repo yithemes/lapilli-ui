@@ -1,5 +1,4 @@
 import { styled } from "@lapilli-ui/styles";
-import React from "react";
 
 import Skeleton from "../../skeleton";
 

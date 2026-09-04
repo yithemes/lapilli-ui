@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { styled } from "@lapilli-ui/styles";
 import type { ModalActionsProps } from "../types";
 

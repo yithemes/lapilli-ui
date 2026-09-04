@@ -86,7 +86,7 @@ const RadioGroup = (
 	const variantRendered = useRef( false ); // Useful to disable transition on first rendering (segmented variation) to prevent glitches.
 	const rootRef = useRef<HTMLDivElement>( null );
 	const highlightRef = useRef<HTMLDivElement>( null );
-	const blurTimeout = useRef<ReturnType<typeof setTimeout>>();
+	const blurTimeout = useRef<ReturnType<typeof setTimeout> | undefined>( undefined );
 	const [ isFocused, setIsFocused ] = useState( false );
 
 	const updateHighlightPosition = useCallback( () => {
